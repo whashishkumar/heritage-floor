@@ -1,0 +1,233 @@
+//  Categories Section 
+ const categories = [
+    {
+      id: 1,
+      name: "Hardwood",
+      image: "/images/residential/category/hardWood.jpg",
+    },
+    {
+      id: 2,
+      name: "Laminate",
+      image: "/images/residential/category/laminate.jpg",
+    },
+    {
+      id: 3,
+      name: "Tile & Store",
+      image: "/images/residential/category/tile&store.jpg",
+    },
+    {
+      id: 4,
+      name: "Carpet",
+      image: "/images/residential/category/carpet.jpg",
+    },
+    {
+      id: 5,
+      name: "Vinyl & LVT",
+      image: "/images/residential/category/vinyl.jpg",
+    },
+    {
+      id: 6,
+      name: "Eco-Friendly Options",
+      image: "/images/residential/category/Eco.jpg",
+    },
+  ];
+
+  // Signature Floring Section
+  heading="Categories"
+  subHeading="Our Signature Flooring Selections"
+
+   const flooringItems = [
+    {
+      image: "/images/residential/wood/affinity.png",
+      category: "CARPET",
+      title: "Affinity Hardwood",
+      subtitle: "Nourison",
+      Rating: 5,
+    },
+    {
+      image: "/images/residential/wood/africanPlains.png",
+      category: "CARPET",
+      title: "African Plains",
+      subtitle: "Nourison",
+      Rating: 5,
+    },
+    {
+      image: "/images/residential/wood/abstract.png",
+      category: "CARPET",
+      title: "Abstract Mosaic",
+      subtitle: "Nourison",
+      Rating: 5,
+    },
+    {
+      image: "/images/residential/wood/acceleration.png",
+      category: "CARPET",
+      title: "Acceleration",
+      subtitle: "Nourison",
+      Rating: 5,
+    },
+    {
+      image: "/images/residential/wood/acro.png",
+      category: "CARPET",
+      title: "Aero",
+      subtitle: "Nourison",
+      Rating: 5,
+    },
+    {
+      image: "/images/residential/wood/addison.png",
+      category: "CARPET",
+      title: "Addison",
+      subtitle: "Nourison",
+      Rating: 5,
+    },
+    {
+      image: "/images/residential/wood/abstract.png",
+      category: "CARPET",
+      title: "Abstract Mosaic",
+      subtitle: "Nourison",
+      Rating: 5,
+    },
+  ];
+
+
+// Featured Product Section
+  heading="FEATURED PRODUCTS"
+  subHeading="Our Featured Products"
+
+   const products = [
+    {
+      id: 1,
+      category: "Carpet",
+      name: "Abstract Mosaic",
+      brand: "Nourison",
+      price: 345,
+      rating: 5,
+      image: "/images/residential/product/abstractMosaic.png",
+    },
+    {
+      id: 2,
+      category: "Carpet",
+      name: "Accra",
+      brand: "Stanton",
+      price: 345,
+      rating: 5,
+      image: "/images/residential/product/accra.png",
+    },
+    {
+      id: 3,
+      category: "Hardwood",
+      name: 'Bluenoae Lake 7"',
+      brand: "Provenza",
+      price: 325,
+      rating: 5,
+      image: "/images/residential/product/bluenoae.png",
+    },
+    {
+      id: 4,
+      category: "Hardwood",
+      name: "Baffin Island",
+      brand: "Provenza",
+      price: 245,
+      rating: 5,
+      image: "/images/residential/product/accra.png", // replace with actual image path
+    },
+  ];
+
+// OurCustomer Section
+  heading="Our Customers"
+  subHeading="The People Behind Our Story"
+  description="We’re proud to serve businesses who rely on us for timeless flooring, expert installation, and personalized care."
+
+   const costumerData = [
+    {
+      image: "/images/residential/OurCustomers/1867.png",
+      alt: "1867",
+    },
+    {
+      image: "/images/residential/OurCustomers/Expert.png",
+      alt: "Expert",
+    },
+    {
+      image: "/images/residential/OurCustomers/Fuzion.png",
+      alt: "Fuzion",
+    },
+    {
+      image: "/images/residential/OurCustomers/Goodfellow.png",
+      alt: "Goodfellow",
+    },
+    {
+      image: "/images/residential/OurCustomers/Grandeur.png",
+      alt: "Grandeur",
+    },
+    {
+      image: "/images/residential/OurCustomers/italbec.png",
+      alt: "italbec",
+    },
+    {
+      image: "/images/residential/OurCustomers/Johnsonite.png",
+      alt: "Johnsonite",
+    },
+    {
+      image: "/images/residential/OurCustomers/Mapei.png",
+      alt: "Mapei",
+    },
+    {
+      image: "/images/residential/OurCustomers/Monoserra.png",
+      alt: "Monoserra",
+    },
+    {
+      image: "/images/residential/OurCustomers/Perfect Surfaces.png",
+      alt: "Perfect Surfaces",
+    },
+    {
+      image: "/images/residential/OurCustomers/Quickstyle.png",
+      alt: "Quickstyle",
+    },
+    {
+      image: "/images/residential/OurCustomers/Richmond.png",
+      alt: "Richmond",
+    },
+  ];
+
+
+
+  // Major Project Section
+    heading="oUr major Projects"
+    subHeading="Successful Projects We’ve Delivered"
+    description="We’re proud to collaborate with leading clients, delivering projects that reflect innovation, precision, and lasting value. Each project showcases our commitment to quality and trust."
+
+    const videoData = [
+    {
+      id: 1,
+      gif: "/gif/mp1.gif",
+    },
+    {
+      id: 2,
+      gif: "/gif/mp2.gif",
+    },
+    {
+      id: 3,
+      gif: "/gif/mp3.gif",
+    },
+  ];
+
+
+  // Exper Flooring Installation Section
+
+  const featureData = [
+    {
+      icon: "/icon/skill.svg",
+      title: "Skilled Professionals",
+      description: "Certified installers with years of hands-on experience.",
+    },
+    {
+      icon: "/icon/premiumMaterials.svg",
+      title: "Premium Materials",
+      description: "High-quality flooring that stands up to everyday life.",
+    },
+    {
+      icon: "/icon/foucs.svg",
+      title: "Detail-Focused",
+      description:
+        "Perfect alignment, smooth finishes, and lasting durability.",
+    },
+  ];

@@ -1,0 +1,74 @@
+===========================================
+INSTALLATION
+===========================================
+npm install axios
+# or
+pnpm add axios
+# or
+yarn add axios
+
+===========================================
+USAGE EXAMPLES
+===========================================
+
+// 1. Simple GET request
+import { productAPI } from "@/lib/api/endpoints";
+
+export default async function ProductsPage() {
+  const products = await productAPI.getAll();
+  return <div>{products.data.length} products found</div>;
+}
+
+// 2. Batch fetch
+import { staticAPI } from "@/lib/api/endpoints";
+
+export default async function Layout() {
+  const { logo, banner, certificates } = await staticAPI.getAll();
+  return <div>...</div>;
+}
+
+// 3. POST request (Client Component)
+"use client";
+import { formAPI } from "@/lib/api/endpoints";
+
+export default function ContactForm() {
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      await formAPI.submitContact({
+        name: "John",
+        email: "john@example.com",
+        message: "Hello",
+      });
+      alert("Success!");
+    } catch (error) {
+      alert("Error!");
+    }
+  };
+  
+  return <form onSubmit={handleSubmit}>...</form>;
+}
+
+// 4. Custom endpoint with retry
+import { apiFetch } from "@/lib/api/fetcher";
+
+const data = await apiFetch({
+  endpoint: "/custom-route",
+  params: { id: 123 },
+  cache: "dynamic",
+  retry: 3,
+  timeout: 5000,
+});
+
+// 5. Direct axios usage
+import { apiClient } from "@/lib/api/axios-instance";
+
+const response = await apiClient.get("/custom-endpoint");
+
+// 6. With full response
+import { apiFetchWithResponse } from "@/lib/api/fetcher";
+
+const { data, status, headers } = await apiFetchWithResponse({
+  endpoint: "/products",
+});
+*/

@@ -1,0 +1,67 @@
+import SectionHeader from "../common/SectionHeader";
+import ButtonCommon from "../ui/Button";
+import Image from "next/image";
+export default async function MajorProjectsResidential() {
+  const videoData = [
+    {
+      id: 1,
+      gif: "/gif/mp1.gif",
+    },
+    {
+      id: 2,
+      gif: "/gif/mp2.gif",
+    },
+    {
+      id: 3,
+      gif: "/gif/mp3.gif",
+    },
+  ];
+  return (
+    <>
+      <div className="w-full h-full  flex items-center justify-center mb-[5rem] ">
+        <div className=" wrapper w-full mx-auto  ">
+          <div className="flex flex-col md:flex-col lg:flex-row items-center justify-center lg:justify-between mb-[4rem] gap-2">
+            <div className="md:w-[60%] w-full">
+              <SectionHeader
+                heading="oUr major Projects"
+                subHeading="Successful Projects We’ve Delivered"
+                description="We’re proud to collaborate with leading clients, delivering projects that reflect innovation, precision, and lasting value. Each project showcases our commitment to quality and trust."
+                mainCss=""
+                headingCss=" font-semibold text-base tracking-[1.4px]"
+                subHeadingCss=" text-[2.5rem] font-bold leading-[1.3500] text-black align-middle pt-[0.25rem] pb-[0.5rem]"
+                descriptionCss=""
+              />
+            </div>
+            <div className=" w-full md:w-[40%] w-full flex lg:justify-end items-end  justify-start  ">
+              <ButtonCommon
+                buttonName="Explore More "
+                image="/icon/arrowRightUp.png"
+                link="#"
+              />
+            </div>
+          </div>
+          <div className=" flex  lg:grid lg:grid-cols-3 gap-6 w-full  overflow-x-scroll lg:overflow-x-hidden">
+            {videoData.map((vdo, index) => (
+              <div
+                className="flex-shrink-0 h-[36.688rem] md:h-[44.688rem] max-w-[22.313rem] md:max-w-[28.313rem] relative overflow-hidden rounded-[1.25rem] w-full"
+                key={index}
+              >
+                <Image
+                  src={vdo.gif}
+                  fill
+                  alt="Major Project"
+                  className="absolute top-0 left-0 w-full h-full object-cover "
+                />
+                <div className="absolute bottom-4 left-8 rounded-[0.75rem] flex flex-col  ">
+                  <h1 className="text-xl leading-[2.7000] font-bold underline decoration-[1px] text-white mb-2 align-middle">
+                    View Now
+                  </h1>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </>
+  );
+}
