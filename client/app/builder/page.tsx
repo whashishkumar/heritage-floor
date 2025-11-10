@@ -78,7 +78,7 @@ export default async function Home() {
   // const dispatch = useDispatch<any>();
   // const { builderBanner } = useSelector((state: any) => state?.builderBanner);
   // const { data } = builderBanner || [];
-  const blogs = await CommonComponentData.getOurBlogs();
+  const blogs = await CommonComponentData?.getOurBlogs(1);
   // const builderBanner = await BuilderPageData.getBannerData();
 
   // useEffect(() => {

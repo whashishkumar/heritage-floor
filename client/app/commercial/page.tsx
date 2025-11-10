@@ -45,7 +45,7 @@ export default async function Home({ params }: any) {
     },
   ];
 
-  const blogs = await CommonComponentData.getOurBlogs();
+  const blogs = await CommonComponentData.getOurBlogs(1);
 
   return (
     <>
