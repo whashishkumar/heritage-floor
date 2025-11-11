@@ -1,21 +1,42 @@
+"use client";
+import { useState } from "react";
 import SectionHeader from "../common/SectionHeader";
 import ButtonCommon from "../ui/Button";
 import Image from "next/image";
-export default async function MajorProjectsResidential() {
+import ModalBox from "../ui/ModalBox";
+
+export default function MajorProjectsResidential() {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedVideo, setSelectedVideo] = useState<string | null>(null);
+
   const videoData = [
     {
       id: 1,
       gif: "/gif/mp1.gif",
+      video: "/videos/glimps1.mp4",
     },
     {
       id: 2,
       gif: "/gif/mp2.gif",
+      video: "/videos/glimps2.mp4",
     },
     {
       id: 3,
       gif: "/gif/mp3.gif",
+      video: "/videos/glimps3.mp4",
     },
   ];
+
+  const handleViewClick = (videoPath: string) => {
+    setSelectedVideo(videoPath);
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    setSelectedVideo(null);
+  };
+
   return (
     <>
       <div className="w-full h-full  flex items-center justify-center mb-[5rem] ">
@@ -36,7 +57,7 @@ export default async function MajorProjectsResidential() {
               <ButtonCommon
                 buttonName="Explore More "
                 image="/icon/arrowRightUp.png"
-                link="#"
+                link="/residential/majorProjects"
               />
             </div>
           </div>
@@ -53,15 +74,35 @@ export default async function MajorProjectsResidential() {
                   className="absolute top-0 left-0 w-full h-full object-cover "
                 />
                 <div className="absolute bottom-4 left-8 rounded-[0.75rem] flex flex-col  ">
-                  <h1 className="text-xl leading-[2.7000] font-bold underline decoration-[1px] text-white mb-2 align-middle">
+                  <button
+                    onClick={() => handleViewClick(vdo.video)}
+                    className="text-xl leading-[2.7000] font-bold underline decoration-[1px] text-white mb-2 align-middle cursor-pointer hover:opacity-80 transition-opacity"
+                  >
                     View Now
-                  </h1>
+                  </button>
                 </div>
               </div>
             ))}
           </div>
         </div>
       </div>
+
+      {/* Video Modal */}
+      <ModalBox isOpen={isModalOpen} onClose={handleCloseModal}>
+        <div className="w-full ">
+          <h2 className="text-2xl font-bold mb-4 text-black">Project Video</h2>
+          {selectedVideo && (
+            <video
+              className="w-full lg:max-h-[30rem] rounded-lg"
+              controls
+              autoPlay
+              src={selectedVideo}
+            >
+              Your browser does not support the video tag.
+            </video>
+          )}
+        </div>
+      </ModalBox>
     </>
   );
 }

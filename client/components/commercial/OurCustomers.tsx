@@ -1,7 +1,9 @@
+"use client";
 import SectionHeader from "../common/SectionHeader";
 import ButtonCommon from "../ui/Button";
 import AutoPlay from "../common/Slider";
 import { CustomeCard } from "./CustomerCard";
+import { usePathname } from "next/navigation";
 
 interface coustumerData {
   coustumerData?: any;
@@ -82,50 +84,50 @@ const responsiveSettings = [
 // ];
 
 export default function OurCustomers({ coustumerData }: coustumerData) {
+  const pathname = usePathname();
+
   return (
-    <>
-      <div className="w-full h-full py-12 md:py-16 ">
-        <div className="wrapper mx-auto">
-          <div className=" w-full flex flex-col items-center justify-center pb-8">
-            <SectionHeader
-              heading={coustumerData?.heading || "Our Customers"}
-              subHeading={
-                coustumerData?.subheading || "The People Behind Our Story"
-              }
-              description={
-                coustumerData?.description ||
-                "We’re proud to serve businesses who rely on us for timeless flooring, expert installation, and personalized care."
-              }
-              mainCss="flex flex-col items-center justify-center "
-              descriptionCss="leading-[1.5] mb-[2rem] mt-[0.5rem] w-[80%] text-center align-middle"
-              subHeadingCss="text-center "
-            />
-            <ButtonCommon
-              link="#"
-              buttonName="Shop by Brands"
-              image="/icon/arrowRightUp.png"
-            />
-          </div>
-          <div className=" mt-[2rem]    ">
-            <AutoPlay
-              data={coustumerData.data}
-              CardComponent={CustomeCard}
-              slideToShow={6}
-              rtl={false}
-              responsive={responsiveSettings}
-            />
-          </div>
-          <div className=" mt-[2rem]   ">
-            <AutoPlay
-              data={coustumerData.data}
-              CardComponent={CustomeCard}
-              slideToShow={6}
-              rtl={true}
-              responsive={responsiveSettings}
-            />
-          </div>
+    <div className="w-full h-full py-12 md:py-16 ">
+      <div className="wrapper mx-auto">
+        <div className=" w-full flex flex-col items-center justify-center pb-8">
+          <SectionHeader
+            heading={coustumerData?.heading || "Our Customers"}
+            subHeading={
+              coustumerData?.subheading || "The People Behind Our Story"
+            }
+            description={
+              coustumerData?.description ||
+              "We’re proud to serve businesses who rely on us for timeless flooring, expert installation, and personalized care."
+            }
+            mainCss="flex flex-col items-center justify-center "
+            descriptionCss="leading-[1.5] mb-[2rem] mt-[0.5rem] w-[80%] text-center align-middle"
+            subHeadingCss="text-center "
+          />
+          <ButtonCommon
+            link={`${pathname}/products/brands`}
+            buttonName="Shop by Brands"
+            image="/icon/arrowRightUp.png"
+          />
+        </div>
+        <div className="mt-[2rem]">
+          <AutoPlay
+            data={coustumerData.data}
+            CardComponent={CustomeCard}
+            slideToShow={6}
+            rtl={false}
+            responsive={responsiveSettings}
+          />
+        </div>
+        <div className=" mt-[2rem]   ">
+          <AutoPlay
+            data={coustumerData.data}
+            CardComponent={CustomeCard}
+            slideToShow={6}
+            rtl={true}
+            responsive={responsiveSettings}
+          />
         </div>
       </div>
-    </>
+    </div>
   );
 }

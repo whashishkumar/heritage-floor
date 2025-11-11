@@ -3,6 +3,7 @@ import React from "react";
 import SectionHeader from "../common/SectionHeader";
 import Image from "next/image";
 import SwipeSlider from "../ui/SwipeSlider";
+import Link from "next/link";
 
 export interface Category {
   id: number;
@@ -72,9 +73,12 @@ const CategoryProductsCard: React.FC<{ data: any }> = ({ data: product }) => {
         height={460}
         className="object-cover rounded-lg h-full w-full"
       />
-      <p className="absolute bottom-[15%] left-1/2 -translate-x-1/2 border border-[#D9D9D9] backdrop-blur-lg bg-[#0C0C0C66]/70 px-6 py-3 rounded-lg text-center text-[#fff] font-medium w-[80%] cursor-pointer">
+      <Link
+        href={"builder/products"}
+        className="absolute bottom-[15%] left-1/2 -translate-x-1/2 border border-[#D9D9D9] backdrop-blur-lg bg-[#0C0C0C66]/70 px-6 py-3 rounded-lg text-center text-[#fff] font-medium w-[80%] cursor-pointer"
+      >
         {product?.title}
-      </p>
+      </Link>
     </div>
   );
 };

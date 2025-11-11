@@ -10,17 +10,19 @@ export default function TestimonialCard({ data }: { data: any }) {
         <div className="h-[4rem]  w-full flex items-center  justify-center">
           <div className="w-[20%] h-full   flex items-center">
             <div className="h-[2.5rem] w-[2.5rem] relative overflow-hidden rounded-full border-white border-[0.5px]">
-              <Image
-                // src="/images/commercial/user1.jpg"
-                src={data?.profile_image}
-                fill
-                alt="Name"
-                className=" object-center"
-              />
+              {data?.profile_image && (
+                <Image
+                  // src="/images/commercial/user1.jpg"
+                  src={data?.profile_image}
+                  fill
+                  alt="Name"
+                  className=" object-center"
+                />
+              )}
             </div>
           </div>
           <div className="w-[80%] h-full  space-y-[0.25rem]">
-            <div className=" text-white text-base font-bold leading-[1.2500]">
+            <div className=" text-white text-base font-bold leading-[1.2500] line-clamp-1">
               {data.title || "Name"}
             </div>
             <div className=" text-xs  font-normal text-white/50 leading-[1.2500]">

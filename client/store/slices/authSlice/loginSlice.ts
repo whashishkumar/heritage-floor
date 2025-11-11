@@ -26,15 +26,15 @@ interface AuthState {
   loading: boolean;
   token: string | null;
   error: string | null;
-  isLoggedIn: boolean;
+  isLoggedIn: boolean | null;
 }
 
 const initialState: AuthState = {
   user: null,
-  token: Cookies.get("token") || null,
+  token: null,
   loading: false,
   error: null,
-  isLoggedIn: !!Cookies.get("token"),
+  isLoggedIn: null,
 };
 
 export const loginUser = createAsyncThunk<
@@ -42,29 +42,18 @@ export const loginUser = createAsyncThunk<
   LoginPayload,
   { rejectValue: string }
 >("auth/loginUser", async (formPayload, { rejectWithValue }) => {
-  // const formPayloadData = new FormData();
-
-  // Object.entries(formPayload).forEach(([key, value]) => {
-  //   formPayloadData.append(key, value);
-  // });
-
-  // console.log(...formPayloadData.entries(), "LoginPayload");
-
   try {
     const res = await api.post("/customer/login", formPayload);
     const { token, data } = res.data;
-    // Cookies.set("token", token, {
-    //   expires: 7,
-    //   path: "/",
-    //   sameSite: "lax",
-    // });
+    // persist token in cookie here (side-effect allowed in thunk)
+    // if (token) Cookies.set("token", token);
     return { data, token };
   } catch (err: any) {
     return rejectWithValue(err.response?.data?.message || "Login failed");
   }
 });
 
-export const logoutUser = createAsyncThunk("customer/logoutUser", async () => {
+export const logoutUser = createAsyncThunk("auth/logoutUser", async () => {
   Cookies.remove("token");
   return null;
 });
@@ -75,11 +64,9 @@ export const checkAuth = createAsyncThunk<
   { rejectValue: string }
 >("auth/checkAuth", async (_, { rejectWithValue }) => {
   try {
-    const token = Cookies.get("token");
-    if (!token) {
-      return rejectWithValue("No token found");
-    }
-    return rejectWithValue("User not found");
+    const res = await api.get("/auth/me");
+    const user = res.data;
+    return user;
   } catch (err) {
     return rejectWithValue("Auth check failed");
   }
@@ -92,7 +79,7 @@ const authSlice = createSlice({
     resetAuthState: (state) => {
       state.loading = false;
       state.error = null;
-      state.isLoggedIn = !!state.user;
+      state.isLoggedIn = null;
     },
   },
   extraReducers: (builder) => {
@@ -116,10 +103,12 @@ const authSlice = createSlice({
       // LOGOUT
       .addCase(logoutUser.fulfilled, (state) => {
         state.user = null;
+        state.token = null;
         state.isLoggedIn = false;
       })
       .addCase(logoutUser.rejected, (state) => {
         state.user = null;
+        state.token = null;
         state.isLoggedIn = false;
       })
       // CHECK AUTH
@@ -129,7 +118,8 @@ const authSlice = createSlice({
       .addCase(checkAuth.fulfilled, (state, action) => {
         state.loading = false;
         state.user = action.payload;
-        state.isLoggedIn = true;
+        // If payload is a user object, mark logged in; otherwise false
+        state.isLoggedIn = !!action.payload;
       })
       .addCase(checkAuth.rejected, (state) => {
         state.loading = false;

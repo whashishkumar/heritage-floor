@@ -113,8 +113,13 @@ const accOptions = [
   { label: "Dec", value: "dec" },
 ];
 
-export default function ProductDetailPage() {
+export default function ProductDetailPage({
+  productsData,
+  sortOptionsCategory,
+}: any) {
   const [isMobileFilterOpen, setIsMobileFilterOpen] = useState(false);
+  const dataList = productsData ? productsData : products;
+  const shortOptions = sortOptionsCategory ? sortOptionsCategory : sortOptions;
 
   useEffect(() => {
     if (isMobileFilterOpen) {
@@ -174,8 +179,8 @@ export default function ProductDetailPage() {
             <div className="grid grid-cols-2 gap-6">
               <Selector
                 label="Sort By"
-                options={sortOptions}
-                placeholder="Price"
+                options={shortOptions}
+                placeholder={shortOptions?.[0].label}
                 onChange={handleSortChange}
               />
               <div>
@@ -202,7 +207,7 @@ export default function ProductDetailPage() {
           {/* Product Grid */}
           <div>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-8 justify-items-center mt-4">
-              {products.map((product) => (
+              {dataList?.map((product: any) => (
                 <ProductCard key={product.id} product={product} />
               ))}
             </div>
