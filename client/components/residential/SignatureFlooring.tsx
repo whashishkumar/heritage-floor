@@ -2,6 +2,8 @@
 import { useState } from "react";
 import SectionHeader from "../common/SectionHeader";
 import { FaStar } from "react-icons/fa6";
+import ModalBox from "../ui/ModalBox";
+import QueryForm from "../common/QuearyForm";
 
 interface SignatureFlooringProps {
   image: string;
@@ -19,8 +21,10 @@ interface SignatureFlooring {
 
 export default function SignatureFlooring({ data }: SignatureFlooring) {
   const [activeCard, setActiveCard] = useState<number>(6); // Default active card = 7th
+  const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
   // console.log("Residential page flooringSelections Section Data:", data);
-
+  const handleOpenModal = () => setIsAuthModalOpen(true);
+  const handleCloseModal = () => setIsAuthModalOpen(false);
   const flooringItems = [
     {
       image: "/images/residential/wood/affinity.png",
@@ -175,11 +179,14 @@ export default function SignatureFlooring({ data }: SignatureFlooring) {
                             </div>
 
                             {/* Quote Button */}
-                            <div className="h-[2.25rem] w-[8.563rem] border border-[#BDBDBD] rounded-[3.125rem] bg-white flex items-center justify-center">
+                            <button
+                              onClick={() => setIsAuthModalOpen(true)}
+                              className="h-[2.25rem] w-[8.563rem] border border-[#BDBDBD] rounded-[3.125rem] bg-white flex items-center justify-center hover:bg-gray-50 transition-colors cursor-pointer"
+                            >
                               <div className="align-middle text-black leading-[1.5] text-base font-medium">
                                 Get a Quote
                               </div>
-                            </div>
+                            </button>
                           </div>
                         </div>
                       </div>
@@ -220,7 +227,6 @@ export default function SignatureFlooring({ data }: SignatureFlooring) {
                       </div>
                     </div>
 
-                    {/* ⭐ Rating */}
                     <div className="flex my-[0.5rem] gap-1">
                       {[...Array(data?.Rating || 5)].map((_, idx) => (
                         <FaStar key={idx} size={16} className="text-rating" />
@@ -228,11 +234,14 @@ export default function SignatureFlooring({ data }: SignatureFlooring) {
                     </div>
 
                     {/* Quote Button */}
-                    <div className="h-[2.25rem] w-[8.563rem] border border-[#BDBDBD] rounded-[3.125rem] bg-white flex items-center justify-center">
+                    <button
+                      onClick={handleOpenModal}
+                      className="h-[2.25rem] w-[8.563rem] border border-[#BDBDBD] rounded-[3.125rem] bg-white flex items-center justify-center hover:bg-gray-50 transition-colors cursor-pointer"
+                    >
                       <div className="align-middle text-black leading-[1.5] text-base font-medium">
                         Get a Quote
                       </div>
-                    </div>
+                    </button>
                   </div>
                 </div>
               </div>
@@ -240,6 +249,11 @@ export default function SignatureFlooring({ data }: SignatureFlooring) {
           )}
         </div>
       </div>
+
+      {/* Auth Modal */}
+      <ModalBox isOpen={isAuthModalOpen} onClose={handleCloseModal}>
+        <QueryForm onClose={handleCloseModal} />
+      </ModalBox>
     </div>
   );
 }

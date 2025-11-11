@@ -8,9 +8,6 @@ import WhyChooseUsCommercial from "@/components/commercial/WhyChooseUs";
 import TestimonialsCommercial from "@/components/commercial/Testimonials";
 import GetInTouch from "@/components/commercial/GetInTouch";
 import BlogCommercial from "@/components/commercial/Blogs";
-import { useDispatch, useSelector } from "react-redux";
-import { fetchBuilderBannerPageInfo } from "@/store/slices/builderSlice/bannerPageSlice";
-// import { useEffect } from "react";
 import { BuilderPageData, CommonComponentData } from "@/lib/api/endpoints";
 
 const costumerData = [
@@ -75,20 +72,13 @@ const headerProductBestSeller = {
 };
 
 export default async function Home() {
-  // const dispatch = useDispatch<any>();
-  // const { builderBanner } = useSelector((state: any) => state?.builderBanner);
-  // const { data } = builderBanner || [];
   const blogs = await CommonComponentData?.getOurBlogs(1);
-  // const builderBanner = await BuilderPageData.getBannerData();
-
-  // useEffect(() => {
-  //   dispatch(fetchBuilderBannerPageInfo());
-  // }, []);
-  // console.log(builderBanner, "builderBanner");
+  const builderBanner = await BuilderPageData.getBannerData();
+  const customers = await BuilderPageData.getOurCustomers();
 
   return (
     <>
-      {/* <HeroSection bannerData={data} /> */}
+      <HeroSection bannerData={builderBanner?.data} />
       <ToolsGrid />
       <BestsellerProducts data={headerProductBestSeller} />
       <CategoryProducts />

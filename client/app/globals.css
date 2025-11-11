@@ -271,6 +271,7 @@ input[type="number"]::-webkit-outer-spin-button {
 }
 
 @layer utilities {
+
   /* Smooth Concave Curve (Dips Down) */
   .clip-concave-smooth {
     clip-path: path("M 0,0 L 256,0 L 256,32 Q 128,12 0,32 Z");
@@ -298,6 +299,7 @@ input[type="number"]::-webkit-outer-spin-button {
   .clip-convex {
     clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 120%, 0 100%);
   }
+
   .clip-concave-responsive {
     clip-path: path("M 0,0 L 100%,0 L 100%,100% Q 50%,80% 0,100% Z");
   }
@@ -343,29 +345,35 @@ input[type="number"]::-webkit-outer-spin-button {
 }
 
 .blog-article h2 {
-  font-size: 1.875rem; /* text-3xl */
+  font-size: 1.875rem;
+  /* text-3xl */
   font-weight: 700;
-  color: #0d3559; /* darkBlue */
+  color: #0d3559;
+  /* darkBlue */
   /* margin-top: 3rem; */
   margin-bottom: 1rem;
   scroll-margin-top: 6rem;
 }
 
 .blog-article h3 {
-  font-size: 1.25rem; /* text-xl */
+  font-size: 1.25rem;
+  /* text-xl */
   font-weight: 700;
   color: #0d3559;
   margin-bottom: 0.75rem;
 }
 
 .blog-article p {
-  color: #666; /* primaryGray */
+  color: #666;
+  /* primaryGray */
   margin-bottom: 1.5rem;
 }
 
 .blog-article .quote-box {
-  background-color: rgb(10, 186, 181, 0.1); /* primaryOne/10 */
-  border-left: 4px solid #018c99; /* primaryTwo */
+  background-color: rgb(10, 186, 181, 0.1);
+  /* primaryOne/10 */
+  border-left: 4px solid #018c99;
+  /* primaryTwo */
   border-radius: 0 0.75rem 0.75rem 0;
   padding: 1.5rem;
   margin: 2rem 0;
@@ -444,11 +452,9 @@ input[type="number"]::-webkit-outer-spin-button {
 }
 
 .blog-article .key-considerations {
-  background: linear-gradient(
-    135deg,
-    rgb(10, 186, 181, 0.1),
-    rgb(1, 140, 153, 0.1)
-  );
+  background: linear-gradient(135deg,
+      rgb(10, 186, 181, 0.1),
+      rgb(1, 140, 153, 0.1));
   padding: 2rem;
   border-radius: 0.75rem;
   margin: 2rem 0;
@@ -477,7 +483,14 @@ input[type="number"]::-webkit-outer-spin-button {
 
 .blog-article .key-considerations li::before {
   content: "›";
-  color: #018c99; /* primaryTwo */
+  color: #018c99;
+  /* primaryTwo */
   font-size: 1.25rem;
   line-height: 1;
+}
+
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+
 }

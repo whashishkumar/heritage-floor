@@ -6,6 +6,18 @@ import {
 } from "./fetcher";
 import type { PaginatedResponse } from "./types";
 
+export const AuthValidation = {
+  loginUser: (data: any) => apiPost("/customer/login", data),
+
+  validateuser: () => {
+    return apiFetch({
+      endpoint: "/auth/me",
+      cache: "no-store",
+    });
+  },
+  logOut: () => apiPost("/customer/logout"),
+};
+
 // Product APIs
 // export const productAPI = {
 //   getCategories: () =>
@@ -285,6 +297,13 @@ export const BuilderPageData = {
   getBannerData: () => {
     return apiFetch({
       endpoint: "/builder/hero-section",
+      cache: "dynamic",
+    });
+  },
+
+  getOurCustomers: () => {
+    return apiFetch({
+      endpoint: "/builder/our-customers",
       cache: "dynamic",
     });
   },

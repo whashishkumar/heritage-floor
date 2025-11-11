@@ -1,6 +1,7 @@
 "use client";
 import { fetchToolsAndEquimentsInfo } from "@/store/slices/builderSlice/toolsEquipmentSlice";
 import Image from "next/image";
+import Link from "next/link";
 import { Suspense, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -22,7 +23,8 @@ export const ToolsAndEquiments = ({ data }: any) => {
   return (
     <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-6 gap-12 w-full mx-auto poppins-font">
       {data?.slice(0, 12)?.map((item: any, indx: any) => (
-        <div
+        <Link
+          href={"builder/products"}
           key={indx}
           className="flex flex-col items-center text-center space-y-3"
         >
@@ -38,7 +40,7 @@ export const ToolsAndEquiments = ({ data }: any) => {
           <p className="font-medium text-black text-xl leading-[1.875rem] ">
             {item.title}
           </p>
-        </div>
+        </Link>
       ))}
     </div>
   );
@@ -48,7 +50,10 @@ export const ToolsAndEquiments = ({ data }: any) => {
 
 export const InstallationSupplies = () => {
   return (
-    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-6 gap-12 w-full mx-auto poppins-font">
+    <Link
+      href={"builder/products"}
+      className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-6 gap-12 w-full mx-auto poppins-font"
+    >
       {toolsData?.map((item: any, indx: any) => (
         <div
           key={indx}
@@ -68,7 +73,7 @@ export const InstallationSupplies = () => {
           </p>
         </div>
       ))}
-    </div>
+    </Link>
   );
 };
 

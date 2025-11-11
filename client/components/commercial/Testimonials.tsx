@@ -8,7 +8,6 @@ import SwipeSlider from "../ui/SwipeSlider";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { fetchTestimonials } from "@/store/slices/testimonialsSlice";
-import Loader from "../ui/Loader";
 
 const responsiveSettings = [
   {
@@ -149,18 +148,12 @@ const breakpoints = {
 
 export default function TestimonialsCommercial() {
   const dispatch = useDispatch<any>();
-  const { testimonials, loading } = useSelector(
-    (state: any) => state?.testimonials
-  );
+  const { testimonials } = useSelector((state: any) => state?.testimonials);
   const { data } = testimonials || [];
 
   useEffect(() => {
     dispatch(fetchTestimonials());
   }, []);
-
-  if (loading) {
-    return <Loader />;
-  }
 
   return (
     <>
