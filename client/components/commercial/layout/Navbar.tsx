@@ -167,7 +167,7 @@ export default async function Navbar() {
             <div className=" text-white">
               <LuSearch size={26} />
             </div>
-            <div className="h-[2.688rem] w-[12.625] bg-primaryTwo flex items-center justify-center px-6 rounded-lg gap-2">
+            <div className="h-[2.688rem] bg-primaryTwo flex items-center justify-center px-6 rounded-lg gap-2">
               <div className="h-[1.5rem] w-[1.5rem] relative">
                 <Image
                   src="/icon/call.png"

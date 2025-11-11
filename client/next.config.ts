@@ -8,8 +8,8 @@ const nextConfig: NextConfig = {
   async rewrites() {
     return [
       {
-        source: "/api/:path*", // frontend will call /api/login etc.
-        destination: "https://heritagefloor.whdev.in/api/:path*", // your Laravel backend
+        source: "/api/:path*",
+        destination: "https://heritagefloor.whdev.in/api/:path*",
       },
     ];
   },

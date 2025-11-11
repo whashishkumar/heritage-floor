@@ -40,7 +40,7 @@ export default function HeaderMainBar() {
   const handleOpenModal = () => setIsModalOpen(true);
   const handleCloseModal = () => setIsModalOpen(false);
   const handleLogOut = async () => {
-    // await AuthValidation.logOut();
+    await AuthValidation.logOut();
   };
 
   return (

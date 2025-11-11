@@ -134,7 +134,7 @@ export async function apiFetchWithResponse<T = any>(
 // POST request
 export async function apiPost<T = any>(
   endpoint: string,
-  data: any,
+  data?: any,
   options?: Omit<FetchOptions, "endpoint">
 ): Promise<T> {
   const { timeout, headers = {} } = options || {};

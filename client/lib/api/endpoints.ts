@@ -5,30 +5,18 @@ import {
   apiPost,
 } from "./fetcher";
 import type { PaginatedResponse } from "./types";
-import { cookies } from "next/headers";
 
-// export const AuthValidation = {
-//    const cookieStore = cookies();
-//   const token = cookieStore.get("token")?.value;
-//   loginUser: (data: any) => apiPost("/customer/login", data),
+export const AuthValidation = {
+  loginUser: (data: any) => apiPost("/customer/login", data),
 
-//   validateuser: () => {
-//     return apiFetch({
-//       endpoint: "/auth/me",
-//       cache: "no-store",
-//     });
-//   },
-
-//   // logOut: () => {
-//   //   return apiFetch({
-//   //     endpoint: "/logout",
-//   //     cache: "no-store",
-//   //   });
-//   // },
-//   logOut: (data: any) => apiPost("/customer/logout", data, {
-//     headers :token
-//   }),
-// };
+  validateuser: () => {
+    return apiFetch({
+      endpoint: "/auth/me",
+      cache: "no-store",
+    });
+  },
+  logOut: () => apiPost("/customer/logout"),
+};
 
 // Product APIs
 // export const productAPI = {

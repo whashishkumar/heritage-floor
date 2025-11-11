@@ -2,13 +2,17 @@ import axios, { AxiosError, AxiosRequestConfig } from "axios";
 import { API_CONFIG } from "./config";
 import Cookies from "js-cookie";
 
+const token = Cookies.get("__next_hmr_refresh_hash__");
+
+console.log(token, "token");
+
 // Create axios instance
 export const api = axios.create({
   baseURL: API_CONFIG.baseURL,
   timeout: API_CONFIG.timeout,
   headers: {
     "Content-Type": "application/json",
-    // "X-API-KEY": API_CONFIG.apiKey,
+    // Token: token,
   },
   withCredentials: true,
 });
@@ -17,7 +21,7 @@ export const api = axios.create({
 api.interceptors.request.use(
   // You can add custom logic here (e.g., add tokens)
   (config) => {
-    const token = Cookies.get("token");
+    const token = Cookies.get("__next_hmr_refresh_hash__");
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
