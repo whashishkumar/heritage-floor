@@ -1,5 +1,8 @@
+"use client";
 import React from "react";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
+
 interface CategoriesResidential {
   id: number;
   name: string;
@@ -8,7 +11,7 @@ interface CategoriesResidential {
 interface CategoriesResidentialProps {
   data: CategoriesResidential[];
 }
-export default async function CategoriesResidential({
+export default function CategoriesResidential({
   data,
 }: CategoriesResidentialProps) {
   const categories = [
@@ -43,7 +46,13 @@ export default async function CategoriesResidential({
       image: "/images/residential/category/Eco.jpg",
     },
   ];
-  // console.log("Residential page Category Section Data", data);
+  const router = useRouter();
+
+  const handleCategoryDetail = (category: any) => {
+    const { name } = category;
+    router.push(`/residential/products/${name}`);
+  };
+
   return (
     <>
       <div className="w-full min-h-[35.688rem] h-full relative flex flex-col items-center justify-center ">
@@ -55,7 +64,7 @@ export default async function CategoriesResidential({
         />
         <div className="absolute top-0 bg-gradient-to-b from-white via-white/10 to-transparent min-h-[6.938rem]  w-full  z-10"></div>
         <div className="absolute bottom-0 bg-gradient-to-b from-transparent via-white/10 to-white min-h-[6.938rem]   w-full "></div>
-        <div className=" wrapper w-full mx-auto flex flex-col items-center justify-center mb-[2rem]">
+        <div className=" wrapper w-full mx-auto flex flex-col items-center justify-center mb-[2rem] relative z-20">
           <div className=" font-bold text-black text-xl sm:text-2xl md:text-4xl lg:text-[2.5rem]">
             Categories
           </div>
@@ -63,7 +72,7 @@ export default async function CategoriesResidential({
             {data.map((categ: CategoriesResidential, index: number) => (
               <div
                 className="h-[18.5rem] w-[14rem]  flex flex-col justify-between group"
-                key={index}
+                key={categ.id}
               >
                 <div className=" h-[14rem] w-[14rem] rounded-[7rem] overflow-hidden relative">
                   <Image
@@ -73,11 +82,14 @@ export default async function CategoriesResidential({
                     className=" object-cover group-hover:scale-105 ease-in-out duration-300 "
                   />
                 </div>
-                <div className="w-full h-[3.563rem] bg-black rounded-[0.625rem] cursor-pointer flex items-center justify-center">
-                  <div className="text-white text-lg font-bold align-middle">
+                <button
+                  className="w-full h-[3.563rem] bg-black rounded-[0.625rem] cursor-pointer flex items-center justify-center"
+                  onClick={() => handleCategoryDetail(categ)}
+                >
+                  <div className="text-white text-lg font-bold align-middle ">
                     {categ?.name || " "}
                   </div>
-                </div>
+                </button>
               </div>
             ))}
           </div>

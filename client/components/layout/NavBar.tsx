@@ -34,6 +34,7 @@ const mediaData = [
 ];
 export default function Navbar() {
   const [activeIndex, setActiveIndex] = useState(0);
+
   return (
     <>
       <div className=" w-full bg-primaryTwo h-[3.125rem] justify-center flex items-center  z-100 sticky top-0 transition-all duration-300">
@@ -48,13 +49,12 @@ export default function Navbar() {
                   className={`px-3 h-[3.125rem] flex items-center font-medium text-sm min-[440px]:text-base sm:text-lg transition-all duration-300 ${
                     activeIndex === index
                       ? "bg-white text-primaryTwo"
-                      : "text-white hover:bg-white hover:text-primaryTwo mb-[2px]"
-                  }`}
+                      : "text-white hover:bg-white hover:text-primaryTwo mb-[2px] "
+                  } 
+                  `}
                 >
                   {data.key}
                 </Link>
-
-                {index === 1 && <span className="text-white">|</span>}
               </React.Fragment>
             ))}
           </div>

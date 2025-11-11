@@ -85,7 +85,6 @@ export default async function Navbar() {
                 className=" object-cover"
               />
             </div>
-
             <div className="flex gap-10">
               {/* {globalHeadData.map((data, index) => (
                 <React.Fragment key={index}>

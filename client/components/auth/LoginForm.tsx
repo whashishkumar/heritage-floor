@@ -1,13 +1,12 @@
 "use client";
-import { checkAuth, loginUser } from "@/store/slices/authSlice/loginSlice";
 import Image from "next/image";
 import React, { useState } from "react";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import ForgotPasswordForm from "./ForgotPasswordForm";
+import { AuthValidation } from "@/lib/api/endpoints";
 
 export default function LoginPage({ onClose }: any) {
-  const dispatch = useDispatch<any>();
   const [forgetPasswordScreen, setForgetScreen] = useState(false);
   const [formData, setFormData] = useState({
     email: "",
@@ -16,23 +15,29 @@ export default function LoginPage({ onClose }: any) {
   });
   const [showPassword, setShowPassword] = useState(false);
 
-  const { loading, error } = useSelector((state: any) => state.loginUser);
+  const { loading, error, user, isLoggedIn } = useSelector(
+    (state: any) => state.loginUser
+  );
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    dispatch(loginUser(formData));
+    const userInfo = await AuthValidation.loginUser(formData);
+    const { token } = userInfo;
+
     if (!loading) {
       setFormData({
         email: "",
         password: "",
         device_name: "web",
       });
-      // onClose?.();
+      if (token !== "") {
+        onClose?.();
+      }
     }
   };
 

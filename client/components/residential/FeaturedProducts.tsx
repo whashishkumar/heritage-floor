@@ -1,7 +1,11 @@
+"use client";
 import SectionHeader from "../common/SectionHeader";
 import ProductCard from "./ProductCard";
 import SwipeSlider from "../ui/SwipeSlider";
-export default async function FeaturedProducts() {
+import { useState } from "react";
+import ModalBox from "../ui/ModalBox";
+import QueryForm from "../common/QuearyForm";
+export default function FeaturedProducts() {
   const products = [
     {
       id: 1,
@@ -70,6 +74,10 @@ export default async function FeaturedProducts() {
       spaceBetween: 20,
     },
   };
+  const [quearyModalOpen, setQuearyModalOpen] = useState(false);
+
+  const handleOpenModal = () => setQuearyModalOpen(true);
+  const handleCloseModal = () => setQuearyModalOpen(false);
 
   return (
     <>
@@ -96,18 +104,15 @@ export default async function FeaturedProducts() {
             >
               {products.map((data, index) => (
                 <div className=" w-full" key={index}>
-                  <ProductCard data={data} />
+                  <ProductCard data={data} handleOpenModal={handleOpenModal} />
                 </div>
               ))}
             </SwipeSlider>
           </div>
-          {/* <div className="mt-[2rem] flex overflow-x-scroll md:grid md:grid-cols-2 lg:grid-cols-3 w-full gap-8 md:hidden ">
-            {products.map((data, index) => (
-              <div className=" w-full " key={index}>
-                <ProductCard data={data} />
-              </div>
-            ))}
-          </div> */}
+
+          <ModalBox isOpen={quearyModalOpen} onClose={handleCloseModal}>
+            <QueryForm onClose={handleCloseModal} />
+          </ModalBox>
         </div>
       </div>
     </>

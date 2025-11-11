@@ -5,6 +5,30 @@ import {
   apiPost,
 } from "./fetcher";
 import type { PaginatedResponse } from "./types";
+import { cookies } from "next/headers";
+
+// export const AuthValidation = {
+//    const cookieStore = cookies();
+//   const token = cookieStore.get("token")?.value;
+//   loginUser: (data: any) => apiPost("/customer/login", data),
+
+//   validateuser: () => {
+//     return apiFetch({
+//       endpoint: "/auth/me",
+//       cache: "no-store",
+//     });
+//   },
+
+//   // logOut: () => {
+//   //   return apiFetch({
+//   //     endpoint: "/logout",
+//   //     cache: "no-store",
+//   //   });
+//   // },
+//   logOut: (data: any) => apiPost("/customer/logout", data, {
+//     headers :token
+//   }),
+// };
 
 // Product APIs
 // export const productAPI = {
@@ -285,6 +309,13 @@ export const BuilderPageData = {
   getBannerData: () => {
     return apiFetch({
       endpoint: "/builder/hero-section",
+      cache: "dynamic",
+    });
+  },
+
+  getOurCustomers: () => {
+    return apiFetch({
+      endpoint: "/builder/our-customers",
       cache: "dynamic",
     });
   },

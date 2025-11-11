@@ -10,6 +10,7 @@ export const api = axios.create({
     "Content-Type": "application/json",
     // "X-API-KEY": API_CONFIG.apiKey,
   },
+  withCredentials: true,
 });
 
 // Request interceptor

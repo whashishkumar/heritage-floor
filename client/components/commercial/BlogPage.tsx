@@ -81,7 +81,7 @@ const BlogPage = ({ blogs, featuredBlogs, slugPath }: any) => {
 
   const CategoryBaseArticles = (category: any) => {
     const { slug } = category;
-    setSelectedCategory(slug);
+    // setSelectedCategory(slug);
     fetchCategoryBaseBlogs(slug);
   };
 

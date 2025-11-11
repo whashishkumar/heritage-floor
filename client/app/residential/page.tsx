@@ -13,11 +13,10 @@ import OurCustomers from "@/components/commercial/OurCustomers";
 import ExpertFlooringInstallation from "@/components/residential/ExpertFlooringInstallation";
 import { ResidentailPageData } from "@/lib/api/endpoints";
 import { CommonComponentData } from "@/lib/api/endpoints";
+import QueryForm from "@/components/common/QuearyForm";
 
 export default async function Home() {
-  // const heroSection = await ResidentailPageData.getHeroSection();
   const customerData = await ResidentailPageData.getOurCustomers();
-  // console.log("Residential page OurCustomers Data:", customerData);
   const categories = await ResidentailPageData.getCategories();
   const flooringSelections = await ResidentailPageData.getFlooringSelections();
   const flooringInstallation =
@@ -25,7 +24,6 @@ export default async function Home() {
 
   const whyChooseUs = await CommonComponentData.getWhyChooseUs();
   const blogs = await CommonComponentData?.getOurBlogs(1);
-  // console.log("Why Choose Us:", whyChooseUs);
 
   const costumerData = [
     {
@@ -77,6 +75,7 @@ export default async function Home() {
       alt: "Richmond",
     },
   ];
+  console.log(customerData, "customerData");
 
   return (
     <>

@@ -1,5 +1,4 @@
 "use client";
-
 import { useEffect, useState } from "react";
 import { FiSearch, FiUser, FiShoppingCart, FiX } from "react-icons/fi";
 import { IoIosArrowForward } from "react-icons/io";
@@ -9,7 +8,11 @@ import { IoIosArrowBack } from "react-icons/io";
 import ModalBox from "../ui/ModalBox";
 import LoginPage from "../auth/LoginForm";
 import { useDispatch, useSelector } from "react-redux";
-import { checkAuth, logoutUser } from "@/store/slices/authSlice/loginSlice";
+import { useAuthCheck } from "@/utils/useAuthCheck";
+import { AuthValidation } from "@/lib/api/endpoints";
+
+import { usePathname } from "next/navigation";
+import Link from "next/link";
 
 export default function HeaderMainBar() {
   const dispatch = useDispatch<any>();
@@ -18,6 +21,9 @@ export default function HeaderMainBar() {
   const [cartCount] = useState(0);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { isLoggedIn, token } = useSelector((state: any) => state.loginUser);
+  const { success, customer, loading } = useAuthCheck();
+
+  const pathname = usePathname();
 
   const specialDeals = [
     "Flooring Sale",
@@ -33,10 +39,9 @@ export default function HeaderMainBar() {
 
   const handleOpenModal = () => setIsModalOpen(true);
   const handleCloseModal = () => setIsModalOpen(false);
-
-  useEffect(() => {
-    dispatch(checkAuth());
-  }, []);
+  const handleLogOut = async () => {
+    // await AuthValidation.logOut();
+  };
 
   return (
     <>
@@ -125,26 +130,29 @@ export default function HeaderMainBar() {
                     />
                   </div>
                 </button>
-                {!isLoggedIn && !token ? (
+                {success ? (
+                  <span
+                    className="text-textGray text-base leading-[1.6] cursor-pointer"
+                    onClick={() => handleLogOut()}
+                  >
+                    logout
+                  </span>
+                ) : (
                   <span
                     className="text-textGray text-base leading-[1.6] cursor-pointer"
                     onClick={handleOpenModal}
                   >
                     Account / Sign In
                   </span>
-                ) : (
-                  <span
-                    className="text-textGray text-base leading-[1.6] cursor-pointer"
-                    onClick={() => dispatch(logoutUser())}
-                  >
-                    logout
-                  </span>
                 )}
 
                 <ModalBox isOpen={isModalOpen} onClose={handleCloseModal}>
                   <LoginPage onClose={handleCloseModal} />
                 </ModalBox>
-                <button className="relative text-gray-700 hover:text-primaryTwo h-[1.5rem] w-[1.5rem]">
+                <Link
+                  href={`${pathname}/cart`}
+                  className="relative text-gray-700 hover:text-primaryTwo h-[1.5rem] w-[1.5rem]"
+                >
                   <Image
                     src="/icon/BagCheck.png"
                     alt="Cart"
@@ -156,8 +164,11 @@ export default function HeaderMainBar() {
                       {cartCount}
                     </span>
                   )}
-                </button>
-                <button className="relative text-gray-700 hover:text-primaryTwo h-[1.5rem] w-[1.5rem]">
+                </Link>
+                <Link
+                  href={`${pathname}/cart`}
+                  className="relative text-gray-700 hover:text-primaryTwo h-[1.5rem] w-[1.5rem]"
+                >
                   <Image
                     src="/icon/Heart.png"
                     alt="Wishlist"
@@ -169,7 +180,7 @@ export default function HeaderMainBar() {
                       {cartCount}
                     </span>
                   )}
-                </button>
+                </Link>
               </div>
             </div>
 
