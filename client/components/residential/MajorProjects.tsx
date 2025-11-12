@@ -5,9 +5,10 @@ import ButtonCommon from "../ui/Button";
 import Image from "next/image";
 import ModalBox from "../ui/ModalBox";
 
-export default function MajorProjectsResidential() {
+export default function MajorProjectsResidential({ majorProjects }: any) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedVideo, setSelectedVideo] = useState<string | null>(null);
+  const { heading, subheading, description, data } = majorProjects || {};
 
   const videoData = [
     {
@@ -37,6 +38,8 @@ export default function MajorProjectsResidential() {
     setSelectedVideo(null);
   };
 
+  console.log(data, "majorProjects");
+
   return (
     <>
       <div className="w-full h-full  flex items-center justify-center mb-[5rem] ">
@@ -44,9 +47,9 @@ export default function MajorProjectsResidential() {
           <div className="flex flex-col md:flex-col lg:flex-row items-center justify-center lg:justify-between mb-[4rem] gap-2">
             <div className="md:w-[60%] w-full">
               <SectionHeader
-                heading="oUr major Projects"
-                subHeading="Successful Projects We’ve Delivered"
-                description="We’re proud to collaborate with leading clients, delivering projects that reflect innovation, precision, and lasting value. Each project showcases our commitment to quality and trust."
+                heading={heading}
+                subHeading={subheading}
+                description={description}
                 mainCss=""
                 headingCss=" font-semibold text-base tracking-[1.4px]"
                 subHeadingCss=" text-[2.5rem] font-bold leading-[1.3500] text-black align-middle pt-[0.25rem] pb-[0.5rem]"
@@ -62,7 +65,7 @@ export default function MajorProjectsResidential() {
             </div>
           </div>
           <div className=" flex  lg:grid lg:grid-cols-3 gap-6 w-full  overflow-x-scroll lg:overflow-x-hidden">
-            {videoData.map((vdo, index) => (
+            {videoData?.map((vdo: any, index: any) => (
               <div
                 className="flex-shrink-0 h-[36.688rem] md:h-[44.688rem] max-w-[22.313rem] md:max-w-[28.313rem] relative overflow-hidden rounded-[1.25rem] w-full"
                 key={index}

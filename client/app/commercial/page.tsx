@@ -10,7 +10,7 @@ import FlooringOptionsCommercial from "@/components/commercial/FlooringOptions";
 import TestimonialsCommercial from "@/components/commercial/Testimonials";
 import BlogCommercial from "@/components/commercial/Blogs";
 import GetInTouch from "@/components/commercial/GetInTouch";
-import { CommonComponentData } from "@/lib/api/endpoints";
+import { CommercialPageData, CommonComponentData } from "@/lib/api/endpoints";
 
 export default async function Home({ params }: any) {
   const { slug } = await params;
@@ -46,12 +46,13 @@ export default async function Home({ params }: any) {
   ];
 
   const blogs = await CommonComponentData.getOurBlogs(1);
+  const ourCustomers = await CommercialPageData.getOurCustomers();
 
   return (
     <>
       <HeroSectionCommercial />
       <AboutUsCommercial />
-      <OurCustomers coustumerData={costumerData} />
+      <OurCustomers coustumerData={ourCustomers} />
       <OurMajorProjectsCommercial />
       <WhyChooseUsCommercial />
       <ServicesCommercial />

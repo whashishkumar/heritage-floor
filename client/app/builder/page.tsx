@@ -75,16 +75,24 @@ export default async function Home() {
   const blogs = await CommonComponentData?.getOurBlogs(1);
   const builderBanner = await BuilderPageData.getBannerData();
   const customers = await BuilderPageData.getOurCustomers();
+  const categoryBaseProducts = await BuilderPageData.getCategoryProducts();
+  const bestSellerProducts = await BuilderPageData.bestSellerProducts();
 
   return (
     <>
       <HeroSection bannerData={builderBanner?.data} />
       <ToolsGrid />
-      <BestsellerProducts data={headerProductBestSeller} />
-      <CategoryProducts />
-      {/* <WhyChooseUsCommercial bgColor={"#018C99"} /> */}
-      <OurCustomersCommercial coustumerData={costumerData} />
-      <BestsellerProducts data={headerDataCategory} />
+      <BestsellerProducts
+        bestSellerProducts={bestSellerProducts}
+        productHeader={headerProductBestSeller}
+      />
+      <CategoryProducts catgoryProductsList={categoryBaseProducts} />
+      <WhyChooseUsCommercial bgColor={"#018C99"} />
+      <OurCustomersCommercial coustumerData={customers} />
+      <BestsellerProducts
+        productHeader={headerDataCategory}
+        bestSellerProducts={bestSellerProducts}
+      />
       <Solutions />
       <TestimonialsCommercial />
       <BlogCommercial blogs={blogs} pagePath={"builder"} />

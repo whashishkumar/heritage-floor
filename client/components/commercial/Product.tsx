@@ -3,6 +3,7 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { CiStar } from "react-icons/ci";
 import ButtonCommon from "../ui/Button";
+import { CartEndPoint } from "@/lib/api/cartEndPoints";
 
 export interface Product {
   id: number;
@@ -27,6 +28,10 @@ export default function ProductCard({ product }: Props) {
     router.push(`/builder/products/${id}`);
   };
 
+  const handleAddToCartProduct = async (id: any) => {
+    await CartEndPoint.addItemToCart(id);
+  };
+
   return (
     <div className="flex flex-col">
       <div
@@ -46,35 +51,35 @@ export default function ProductCard({ product }: Props) {
             ({product.rating})
           </span>
         </span>
-
-        <Image
-          src={product.image}
-          alt={product.name}
-          width={240}
-          height={240}
-          className="object-contain"
-        />
+        {product.image && (
+          <Image
+            src={product.image}
+            alt={product.name}
+            width={240}
+            height={240}
+            className="object-contain"
+          />
+        )}
       </div>
-
       <div className="py-4">
-        {/* Info */}
         <div className="text-[#5A5A5A] text-base poppins-font font-medium leading-[30px]">
           SKU: {product.sku} by {product.brand}
         </div>
-        <h3 className="text-[#000000]  poppins-font leading-[1.75rem] font-medium text-[1.375rem] line-clamp-2 break-words">
+        <h3 className="text-[#000000] poppins-font leading-[1.75rem] font-medium text-[1.375rem] h-14 line-clamp-2 ">
           {product.name}
         </h3>
-        <p className="mt-2 text-black poppins-font font-extrabold leading-[1.875rem] text-[1.875rem]">
-          ${product.price}
+        <p className="mt-2 text-black poppins-font font-extrabold leading-[1.875rem] text-[1.875rem] ">
+          {product.price ? "$" + `${product.price}` : "_"}
         </p>
         {/* Button */}
         <div className="mt-[1.5rem]">
           <ButtonCommon
             buttonName="Add To Cart"
-            link="#"
+            // link="#"
             image="/icon/arrowRightUp.png"
             cssParent="!rounded-[0.625rem]"
             cssChild="!rounded-r-[0.625rem]"
+            onClick={() => handleAddToCartProduct(product?.id)}
           />
         </div>
       </div>

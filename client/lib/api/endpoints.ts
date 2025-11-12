@@ -84,59 +84,59 @@ export const AuthValidation = {
 // };
 
 // Static Content APIs
-export const staticAPI = {
-  getLogo: () =>
-    apiFetch({
-      endpoint: "/theme-options/logo",
-      cache: "static",
-      tags: ["static", "logo"],
-    }),
+// export const staticAPI = {
+//   getLogo: () =>
+//     apiFetch({
+//       endpoint: "/theme-options/logo",
+//       cache: "static",
+//       tags: ["static", "logo"],
+//     }),
 
-  getBanner: () =>
-    apiFetch({
-      endpoint: "/site-desc",
-      cache: "static",
-      tags: ["static", "banner"],
-    }),
+//   getBanner: () =>
+//     apiFetch({
+//       endpoint: "/site-desc",
+//       cache: "static",
+//       tags: ["static", "banner"],
+//     }),
 
-  getCertificates: () =>
-    apiFetch({
-      endpoint: "/certifications",
-      cache: "static",
-      tags: ["static", "certificates"],
-    }),
+//   getCertificates: () =>
+//     apiFetch({
+//       endpoint: "/certifications",
+//       cache: "static",
+//       tags: ["static", "certificates"],
+//     }),
 
-  getSpeciality: () =>
-    apiFetch({
-      endpoint: "/why-us",
-      cache: "static",
-      tags: ["static", "speciality"],
-    }),
+//   getSpeciality: () =>
+//     apiFetch({
+//       endpoint: "/why-us",
+//       cache: "static",
+//       tags: ["static", "speciality"],
+//     }),
 
-  getTestimonials: () =>
-    apiFetch({
-      endpoint: "/testimonials",
-      cache: "static",
-      tags: ["static", "testimonials"],
-    }),
+//   getTestimonials: () =>
+//     apiFetch({
+//       endpoint: "/testimonials",
+//       cache: "static",
+//       tags: ["static", "testimonials"],
+//     }),
 
-  getNavigation: () =>
-    apiFetch({
-      endpoint: "/menus",
-      cache: "dynamic",
-      tags: ["navigation"],
-    }),
+//   getNavigation: () =>
+//     apiFetch({
+//       endpoint: "/menus",
+//       cache: "dynamic",
+//       tags: ["navigation"],
+//     }),
 
-  // Batch fetch multiple static data
-  getAll: async () => {
-    return apiFetchBatch({
-      logo: { endpoint: "/theme-options/logo", cache: "static" },
-      banner: { endpoint: "/site-desc", cache: "static" },
-      certificates: { endpoint: "/certifications", cache: "static" },
-      testimonials: { endpoint: "/testimonials", cache: "static" },
-    });
-  },
-};
+//   // Batch fetch multiple static data
+//   getAll: async () => {
+//     return apiFetchBatch({
+//       logo: { endpoint: "/theme-options/logo", cache: "static" },
+//       banner: { endpoint: "/site-desc", cache: "static" },
+//       certificates: { endpoint: "/certifications", cache: "static" },
+//       testimonials: { endpoint: "/testimonials", cache: "static" },
+//     });
+//   },
+// };
 
 // Blog APIs
 // export const blogAPI = {
@@ -249,9 +249,18 @@ export const pageAPI = {
 export const formAPI = {
   submitContact: (data: { name: string; email: string; message: string }) =>
     apiPost("/contact", data),
-
   submitInquiry: (data: any) => apiPost("/inquiry", data),
   subscribe: (email: string) => apiPost("/newsletter/subscribe", { email }),
+};
+
+//Commercial Page
+export const CommercialPageData = {
+  getOurCustomers: () => {
+    return apiFetch({
+      endpoint: "/builder/our-customers",
+      cache: "dynamic",
+    });
+  },
 };
 
 // Residentail PageData Api
@@ -290,6 +299,15 @@ export const ResidentailPageData = {
       cache: "dynamic",
     });
   },
+
+  getOurMajorProjects: () => {
+    return apiFetch({
+      endpoint: "/residential/our-projects",
+      cache: "dynamic",
+    });
+  },
+
+  postInquary: (data: any) => apiPost("/query", data),
 };
 
 //Builder Page
@@ -304,6 +322,20 @@ export const BuilderPageData = {
   getOurCustomers: () => {
     return apiFetch({
       endpoint: "/builder/our-customers",
+      cache: "dynamic",
+    });
+  },
+
+  bestSellerProducts: () => {
+    return apiFetch({
+      endpoint: "/builder/best-seller-products",
+      cache: "dynamic",
+    });
+  },
+
+  getCategoryProducts: () => {
+    return apiFetch({
+      endpoint: "/builder/category-products",
       cache: "dynamic",
     });
   },
