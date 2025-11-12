@@ -69,7 +69,7 @@ export default async function FlooringOptionsCommercial() {
                 {teamMembers.map((team, index) => (
                   <div
                     key={index}
-                    className=" w-[80%] sm:w-[60%] md:w-[45%]" // adjust width per card
+                    className="w-[80%] sm:w-[60%] md:w-[45%]" // adjust width per card
                   >
                     <FlooringOptionsCard team={team} index={index} />
                   </div>

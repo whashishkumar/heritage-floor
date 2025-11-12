@@ -12,7 +12,7 @@ export interface Product {
   image: string;
 }
 
-export const tiles: Product[] = [
+const tiles: Product[] = [
   {
     id: 1,
     name: "Ceramic Wall Tile Marble Glossy Floor Tile - 24x24",
@@ -104,7 +104,7 @@ const tileSortOptions = [
   { label: "Outdoor Tiles", value: "outdoor_tiles" },
 ];
 
-export default function page() {
+export default function Page() {
   return (
     <div>
       <ProductDetailPage
