@@ -270,7 +270,7 @@ export default function FlooringTeamSlider() {
               //     </div>
               //   </div>
               <div
-                className={`  flex-shrink-0  h-[35.625rem] px-1.5   ${
+                className={`flex-shrink-0  h-[35.625rem] px-1.5  py-3  ${
                   index % 2 === 0 ? "mt-[4.063rem] " : " "
                 }`}
                 style={{ width: `${100 / slidesToShow}%` }}

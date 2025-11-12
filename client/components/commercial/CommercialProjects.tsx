@@ -164,7 +164,7 @@ export default function MajorProjectsResidential() {
                     onClick={() => handleViewClick(vdo.video)}
                     className="absolute bottom-4 left-8 rounded-[0.75rem] flex flex-col  "
                   >
-                    <h1 className="text-xl leading-[2.7000] font-bold underline decoration-[1px] text-white mb-2 align-middle">
+                    <h1 className="text-xl leading-[2.7000] font-bold underline decoration-[1px] text-white mb-2 align-middle cursor-pointer">
                       View Now
                     </h1>
                   </button>
@@ -180,7 +180,7 @@ export default function MajorProjectsResidential() {
           <h2 className="text-2xl font-bold mb-4 text-black">Project Video</h2>
           {selectedVideo && (
             <video
-              className="w-full h-auto rounded-lg"
+              className="w-full max-h-[30rem] rounded-lg"
               controls
               autoPlay
               src={selectedVideo}
