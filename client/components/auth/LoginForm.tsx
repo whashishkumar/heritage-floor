@@ -5,6 +5,7 @@ import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 import { useSelector } from "react-redux";
 import ForgotPasswordForm from "./ForgotPasswordForm";
 import { AuthValidation } from "@/lib/api/endpoints";
+import { useAuth } from "@/context/userAuthContext";
 
 export default function LoginPage({ onClose }: any) {
   const [forgetPasswordScreen, setForgetScreen] = useState(false);
@@ -14,10 +15,8 @@ export default function LoginPage({ onClose }: any) {
     device_name: "web",
   });
   const [showPassword, setShowPassword] = useState(false);
-
-  const { loading, error, user, isLoggedIn } = useSelector(
-    (state: any) => state.loginUser
-  );
+  const [status, setStatus] = useState<any | null>(null);
+  const { login } = useAuth();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -26,18 +25,24 @@ export default function LoginPage({ onClose }: any) {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const userInfo = await AuthValidation.loginUser(formData);
-    const { token } = userInfo;
-
-    if (!loading) {
-      setFormData({
-        email: "",
-        password: "",
-        device_name: "web",
-      });
+    try {
+      const userInfo = await AuthValidation.loginUser(formData);
+      const { token } = userInfo;
+      login(token);
       if (token !== "") {
-        onClose?.();
+        setFormData({
+          email: "",
+          password: "",
+          device_name: "web",
+        });
+        setStatus(null);
+        if (token !== "") {
+          onClose?.();
+        }
       }
+    } catch (error: any) {
+      setStatus(error?.errors);
+      console.log(error?.errors, "error12345");
     }
   };
 
@@ -51,8 +56,8 @@ export default function LoginPage({ onClose }: any) {
             Welcome Back 👋
           </h2>
           <p className="text-gray-500 text-center mb-8">
-            {error ? (
-              <span className="text-red-500 ">{error}</span>
+            {status?.message ? (
+              <span className="text-red-500 ">{status?.message}</span>
             ) : (
               "Login to your account"
             )}

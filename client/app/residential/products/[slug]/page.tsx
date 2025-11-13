@@ -1,5 +1,8 @@
+"use client";
 import ProductDetailPage from "@/components/builder/productDetail";
-import React from "react";
+import { fetchproductCategories } from "@/store/slices/residentaialSlice/productCategory";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 export interface Product {
   id: number;
@@ -105,10 +108,20 @@ const tileSortOptions = [
 ];
 
 export default function Page() {
+  const dispatch = useDispatch<any>();
+  const { productCategories } = useSelector(
+    (state: any) => state.productCategory
+  );
+
+  console.log(productCategories, "products");
+  useEffect(() => {
+    dispatch(fetchproductCategories());
+  }, []);
+
   return (
     <div>
       <ProductDetailPage
-        productsData={tiles}
+        productsData={productCategories}
         sortOptionsCategory={tileSortOptions}
       />
     </div>

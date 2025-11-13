@@ -38,7 +38,7 @@ export default function MajorProjectsResidential({ majorProjects }: any) {
     setSelectedVideo(null);
   };
 
-  console.log(data, "majorProjects");
+  // console.log(data, "majorProjects");
 
   return (
     <>

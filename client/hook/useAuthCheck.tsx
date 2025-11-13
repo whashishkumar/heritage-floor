@@ -1,20 +1,36 @@
-"use client";
-import { AuthValidation } from "@/lib/api/endpoints";
-import { useEffect, useState } from "react";
+// "use client";
+// import { useEffect, useState } from "react";
+// import Cookies from "js-cookie";
 
-export function useAuthCheck() {
-  const [authStatus, setAuthStatus] = useState({
-    success: false,
-    customer: null,
-    loading: true,
-  });
+// interface AuthStatus {
+//   success: boolean;
+//   token: string | null;
+//   loading: boolean;
+// }
 
-  // useEffect(() => {
-  //   (async () => {
-  //     const res = await AuthValidation.validateuser();
-  //     setAuthStatus({ ...res, loading: false });
-  //   })();
-  // }, []);
+// export function useAuthCheck() {
+//   const [authStatus, setAuthStatus] = useState<AuthStatus>({
+//     success: false,
+//     token: null,
+//     loading: true,
+//   });
 
-  return authStatus;
-}
+//   useEffect(() => {
+//     const token = Cookies.get("customer_token");
+//     if (token) {
+//       setAuthStatus({
+//         success: true,
+//         token,
+//         loading: false,
+//       });
+//     } else {
+//       setAuthStatus({
+//         success: false,
+//         token: null,
+//         loading: false,
+//       });
+//     }
+//   }, []);
+
+//   return authStatus;
+// }

@@ -22,6 +22,7 @@ export default async function Home() {
     await ResidentailPageData.getFlooringInstallation();
   const blogs = await CommonComponentData?.getOurBlogs(1);
   const featureData = await ResidentailPageData?.getOurMajorProjects();
+  const { data } = await CommonComponentData?.getTestinomials();
 
   return (
     <>
@@ -34,7 +35,7 @@ export default async function Home() {
       <MajorProjectsResidential majorProjects={featureData} />
       <WhyChooseUsCommercial />
       <ExpertFlooringInstallation data={flooringInstallation} />
-      <TestimonialsCommercial />
+      <TestimonialsCommercial testinomialsData={data} />
       <BlogCommercial blogs={blogs} pagePath={"residential"} />
       <GetInTouch />
     </>

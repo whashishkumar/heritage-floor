@@ -4,6 +4,7 @@ import Navbar from "@/components/layout/NavBar";
 import Footer from "@/components/layout/Footer";
 import localFont from "next/font/local";
 import { Providers } from "@/store/providers";
+import { AuthProvider } from "@/context/userAuthContext";
 
 const poppins = localFont({
   src: [
@@ -50,11 +51,13 @@ export default function RootLayout({
       <body
         className={`${roboto.variable}  ${poppins.variable}  ${inter.variable} antialiased `}
       >
-        <Providers>
-          <Navbar />
-          <main>{children}</main>
-          <Footer />
-        </Providers>
+        <AuthProvider>
+          <Providers>
+            <Navbar />
+            <main>{children}</main>
+            <Footer />
+          </Providers>
+        </AuthProvider>
       </body>
     </html>
   );

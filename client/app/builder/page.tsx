@@ -77,7 +77,7 @@ export default async function Home() {
   const customers = await BuilderPageData.getOurCustomers();
   const categoryBaseProducts = await BuilderPageData.getCategoryProducts();
   const bestSellerProducts = await BuilderPageData.bestSellerProducts();
-
+  const { data } = await CommonComponentData?.getTestinomials();
   return (
     <>
       <HeroSection bannerData={builderBanner?.data} />
@@ -94,7 +94,7 @@ export default async function Home() {
         bestSellerProducts={bestSellerProducts}
       />
       <Solutions />
-      <TestimonialsCommercial />
+      <TestimonialsCommercial testinomialsData={data} />
       <BlogCommercial blogs={blogs} pagePath={"builder"} />
       <GetInTouch />
     </>

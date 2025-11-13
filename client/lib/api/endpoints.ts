@@ -7,6 +7,8 @@ import {
 import type { PaginatedResponse } from "./types";
 
 export const AuthValidation = {
+  regesterUser: (data: any) => apiPost("/customer/register", data),
+
   loginUser: (data: any) => apiPost("/customer/login", data),
 
   validateuser: () => {
@@ -15,6 +17,8 @@ export const AuthValidation = {
       cache: "no-store",
     });
   },
+
+  forgetPassword: (data: any) => apiPost("/customer/forgot-password", data),
 
   logOut: () => apiPost("/customer/logout"),
 };
@@ -309,6 +313,20 @@ export const ResidentailPageData = {
   },
 
   postInquary: (data: any) => apiPost("/query", data),
+
+  getCategoryBasedProducts: (
+    categoryid?: number,
+    id?: number,
+    sky?: any,
+    sortId?: any,
+    order?: any,
+    page?: any
+  ) => {
+    return apiFetch({
+      endpoint: `/products?category_id=${categoryid}&id=${id}&sku=${sky}&sort=${sortId}&order=${order}&page=${page}&limit=${25}`,
+      cache: "no-store",
+    });
+  },
 };
 
 //Builder Page
@@ -347,6 +365,13 @@ export const CommonComponentData = {
   getWhyChooseUs: () => {
     return apiFetch({
       endpoint: "/builder/why-choose-us",
+      cache: "dynamic",
+    });
+  },
+
+  getTestinomials: () => {
+    return apiFetch({
+      endpoint: "/builder/testimonials",
       cache: "dynamic",
     });
   },
