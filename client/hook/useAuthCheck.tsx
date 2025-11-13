@@ -9,12 +9,12 @@ export function useAuthCheck() {
     loading: true,
   });
 
-  useEffect(() => {
-    (async () => {
-      const res = await AuthValidation.validateuser();
-      setAuthStatus({ ...res, loading: false });
-    })();
-  }, []);
+  // useEffect(() => {
+  //   (async () => {
+  //     const res = await AuthValidation.validateuser();
+  //     setAuthStatus({ ...res, loading: false });
+  //   })();
+  // }, []);
 
   return authStatus;
 }

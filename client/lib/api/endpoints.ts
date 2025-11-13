@@ -15,6 +15,7 @@ export const AuthValidation = {
       cache: "no-store",
     });
   },
+
   logOut: () => apiPost("/customer/logout"),
 };
 

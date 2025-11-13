@@ -45,7 +45,7 @@ export default function MajorProjectsResidential({ majorProjects }: any) {
       <div className="w-full h-full  flex items-center justify-center mb-[5rem] ">
         <div className=" wrapper w-full mx-auto  ">
           <div className="flex flex-col md:flex-col lg:flex-row items-center justify-center lg:justify-between mb-[4rem] gap-2">
-            <div className="md:w-[60%] w-full">
+            <div className="lg:w-[60%] w-full">
               <SectionHeader
                 heading={heading}
                 subHeading={subheading}

@@ -24,8 +24,6 @@ export default function HeaderMainBar() {
   const { isLoggedIn, token } = useSelector((state: any) => state.loginUser);
   const { success, customer, loading } = useAuthCheck();
 
-  console.log(success, "success");
-
   const pathname = usePathname();
 
   // const specialDeals = [
@@ -35,6 +33,7 @@ export default function HeaderMainBar() {
   //   "Clearance Items",
   //   "Exclusive Online Discounts",
   // ];
+
   const handleCloseMegaMenu = () => {
     setIsDealsOpen(false);
     setIsMenuOpen(!isMenuOpen);
@@ -142,21 +141,21 @@ export default function HeaderMainBar() {
                     />
                   </div>
                 </button>
-                {success ? (
-                  <span
-                    className="text-textGray text-base leading-[1.6] cursor-pointer"
-                    onClick={() => handleLogOut()}
-                  >
-                    logout
-                  </span>
-                ) : (
-                  <span
-                    className="text-textGray text-base leading-[1.6] cursor-pointer"
-                    onClick={handleOpenModal}
-                  >
-                    Account / Sign In
-                  </span>
-                )}
+                {/* {success ? ( */}
+                <span
+                  className="text-textGray text-base leading-[1.6] cursor-pointer"
+                  onClick={() => handleLogOut()}
+                >
+                  logout
+                </span>
+                {/* ) : ( */}
+                <span
+                  className="text-textGray text-base leading-[1.6] cursor-pointer"
+                  onClick={handleOpenModal}
+                >
+                  Account / Sign In
+                </span>
+                {/* )} */}
 
                 <ModalBox isOpen={isModalOpen} onClose={handleCloseModal}>
                   <LoginPage onClose={handleCloseModal} />
