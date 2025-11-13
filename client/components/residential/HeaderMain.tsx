@@ -8,11 +8,12 @@ import { IoIosArrowBack } from "react-icons/io";
 import ModalBox from "../ui/ModalBox";
 import LoginPage from "../auth/LoginForm";
 import { useDispatch, useSelector } from "react-redux";
-import { useAuthCheck } from "@/utils/useAuthCheck";
+import { useAuthCheck } from "@/hook/useAuthCheck";
 import { AuthValidation } from "@/lib/api/endpoints";
 
 import { usePathname } from "next/navigation";
 import Link from "next/link";
+import { CartEndPoint } from "@/lib/api/cartEndPoints";
 
 export default function HeaderMainBar() {
   const dispatch = useDispatch<any>();
@@ -25,13 +26,14 @@ export default function HeaderMainBar() {
 
   const pathname = usePathname();
 
-  const specialDeals = [
-    "Flooring Sale",
-    "Limited-Time Offers",
-    "New Arrivals",
-    "Clearance Items",
-    "Exclusive Online Discounts",
-  ];
+  // const specialDeals = [
+  //   "Flooring Sale",
+  //   "Limited-Time Offers",
+  //   "New Arrivals",
+  //   "Clearance Items",
+  //   "Exclusive Online Discounts",
+  // ];
+
   const handleCloseMegaMenu = () => {
     setIsDealsOpen(false);
     setIsMenuOpen(!isMenuOpen);
@@ -42,6 +44,15 @@ export default function HeaderMainBar() {
   const handleLogOut = async () => {
     await AuthValidation.logOut();
   };
+
+  // const getCount = async () => {
+  //   const cardCount = await CartEndPoint.getCartItems();
+  //   console.log(cardCount, "123456789");
+  // };
+
+  // useEffect(() => {
+  //   getCount();
+  // }, []);
 
   return (
     <>
@@ -130,21 +141,21 @@ export default function HeaderMainBar() {
                     />
                   </div>
                 </button>
-                {success ? (
-                  <span
-                    className="text-textGray text-base leading-[1.6] cursor-pointer"
-                    onClick={() => handleLogOut()}
-                  >
-                    logout
-                  </span>
-                ) : (
-                  <span
-                    className="text-textGray text-base leading-[1.6] cursor-pointer"
-                    onClick={handleOpenModal}
-                  >
-                    Account / Sign In
-                  </span>
-                )}
+                {/* {success ? ( */}
+                <span
+                  className="text-textGray text-base leading-[1.6] cursor-pointer"
+                  onClick={() => handleLogOut()}
+                >
+                  logout
+                </span>
+                {/* ) : ( */}
+                <span
+                  className="text-textGray text-base leading-[1.6] cursor-pointer"
+                  onClick={handleOpenModal}
+                >
+                  Account / Sign In
+                </span>
+                {/* )} */}
 
                 <ModalBox isOpen={isModalOpen} onClose={handleCloseModal}>
                   <LoginPage onClose={handleCloseModal} />

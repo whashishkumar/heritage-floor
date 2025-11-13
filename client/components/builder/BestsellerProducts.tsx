@@ -3,6 +3,7 @@ import React from "react";
 import SectionHeader from "../common/SectionHeader";
 import ProductCard from "../commercial/Product";
 import { useRouter } from "next/navigation";
+import SwipeSlider from "../ui/SwipeSlider";
 
 export interface Product {
   id: number;
@@ -57,9 +58,39 @@ const products: Product[] = [
   },
 ];
 
-export default function BestsellerProducts({ data }: any) {
+const breakpoints = {
+  340: {
+    slidesPerView: 1,
+    spaceBetween: 10,
+  },
+  440: {
+    slidesPerView: 1,
+    spaceBetween: 20,
+  },
+  640: {
+    slidesPerView: 2,
+    spaceBetween: 15,
+  },
+  1024: {
+    slidesPerView: 4,
+    spaceBetween: 20,
+  },
+  1280: {
+    slidesPerView: 4,
+    spaceBetween: 20,
+  },
+  2000: {
+    slidesPerView: 4,
+    spaceBetween: 25,
+  },
+};
+export default function BestsellerProducts({
+  bestSellerProducts,
+  productHeader,
+}: any) {
   const router = useRouter();
-
+  const { data } = bestSellerProducts || [];
+  const { heading, subHeading } = productHeader || {};
   const handleViewAllProducts = () => {
     router.push("/builder/products");
   };
@@ -70,9 +101,9 @@ export default function BestsellerProducts({ data }: any) {
         <div className="py-12 wrapper mx-auto">
           <div className="flex justify-between items-center">
             <SectionHeader
-              heading={data.heading}
+              heading={heading}
               headingCss="text-xl md:text-4xl font-bold !text-[#000] !capitalize !poppins-font"
-              subHeading={data.subHeading}
+              subHeading={subHeading}
               subHeadingCss=" sm:!text-xl !text-xl md:!text-4xl font-normal text-black !capitalize !poppins-font"
               mainCss="flex flex-row items-center gap-3"
             />
@@ -83,10 +114,22 @@ export default function BestsellerProducts({ data }: any) {
               View more
             </button>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2  md:grid-cols-2 lg:grid-cols-4 gap-8 pt-6 justify-items-center">
-            {products.map((product) => (
-              <ProductCard key={product.id} product={product} />
-            ))}
+          <div className="py-6">
+            <SwipeSlider
+              slidesPerView={4}
+              bottomSwipeBtn={false}
+              swipebtn={false}
+              spaceBetween={10}
+              autoPlay={true}
+              loop={true}
+              delay={1000}
+              speed={4000}
+              breakpoints={breakpoints}
+            >
+              {data?.map((product: any) => (
+                <ProductCard key={product.id} product={product} />
+              ))}
+            </SwipeSlider>
           </div>
         </div>
       </div>

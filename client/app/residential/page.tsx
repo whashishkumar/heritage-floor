@@ -13,7 +13,6 @@ import OurCustomers from "@/components/commercial/OurCustomers";
 import ExpertFlooringInstallation from "@/components/residential/ExpertFlooringInstallation";
 import { ResidentailPageData } from "@/lib/api/endpoints";
 import { CommonComponentData } from "@/lib/api/endpoints";
-import QueryForm from "@/components/common/QuearyForm";
 
 export default async function Home() {
   const customerData = await ResidentailPageData.getOurCustomers();
@@ -21,61 +20,8 @@ export default async function Home() {
   const flooringSelections = await ResidentailPageData.getFlooringSelections();
   const flooringInstallation =
     await ResidentailPageData.getFlooringInstallation();
-
-  const whyChooseUs = await CommonComponentData.getWhyChooseUs();
   const blogs = await CommonComponentData?.getOurBlogs(1);
-
-  const costumerData = [
-    {
-      image: "/images/residential/OurCustomers/1867.png",
-      alt: "1867",
-    },
-    {
-      image: "/images/residential/OurCustomers/Expert.png",
-      alt: "Expert",
-    },
-    {
-      image: "/images/residential/OurCustomers/Fuzion.png",
-      alt: "Fuzion",
-    },
-    {
-      image: "/images/residential/OurCustomers/Goodfellow.png",
-      alt: "Goodfellow",
-    },
-    {
-      image: "/images/residential/OurCustomers/Grandeur.png",
-      alt: "Grandeur",
-    },
-    {
-      image: "/images/residential/OurCustomers/italbec.png",
-      alt: "italbec",
-    },
-    {
-      image: "/images/residential/OurCustomers/Johnsonite.png",
-      alt: "Johnsonite",
-    },
-    {
-      image: "/images/residential/OurCustomers/Mapei.png",
-      alt: "Mapei",
-    },
-    {
-      image: "/images/residential/OurCustomers/Monoserra.png",
-      alt: "Monoserra",
-    },
-    {
-      image: "/images/residential/OurCustomers/Perfect Surfaces.png",
-      alt: "Perfect Surfaces",
-    },
-    {
-      image: "/images/residential/OurCustomers/Quickstyle.png",
-      alt: "Quickstyle",
-    },
-    {
-      image: "/images/residential/OurCustomers/Richmond.png",
-      alt: "Richmond",
-    },
-  ];
-  console.log(customerData, "customerData");
+  const featureData = await ResidentailPageData?.getOurMajorProjects();
 
   return (
     <>
@@ -85,7 +31,7 @@ export default async function Home() {
       <FeaturedProducts />
       <LocationBanner />
       <OurCustomers coustumerData={customerData} />
-      <MajorProjectsResidential />
+      <MajorProjectsResidential majorProjects={featureData} />
       <WhyChooseUsCommercial />
       <ExpertFlooringInstallation data={flooringInstallation} />
       <TestimonialsCommercial />

@@ -22,7 +22,6 @@ interface SignatureFlooring {
 export default function SignatureFlooring({ data }: SignatureFlooring) {
   const [activeCard, setActiveCard] = useState<number>(6); // Default active card = 7th
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
-  // console.log("Residential page flooringSelections Section Data:", data);
   const handleOpenModal = () => setIsAuthModalOpen(true);
   const handleCloseModal = () => setIsAuthModalOpen(false);
   const flooringItems = [
@@ -92,7 +91,7 @@ export default function SignatureFlooring({ data }: SignatureFlooring) {
           {/* <div className="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-8"> */}
           <div className="flex flex-nowrap justify-center gap-4 lg:justify-start">
             {/* {data?.services?.map((data:SignatureFlooringProps, index:number) => { */}
-            {flooringItems.map(
+            {data?.services?.map(
               (data: SignatureFlooringProps, index: number) => {
                 const isActive = activeCard === index;
 

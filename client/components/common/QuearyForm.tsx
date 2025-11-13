@@ -1,9 +1,11 @@
 "use client";
+import { ResidentailPageData } from "@/lib/api/endpoints";
 import Image from "next/image";
 import { useState } from "react";
+import Tooltip from "../ui/Tooltip";
 
 type FormState = {
-  name: string;
+  full_name: string;
   email: string;
   phone: string;
   subject: string;
@@ -12,7 +14,7 @@ type FormState = {
 
 export default function QueryForm({ onClose }: any) {
   const [form, setForm] = useState<FormState>({
-    name: "",
+    full_name: "",
     email: "",
     phone: "",
     subject: "",
@@ -31,7 +33,7 @@ export default function QueryForm({ onClose }: any) {
   };
 
   const validate = () => {
-    if (!form.name.trim()) return "Please enter your name.";
+    if (!form.full_name.trim()) return "Please enter your name.";
     if (!form.email.trim()) return "Please enter your email.";
     if (!/^\S+@\S+\.\S+$/.test(form.email))
       return "Please enter a valid email.";
@@ -50,11 +52,16 @@ export default function QueryForm({ onClose }: any) {
       setErrorMsg(validationError);
       return;
     }
-
+    const data = await ResidentailPageData.postInquary(form);
     setLoading(true);
-    setErrorMsg(null);
-    setSuccessMsg(null);
-    onClose();
+    setErrorMsg(data.error);
+    setSuccessMsg(data.message);
+    if (data.message) {
+      setTimeout(() => {
+        onClose();
+        setLoading(false);
+      }, 1000);
+    }
   };
 
   return (
@@ -84,8 +91,8 @@ export default function QueryForm({ onClose }: any) {
               Full Name
             </label>
             <input
-              name="name"
-              value={form.name}
+              name="full_name"
+              value={form.full_name}
               onChange={handleChange}
               placeholder="Full name"
               className="w-full border border-gray-300 rounded-lg p-3 outline-none focus:ring-2 focus:ring-[#018C99]"

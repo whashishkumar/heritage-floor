@@ -1,10 +1,10 @@
 import axios, { AxiosError, AxiosRequestConfig } from "axios";
 import { API_CONFIG } from "./config";
 import Cookies from "js-cookie";
-
 const token = Cookies.get("__next_hmr_refresh_hash__");
 
-console.log(token, "token");
+const tokenobj = Cookies.get();
+console.log(tokenobj, "Outer Token Log");
 
 // Create axios instance
 export const api = axios.create({
@@ -12,17 +12,16 @@ export const api = axios.create({
   timeout: API_CONFIG.timeout,
   headers: {
     "Content-Type": "application/json",
-    // Token: token,
   },
   withCredentials: true,
 });
 
 // Request interceptor
 api.interceptors.request.use(
-  // You can add custom logic here (e.g., add tokens)
   (config) => {
-    const token = Cookies.get("__next_hmr_refresh_hash__");
+    const token = Cookies.get("auth_token");
     if (token) {
+      console.log(token, "Inner Token Log");
       config.headers.Authorization = `Bearer ${token}`;
     }
     return config;

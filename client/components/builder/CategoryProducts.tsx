@@ -64,26 +64,30 @@ const CategoryProductsCard: React.FC<{ data: any }> = ({ data: product }) => {
   return (
     <div
       className="category-products relative h-[460px] px-3 py-8"
-      key={product?.title}
+      key={product?.url_key}
     >
-      <Image
-        src={product?.image}
-        alt="Category Product"
-        width={440}
-        height={460}
-        className="object-cover rounded-lg h-full w-full"
-      />
+      {product?.image && (
+        <Image
+          src={product?.image}
+          alt="Category Product"
+          width={440}
+          height={460}
+          className="object-cover rounded-lg h-full w-full"
+        />
+      )}
       <Link
         href={"builder/products"}
         className="absolute bottom-[15%] left-1/2 -translate-x-1/2 border border-[#D9D9D9] backdrop-blur-lg bg-[#0C0C0C66]/70 px-6 py-3 rounded-lg text-center text-[#fff] font-medium w-[80%] cursor-pointer"
       >
-        {product?.title}
+        {product?.name}
       </Link>
     </div>
   );
 };
 
-export default function CategoryProducts() {
+export default function CategoryProducts({ catgoryProductsList }: any) {
+  const { data } = catgoryProductsList || [];
+
   return (
     <div className="wrapper mx-auto py-12">
       <SectionHeader
@@ -101,7 +105,7 @@ export default function CategoryProducts() {
         autoPlay={true}
         breakpoints={breakpoints}
       >
-        {categories?.map((card) => {
+        {data?.map((card: any) => {
           return <CategoryProductsCard data={card} />;
         })}
       </SwipeSlider>
