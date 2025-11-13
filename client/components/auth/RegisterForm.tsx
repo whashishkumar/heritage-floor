@@ -1,12 +1,12 @@
 "use client";
-import { registerUser } from "@/store/slices/authSlice/registrationSlice";
+import { AuthValidation } from "@/lib/api/endpoints";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
-import { useDispatch, useSelector } from "react-redux";
 
 export default function RegisterPage() {
-  const dispatch = useDispatch<any>();
+  const router = useRouter();
   const [formData, setFormData] = useState({
     first_name: "",
     last_name: "",
@@ -17,29 +17,33 @@ export default function RegisterPage() {
 
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-
-  const { user, loading, error, success } = useSelector(
-    (state: any) => state.registerUser
-  );
-
-  console.log(error, "error");
+  const [status, setStatus] = useState<{
+    email?: string;
+    password?: string[];
+  } | null>(null);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    dispatch(registerUser(formData));
-    if (!loading) {
-      // setFormData({
-      //   first_name: "",
-      //   last_name: "",
-      //   email: "",
-      //   password: "",
-      //   password_confirmation: "",
-      // });
+    try {
+      const resp = await AuthValidation.regesterUser(formData);
+      if (resp.message !== "") {
+        setFormData({
+          first_name: "",
+          last_name: "",
+          email: "",
+          password: "",
+          password_confirmation: "",
+        });
+        setStatus(null);
+        router.push("/residential");
+      }
+    } catch (error: any) {
+      setStatus(error?.errors?.errors);
     }
   };
 
@@ -114,8 +118,8 @@ export default function RegisterPage() {
                 className="w-full border border-gray-300 rounded-lg p-3 outline-none focus:ring-2 focus:ring-[#018C99]"
                 required
               />
-              {error?.email && (
-                <p className="text-red-500 text-sm">{error?.email}</p>
+              {status?.email && (
+                <p className="text-red-500 text-sm">{status?.email}</p>
               )}
             </div>
 
@@ -170,9 +174,9 @@ export default function RegisterPage() {
                 )}
               </div>
             </div>
-            {error?.password && (
+            {status?.password && (
               <p className="text-red-500 text-sm">
-                {error?.password?.map((err: any) => err)}
+                {status?.password?.map((err: any) => err)}
               </p>
             )}
             {/* Submit */}

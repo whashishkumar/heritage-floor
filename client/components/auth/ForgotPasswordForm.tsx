@@ -1,25 +1,33 @@
 "use client";
-import { forgotPassword } from "@/store/slices/authSlice/forgotSlice";
+import { AuthValidation } from "@/lib/api/endpoints";
 import Image from "next/image";
 import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
 
 export default function ForgotPasswordForm() {
-  const dispatch = useDispatch<any>();
   const [formData, setFormData] = useState({
     email: "",
   });
-  const { error, message } = useSelector((state: any) => state.forgotPassword);
-
+  const [status, setStatus] = useState<any | null>(null);
+  const [userInfo, setUserInfo] = useState<any | null>(null);
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    dispatch(forgotPassword(formData));
+    try {
+      const userEmail = await AuthValidation.forgetPassword(formData);
+      if (userEmail.message && userEmail.message) {
+        setStatus(null);
+        setUserInfo(userEmail);
+      }
+    } catch (error: any) {
+      setStatus(error?.errors);
+    }
   };
+
+  console.log(userInfo, "userInfo");
 
   return (
     <>
@@ -47,14 +55,16 @@ export default function ForgotPasswordForm() {
                 required
               />
             </div>
-            {error?.message && (
-              <p className="text-red-500 text-center">{error?.message}</p>
+            {status?.message && (
+              <p className="text-red-500 text-center">{status?.message}</p>
             )}
 
-            {message && <p className="text-gray text-center">{message}</p>}
+            {userInfo?.message && (
+              <p className="text-gray text-center">{userInfo?.message}</p>
+            )}
             <button
               type="submit"
-              className="w-full bg-[#018C99] text-white py-3 rounded-lg font-medium hover:bg-[#017c88] transition-all"
+              className="w-full bg-[#018C99] text-white py-3 rounded-lg font-medium hover:bg-[#017c88] transition-all cursor-pointer"
             >
               Forgot Password
             </button>

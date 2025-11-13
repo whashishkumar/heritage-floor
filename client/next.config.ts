@@ -5,14 +5,14 @@ const nextConfig: NextConfig = {
     unoptimized: true,
   },
 
-  // async rewrites() {
-  //   return [
-  //     {
-  //       source: "/api/:path*",
-  //       destination: "https://heritagefloor.whdev.in/api/:path*",
-  //     },
-  //   ];
-  // },
+  async rewrites() {
+    return [
+      {
+        source: "/api/:path*",
+        destination: "https://heritagefloor.whdev.in/api/v1/:path*",
+      },
+    ];
+  },
 };
 
 export default nextConfig;
