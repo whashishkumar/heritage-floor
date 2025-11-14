@@ -55,9 +55,7 @@ const BlogCard: React.FC<BlogCardProps> = ({
           {post.title}
         </h3>
 
-        <p className="text-primaryGray text-sm mb-4 line-clamp-2">
-          {post.excerpt}
-        </p>
+        <p className="text-primaryGray text-sm mb-4 line-clamp-2">{post.excerpt}</p>
 
         <div
           onClick={() => handleReadMoreCard?.(post.slug)}

@@ -32,8 +32,7 @@ export default async function ServicesCommercial() {
     <div
       className="w-full lg:h-[51.313rem] relative overflow-hidden lg:mt-[2rem] bg-cover bg-center bg-no-repeat "
       style={{
-        backgroundImage:
-          "url('/images/commercial/services/serviceBackground.png')",
+        backgroundImage: "url('/images/commercial/services/serviceBackground.png')",
       }}
     >
       <div className="absolute inset-0 bg-black/80"></div>
@@ -51,10 +50,7 @@ export default async function ServicesCommercial() {
           <div className="mt-[4rem] md:mt-[5.625rem] pb-[4rem]">
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-16 lg:gap-[4.125rem] ">
               {flooringTypes.map((type) => (
-                <div
-                  key={type.id}
-                  className="flex flex-col items-center group cursor-pointer  "
-                >
+                <div key={type.id} className="flex flex-col items-center group cursor-pointer  ">
                   {/* Circular Image */}
                   {/* <div className="relative w-48 h-48 md:w-[15.25rem] md:h-[15.25rem] mb-6 overflow-hidden rounded-full"> */}
                   <div className="relative w-[15.25rem] h-[15.25rem]  overflow-hidden rounded-full">

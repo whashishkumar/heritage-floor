@@ -61,12 +61,7 @@ export default function PhoneMenuCommercial() {
         {/* logo */}
         <div className="">
           <div className="relative h-[2.5rem] w-[8.813rem] ">
-            <Image
-              src="/logo/Vector.png"
-              alt="heritage_floor"
-              fill
-              className=" object-cover"
-            />
+            <Image src="/logo/Vector.png" alt="heritage_floor" fill className=" object-cover" />
           </div>
         </div>
 
@@ -123,10 +118,7 @@ export default function PhoneMenuCommercial() {
                   />
                 </div>
               </div>
-              <button
-                onClick={toggleMenu}
-                className="hover:text-gray-300 transition"
-              >
+              <button onClick={toggleMenu} className="hover:text-gray-300 transition">
                 <FiX size={30} />
               </button>
             </div>
@@ -134,10 +126,7 @@ export default function PhoneMenuCommercial() {
             {/* Sidebar Content */}
             <div className="flex py-4 ">
               <div className="px-2 space-y-1">
-                <Link
-                  href="#"
-                  className="block px-3 py-2 rounded-md hover:bg-gray-700 transition"
-                >
+                <Link href="#" className="block px-3 py-2 rounded-md hover:bg-gray-700 transition">
                   Home
                 </Link>
 
@@ -150,9 +139,7 @@ export default function PhoneMenuCommercial() {
                     <span>About us</span>
                     <div
                       className={`w-4 h-4 transition-transform ${
-                        activeDropdown === "about"
-                          ? "-rotate-180 duration-500 ease-in-out"
-                          : ""
+                        activeDropdown === "about" ? "-rotate-180 duration-500 ease-in-out" : ""
                       }`}
                     >
                       <FiChevronDown size={16} />
@@ -203,9 +190,7 @@ export default function PhoneMenuCommercial() {
                     <span>Products</span>
                     <div
                       className={`w-4 h-4 transition-transform ${
-                        activeDropdown === "products"
-                          ? "-rotate-180 duration-500 ease-in-out"
-                          : ""
+                        activeDropdown === "products" ? "-rotate-180 duration-500 ease-in-out" : ""
                       }`}
                     >
                       <FiChevronDown size={16} />
@@ -246,10 +231,7 @@ export default function PhoneMenuCommercial() {
                   </div>
                 </div>
 
-                <Link
-                  href=""
-                  className="block px-3 py-2 rounded-md hover:bg-gray-700 transition"
-                >
+                <Link href="" className="block px-3 py-2 rounded-md hover:bg-gray-700 transition">
                   Contact Us
                 </Link>
               </div>
