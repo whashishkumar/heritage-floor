@@ -1,5 +1,5 @@
 "use client";
-import { AuthValidation } from "@/lib/api/endpoints";
+import { AuthValidation } from "@/lib/api/authincationEndPoints";
 import Image from "next/image";
 import React, { useState } from "react";
 

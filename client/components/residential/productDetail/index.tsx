@@ -6,9 +6,10 @@ import Selector from "@/components/ui/Selector";
 import Pagination from "@/components/ui/Pagnation";
 import { LuFilter } from "react-icons/lu";
 import { MdClose } from "react-icons/md";
-import { ResidentailPageData } from "@/lib/api/endpoints";
 import { useParams, useRouter } from "next/navigation";
+
 import Loader from "@/components/ui/Loader";
+import { ResidentailPageData } from "@/lib/api/residentialEndPoints";
 
 export interface Product {
   id: number;

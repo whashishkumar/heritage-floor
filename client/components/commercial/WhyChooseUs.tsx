@@ -1,5 +1,5 @@
 import SectionHeader from "../common/SectionHeader";
-import { CommonComponentData } from "@/lib/api/endpoints";
+import { CommonComponentData } from "@/lib/api/commonEndPoints";
 const features = [
   {
     number: 1,

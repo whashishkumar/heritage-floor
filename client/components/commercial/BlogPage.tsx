@@ -8,7 +8,7 @@ import NoResults from "@/components/commercial/NoArticleFound";
 import FeaturedBlogArticle from "@/components/commercial/FeaturedBlogCard";
 import { useParams } from "next/navigation";
 import { useRouter } from "next/navigation";
-import { CommonComponentData } from "@/lib/api/endpoints";
+import { CommonComponentData } from "@/lib/api/commonEndPoints";
 
 const BlogPage = ({ blogs, featuredBlogs, slugPath }: any) => {
   const [selectedCategory, setSelectedCategory] = useState("");

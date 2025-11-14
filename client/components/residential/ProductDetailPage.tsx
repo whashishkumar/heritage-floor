@@ -9,7 +9,7 @@ import SwipeSlider from "../ui/SwipeSlider";
 import InnerImageZoom from "react-inner-image-zoom";
 import "react-inner-image-zoom/lib/styles.min.css";
 import { FaExclamationCircle } from "react-icons/fa";
-import { ResidentailPageData } from "@/lib/api/endpoints";
+import { ResidentailPageData } from "@/lib/api/residentialEndPoints";
 import { useParams } from "next/navigation";
 
 const benefits = [

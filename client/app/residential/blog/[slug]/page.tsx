@@ -1,7 +1,7 @@
 import BlogDetail from "@/components/commercial/BlogDetail";
-import { CommonComponentData } from "@/lib/api/endpoints";
+import { CommonComponentData } from "@/lib/api/commonEndPoints";
 export default async function BlogDetailPage({ params }: any) {
-  const { slug } = params;
+  const { slug } = await params;
   const blogsDetail = await CommonComponentData.getBlogsDetail(slug);
 
   return (
