@@ -1,5 +1,6 @@
 "use client";
 import Link from "next/link";
+import { useParams } from "next/navigation";
 import React, { useState } from "react";
 
 import { FaFacebookF, FaWhatsapp, FaInstagram } from "react-icons/fa";
@@ -34,6 +35,8 @@ const mediaData = [
 ];
 export default function Navbar() {
   const [activeIndex, setActiveIndex] = useState(0);
+  const params = useParams();
+  console.log(params, "params");
 
   return (
     <>

@@ -4,7 +4,7 @@ const nextConfig: NextConfig = {
   images: {
     unoptimized: true,
   },
-
+  reactStrictMode: true,
   async rewrites() {
     return [
       {

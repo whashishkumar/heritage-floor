@@ -54,8 +54,8 @@ export default function CategoriesResidential({
 
   const handleCategoryDetail = async (category: any) => {
     const { name, id } = category;
-    dispatch(fetchproductCategories(id));
-    router.push(`/residential/products/${name}`);
+    // await ResidentailPageData.getCategoryBasedProducts(id);
+    router.push(`/residential/products/${id}`);
   };
 
   return (

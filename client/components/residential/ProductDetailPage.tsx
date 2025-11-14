@@ -1,7 +1,7 @@
 "use client";
 import Image from "next/image";
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { BsCart4 } from "react-icons/bs";
 import { CiHeart } from "react-icons/ci";
 import Accordion from "../ui/Accordian";
@@ -9,6 +9,8 @@ import SwipeSlider from "../ui/SwipeSlider";
 import InnerImageZoom from "react-inner-image-zoom";
 import "react-inner-image-zoom/lib/styles.min.css";
 import { FaExclamationCircle } from "react-icons/fa";
+import { ResidentailPageData } from "@/lib/api/endpoints";
+import { useParams } from "next/navigation";
 
 const benefits = [
   {
@@ -172,8 +174,9 @@ const breakpoints = {
 };
 
 const ProductDetailPage = () => {
+  const params = useParams();
   const [selectedImage, setSelectedImage] = useState(productImages[0]);
-
+  const { childSlug } = params;
   const handleSelectProductImage = (image: {
     id: number;
     src: string;
@@ -181,6 +184,15 @@ const ProductDetailPage = () => {
   }) => {
     setSelectedImage(image);
   };
+
+  const getProductDetails = async () => {
+    const data = await ResidentailPageData.getProductDetail(childSlug);
+    console.log(data, "data");
+  };
+
+  useEffect(() => {
+    getProductDetails();
+  }, []);
 
   return (
     <div className="wrapper m-auto py-12">
