@@ -176,7 +176,12 @@ const breakpoints = {
 const ProductDetailPage = () => {
   const params = useParams();
   const [selectedImage, setSelectedImage] = useState(productImages[0]);
+  const [productDetail, setProductDetail] = useState(null);
   const { childSlug } = params;
+  const { images }: any = productDetail || {};
+
+  console.log(productDetail, "dataproductDetail");
+
   const handleSelectProductImage = (image: {
     id: number;
     src: string;
@@ -186,8 +191,8 @@ const ProductDetailPage = () => {
   };
 
   const getProductDetails = async () => {
-    const data = await ResidentailPageData.getProductDetail(childSlug);
-    console.log(data, "data");
+    const { data } = await ResidentailPageData.getProductDetail(childSlug);
+    setProductDetail(data);
   };
 
   useEffect(() => {

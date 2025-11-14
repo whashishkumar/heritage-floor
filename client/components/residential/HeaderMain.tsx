@@ -235,13 +235,24 @@ export default function HeaderMainBar() {
                 >
                   Get a Quote
                 </a>
-                <a
-                  href="#"
-                  className="flex items-center gap-2 text-gray-700 hover:text-teal-600 font-medium py-2"
-                >
-                  <FiUser className="w-5 h-5" />
-                  Account / Sign In
-                </a>
+                {isAuthenticated ? (
+                  <span
+                    className="text-textGray text-base leading-[1.6] cursor-pointer"
+                    onClick={() => logout()}
+                  >
+                    logout
+                  </span>
+                ) : (
+                  <span
+                    className="text-textGray text-base leading-[1.6] cursor-pointer"
+                    onClick={handleOpenModal}
+                  >
+                    Account / Sign In
+                  </span>
+                )}
+                <ModalBox isOpen={isModalOpen} onClose={handleCloseModal}>
+                  <LoginPage onClose={handleCloseModal} />
+                </ModalBox>
                 <a
                   href="#"
                   className="flex items-center gap-2 text-gray-700 hover:text-teal-600 font-medium py-2"

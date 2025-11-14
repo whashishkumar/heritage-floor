@@ -1,13 +1,13 @@
 import { configureStore } from "@reduxjs/toolkit";
 import fetchToolsAndEquimentsReducre from "./slices/builderSlice/toolsEquipmentSlice";
 import fetchBuilderBannerPageInforeducer from "./slices/builderSlice/bannerPageSlice";
-import productCategoryReducer from "./slices/residentaialSlice/productCategory";
+// import productCategoryReducer from "./slices/residentaialSlice/productCategory";
 
 export const store = configureStore({
   reducer: {
     tools: fetchToolsAndEquimentsReducre,
     builderBanner: fetchBuilderBannerPageInforeducer,
-    productCategory: productCategoryReducer,
+    // productCategory: productCategoryReducer,
   },
 });
 

@@ -47,7 +47,7 @@ export default function LoginPage({ onClose }: any) {
   };
 
   return (
-    <div className="w-full  flex items-center justify-center p-10 bg-white">
+    <div className="w-full  flex items-center justify-center lg:p-10 bg-white">
       {forgetPasswordScreen ? (
         <ForgotPasswordForm />
       ) : (

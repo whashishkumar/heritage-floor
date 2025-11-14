@@ -1,6 +1,6 @@
 "use client";
-import ProductCard from "@/components/commercial/Product";
-import React, { useState, useEffect } from "react";
+import ProductCard from "@/components/common/Product";
+import React, { useState, useEffect, Suspense } from "react";
 import SideBar from "./SideBar";
 import Selector from "@/components/ui/Selector";
 import Pagination from "@/components/ui/Pagnation";
@@ -8,6 +8,7 @@ import { LuFilter } from "react-icons/lu";
 import { MdClose } from "react-icons/md";
 import { ResidentailPageData } from "@/lib/api/endpoints";
 import { useParams, useRouter } from "next/navigation";
+import Loader from "@/components/ui/Loader";
 
 export interface Product {
   id: number;
@@ -174,8 +175,6 @@ export default function ProductDetailPage({ sortOptionsCategory }: any) {
     getCategoryList();
   }, []);
 
-  console.log(currentPage, "setCurrentpage");
-
   return (
     <>
       {isMobileFilterOpen && (
@@ -244,22 +243,24 @@ export default function ProductDetailPage({ sortOptionsCategory }: any) {
           </div>
 
           {/* Product Grid */}
-          <div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-8 justify-items-center mt-4">
-              {categoryProducts?.map((product: any) => (
-                <ProductCard
-                  key={product.id}
-                  product={product}
-                  handleGetProductDetail={handleGetProductDetail}
-                />
-              ))}
+          <Suspense fallback={<Loader />}>
+            <div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-8 justify-items-center mt-4">
+                {categoryProducts?.map((product: any) => (
+                  <ProductCard
+                    key={product.id}
+                    product={product}
+                    handleGetProductDetail={handleGetProductDetail}
+                  />
+                ))}
+              </div>
+              <Pagination
+                currentPage={currentPage}
+                totalPages={3}
+                onPageChange={handlePageChage}
+              />
             </div>
-            <Pagination
-              currentPage={1}
-              totalPages={3}
-              onPageChange={handlePageChage}
-            />
-          </div>
+          </Suspense>
         </div>
       </div>
     </>

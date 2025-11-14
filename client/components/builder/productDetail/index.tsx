@@ -1,11 +1,12 @@
 "use client";
-import ProductCard from "@/components/commercial/Product";
-import React, { useState, useEffect } from "react";
+import ProductCard from "@/components/common/Product";
+import React, { useState, useEffect, use } from "react";
 import SideBar from "./SideBar";
 import Selector from "@/components/ui/Selector";
 import Pagination from "@/components/ui/Pagnation";
 import { LuFilter } from "react-icons/lu";
 import { MdClose } from "react-icons/md";
+import { useParams, useRouter } from "next/navigation";
 
 export interface Product {
   id: number;
@@ -117,9 +118,12 @@ export default function ProductDetailPage({
   productsData,
   sortOptionsCategory,
 }: any) {
+  const router = useRouter();
   const [isMobileFilterOpen, setIsMobileFilterOpen] = useState(false);
   const dataList = productsData ? productsData : products;
   const shortOptions = sortOptionsCategory ? sortOptionsCategory : sortOptions;
+  const params = useParams();
+  const { slug } = params;
 
   useEffect(() => {
     if (isMobileFilterOpen) {
@@ -137,8 +141,8 @@ export default function ProductDetailPage({
     setIsMobileFilterOpen((prev) => !prev);
   };
 
-  const handleGetProductDetail = async (id: string) => {
-    console.log(id, "123456789");
+  const handleGetProductDetail = (id: string) => {
+    router.push(`/builder/products/${id}`);
   };
 
   return (
@@ -215,7 +219,7 @@ export default function ProductDetailPage({
                 <ProductCard
                   key={product.id}
                   product={product}
-                  handleGetProductDetail={() => handleGetProductDetail(product)}
+                  handleGetProductDetail={handleGetProductDetail}
                 />
               ))}
             </div>
