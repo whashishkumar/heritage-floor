@@ -37,6 +37,28 @@ export default function SwipeSlider({
 }: SwipeSliderProps) {
   const swiperRef = useRef<SwiperType | null>(null);
 
+  // Calculate the number of slides
+  const slideCount = Array.isArray(children) ? children.length : 1;
+
+  // Determine if loop should be enabled based on slide count
+  // Loop mode requires at least 2x the number of visible slides to work properly
+  // This prevents the "not enough slides for loop mode" warning
+  const getMaxSlidesPerView = () => {
+    if (!breakpoints) return slidesPerView;
+
+    // Find the maximum slidesPerView from breakpoints
+    const breakpointValues = Object.values(breakpoints).map(
+      (bp: any) => bp.slidesPerView || slidesPerView
+    );
+    return Math.max(slidesPerView, ...breakpointValues);
+  };
+
+  const maxSlidesPerView = getMaxSlidesPerView();
+
+  // Enable loop only if we have at least 2x the slides per view
+  // This ensures smooth looping without duplicates issues
+  const shouldEnableLoop = loop && slideCount >= maxSlidesPerView * 2;
+
   return (
     <div className="relative w-full">
       {/* Optional Quote Icon */}
@@ -60,8 +82,9 @@ export default function SwipeSlider({
           swiperRef.current = swiper;
         }}
         className="w-full smooth-swiper"
-        loop={loop}
+        loop={shouldEnableLoop}
         breakpoints={breakpoints}
+        slidesPerView={slidesPerView}
       >
         {Array.isArray(children) ? (
           children.map((child, idx) => (
