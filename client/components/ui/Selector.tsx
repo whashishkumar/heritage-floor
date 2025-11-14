@@ -57,7 +57,11 @@ const Selector: React.FC<SelectorProps> = ({
       ref={dropdownRef}
       className="relative w-full text-[#444] poppins-font flex items-center justify-center gap-2"
     >
-      {label && <label className=" text-nowrap  text-sm font-bold text-gray ">{label}</label>}
+      {label && (
+        <label className=" text-nowrap  text-sm font-bold text-gray ">
+          {label}
+        </label>
+      )}
 
       {/* Dropdown button */}
       <button

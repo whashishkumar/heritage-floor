@@ -1,10 +1,10 @@
 import React from "react";
-import { Rings } from "react-loader-spinner";
+import { ThreeDots } from "react-loader-spinner";
 
 export default function Loader() {
   return (
     <>
-      <Rings
+      <ThreeDots
         visible={true}
         height="80"
         width="80"

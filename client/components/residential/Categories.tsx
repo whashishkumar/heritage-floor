@@ -2,9 +2,6 @@
 import React from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { ResidentailPageData } from "@/lib/api/endpoints";
-import { useDispatch } from "react-redux";
-import { fetchproductCategories } from "@/store/slices/residentaialSlice/productCategory";
 
 interface CategoriesResidential {
   id: number;
@@ -50,12 +47,10 @@ export default function CategoriesResidential({
     },
   ];
   const router = useRouter();
-  const dispatch = useDispatch<any>();
 
   const handleCategoryDetail = async (category: any) => {
-    const { name, id } = category;
-    dispatch(fetchproductCategories(id));
-    router.push(`/residential/products/${name}`);
+    const { id } = category;
+    router.push(`/residential/products/${id}`);
   };
 
   return (

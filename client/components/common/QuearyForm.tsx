@@ -2,7 +2,6 @@
 import { ResidentailPageData } from "@/lib/api/endpoints";
 import Image from "next/image";
 import { useState } from "react";
-import Tooltip from "../ui/Tooltip";
 
 type FormState = {
   full_name: string;
@@ -68,22 +67,13 @@ export default function QueryForm({ onClose }: any) {
     <div className="w-full mx-auto p-4">
       <form
         onSubmit={handleSubmit}
-        className="rounded-[.75rem] p-6 flex flex-col gap-5"
+        className="rounded-[.75rem] lg:p-6 flex flex-col gap-5"
       >
-        <div className="flex items-center gap-4 mb-2">
-          <div className="h-[1.875rem] w-[1.875rem] relative">
-            <Image
-              src="/icon/share.png"
-              alt="query"
-              fill
-              className="object-contain"
-            />
-          </div>
-          <h2 className="font-semibold text-2xl lg:text-3xl text-gray-800">
+        <div className="flex items-center gap-4 mb-2 ">
+          <h2 className="font-semibold text-xl lg:text-3xl text-gray-800 md:text-center w-full md:py-3">
             Have a question? Send us a query
           </h2>
         </div>
-
         {/* Name, Email, Phone in one row */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div>

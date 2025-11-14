@@ -273,7 +273,7 @@ export const ResidentailPageData = {
   getCategories: () => {
     return apiFetch({
       endpoint: "/residential/categories",
-      cache: "dynamic",
+      cache: "no-store",
     });
   },
 
@@ -315,15 +315,26 @@ export const ResidentailPageData = {
   postInquary: (data: any) => apiPost("/query", data),
 
   getCategoryBasedProducts: (
-    categoryid?: number,
-    id?: number,
-    sky?: any,
-    sortId?: any,
-    order?: any,
-    page?: any
+    params: {
+      categoryid?: number;
+      id?: number;
+      sky?: any;
+      sortId?: any;
+      order?: any;
+      page?: any;
+      limit?: any;
+    } = {}
   ) => {
+    const { categoryid, id, sky, sortId, order, page, limit } = params;
     return apiFetch({
-      endpoint: `/products?category_id=${categoryid}&id=${id}&sku=${sky}&sort=${sortId}&order=${order}&page=${page}&limit=${25}`,
+      endpoint: `/products?category_id=${categoryid}&id=${id}&sku=${sky}&sort=${sortId}&order=${order}&page=${page}&limit=${limit}`,
+      cache: "no-store",
+    });
+  },
+
+  getProductDetail: (id: any) => {
+    return apiFetch({
+      endpoint: `/products/${id}`,
       cache: "no-store",
     });
   },

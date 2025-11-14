@@ -60,8 +60,8 @@ const PriceRangeSelector: React.FC<PriceRangeSelectorProps> = ({
 
       {/* Labels */}
       <div className="flex justify-between text-sm font-medium">
-        <span>₹{minValue.toLocaleString()}</span>
-        <span>₹{maxValue.toLocaleString()}</span>
+        <span>${minValue.toLocaleString()}</span>
+        <span>${maxValue.toLocaleString()}</span>
       </div>
 
       {/* Slider track */}
@@ -95,8 +95,8 @@ const PriceRangeSelector: React.FC<PriceRangeSelectorProps> = ({
 
       {/* Selected range info */}
       <div className="flex justify-between text-xs text-gray-500">
-        <span>Min: ₹{minValue.toLocaleString()}</span>
-        <span>Max: ₹{maxValue.toLocaleString()}</span>
+        <span>Min: ${minValue.toLocaleString()}</span>
+        <span>Max: ${maxValue.toLocaleString()}</span>
       </div>
     </div>
   );

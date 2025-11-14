@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import SectionHeader from "../common/SectionHeader";
-import ProductCard from "../commercial/Product";
+import ProductCard from "../common/Product";
 import { useRouter } from "next/navigation";
 import SwipeSlider from "../ui/SwipeSlider";
 
@@ -95,6 +95,10 @@ export default function BestsellerProducts({
     router.push("/builder/products");
   };
 
+  const handleGetProductDetail = (id: string) => {
+    router.push(`/builder/products/${id}`);
+  };
+
   return (
     <>
       <div className="bg-[#F4F4F4]">
@@ -127,7 +131,11 @@ export default function BestsellerProducts({
               breakpoints={breakpoints}
             >
               {data?.map((product: any) => (
-                <ProductCard key={product.id} product={product} />
+                <ProductCard
+                  key={product.id}
+                  product={product}
+                  handleGetProductDetail={handleGetProductDetail}
+                />
               ))}
             </SwipeSlider>
           </div>

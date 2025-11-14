@@ -27,11 +27,9 @@ export default function ForgotPasswordForm() {
     }
   };
 
-  console.log(userInfo, "userInfo");
-
   return (
     <>
-      <div className="w-full flex items-center justify-center p-10 bg-white">
+      <div className="w-full flex items-center justify-center lg:p-10 bg-white">
         <div className="w-full max-w-md">
           <h2 className="text-3xl font-semibold text-gray-800 text-center mb-4">
             Forgot Password

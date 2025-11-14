@@ -1,12 +1,14 @@
 "use client";
 import ProductCard from "@/components/common/Product";
-import React, { useState, useEffect, use } from "react";
+import React, { useState, useEffect, Suspense } from "react";
 import SideBar from "./SideBar";
 import Selector from "@/components/ui/Selector";
 import Pagination from "@/components/ui/Pagnation";
 import { LuFilter } from "react-icons/lu";
 import { MdClose } from "react-icons/md";
+import { ResidentailPageData } from "@/lib/api/endpoints";
 import { useParams, useRouter } from "next/navigation";
+import Loader from "@/components/ui/Loader";
 
 export interface Product {
   id: number;
@@ -110,17 +112,18 @@ const sortOptions = [
 ];
 
 const accOptions = [
-  { label: "Acc", value: "acc" },
-  { label: "Dec", value: "dec" },
+  { label: "Acc", value: "asc" },
+  { label: "Dec", value: "dsc" },
 ];
 
-export default function ProductDetailPage({
-  productsData,
-  sortOptionsCategory,
-}: any) {
+export default function ProductDetailPage({ sortOptionsCategory }: any) {
   const router = useRouter();
   const [isMobileFilterOpen, setIsMobileFilterOpen] = useState(false);
-  const dataList = productsData ? productsData : products;
+  const [categoryProducts, setCategoryProducts] = useState<Product[] | null>(
+    null
+  );
+  const [currentPage, setCurrentpage] = useState(1);
+  const [productCategory, setProductCategory] = useState(null);
   const shortOptions = sortOptionsCategory ? sortOptionsCategory : sortOptions;
   const params = useParams();
   const { slug } = params;
@@ -133,17 +136,44 @@ export default function ProductDetailPage({
     }
   }, [isMobileFilterOpen]);
 
-  const handleSortChange = (value: string | number) => {
-    console.log("Selected:", value);
+  const handleSortChange = async (value: string | number) => {
+    const { data } = await ResidentailPageData.getCategoryBasedProducts({
+      categoryid: slug ? Number(slug) : undefined,
+      order: value,
+    });
+    setProductCategory(data);
   };
 
   const handleToggleMobileFilter = () => {
     setIsMobileFilterOpen((prev) => !prev);
   };
 
-  const handleGetProductDetail = (id: string) => {
-    router.push(`/builder/products/${id}`);
+  const getCatogeryBaseProducts = async () => {
+    const { data } = await ResidentailPageData.getCategoryBasedProducts({
+      categoryid: slug ? Number(slug) : undefined,
+      page: currentPage,
+      limit: 12,
+    });
+    setCategoryProducts(data);
   };
+
+  const getCategoryList = async () => {
+    const { data } = await ResidentailPageData.getCategories();
+    setProductCategory(data);
+  };
+
+  const handleGetProductDetail = (id: string) => {
+    router.push(`/residential/products/${slug}/${id}`);
+  };
+
+  const handlePageChage = (page: any) => {
+    setCurrentpage(page);
+  };
+
+  useEffect(() => {
+    getCatogeryBaseProducts();
+    getCategoryList();
+  }, []);
 
   return (
     <>
@@ -213,24 +243,24 @@ export default function ProductDetailPage({
           </div>
 
           {/* Product Grid */}
-          <div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-8 justify-items-center mt-4">
-              {dataList?.map((product: any) => (
-                <ProductCard
-                  key={product.id}
-                  product={product}
-                  handleGetProductDetail={handleGetProductDetail}
-                />
-              ))}
+          <Suspense fallback={<Loader />}>
+            <div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-8 justify-items-center mt-4">
+                {categoryProducts?.map((product: any) => (
+                  <ProductCard
+                    key={product.id}
+                    product={product}
+                    handleGetProductDetail={handleGetProductDetail}
+                  />
+                ))}
+              </div>
+              <Pagination
+                currentPage={currentPage}
+                totalPages={3}
+                onPageChange={handlePageChage}
+              />
             </div>
-            <Pagination
-              currentPage={1}
-              totalPages={3}
-              onPageChange={function (page: number): void {
-                throw new Error("Function not implemented.");
-              }}
-            />
-          </div>
+          </Suspense>
         </div>
       </div>
     </>

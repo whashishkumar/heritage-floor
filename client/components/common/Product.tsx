@@ -18,15 +18,14 @@ export interface Product {
 
 interface Props {
   product: Product;
+  handleGetProductDetail: (id: any) => void;
 }
 
-export default function ProductCard({ product }: Props) {
+export default function ProductCard({
+  product,
+  handleGetProductDetail,
+}: Props) {
   const router = useRouter();
-
-  const handleGetProductDetail = (product: any) => {
-    const { id } = product;
-    router.push(`/builder/products/${id}`);
-  };
 
   const handleAddToCartProduct = async (id: any) => {
     await CartEndPoint.addItemToCart(id);
@@ -36,7 +35,7 @@ export default function ProductCard({ product }: Props) {
     <div className="flex flex-col">
       <div
         className="relative bg-white rounded-[0.625rem] flex justify-center items-center border border-[#E8E8E8] h-[341px] cursor-pointer"
-        onClick={() => handleGetProductDetail(product)}
+        onClick={() => handleGetProductDetail(product.id)}
       >
         {product.discount && (
           <span className="absolute top-0 left-0 bg-[#BA0202] text-white text-sm px-2 py-1 rounded-tl-lg font-bold poppins-font">

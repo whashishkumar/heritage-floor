@@ -22,7 +22,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [token, setToken] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
 
-  // ✅ Load token from cookie when app mounts
+  //  Load token from cookie when app mounts
   useEffect(() => {
     const existingToken = Cookies.get("customer_token");
     if (existingToken) {
@@ -31,7 +31,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setLoading(false);
   }, []);
 
-  // ✅ Keep cookie synced with React state
+  //  Keep cookie synced with React state
   useEffect(() => {
     if (token) {
       Cookies.set("customer_token", token, {
@@ -44,7 +44,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   }, [token]);
 
-  // ✅ Handlers
+  //  Handlers
   const login = (newToken: string) => setToken(newToken);
   const logout = () => setToken(null);
 
