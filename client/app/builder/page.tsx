@@ -8,8 +8,8 @@ import WhyChooseUsCommercial from "@/components/commercial/WhyChooseUs";
 import TestimonialsCommercial from "@/components/commercial/Testimonials";
 import GetInTouch from "@/components/commercial/GetInTouch";
 import BlogCommercial from "@/components/commercial/Blogs";
-import { BuilderPageData, CommonComponentData } from "@/lib/api/endpoints";
-
+import { BuilderPageData } from "@/lib/api/builderEndPoints";
+import { CommonComponentData } from "@/lib/api/commonEndPoints";
 const costumerData = [
   {
     image: "/images/residential/OurCustomers/1867.png",

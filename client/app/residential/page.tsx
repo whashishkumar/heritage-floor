@@ -11,8 +11,8 @@ import WhyChooseUsCommercial from "@/components/commercial/WhyChooseUs";
 import MajorProjectsResidential from "@/components/residential/MajorProjects";
 import OurCustomers from "@/components/commercial/OurCustomers";
 import ExpertFlooringInstallation from "@/components/residential/ExpertFlooringInstallation";
-import { ResidentailPageData } from "@/lib/api/endpoints";
-import { CommonComponentData } from "@/lib/api/endpoints";
+import { ResidentailPageData } from "@/lib/api/residentialEndPoints";
+import { CommonComponentData } from "@/lib/api/commonEndPoints";
 
 export default async function Home() {
   const customerData = await ResidentailPageData.getOurCustomers();

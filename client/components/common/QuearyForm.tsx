@@ -1,5 +1,5 @@
 "use client";
-import { ResidentailPageData } from "@/lib/api/endpoints";
+import { ResidentailPageData } from "@/lib/api/residentialEndPoints";
 import Image from "next/image";
 import { useState } from "react";
 

@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 import { useSelector } from "react-redux";
 import ForgotPasswordForm from "./ForgotPasswordForm";
-import { AuthValidation } from "@/lib/api/endpoints";
+import { AuthValidation } from "@/lib/api/authincationEndPoints";
 import { useAuth } from "@/context/userAuthContext";
 
 export default function LoginPage({ onClose }: any) {
