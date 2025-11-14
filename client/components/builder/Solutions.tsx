@@ -1,5 +1,4 @@
 import Image from "next/image";
-import React from "react";
 
 const solutions = [
   {
@@ -41,12 +40,8 @@ export default function Solutions() {
               />
             </div>
             <div className="w-full poppins-font">
-              <h3 className="text-2xl font-medium mb-2 text-xl text-black">
-                {solution.title}
-              </h3>
-              <p className="text-black text-base font-normal">
-                {solution.description}
-              </p>
+              <h3 className="text-2xl font-medium mb-2 text-xl text-black">{solution.title}</h3>
+              <p className="text-black text-base font-normal">{solution.description}</p>
             </div>
           </div>
         ))}

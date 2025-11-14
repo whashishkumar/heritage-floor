@@ -18,7 +18,7 @@ api.interceptors.request.use(
     }
     return config;
   },
-  (error) => Promise.reject(error)
+  (error) => Promise.reject(error),
 );
 
 api.interceptors.response.use(
@@ -28,7 +28,7 @@ api.interceptors.response.use(
       console.warn("Unauthorized — redirecting or clearing session");
     }
     return Promise.reject(error);
-  }
+  },
 );
 
 export default api;

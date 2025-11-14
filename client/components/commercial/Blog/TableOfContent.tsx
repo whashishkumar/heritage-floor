@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import type React from "react";
 import { CiUser } from "react-icons/ci";
 
 interface TableOfContentsProps {
@@ -18,9 +18,7 @@ const TableOfContents: React.FC<TableOfContentsProps> = ({
   const { author, author_desc, author_profile } = authorInfo || {};
   return (
     <div className="sticky top-24">
-      <h3 className="text-lg font-bold text-darkBlue mb-4">
-        Table of Contents
-      </h3>
+      <h3 className="text-lg font-bold text-darkBlue mb-4">Table of Contents</h3>
       <nav className="space-y-2">
         {tableOfContents.map((item) => (
           <button

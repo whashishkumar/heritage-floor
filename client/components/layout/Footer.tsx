@@ -1,13 +1,9 @@
 "use client";
-import OnlyButton from "../common/ArrowButton";
-import React, { useState } from "react";
 import Image from "next/image";
-import {
-  FaLinkedinIn,
-  FaFacebookF,
-  FaWhatsapp,
-  FaChevronDown,
-} from "react-icons/fa";
+import type React from "react";
+import { useState } from "react";
+import { FaChevronDown, FaFacebookF, FaLinkedinIn, FaWhatsapp } from "react-icons/fa";
+import OnlyButton from "../common/ArrowButton";
 
 // Type Definitions
 interface FormField {
@@ -20,7 +16,6 @@ interface FormField {
 interface PrivacyConsent {
   text: string;
 
-  
   privacyLink: string;
 }
 
@@ -162,9 +157,7 @@ const Footer: React.FC = () => {
     console.log("Form submitted:", formData);
   };
 
-  const handleInputChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
-  ): void => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>): void => {
     const { name, value, type } = e.target;
     const checked = (e.target as HTMLInputElement).checked;
     setFormData((prev) => ({
@@ -202,9 +195,7 @@ const Footer: React.FC = () => {
                       <div className="relative">
                         <select
                           name={field.name}
-                          value={
-                            formData[field.name as keyof FormData] as string
-                          }
+                          value={formData[field.name as keyof FormData] as string}
                           onChange={handleInputChange}
                           className="w-full bg-transparent border-b border-gray-700 py-3 pr-8 text-gray-400 appearance-none focus:outline-none focus:border-teal-500 transition-colors"
                         >
@@ -240,22 +231,14 @@ const Footer: React.FC = () => {
                       className="mt-1 w-4  bg-transparent border border-gray-700 rounded cursor-pointer"
                     />
                     <label className="text-sm text-gray-400 leading-relaxed">
-                      {
-                        footerData.formSection.privacyConsent.text.split(
-                          "Privacy Policy"
-                        )[0]
-                      }
+                      {footerData.formSection.privacyConsent.text.split("Privacy Policy")[0]}
                       <a
                         href={footerData.formSection.privacyConsent.privacyLink}
                         className="underline hover:text-white transition-colors"
                       >
                         Privacy Policy
                       </a>
-                      {
-                        footerData.formSection.privacyConsent.text.split(
-                          "Privacy Policy"
-                        )[1]
-                      }
+                      {footerData.formSection.privacyConsent.text.split("Privacy Policy")[1]}
                     </label>
                   </div>
                   <div className="">
@@ -287,26 +270,22 @@ const Footer: React.FC = () => {
                   FOLLOW US
                 </h4>
                 <div className="flex gap-3">
-                  {footerData.companyInfo.socialLinks.map(
-                    (social: SocialLink) => (
-                      <a
-                        key={social.platform}
-                        href={social.url}
-                        className="w-[4rem] h-[4rem] border border-gray-700 flex items-center justify-center hover:border-teal-500 hover:text-teal-500 transition-colors"
-                        aria-label={social.platform}
-                      >
-                        {getSocialIcon(social.icon)}
-                      </a>
-                    )
-                  )}
+                  {footerData.companyInfo.socialLinks.map((social: SocialLink) => (
+                    <a
+                      key={social.platform}
+                      href={social.url}
+                      className="w-[4rem] h-[4rem] border border-gray-700 flex items-center justify-center hover:border-teal-500 hover:text-teal-500 transition-colors"
+                      aria-label={social.platform}
+                    >
+                      {getSocialIcon(social.icon)}
+                    </a>
+                  ))}
                 </div>
               </div>
             </div>
 
             <div className="lg:max-w-[20%] pl-4 hidden lg:block">
-              <h4 className="text-base font-semibold mb-4 tracking-[1.78px]">
-                OTTAWA
-              </h4>
+              <h4 className="text-base font-semibold mb-4 tracking-[1.78px]">OTTAWA</h4>
               {footerData.locations.map((location: Location, idx: number) => (
                 <div key={idx} className="text-base text-[#FAFCFF] space-y-2 ">
                   <p>{location.address}</p>
@@ -316,9 +295,7 @@ const Footer: React.FC = () => {
               ))}
 
               <div className="mt-8">
-                <h4 className="text-base font-semibold mb-4 tracking-[1.78px]">
-                  QUICK LINKS
-                </h4>
+                <h4 className="text-base font-semibold mb-4 tracking-[1.78px]">QUICK LINKS</h4>
                 <ul className="space-y-2 lg:mb-0 mb-[1.5rem]">
                   {footerData.quickLinks.map((link: QuickLink) => (
                     <li key={link.label}>
@@ -335,50 +312,37 @@ const Footer: React.FC = () => {
             </div>
 
             <div className="lg:max-w-[20%]   pl-4 hidden lg:block">
-              <h4 className="text-base font-semibold mb-4 tracking-[1.78px]">
-                HARDWOOD
-              </h4>
+              <h4 className="text-base font-semibold mb-4 tracking-[1.78px]">HARDWOOD</h4>
               <ul className="space-y-2 mb-8">
-                {footerData.categories.hardwood.map(
-                  (item: string, idx: number) => (
-                    <li
-                      key={idx}
-                      className="text-base text-[#FAFCFF] hover:text-white transition-colors cursor-pointer leading-[1.7500]"
-                    >
-                      {item}
-                    </li>
-                  )
-                )}
+                {footerData.categories.hardwood.map((item: string, idx: number) => (
+                  <li
+                    key={idx}
+                    className="text-base text-[#FAFCFF] hover:text-white transition-colors cursor-pointer leading-[1.7500]"
+                  >
+                    {item}
+                  </li>
+                ))}
               </ul>
 
-              <h4 className="text-base font-semibold mb-4 tracking-[1.78px]">
-                FLOORING
-              </h4>
+              <h4 className="text-base font-semibold mb-4 tracking-[1.78px]">FLOORING</h4>
               <ul className="space-y-2">
-                {footerData.categories.flooring.map(
-                  (item: string, idx: number) => (
-                    <li
-                      key={idx}
-                      className="text-base text-[#FAFCFF] hover:text-white transition-colors cursor-pointer leading-[1.7500]"
-                    >
-                      {item}
-                    </li>
-                  )
-                )}
+                {footerData.categories.flooring.map((item: string, idx: number) => (
+                  <li
+                    key={idx}
+                    className="text-base text-[#FAFCFF] hover:text-white transition-colors cursor-pointer leading-[1.7500]"
+                  >
+                    {item}
+                  </li>
+                ))}
               </ul>
             </div>
 
             <div className=" grid grid-cols-2 sm:grid-cols-4 w-full lg:hidden gap-[5%]  sm:gap-[3%] mt-[1.5rem] ">
               <div className=" pl-4">
                 {" "}
-                <h4 className="text-base font-semibold mb-4 tracking-[1.78px]">
-                  OTTAWA
-                </h4>
+                <h4 className="text-base font-semibold mb-4 tracking-[1.78px]">OTTAWA</h4>
                 {footerData.locations.map((location: Location, idx: number) => (
-                  <div
-                    key={idx}
-                    className="text-base text-[#FAFCFF] space-y-2 "
-                  >
+                  <div key={idx} className="text-base text-[#FAFCFF] space-y-2 ">
                     <p>{location.address}</p>
                     <p className="text-white mt-[1.5rem]">{location.note}</p>
                     <p className="text-white ">{location.phone}</p>
@@ -386,9 +350,7 @@ const Footer: React.FC = () => {
                 ))}
               </div>
               <div className="  pl-4">
-                <h4 className="text-base font-semibold mb-4 tracking-[1.78px]">
-                  QUICK LINKS
-                </h4>
+                <h4 className="text-base font-semibold mb-4 tracking-[1.78px]">QUICK LINKS</h4>
                 <ul className="space-y-2 lg:mb-0 mb-[1.5rem]">
                   {footerData.quickLinks.map((link: QuickLink) => (
                     <li key={link.label}>
@@ -404,37 +366,29 @@ const Footer: React.FC = () => {
               </div>
               <div className="  pl-4">
                 {" "}
-                <h4 className="text-base font-semibold mb-4 tracking-[1.78px]">
-                  HARDWOOD
-                </h4>
+                <h4 className="text-base font-semibold mb-4 tracking-[1.78px]">HARDWOOD</h4>
                 <ul className="space-y-2 mb-8">
-                  {footerData.categories.hardwood.map(
-                    (item: string, idx: number) => (
-                      <li
-                        key={idx}
-                        className="text-base text-[#FAFCFF] hover:text-white transition-colors cursor-pointer leading-[1.7500]"
-                      >
-                        {item}
-                      </li>
-                    )
-                  )}
+                  {footerData.categories.hardwood.map((item: string, idx: number) => (
+                    <li
+                      key={idx}
+                      className="text-base text-[#FAFCFF] hover:text-white transition-colors cursor-pointer leading-[1.7500]"
+                    >
+                      {item}
+                    </li>
+                  ))}
                 </ul>
               </div>
               <div className="  pl-4">
-                <h4 className="text-base font-semibold mb-4 tracking-[1.78px]">
-                  FLOORING
-                </h4>
+                <h4 className="text-base font-semibold mb-4 tracking-[1.78px]">FLOORING</h4>
                 <ul className="space-y-2">
-                  {footerData.categories.flooring.map(
-                    (item: string, idx: number) => (
-                      <li
-                        key={idx}
-                        className="text-base text-[#FAFCFF] hover:text-white transition-colors cursor-pointer leading-[1.7500]"
-                      >
-                        {item}
-                      </li>
-                    )
-                  )}
+                  {footerData.categories.flooring.map((item: string, idx: number) => (
+                    <li
+                      key={idx}
+                      className="text-base text-[#FAFCFF] hover:text-white transition-colors cursor-pointer leading-[1.7500]"
+                    >
+                      {item}
+                    </li>
+                  ))}
                 </ul>
               </div>
             </div>

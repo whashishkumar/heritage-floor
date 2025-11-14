@@ -1,16 +1,17 @@
-import ToolsGrid from "@/components/builder/ToolsGrid";
 import BestsellerProducts from "@/components/builder/BestsellerProducts";
 import CategoryProducts from "@/components/builder/CategoryProducts";
-import OurCustomersCommercial from "@/components/commercial/OurCustomers";
 import Solutions from "@/components/builder/Solutions";
-import HeroSection from "@/components/residential/HeroSection";
-import WhyChooseUsCommercial from "@/components/commercial/WhyChooseUs";
-import TestimonialsCommercial from "@/components/commercial/Testimonials";
-import GetInTouch from "@/components/commercial/GetInTouch";
+import ToolsGrid from "@/components/builder/ToolsGrid";
 import BlogCommercial from "@/components/commercial/Blogs";
+import GetInTouch from "@/components/commercial/GetInTouch";
+import OurCustomersCommercial from "@/components/commercial/OurCustomers";
+import TestimonialsCommercial from "@/components/commercial/Testimonials";
+import WhyChooseUsCommercial from "@/components/commercial/WhyChooseUs";
+import HeroSection from "@/components/residential/HeroSection";
 import { BuilderPageData } from "@/lib/api/builderEndPoints";
 import { CommonComponentData } from "@/lib/api/commonEndPoints";
-const costumerData = [
+
+const _costumerData = [
   {
     image: "/images/residential/OurCustomers/1867.png",
     alt: "1867",
@@ -72,12 +73,12 @@ const headerProductBestSeller = {
 };
 
 export default async function Home() {
-  const blogs = await CommonComponentData?.getOurBlogs(1);
+  const blogs = await CommonComponentData.getOurBlogs(1);
   const builderBanner = await BuilderPageData.getBannerData();
   const customers = await BuilderPageData.getOurCustomers();
   const categoryBaseProducts = await BuilderPageData.getCategoryProducts();
   const bestSellerProducts = await BuilderPageData.bestSellerProducts();
-  const { data } = await CommonComponentData?.getTestinomials();
+  const { data } = await CommonComponentData.getTestinomials();
   return (
     <>
       <HeroSection bannerData={builderBanner?.data} />

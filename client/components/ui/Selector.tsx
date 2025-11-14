@@ -1,5 +1,6 @@
 "use client";
-import React, { useState, useRef, useEffect } from "react";
+import type React from "react";
+import { useEffect, useRef, useState } from "react";
 import { IoChevronDownOutline } from "react-icons/io5";
 
 interface Option {
@@ -23,19 +24,14 @@ const Selector: React.FC<SelectorProps> = ({
   onChange,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [selected, setSelected] = useState<string | number | null>(
-    defaultValue || null
-  );
+  const [selected, setSelected] = useState<string | number | null>(defaultValue || null);
 
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   // Close dropdown when clicking outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (
-        dropdownRef.current &&
-        !dropdownRef.current.contains(event.target as Node)
-      ) {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
         setIsOpen(false);
       }
     };
@@ -49,28 +45,21 @@ const Selector: React.FC<SelectorProps> = ({
     onChange?.(value);
   };
 
-  const selectedLabel =
-    options.find((opt) => opt.value === selected)?.label || placeholder;
+  const selectedLabel = options.find((opt) => opt.value === selected)?.label || placeholder;
 
   return (
     <div
       ref={dropdownRef}
       className="relative w-full text-[#444] poppins-font flex items-center justify-center gap-2"
     >
-      {label && (
-        <label className=" text-nowrap  text-sm font-bold text-gray ">
-          {label}
-        </label>
-      )}
+      {label && <label className=" text-nowrap  text-sm font-bold text-gray ">{label}</label>}
 
       {/* Dropdown button */}
       <button
         onClick={() => setIsOpen((prev) => !prev)}
         className="flex justify-between items-center w-full px-4 py-2 border border-gray-300 rounded-lg bg-white text-sm shadow-sm  cursor-pointer"
       >
-        <span
-          className={`${selected ? "text-[#222]" : "text-gray-500"} truncate`}
-        >
+        <span className={`${selected ? "text-[#222]" : "text-gray-500"} truncate`}>
           {selectedLabel}
         </span>
         <IoChevronDownOutline

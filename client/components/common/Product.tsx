@@ -2,8 +2,8 @@
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { CiStar } from "react-icons/ci";
-import ButtonCommon from "../ui/Button";
 import { CartEndPoint } from "@/lib/api/cartEndPoints";
+import ButtonCommon from "../ui/Button";
 
 export interface Product {
   id: number;
@@ -21,11 +21,8 @@ interface Props {
   handleGetProductDetail: (id: any) => void;
 }
 
-export default function ProductCard({
-  product,
-  handleGetProductDetail,
-}: Props) {
-  const router = useRouter();
+export default function ProductCard({ product, handleGetProductDetail }: Props) {
+  const _router = useRouter();
 
   const handleAddToCartProduct = async (id: any) => {
     await CartEndPoint.addItemToCart(id);
@@ -46,9 +43,7 @@ export default function ProductCard({
           <CiStar className="w-4 h-4 text-yellow-400 fill-yellow-400 mr-1" />
           <CiStar className="w-4 h-4 text-yellow-400 fill-yellow-400 mr-1" />
           <CiStar className="w-4 h-4 text-yellow-400 fill-yellow-400 mr-1" />
-          <span className="text-black poppins-font font-medium text-base">
-            ({product.rating})
-          </span>
+          <span className="text-black poppins-font font-medium text-base">({product.rating})</span>
         </span>
         {product.image && (
           <Image
@@ -68,7 +63,7 @@ export default function ProductCard({
           {product.name}
         </h3>
         <p className="mt-2 text-black poppins-font font-extrabold leading-[1.875rem] text-[1.875rem] ">
-          {product.price ? "$" + `${product.price}` : "_"}
+          {product.price ? `$${product.price}` : "_"}
         </p>
         {/* Button */}
         <div className="mt-[1.5rem]">

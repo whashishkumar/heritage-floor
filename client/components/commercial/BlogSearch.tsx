@@ -1,6 +1,4 @@
-
-
-import React from "react";
+import type React from "react";
 import { LuSearch } from "react-icons/lu";
 
 interface SearchBarProps {

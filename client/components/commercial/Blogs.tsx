@@ -1,16 +1,15 @@
 "use client";
 import Image from "next/image";
+import { useParams, useRouter } from "next/navigation";
 import { FiArrowUpRight } from "react-icons/fi";
 import SectionHeader from "../common/SectionHeader";
 import ButtonCommon from "../ui/Button";
-import Link from "next/link";
-import { useParams, useRouter } from "next/navigation";
 
 export default function FeaturedBlogs({ blogs, pagePath }: any) {
   const { heading, subheading, description, data }: any = blogs || {};
   const featuredItems = data?.filter((item: any) => item?.featured) || [];
   const router = useRouter();
-  const params = useParams();
+  const _params = useParams();
   const mainBlog = featuredItems[0];
   const sideBlogs = featuredItems.slice(1, 3);
 

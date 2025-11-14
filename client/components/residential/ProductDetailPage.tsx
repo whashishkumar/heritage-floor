@@ -1,16 +1,16 @@
 "use client";
 import Image from "next/image";
 import Link from "next/link";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { BsCart4 } from "react-icons/bs";
 import { CiHeart } from "react-icons/ci";
+import InnerImageZoom from "react-inner-image-zoom";
 import Accordion from "../ui/Accordian";
 import SwipeSlider from "../ui/SwipeSlider";
-import InnerImageZoom from "react-inner-image-zoom";
 import "react-inner-image-zoom/lib/styles.min.css";
+import { useParams } from "next/navigation";
 import { FaExclamationCircle } from "react-icons/fa";
 import { ResidentailPageData } from "@/lib/api/residentialEndPoints";
-import { useParams } from "next/navigation";
 
 const benefits = [
   {
@@ -182,11 +182,7 @@ const ProductDetailPage = () => {
 
   console.log(productDetail, "dataproductDetail");
 
-  const handleSelectProductImage = (image: {
-    id: number;
-    src: string;
-    alt: string;
-  }) => {
+  const handleSelectProductImage = (image: { id: number; src: string; alt: string }) => {
     setSelectedImage(image);
   };
 
@@ -197,7 +193,7 @@ const ProductDetailPage = () => {
 
   useEffect(() => {
     getProductDetails();
-  }, []);
+  }, [getProductDetails]);
 
   return (
     <div className="wrapper m-auto py-12">
@@ -211,8 +207,7 @@ const ProductDetailPage = () => {
               height={500}
               hasSpacer={true}
               imgAttributes={{
-                className:
-                  "rounded-2xl object-cover w-full h-[400px] lg:h-[500px]",
+                className: "rounded-2xl object-cover w-full h-[400px] lg:h-[500px]",
                 alt: selectedImage.alt,
               }}
             />
@@ -223,9 +218,7 @@ const ProductDetailPage = () => {
               <div
                 key={image.id}
                 className={`cursor-pointer rounded-lg overflow-hidden border w-[120px] h-[80px] p-2 ${
-                  selectedImage.id === image.id
-                    ? "border-[#018C99] p-0.5"
-                    : "border-transparent"
+                  selectedImage.id === image.id ? "border-[#018C99] p-0.5" : "border-transparent"
                 }`}
                 onClick={() => handleSelectProductImage(image)}
               >
@@ -253,9 +246,7 @@ const ProductDetailPage = () => {
                   />
                 </div>
                 <div>
-                  <h3 className="text-xl  mb-2 text-black font-semibold">
-                    {benefit.title}
-                  </h3>
+                  <h3 className="text-xl  mb-2 text-black font-semibold">{benefit.title}</h3>
                   <Link href="#">
                     <p className="text-black text-sm font-normal underline">
                       {benefit.description}
@@ -285,25 +276,16 @@ const ProductDetailPage = () => {
           {/* Product Information */}
           <div className="mb-4 poppins-font">
             <p className="text-base mb-2 font-medium">
-              SKU: mOSAIC18BW{" "}
-              <span className="ml-2 text-[#018C99] font-medium">
-                By Hertiage
-              </span>
+              SKU: mOSAIC18BW <span className="ml-2 text-[#018C99] font-medium">By Hertiage</span>
             </p>
-            <h2 className="font-medium mb-2 text-[1.688rem] text-black">
-              Abstract Mosaic
-            </h2>
+            <h2 className="font-medium mb-2 text-[1.688rem] text-black">Abstract Mosaic</h2>
             <p className="text-base mb-2 text-black">
               11.93" x 11.93" | PEI of 4 - Heavy Traffic | Matte
             </p>
             <p className="text-[1.688rem] font-bold">$9.20 / sq. ft</p>
-            <p className="text-sm mt-2 text-black">
-              $75.45 / box (9.9 sq. ft. / box)
-            </p>
+            <p className="text-sm mt-2 text-black">$75.45 / box (9.9 sq. ft. / box)</p>
             <p className="bg-[#FFC107] p-3 px-4  poppins-font mt-4 w-fit flex items-center ">
-              <span className="text-sm text-black font-medium">
-                Want a better Price?
-              </span>{" "}
+              <span className="text-sm text-black font-medium">Want a better Price?</span>{" "}
               <span className="font-bold flex justify-center items-center gap-2 ">
                 Ask for a quote!
                 <FaExclamationCircle size={14} />
@@ -317,9 +299,7 @@ const ProductDetailPage = () => {
                 width={20}
                 className="inline-block mr-2 object-contain"
               />
-              <span className="text-black font-medium text-[1rem]">
-                In stock and ready to ship
-              </span>
+              <span className="text-black font-medium text-[1rem]">In stock and ready to ship</span>
             </p>
             <div className="mt-4">
               <Image
@@ -350,9 +330,7 @@ const ProductDetailPage = () => {
                 width={20}
                 className="inline-block mr-2 object-contain"
               />
-              <span className="text-black font-semibold text-[1rem]">
-                How many do you need ?
-              </span>
+              <span className="text-black font-semibold text-[1rem]">How many do you need ?</span>
               <Link href="#" className="underline ml-2 text-sm  font-medium">
                 <p className="mt-2 text-sm">Use our flooring area calculator</p>
               </Link>
@@ -377,8 +355,8 @@ const ProductDetailPage = () => {
               </form>
             </div>
             <p className="mt-2 text-sm">
-              Shipping fees based on minimum of 138 sq. ft.. We will contact you
-              if additional fees apply.
+              Shipping fees based on minimum of 138 sq. ft.. We will contact you if additional fees
+              apply.
             </p>
           </div>
           <p className=" bg-[#F1F1F1] h-[1px] my-5"></p>
@@ -391,9 +369,7 @@ const ProductDetailPage = () => {
             <div className="flex gap-4">
               <button className="bg-[#F5F5F5] hover:cursor-pointer   py-2 px-2 rounded-2xl text-lg mb-4 border border-[#018C99] font-semibold w-[540px] md:w-full">
                 Ask For Quote
-                <p className="mt-1 text-xs">
-                  Get custom pricing for your project
-                </p>
+                <p className="mt-1 text-xs">Get custom pricing for your project</p>
               </button>
               <button className="bg-[#F5F5F5] hover:cursor-pointer   py-2 px-2 rounded-2xl text-lg mb-4 border border-[#018C99] font-semibold">
                 <CiHeart size={26} />
@@ -411,17 +387,13 @@ const ProductDetailPage = () => {
                 width={20}
                 className="inline-block mr-2 object-contain"
               />
-              <h2 className="font-medium  text-xl text-black">
-                Shipping Options
-              </h2>
+              <h2 className="font-medium  text-xl text-black">Shipping Options</h2>
             </div>
             <div className="py-2">
               <div className=" text-xs">
                 Delivery to : 
                 <Link href={"#"}>
-                  <span className="underline cursor-pointer  font-medium">
-                    Toronto - Mos18BW
-                  </span>
+                  <span className="underline cursor-pointer  font-medium">Toronto - Mos18BW</span>
                 </Link>
               </div>
             </div>
@@ -440,15 +412,9 @@ const ProductDetailPage = () => {
                 <h2 className="text-base font-semibold text-black mb-2 text-center">
                   Warehouse Pickup
                 </h2>
-                <p className="mb-2 text-center font-normal text-sm">
-                  Vaughan, ON
-                </p>
-                <p className=" mb-2 text-center font-normal text-sm">
-                  2 - 4 Business Days
-                </p>
-                <p className="text-center font-normal font-normal text-sm">
-                  Free
-                </p>
+                <p className="mb-2 text-center font-normal text-sm">Vaughan, ON</p>
+                <p className=" mb-2 text-center font-normal text-sm">2 - 4 Business Days</p>
+                <p className="text-center font-normal font-normal text-sm">Free</p>
               </div>
               <div className="bg-white p-6 rounded-lg border border-[#DDDDDD]">
                 <div className="flex items-center justify-center mb-4">
@@ -463,9 +429,7 @@ const ProductDetailPage = () => {
                 <h2 className="text-base font-semibold text-black mb-2 text-center">
                   Scheduled Delivery
                 </h2>
-                <p className="mb-2 text-center font-normal text-sm">
-                  2 - 4 business days{" "}
-                </p>
+                <p className="mb-2 text-center font-normal text-sm">2 - 4 business days </p>
                 <p className="mb-2 text-center font-normal text-sm">$80.00</p>
               </div>
             </div>

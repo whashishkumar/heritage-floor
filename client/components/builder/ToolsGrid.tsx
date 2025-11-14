@@ -1,9 +1,9 @@
 "use client";
-import { fetchToolsAndEquimentsInfo } from "@/store/slices/builderSlice/toolsEquipmentSlice";
 import Image from "next/image";
 import Link from "next/link";
 import { Suspense, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { fetchToolsAndEquimentsInfo } from "@/store/slices/builderSlice/toolsEquipmentSlice";
 
 const toolsData = [
   { name: "Ceramic & Stone Tools", image: "/images/builder/stone.png" },
@@ -22,10 +22,10 @@ const toolsData = [
 export const ToolsAndEquiments = ({ data }: any) => {
   return (
     <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-6 gap-12 w-full mx-auto poppins-font">
-      {data?.slice(0, 12)?.map((item: any, indx: any) => (
+      {data?.slice(0, 12)?.map((item: any) => (
         <Link
           href={"builder/products"}
-          key={indx}
+          key={item.id || item.title}
           className="flex flex-col items-center text-center space-y-3"
         >
           <div className="max-w-[196px] max-h-[196px] rounded-full border border-[#CBC8C8] flex items-center justify-center overflow-hidden bg-white ">
@@ -37,9 +37,7 @@ export const ToolsAndEquiments = ({ data }: any) => {
               className="object-contain"
             />
           </div>
-          <p className="font-medium text-black text-xl leading-[1.875rem] ">
-            {item.title}
-          </p>
+          <p className="font-medium text-black text-xl leading-[1.875rem] ">{item.title}</p>
         </Link>
       ))}
     </div>
@@ -54,11 +52,8 @@ export const InstallationSupplies = () => {
       href={"builder/products"}
       className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-6 gap-12 w-full mx-auto poppins-font"
     >
-      {toolsData?.map((item: any, indx: any) => (
-        <div
-          key={indx}
-          className="flex flex-col items-center text-center space-y-3"
-        >
+      {toolsData?.map((item: any) => (
+        <div key={item.name} className="flex flex-col items-center text-center space-y-3">
           <div className="max-w-[196px] max-h-[196px] rounded-full border border-[#CBC8C8] flex items-center justify-center overflow-hidden bg-white ">
             <Image
               src={item.image}
@@ -68,9 +63,7 @@ export const InstallationSupplies = () => {
               className="object-contain"
             />
           </div>
-          <p className="font-medium text-black text-xl leading-[1.875rem] ">
-            {item.name}
-          </p>
+          <p className="font-medium text-black text-xl leading-[1.875rem] ">{item.name}</p>
         </div>
       ))}
     </Link>
@@ -80,12 +73,12 @@ export const InstallationSupplies = () => {
 export default function ToolsGrid() {
   const dispatch = useDispatch<any>();
   const [activeTab, setActiveTab] = useState("Tools & Equipment");
-  const { tools, loading } = useSelector((state: any) => state.tools);
+  const { tools } = useSelector((state: any) => state.tools);
   const data = tools?.data || [];
 
   useEffect(() => {
     dispatch(fetchToolsAndEquimentsInfo());
-  }, []);
+  }, [dispatch]);
 
   return (
     <div className="wrapper mx-auto py-10 px-4 sm:px-6 md:px-10 ">
@@ -110,17 +103,13 @@ export default function ToolsGrid() {
 
       {/* Grid */}
       {activeTab === "Tools & Equipment" ? (
-        <>
-          <Suspense fallback={<p>Loading...</p>}>
-            <ToolsAndEquiments data={data} />
-          </Suspense>
-        </>
+        <Suspense fallback={<p>Loading...</p>}>
+          <ToolsAndEquiments data={data} />
+        </Suspense>
       ) : (
-        <>
-          <Suspense fallback={<p>Loading...</p>}>
-            <InstallationSupplies />
-          </Suspense>
-        </>
+        <Suspense fallback={<p>Loading...</p>}>
+          <InstallationSupplies />
+        </Suspense>
       )}
     </div>
   );

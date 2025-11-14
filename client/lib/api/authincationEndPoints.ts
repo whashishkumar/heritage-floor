@@ -1,9 +1,4 @@
-import {
-  apiFetch,
-  apiFetchBatch,
-  apiFetchWithResponse,
-  apiPost,
-} from "./fetcher";
+import { apiFetch, apiPost } from "./fetcher";
 
 export const AuthValidation = {
   regesterUser: (data: any) => apiPost("/customer/register", data),

@@ -13,22 +13,12 @@ const megaMenuData = [
       {
         key: "Kajaria",
         dest: "/brands/kajaria",
-        items: [
-          "Wall Tiles",
-          "Floor Tiles",
-          "Bathroom Fittings",
-          "Outdoor Tiles",
-        ],
+        items: ["Wall Tiles", "Floor Tiles", "Bathroom Fittings", "Outdoor Tiles"],
       },
       {
         key: "Somany",
         dest: "/brands/somany",
-        items: [
-          "Vitrified Tiles",
-          "Ceramic Tiles",
-          "Outdoor Tiles",
-          "Wall Cladding",
-        ],
+        items: ["Vitrified Tiles", "Ceramic Tiles", "Outdoor Tiles", "Wall Cladding"],
       },
       {
         key: "Nitco",
@@ -38,32 +28,17 @@ const megaMenuData = [
       {
         key: "Orient Bell",
         dest: "/brands/orient-bell",
-        items: [
-          "Digital Wall Tiles",
-          "Floor Tiles",
-          "Parking Tiles",
-          "Wood Look Tiles",
-        ],
+        items: ["Digital Wall Tiles", "Floor Tiles", "Parking Tiles", "Wood Look Tiles"],
       },
       {
         key: "Varmora",
         dest: "/brands/varmora",
-        items: [
-          "Porcelain Tiles",
-          "Vitrified Tiles",
-          "Ceramic Tiles",
-          "Bathroom Fittings",
-        ],
+        items: ["Porcelain Tiles", "Vitrified Tiles", "Ceramic Tiles", "Bathroom Fittings"],
       },
       {
         key: "Simpolo",
         dest: "/brands/simpolo",
-        items: [
-          "Luxury Tiles",
-          "Quartz Surfaces",
-          "Outdoor Tiles",
-          "Bathroom Products",
-        ],
+        items: ["Luxury Tiles", "Quartz Surfaces", "Outdoor Tiles", "Bathroom Products"],
       },
       {
         key: "Asian Granito",
@@ -196,25 +171,19 @@ const megaMenuData = [
   },
 ];
 
-import { useState, useEffect, useRef } from "react";
+import { useRef, useState } from "react";
 import { BiChevronDown } from "react-icons/bi";
 import { PiGreaterThanLight } from "react-icons/pi";
 
 export default function MegaMenu({ isDealsOpen }: any) {
   // Desktop states
   const [desktopMenuOpen, setDesktopMenuOpen] = useState(false);
-  const [desktopActiveMenu, setDesktopActiveMenu] = useState<string | null>(
-    null
-  );
-  const [desktopActiveSubMenu, setDesktopActiveSubMenu] = useState<
-    string | null
-  >(null);
+  const [desktopActiveMenu, setDesktopActiveMenu] = useState<string | null>(null);
+  const [desktopActiveSubMenu, setDesktopActiveSubMenu] = useState<string | null>(null);
 
   // Mobile states
   const [mobileActiveMenu, setMobileActiveMenu] = useState<string | null>(null);
-  const [mobileActiveSubMenu, setMobileActiveSubMenu] = useState<string | null>(
-    null
-  );
+  const [mobileActiveSubMenu, setMobileActiveSubMenu] = useState<string | null>(null);
   const menuRef = useRef<HTMLDivElement>(null);
 
   const handleDesktopMenuHover = (menuKey: string) => {
@@ -261,10 +230,7 @@ export default function MegaMenu({ isDealsOpen }: any) {
       </div>
       {/* 🔹 Desktop Mega Menu Dropdown */}
       {desktopMenuOpen && (
-        <div
-          className="hidden lg:block bg-white absolute z-50 w-full shadow-md"
-          ref={menuRef}
-        >
+        <div className="hidden lg:block bg-white absolute z-50 w-full shadow-md" ref={menuRef}>
           <div className="wrapper mx-auto flex gap-12 ">
             {/* LEFT - SubMenu (Brands list) */}
             <ul className="py-4 w-1/5">
@@ -286,9 +252,7 @@ export default function MegaMenu({ isDealsOpen }: any) {
                     </li>
                   ))
               ) : (
-                <div className="text-gray-500 px-4">
-                  Select a category to see brands
-                </div>
+                <div className="text-gray-500 px-4">Select a category to see brands</div>
               )}
             </ul>
 
@@ -298,9 +262,7 @@ export default function MegaMenu({ isDealsOpen }: any) {
                 <ul className="grid grid-cols-1 gap-2">
                   {megaMenuData
                     .find((menu: any) => menu.key === desktopActiveMenu)
-                    ?.subMenu.find(
-                      (sub: any) => sub.key === desktopActiveSubMenu
-                    )
+                    ?.subMenu.find((sub: any) => sub.key === desktopActiveSubMenu)
                     ?.items.map((item: any, i: any) => (
                       <li
                         key={i}
@@ -311,9 +273,7 @@ export default function MegaMenu({ isDealsOpen }: any) {
                     ))}
                 </ul>
               ) : (
-                <div className="text-gray-500">
-                  Select a brand to see available items
-                </div>
+                <div className="text-gray-500">Select a brand to see available items</div>
               )}
             </div>
           </div>
@@ -355,27 +315,22 @@ export default function MegaMenu({ isDealsOpen }: any) {
                             }`}
                           >
                             {sub.key}
-                            <BiChevronDown
-                              size={20}
-                              className="cursor-pointer"
-                            />
+                            <BiChevronDown size={20} className="cursor-pointer" />
                           </button>
 
                           {/* Items list for selected submenu */}
-                          {mobileActiveSubMenu === sub.key &&
-                            sub.items &&
-                            sub.items.length > 0 && (
-                              <ul className="bg-white pl-6 py-2">
-                                {sub.items.map((item: any, idx: any) => (
-                                  <li
-                                    key={idx}
-                                    className="text-xs text-gray-700 hover:text-primary cursor-pointer py-1"
-                                  >
-                                    {item}
-                                  </li>
-                                ))}
-                              </ul>
-                            )}
+                          {mobileActiveSubMenu === sub.key && sub.items && sub.items.length > 0 && (
+                            <ul className="bg-white pl-6 py-2">
+                              {sub.items.map((item: any, idx: any) => (
+                                <li
+                                  key={idx}
+                                  className="text-xs text-gray-700 hover:text-primary cursor-pointer py-1"
+                                >
+                                  {item}
+                                </li>
+                              ))}
+                            </ul>
+                          )}
                         </div>
                       ))}
                     </div>

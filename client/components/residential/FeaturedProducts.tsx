@@ -1,10 +1,10 @@
 "use client";
-import SectionHeader from "../common/SectionHeader";
-import ProductCard from "./ProductCard";
-import SwipeSlider from "../ui/SwipeSlider";
 import { useState } from "react";
-import ModalBox from "../ui/ModalBox";
 import QueryForm from "../common/QuearyForm";
+import SectionHeader from "../common/SectionHeader";
+import ModalBox from "../ui/ModalBox";
+import SwipeSlider from "../ui/SwipeSlider";
+import ProductCard from "./ProductCard";
 export default function FeaturedProducts() {
   const products = [
     {
@@ -80,41 +80,39 @@ export default function FeaturedProducts() {
   const handleCloseModal = () => setQuearyModalOpen(false);
 
   return (
-    <>
-      <div className="w-full h-full  flex items-center justify-center mb-[5rem] ">
-        <div className=" wrapper w-full mx-auto  ">
-          <SectionHeader
-            heading="FEATURED PRODUCTS"
-            subHeading="Our Featured Products"
-            mainCss=""
-            headingCss=" font-semibold text-base tracking-[1.4px]"
-            subHeadingCss=" text-[2.5rem] font-bold leading-[1.3500] text-black align-middle"
-          />
-          <div className="mt-[2rem] flex w-full   ">
-            <SwipeSlider
-              slidesPerView={3.1}
-              bottomSwipeBtn={false}
-              swipebtn={false}
-              spaceBetween={10}
-              autoPlay={true}
-              loop={true}
-              delay={1000}
-              speed={1000}
-              breakpoints={breakpoints}
-            >
-              {products.map((data, index) => (
-                <div className=" w-full" key={index}>
-                  <ProductCard data={data} handleOpenModal={handleOpenModal} />
-                </div>
-              ))}
-            </SwipeSlider>
-          </div>
-
-          <ModalBox isOpen={quearyModalOpen} onClose={handleCloseModal}>
-            <QueryForm onClose={handleCloseModal} />
-          </ModalBox>
+    <div className="w-full h-full  flex items-center justify-center mb-[5rem] ">
+      <div className=" wrapper w-full mx-auto  ">
+        <SectionHeader
+          heading="FEATURED PRODUCTS"
+          subHeading="Our Featured Products"
+          mainCss=""
+          headingCss=" font-semibold text-base tracking-[1.4px]"
+          subHeadingCss=" text-[2.5rem] font-bold leading-[1.3500] text-black align-middle"
+        />
+        <div className="mt-[2rem] flex w-full   ">
+          <SwipeSlider
+            slidesPerView={3.1}
+            bottomSwipeBtn={false}
+            swipebtn={false}
+            spaceBetween={10}
+            autoPlay={true}
+            loop={true}
+            delay={1000}
+            speed={1000}
+            breakpoints={breakpoints}
+          >
+            {products.map((data, index) => (
+              <div className=" w-full" key={index}>
+                <ProductCard data={data} handleOpenModal={handleOpenModal} />
+              </div>
+            ))}
+          </SwipeSlider>
         </div>
+
+        <ModalBox isOpen={quearyModalOpen} onClose={handleCloseModal}>
+          <QueryForm onClose={handleCloseModal} />
+        </ModalBox>
       </div>
-    </>
+    </div>
   );
 }

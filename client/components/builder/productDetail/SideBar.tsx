@@ -3,7 +3,6 @@ import CheckboxGroup from "@/components/ui/CheckboxGroup";
 import CheckboxSingleSelector from "@/components/ui/CheckboxSingleSelector";
 import PriceRangeSelector from "@/components/ui/PriceRangeSelector";
 import Selector from "@/components/ui/Selector";
-import React from "react";
 
 const filterData = [
   {
@@ -124,9 +123,7 @@ export default function SideBar() {
     console.log("Selected values:", filters);
   };
 
-  const handleSingleSelectionChange = (
-    filters: Record<string, string | null>
-  ) => {
+  const handleSingleSelectionChange = (filters: Record<string, string | null>) => {
     console.log("Single selected values:", filters);
   };
 
@@ -156,12 +153,7 @@ export default function SideBar() {
           onChange={handleSortChange}
         />
       </div>
-      <PriceRangeSelector
-        min={100}
-        max={50000}
-        step={500}
-        onChange={handlePriceChange}
-      />
+      <PriceRangeSelector min={100} max={50000} step={500} onChange={handlePriceChange} />
       <CheckboxSingleSelector
         onChange={handleSingleSelectionChange}
         data={filterDataSilgleSelect}

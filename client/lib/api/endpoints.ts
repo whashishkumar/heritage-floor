@@ -1,10 +1,4 @@
-import {
-  apiFetch,
-  apiFetchBatch,
-  apiFetchWithResponse,
-  apiPost,
-} from "./fetcher";
-import type { PaginatedResponse } from "./types";
+import { apiFetch, apiPost } from "./fetcher";
 
 // Product APIs
 // export const productAPI = {

@@ -1,5 +1,5 @@
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import api from "@/lib/api/axios";
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 interface builderBannerState {
   builderBanner?: [] | null;

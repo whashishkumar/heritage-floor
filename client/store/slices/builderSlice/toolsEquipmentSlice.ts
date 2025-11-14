@@ -1,5 +1,5 @@
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import api from "@/lib/api/axios";
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 interface toolsAndEquimentsState {
   tools?: [] | null;
@@ -26,9 +26,7 @@ export const fetchToolsAndEquimentsInfo = createAsyncThunk<
     const response = await api.get("/builder/tools-section");
     return response.data;
   } catch (error: any) {
-    return rejectWithValue(
-      error.response.data || "Fetch ToolsAnd Equiments Failed"
-    );
+    return rejectWithValue(error.response.data || "Fetch ToolsAnd Equiments Failed");
   }
 });
 

@@ -1,11 +1,7 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
-// import { ChevronLeft, ChevronRight } from "lucide-react";
-import { FaAngleLeft } from "react-icons/fa6";
-import { FaAngleRight } from "react-icons/fa6";
-import { FaChevronRight } from "react-icons/fa";
 import Image from "next/image";
+import { useEffect, useRef, useState } from "react";
 
 const teamMembers = [
   {
@@ -68,7 +64,9 @@ export default function FlooringTeamSlider() {
 
   // Get slides to show based on screen width
   const getSlidesToShow = () => {
-    if (typeof window === "undefined") return 4;
+    if (typeof window === "undefined") {
+      return 4;
+    }
 
     const width = window.innerWidth;
     let slides = 1;
@@ -102,7 +100,7 @@ export default function FlooringTeamSlider() {
     handleResize();
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
-  }, [currentSlide]);
+  }, [currentSlide, getSlidesToShow]);
 
   // Touch handling
   const [touchStartX, setTouchStartX] = useState(0);
@@ -117,7 +115,9 @@ export default function FlooringTeamSlider() {
   };
 
   const handleTouchEnd = () => {
-    if (!touchStartX || !touchEndX) return;
+    if (!touchStartX || !touchEndX) {
+      return;
+    }
 
     const distance = touchStartX - touchEndX;
     const minSwipeDistance = 50;
@@ -136,7 +136,9 @@ export default function FlooringTeamSlider() {
 
   // Navigation
   const handlePrev = () => {
-    if (isTransitioning || currentSlide === 0) return;
+    if (isTransitioning || currentSlide === 0) {
+      return;
+    }
     setIsTransitioning(true);
     setCurrentSlide((prev) => Math.max(0, prev - 1));
     setTimeout(() => setIsTransitioning(false), 500);
@@ -144,14 +146,18 @@ export default function FlooringTeamSlider() {
 
   const handleNext = () => {
     const maxSlide = teamMembers.length - slidesToShow;
-    if (isTransitioning || currentSlide >= maxSlide) return;
+    if (isTransitioning || currentSlide >= maxSlide) {
+      return;
+    }
     setIsTransitioning(true);
     setCurrentSlide((prev) => Math.min(maxSlide, prev + 1));
     setTimeout(() => setIsTransitioning(false), 500);
   };
 
   const goToSlide = (index: any) => {
-    if (isTransitioning) return;
+    if (isTransitioning) {
+      return;
+    }
     setIsTransitioning(true);
     setCurrentSlide(index);
     setTimeout(() => setIsTransitioning(false), 500);

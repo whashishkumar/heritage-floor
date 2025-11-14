@@ -1,4 +1,5 @@
-import React from "react";
+import Image from "next/image";
+import type React from "react";
 import { FaCalendarAlt } from "react-icons/fa";
 import { FaArrowRightLong } from "react-icons/fa6";
 
@@ -23,13 +24,15 @@ interface BlogCardProps {
 
 const BlogCard: React.FC<BlogCardProps> = ({
   post,
-  index,
+  index: _index,
   handleReadMoreCard,
 }: BlogCardProps) => {
   return (
     <div key={post.id}>
       <div className="relative h-[20rem] overflow-hidden">
-        <img
+        <Image
+          height={30}
+          width={30}
           src={post.image}
           alt={post.title}
           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"

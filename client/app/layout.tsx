@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import Navbar from "@/components/layout/NavBar";
-import Footer from "@/components/layout/Footer";
 import localFont from "next/font/local";
-import { Providers } from "@/store/providers";
+import Footer from "@/components/layout/Footer";
+import Navbar from "@/components/layout/NavBar";
 import { AuthProvider } from "@/context/userAuthContext";
+import { Providers } from "@/store/providers";
 
 const poppins = localFont({
   src: [
@@ -55,9 +55,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${roboto.variable}  ${poppins.variable}  ${inter.variable} antialiased `}
-      >
+      <body className={`${roboto.variable}  ${poppins.variable}  ${inter.variable} antialiased `}>
         <AuthProvider>
           <Providers>
             <Navbar />

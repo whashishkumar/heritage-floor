@@ -1,9 +1,9 @@
 "use client";
-import SectionHeader from "../common/SectionHeader";
-import ButtonCommon from "../ui/Button";
-import AutoPlay from "../common/Slider";
-import { CustomeCard } from "./CustomerCard";
 import { usePathname } from "next/navigation";
+import SectionHeader from "../common/SectionHeader";
+import AutoPlay from "../common/Slider";
+import ButtonCommon from "../ui/Button";
+import { CustomeCard } from "./CustomerCard";
 
 interface coustumerData {
   coustumerData?: any;
@@ -92,9 +92,7 @@ export default function OurCustomers({ coustumerData }: coustumerData) {
         <div className=" w-full flex flex-col items-center justify-center pb-8">
           <SectionHeader
             heading={coustumerData?.heading || "Our Customers"}
-            subHeading={
-              coustumerData?.subheading || "The People Behind Our Story"
-            }
+            subHeading={coustumerData?.subheading || "The People Behind Our Story"}
             description={
               coustumerData?.description ||
               "We’re proud to serve businesses who rely on us for timeless flooring, expert installation, and personalized care."

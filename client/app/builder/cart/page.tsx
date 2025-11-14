@@ -1,6 +1,7 @@
 import BestsellerProducts from "@/components/builder/BestsellerProducts";
-import CategoryProducts from "@/components/builder/CategoryProducts";
 import CartPageComponent from "@/components/builder/CartPage";
+import CategoryProducts from "@/components/builder/CategoryProducts";
+
 const headerProductBestSeller = {
   heading: "Bestseller",
   subHeading: "Products",
@@ -8,7 +9,7 @@ const headerProductBestSeller = {
 export default async function CartPage() {
   return (
     <>
-      <CartPageComponent /> 
+      <CartPageComponent />
       <BestsellerProducts data={headerProductBestSeller} />
       <CategoryProducts />
     </>

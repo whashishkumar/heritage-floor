@@ -1,9 +1,9 @@
 "use client";
-import React from "react";
-import SectionHeader from "../common/SectionHeader";
 import Image from "next/image";
-import SwipeSlider from "../ui/SwipeSlider";
 import Link from "next/link";
+import type React from "react";
+import SectionHeader from "../common/SectionHeader";
+import SwipeSlider from "../ui/SwipeSlider";
 
 export interface Category {
   id: number;
@@ -62,10 +62,7 @@ const breakpoints = {
 };
 const CategoryProductsCard: React.FC<{ data: any }> = ({ data: product }) => {
   return (
-    <div
-      className="category-products relative h-[460px] px-3 py-8"
-      key={product?.url_key}
-    >
+    <div className="category-products relative h-[460px] px-3 py-8" key={product?.url_key}>
       {product?.image && (
         <Image
           src={product?.image}
@@ -106,7 +103,7 @@ export default function CategoryProducts({ catgoryProductsList }: any) {
         breakpoints={breakpoints}
       >
         {data?.map((card: any) => {
-          return <CategoryProductsCard data={card} />;
+          return <CategoryProductsCard key={card?.id || card?.url_key} data={card} />;
         })}
       </SwipeSlider>
     </div>

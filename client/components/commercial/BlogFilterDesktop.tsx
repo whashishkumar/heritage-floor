@@ -1,4 +1,4 @@
-import React from "react";
+import type React from "react";
 
 interface DesktopBlogFilterProps {
   categories: string[];
@@ -10,7 +10,7 @@ interface DesktopBlogFilterProps {
 const DesktopBlogFilter: React.FC<DesktopBlogFilterProps> = ({
   categories,
   selectedCategory,
-  setSelectedCategory,
+  setSelectedCategory: _setSelectedCategory,
   CategoryBaseArticles,
 }) => {
   // const handleSelect = (category: any) => {

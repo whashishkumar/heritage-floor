@@ -1,11 +1,11 @@
 "use client";
+import { Autoplay, Navigation } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation, Autoplay } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/navigation";
-import { useRef, ReactNode } from "react";
-import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import Image from "next/image";
+import { type ReactNode, useRef } from "react";
+import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import type { Swiper as SwiperType } from "swiper";
 
 interface SwipeSliderProps {
@@ -44,11 +44,13 @@ export default function SwipeSlider({
   // Loop mode requires at least 2x the number of visible slides to work properly
   // This prevents the "not enough slides for loop mode" warning
   const getMaxSlidesPerView = () => {
-    if (!breakpoints) return slidesPerView;
+    if (!breakpoints) {
+      return slidesPerView;
+    }
 
     // Find the maximum slidesPerView from breakpoints
     const breakpointValues = Object.values(breakpoints).map(
-      (bp: any) => bp.slidesPerView || slidesPerView
+      (bp: any) => bp.slidesPerView || slidesPerView,
     );
     return Math.max(slidesPerView, ...breakpointValues);
   };
@@ -63,13 +65,7 @@ export default function SwipeSlider({
     <div className="relative w-full">
       {/* Optional Quote Icon */}
       {textQuort && (
-        <Image
-          src="/images/strReview.png"
-          alt="quote"
-          height={40}
-          width={40}
-          className="mb-4"
-        />
+        <Image src="/images/strReview.png" alt="quote" height={40} width={40} className="mb-4" />
       )}
 
       {/* Swiper Slider */}
@@ -87,9 +83,7 @@ export default function SwipeSlider({
         slidesPerView={slidesPerView}
       >
         {Array.isArray(children) ? (
-          children.map((child, idx) => (
-            <SwiperSlide key={idx}>{child}</SwiperSlide>
-          ))
+          children.map((child, idx) => <SwiperSlide key={idx}>{child}</SwiperSlide>)
         ) : (
           <SwiperSlide key="single">{children}</SwiperSlide>
         )}

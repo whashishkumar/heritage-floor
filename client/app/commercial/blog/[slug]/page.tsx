@@ -5,9 +5,5 @@ export default async function BlogDetailPage({ params }: any) {
   const { slug } = await params;
   const blogsDetail = await CommonComponentData.getBlogsDetail(slug);
 
-  return (
-    <>
-      <BlogDetail blogsDetail={blogsDetail} slugPath={"commercial"} />
-    </>
-  );
+  return <BlogDetail blogsDetail={blogsDetail} slugPath={"commercial"} />;
 }

@@ -36,7 +36,7 @@ import ButtonCommon from "../ui/Button";
 //   ],
 // };
 export default function HeroSection({ bannerData }: any) {
-  const premiumBanner = bannerData?.[0];
+  const _premiumBanner = bannerData?.[0];
 
   return (
     <>

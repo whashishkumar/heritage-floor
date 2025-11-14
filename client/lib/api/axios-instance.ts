@@ -1,6 +1,6 @@
-import axios, { AxiosError, AxiosRequestConfig } from "axios";
-import { API_CONFIG } from "./config";
+import axios, { type AxiosError } from "axios";
 import Cookies from "js-cookie";
+import { API_CONFIG } from "./config";
 
 // Create axios instance
 export const api = axios.create({
@@ -24,7 +24,7 @@ api.interceptors.request.use(
   (error) => {
     console.error(" Request Error:", error);
     return Promise.reject(error);
-  }
+  },
 );
 
 // Response interceptor
@@ -37,7 +37,7 @@ api.interceptors.response.use(
       // Server responded with error status
       console.error(
         ` API Error: ${error.response.status} ${error.config?.url}`,
-        error.response.data
+        error.response.data,
       );
     } else if (error.request) {
       // Request was made but no response
@@ -47,5 +47,5 @@ api.interceptors.response.use(
       console.error(" Error:", error.message);
     }
     return Promise.reject(error);
-  }
+  },
 );

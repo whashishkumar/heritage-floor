@@ -1,9 +1,4 @@
-import {
-  apiFetch,
-  apiFetchBatch,
-  apiFetchWithResponse,
-  apiPost,
-} from "./fetcher";
+import { apiFetch } from "./fetcher";
 
 //Commercial Page
 export const CommercialPageData = {

@@ -179,11 +179,12 @@
 // }
 
 "use client";
-import React, { useState, useEffect } from "react";
+import type React from "react";
+import { useState } from "react";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import { RxArrowRight, RxArrowLeft } from "react-icons/rx";
+import { RxArrowLeft, RxArrowRight } from "react-icons/rx";
 
 interface SlickSliderProps {
   data: any[];
@@ -195,7 +196,7 @@ interface SlickSliderProps {
   responsive?: any; // 👈 Added prop for responsive breakpoints
 }
 
-const NextArrow = ({ onClick, currentSlide, slideCount }: any) => {
+const _NextArrow = ({ onClick, currentSlide, slideCount }: any) => {
   const isLast = currentSlide === slideCount! - 1;
   return (
     <button
@@ -208,14 +209,8 @@ const NextArrow = ({ onClick, currentSlide, slideCount }: any) => {
     </button>
   );
 };
-// 
-const PrevArrow = ({
-  onClick,
-  currentSlide,
-}: {
-  onClick?: () => void;
-  currentSlide?: number;
-}) => {
+//
+const _PrevArrow = ({ onClick, currentSlide }: { onClick?: () => void; currentSlide?: number }) => {
   const isFirst = currentSlide === 0;
   return (
     <button
@@ -236,7 +231,7 @@ export default function AutoPlay({
   rtl = false,
   responsive,
 }: SlickSliderProps) {
-  const [currentSlide, setCurrentSlide] = useState(0);
+  const [_currentSlide, _setCurrentSlide] = useState(0);
 
   const settings = {
     dots: false,

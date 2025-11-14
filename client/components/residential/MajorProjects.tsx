@@ -1,8 +1,8 @@
 "use client";
+import Image from "next/image";
 import { useState } from "react";
 import SectionHeader from "../common/SectionHeader";
 import ButtonCommon from "../ui/Button";
-import Image from "next/image";
 import ModalBox from "../ui/ModalBox";
 
 export default function MajorProjectsResidential({ majorProjects }: any) {

@@ -1,5 +1,4 @@
 import ProductDetailPage from "@/components/residential/productDetail";
-import React from "react";
 
 export interface Product {
   id: number;
@@ -12,7 +11,7 @@ export interface Product {
   image: string;
 }
 
-export default async function Page({ params }: any) {
+export default async function Page({ params: _params }: any) {
   return (
     <div>
       <ProductDetailPage />

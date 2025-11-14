@@ -1,9 +1,4 @@
-import {
-  apiFetch,
-  apiFetchBatch,
-  apiFetchWithResponse,
-  apiPost,
-} from "./fetcher";
+import { apiFetch, apiPost } from "./fetcher";
 // Residentail PageData Api
 export const ResidentailPageData = {
   getCategories: () => {
@@ -59,7 +54,7 @@ export const ResidentailPageData = {
       order?: any;
       page?: any;
       limit?: any;
-    } = {}
+    } = {},
   ) => {
     const { categoryid, id, sky, sortId, order, page, limit } = params;
     return apiFetch({

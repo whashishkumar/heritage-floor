@@ -1,7 +1,5 @@
 import SectionHeader from "../common/SectionHeader";
-import Image from "next/image";
 import FlooringOptionsCard from "./FlooringOptionCard";
-import FlooringOptionSlider from "./FlooringOptionSlider";
 import FlooringTeamSlider from "./FlooringOptionSlider";
 export default async function FlooringOptionsCommercial() {
   const teamMembers = [
@@ -50,39 +48,37 @@ export default async function FlooringOptionsCommercial() {
   ];
 
   return (
-    <>
-      <div className="w-full h-full mb-[5rem] mt-[4rem]">
-        <div className=" wrapper  mx-auto">
-          <div className=" w-full flex flex-col items-center justify-center  ">
-            <SectionHeader
-              heading="Explore our Wide Range of "
-              headingCss="text-base leading-[1.4px font-normal] tracking-[1.4px]"
-              subHeading="Flooring Options"
-              description="We’re proud to serve businesses who rely on us for timeless flooring, expert installation, and personalized care."
-              mainCss="flex flex-col items-center justify-center  mt-[2rem]"
-              descriptionCss="leading-[1.5]  mt-[1rem] w-[85%] text-center align-middle"
-            />
+    <div className="w-full h-full mb-[5rem] mt-[4rem]">
+      <div className=" wrapper  mx-auto">
+        <div className=" w-full flex flex-col items-center justify-center  ">
+          <SectionHeader
+            heading="Explore our Wide Range of "
+            headingCss="text-base leading-[1.4px font-normal] tracking-[1.4px]"
+            subHeading="Flooring Options"
+            description="We’re proud to serve businesses who rely on us for timeless flooring, expert installation, and personalized care."
+            mainCss="flex flex-col items-center justify-center  mt-[2rem]"
+            descriptionCss="leading-[1.5]  mt-[1rem] w-[85%] text-center align-middle"
+          />
 
-            <div className="w-full lg:grid lg:grid-cols-4 gap-4">
-              {/* Mobile: horizontal scroll */}
-              <div className="flex gap-4 overflow-x-auto overflow-y-clip lg:overflow-x-hidden lg:hidden no-scrollbar">
-                {teamMembers.map((team, index) => (
-                  <div
-                    key={index}
-                    className="w-[80%] sm:w-[60%] md:w-[45%]" // adjust width per card
-                  >
-                    <FlooringOptionsCard team={team} index={index} />
-                  </div>
-                ))}
-              </div>
+          <div className="w-full lg:grid lg:grid-cols-4 gap-4">
+            {/* Mobile: horizontal scroll */}
+            <div className="flex gap-4 overflow-x-auto overflow-y-clip lg:overflow-x-hidden lg:hidden no-scrollbar">
+              {teamMembers.map((team, index) => (
+                <div
+                  key={index}
+                  className="w-[80%] sm:w-[60%] md:w-[45%]" // adjust width per card
+                >
+                  <FlooringOptionsCard team={team} index={index} />
+                </div>
+              ))}
             </div>
+          </div>
 
-            <div className=" hidden lg:block ">
-              <FlooringTeamSlider />
-            </div>
+          <div className=" hidden lg:block ">
+            <FlooringTeamSlider />
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 }

@@ -1,19 +1,15 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import Image from "next/image";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import { CiMail, CiUser } from "react-icons/ci";
 import { FaCalendarAlt, FaRegClock } from "react-icons/fa";
-import { CiUser } from "react-icons/ci";
-import { FiShare2 } from "react-icons/fi";
+import { FaArrowLeftLong } from "react-icons/fa6";
+import { FiLinkedin, FiShare2 } from "react-icons/fi";
 import { LuFacebook } from "react-icons/lu";
 import { RiTwitterXLine } from "react-icons/ri";
-import { FiLinkedin } from "react-icons/fi";
-import { CiMail } from "react-icons/ci";
-import { MdChevronRight } from "react-icons/md";
-import { LuMessageSquare } from "react-icons/lu";
-import { FaArrowLeftLong } from "react-icons/fa6";
-import Image from "next/image";
 import BlogCard from "@/components/commercial/BlogCard";
 import TableOfContents from "./Blog/TableOfContent";
-import { useRouter } from "next/navigation";
 
 const BlogDetail = ({ blogsDetail, slugPath }: any) => {
   const router = useRouter();
@@ -23,8 +19,7 @@ const BlogDetail = ({ blogsDetail, slugPath }: any) => {
     { id: string; title: string; level: number }[]
   >([]);
   const { related, data } = blogsDetail;
-  const { author, category, date, excerpt, image, readTime, title, tags } =
-    data || {};
+  const { author, category, date, excerpt, image, readTime, title, tags } = data || {};
 
   const content = `<article class="blog-article">
   <h2>Introduction to Tile Textures</h2>
@@ -145,8 +140,7 @@ const BlogDetail = ({ blogsDetail, slugPath }: any) => {
 
   useEffect(() => {
     const handleScroll = () => {
-      const totalHeight =
-        document.documentElement.scrollHeight - window.innerHeight;
+      const totalHeight = document.documentElement.scrollHeight - window.innerHeight;
       const progress = (window.scrollY / totalHeight) * 100;
       setScrollProgress(progress);
 
@@ -164,7 +158,7 @@ const BlogDetail = ({ blogsDetail, slugPath }: any) => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const tableOfContent = [
+  const _tableOfContent = [
     { id: "introduction", title: "Introduction to Tile Textures" },
     { id: "science", title: "The Science Behind Textures" },
     { id: "types", title: "Types of Tile Textures" },
@@ -173,7 +167,7 @@ const BlogDetail = ({ blogsDetail, slugPath }: any) => {
     { id: "maintenance", title: "Maintenance Tips" },
   ];
 
-  const relatedPosts = [
+  const _relatedPosts = [
     {
       id: 1,
       title: "Tile Tips: The Science of Tile Texture",
@@ -278,9 +272,7 @@ const BlogDetail = ({ blogsDetail, slugPath }: any) => {
             {title}
           </h1>
 
-          <p className="text-xl text-primaryGray mb-8 leading-relaxed">
-            {excerpt}
-          </p>
+          <p className="text-xl text-primaryGray mb-8 leading-relaxed">{excerpt}</p>
 
           <div className="flex flex-wrap items-center gap-6 text-primaryGray mb-8">
             <div className="flex items-center gap-2">
@@ -299,9 +291,7 @@ const BlogDetail = ({ blogsDetail, slugPath }: any) => {
 
           {/* Social Share */}
           <div className="flex items-center gap-3 pb-8 border-b border-[#e8e8e8]">
-            <span className="text-sm font-medium text-gray-600">
-              Socila Links:
-            </span>
+            <span className="text-sm font-medium text-gray-600">Socila Links:</span>
             <button className="p-2 hover:bg-blue-50 rounded-full transition-colors">
               <LuFacebook className="w-5 h-5 text-darkBlue" />
             </button>
@@ -396,13 +386,10 @@ const BlogDetail = ({ blogsDetail, slugPath }: any) => {
 
         {/* CTA Section */}
         <div className="mt-12 p-8 bg-gray-900 rounded-xl text-white">
-          <h3 className="text-2xl font-bold mb-4">
-            Ready to Transform Your Space?
-          </h3>
+          <h3 className="text-2xl font-bold mb-4">Ready to Transform Your Space?</h3>
           <p className="text-gray-300 mb-6">
-            Explore our extensive collection of textured tiles or consult with
-            our design experts to find the perfect solution for your commercial
-            project.
+            Explore our extensive collection of textured tiles or consult with our design experts to
+            find the perfect solution for your commercial project.
           </p>
           <button className="px-8 py-3 bg-primaryTwo hover:bg-primaryOne rounded-lg font-semibold transition-colors cursor-pointer">
             Browse Our Collection
@@ -411,20 +398,14 @@ const BlogDetail = ({ blogsDetail, slugPath }: any) => {
 
         {/* Related Posts */}
         <div className="mt-16">
-          <h2 className="text-3xl font-bold text-darkBlue mb-8">
-            Related Articles
-          </h2>
+          <h2 className="text-3xl font-bold text-darkBlue mb-8">Related Articles</h2>
           <div className="lg:grid  lg:grid-cols-3 gap-8">
             {related?.map((post: any, index: any) => (
               <div
                 className="group bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 cursor-pointer"
                 key={index}
               >
-                <BlogCard
-                  post={post}
-                  index={index}
-                  handleReadMoreCard={handleReadMoreCard}
-                />
+                <BlogCard post={post} index={index} handleReadMoreCard={handleReadMoreCard} />
               </div>
             ))}
           </div>

@@ -48,38 +48,36 @@ const responsiveSettings = [
 
 export default function TestimonialsCommercial({ testinomialsData }: any) {
   return (
-    <>
-      <div className="w-full h-full mb-[5rem]">
-        <div className="wrapper  mx-auto">
-          <div className=" w-full flex flex-col items-center justify-center ">
-            <SectionHeader
-              heading="Trusted by Our Clients"
-              subHeading="Client Testimonials"
-              description="We believe success is measured by the satisfaction of our clients. Here’s what they have to say about working with us."
-              mainCss="flex flex-col items-center justify-center"
-              descriptionCss="leading-[1.5] mb-[2rem] mt-[0.5rem] w-[60%] text-center align-middle"
-            />
-          </div>
-          <div className="mt-[2rem]  ">
-            <AutoPlay
-              data={testinomialsData}
-              CardComponent={TestimonialCard}
-              slideToShow={4}
-              rtl={false}
-              responsive={responsiveSettings}
-            />
-          </div>
-          <div className="mt-[2rem]">
-            <AutoPlay
-              data={testinomialsData}
-              CardComponent={TestimonialCard}
-              slideToShow={4}
-              rtl={true}
-              responsive={responsiveSettings}
-            />
-          </div>
+    <div className="w-full h-full mb-[5rem]">
+      <div className="wrapper  mx-auto">
+        <div className=" w-full flex flex-col items-center justify-center ">
+          <SectionHeader
+            heading="Trusted by Our Clients"
+            subHeading="Client Testimonials"
+            description="We believe success is measured by the satisfaction of our clients. Here’s what they have to say about working with us."
+            mainCss="flex flex-col items-center justify-center"
+            descriptionCss="leading-[1.5] mb-[2rem] mt-[0.5rem] w-[60%] text-center align-middle"
+          />
+        </div>
+        <div className="mt-[2rem]  ">
+          <AutoPlay
+            data={testinomialsData}
+            CardComponent={TestimonialCard}
+            slideToShow={4}
+            rtl={false}
+            responsive={responsiveSettings}
+          />
+        </div>
+        <div className="mt-[2rem]">
+          <AutoPlay
+            data={testinomialsData}
+            CardComponent={TestimonialCard}
+            slideToShow={4}
+            rtl={true}
+            responsive={responsiveSettings}
+          />
         </div>
       </div>
-    </>
+    </div>
   );
 }

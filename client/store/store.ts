@@ -1,6 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit";
-import fetchToolsAndEquimentsReducre from "./slices/builderSlice/toolsEquipmentSlice";
 import fetchBuilderBannerPageInforeducer from "./slices/builderSlice/bannerPageSlice";
+import fetchToolsAndEquimentsReducre from "./slices/builderSlice/toolsEquipmentSlice";
 
 export const store = configureStore({
   reducer: {

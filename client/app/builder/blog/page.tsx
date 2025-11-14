@@ -4,13 +4,5 @@ export default async function Blogs() {
   const blogs = await CommonComponentData.getOurBlogs(1);
   const featuredBlogs = await CommonComponentData.getFeaturedBlogs();
 
-  return (
-    <>
-      <BlogPage
-        blogs={blogs}
-        featuredBlogs={featuredBlogs}
-        slugPath={"builder"}
-      />
-    </>
-  );
+  return <BlogPage blogs={blogs} featuredBlogs={featuredBlogs} slugPath={"builder"} />;
 }

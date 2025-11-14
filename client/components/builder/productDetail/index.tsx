@@ -1,12 +1,12 @@
 "use client";
-import ProductCard from "@/components/common/Product";
-import React, { useState, useEffect, use } from "react";
-import SideBar from "./SideBar";
-import Selector from "@/components/ui/Selector";
-import Pagination from "@/components/ui/Pagnation";
+import { useParams, useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 import { LuFilter } from "react-icons/lu";
 import { MdClose } from "react-icons/md";
-import { useParams, useRouter } from "next/navigation";
+import ProductCard from "@/components/common/Product";
+import Pagination from "@/components/ui/Pagnation";
+import Selector from "@/components/ui/Selector";
+import SideBar from "./SideBar";
 
 export interface Product {
   id: number;
@@ -114,16 +114,13 @@ const accOptions = [
   { label: "Dec", value: "dec" },
 ];
 
-export default function ProductDetailPage({
-  productsData,
-  sortOptionsCategory,
-}: any) {
+export default function ProductDetailPage({ productsData, sortOptionsCategory }: any) {
   const router = useRouter();
   const [isMobileFilterOpen, setIsMobileFilterOpen] = useState(false);
   const dataList = productsData ? productsData : products;
   const shortOptions = sortOptionsCategory ? sortOptionsCategory : sortOptions;
   const params = useParams();
-  const { slug } = params;
+  const { slug: _slug } = params;
 
   useEffect(() => {
     if (isMobileFilterOpen) {
@@ -161,10 +158,7 @@ export default function ProductDetailPage({
         }`}
       >
         <div className="flex justify-end items-center ">
-          <button
-            onClick={handleToggleMobileFilter}
-            className="text-black text-xl p-3 "
-          >
+          <button onClick={handleToggleMobileFilter} className="text-black text-xl p-3 ">
             <MdClose size={24} />
           </button>
         </div>
@@ -181,9 +175,7 @@ export default function ProductDetailPage({
         <div className="w-full ">
           {/* desktop */}
           <div className=" hidden md:flex justify-between items-center bg-[#fff] sticky top-12 z-30 py-4">
-            <p className="font-semibold text-lg poppins-font">
-              Products Founds : 345
-            </p>
+            <p className="font-semibold text-lg poppins-font">Products Founds : 345</p>
             <div className="grid grid-cols-2 gap-6">
               <Selector
                 label="Sort By"
@@ -204,9 +196,7 @@ export default function ProductDetailPage({
 
           {/* mobile */}
           <div className="md:hidden flex items-center justify-between ">
-            <p className="font-semibold text-lg poppins-font">
-              Products Founds : 345
-            </p>
+            <p className="font-semibold text-lg poppins-font">Products Founds : 345</p>
             <div className=" cursor-pointer" onClick={handleToggleMobileFilter}>
               <LuFilter size={24} />
             </div>
@@ -226,7 +216,7 @@ export default function ProductDetailPage({
             <Pagination
               currentPage={1}
               totalPages={3}
-              onPageChange={function (page: number): void {
+              onPageChange={(_page: number): void => {
                 throw new Error("Function not implemented.");
               }}
             />

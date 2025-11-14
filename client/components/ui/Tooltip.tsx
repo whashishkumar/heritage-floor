@@ -1,6 +1,6 @@
 "use client";
 
-import { ReactNode, useState } from "react";
+import { type ReactNode, useState } from "react";
 
 interface TooltipProps {
   text: string;
@@ -8,11 +8,7 @@ interface TooltipProps {
   position?: "top" | "bottom" | "left" | "right";
 }
 
-export default function Tooltip({
-  text,
-  children,
-  position = "top",
-}: TooltipProps) {
+export default function Tooltip({ text, children, position = "top" }: TooltipProps) {
   const [visible, setVisible] = useState(false);
 
   const positionClasses = {
@@ -40,10 +36,10 @@ export default function Tooltip({
               position === "top"
                 ? "top-full left-1/2 -translate-x-1/2"
                 : position === "bottom"
-                ? "bottom-full left-1/2 -translate-x-1/2"
-                : position === "left"
-                ? "left-full top-1/2 -translate-y-1/2"
-                : "right-full top-1/2 -translate-y-1/2"
+                  ? "bottom-full left-1/2 -translate-x-1/2"
+                  : position === "left"
+                    ? "left-full top-1/2 -translate-y-1/2"
+                    : "right-full top-1/2 -translate-y-1/2"
             }`}
           />
         </div>

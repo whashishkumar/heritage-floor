@@ -1,11 +1,10 @@
 "use client";
-import Image from "next/image";
-import React, { useState } from "react";
+import type React from "react";
+import { useState } from "react";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
-import { useSelector } from "react-redux";
-import ForgotPasswordForm from "./ForgotPasswordForm";
-import { AuthValidation } from "@/lib/api/authincationEndPoints";
 import { useAuth } from "@/context/userAuthContext";
+import { AuthValidation } from "@/lib/api/authincationEndPoints";
+import ForgotPasswordForm from "./ForgotPasswordForm";
 
 export default function LoginPage({ onClose }: any) {
   const [forgetPasswordScreen, setForgetScreen] = useState(false);
@@ -52,9 +51,7 @@ export default function LoginPage({ onClose }: any) {
         <ForgotPasswordForm />
       ) : (
         <div className="w-full max-w-md">
-          <h2 className="text-3xl font-semibold text-gray-800 text-center mb-2">
-            Welcome Back 👋
-          </h2>
+          <h2 className="text-3xl font-semibold text-gray-800 text-center mb-2">Welcome Back 👋</h2>
           <p className="text-gray-500 text-center mb-8">
             {status?.message ? (
               <span className="text-red-500 ">{status?.message}</span>
@@ -66,9 +63,7 @@ export default function LoginPage({ onClose }: any) {
           <form onSubmit={handleSubmit} className="space-y-5">
             {/* Email */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Email
-              </label>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Email</label>
               <input
                 type="email"
                 name="email"
@@ -82,9 +77,7 @@ export default function LoginPage({ onClose }: any) {
 
             {/* Password with Eye Icon */}
             <div className="relative">
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Password
-              </label>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Password</label>
               <input
                 type={showPassword ? "text" : "password"}
                 name="password"
@@ -98,11 +91,7 @@ export default function LoginPage({ onClose }: any) {
                 className="absolute top-10 right-3 flex items-center cursor-pointer text-gray-500"
                 onClick={() => setShowPassword(!showPassword)}
               >
-                {showPassword ? (
-                  <AiFillEyeInvisible size={20} />
-                ) : (
-                  <AiFillEye size={20} />
-                )}
+                {showPassword ? <AiFillEyeInvisible size={20} /> : <AiFillEye size={20} />}
               </div>
             </div>
 

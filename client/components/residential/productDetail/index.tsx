@@ -1,15 +1,14 @@
 "use client";
-import ProductCard from "@/components/common/Product";
-import React, { useState, useEffect, Suspense } from "react";
-import SideBar from "./SideBar";
-import Selector from "@/components/ui/Selector";
-import Pagination from "@/components/ui/Pagnation";
+import { useParams, useRouter } from "next/navigation";
+import { Suspense, useEffect, useState } from "react";
 import { LuFilter } from "react-icons/lu";
 import { MdClose } from "react-icons/md";
-import { useParams, useRouter } from "next/navigation";
-
+import ProductCard from "@/components/common/Product";
 import Loader from "@/components/ui/Loader";
+import Pagination from "@/components/ui/Pagnation";
+import Selector from "@/components/ui/Selector";
 import { ResidentailPageData } from "@/lib/api/residentialEndPoints";
+import SideBar from "./SideBar";
 
 export interface Product {
   id: number;
@@ -22,7 +21,7 @@ export interface Product {
   image: string;
 }
 
-const products: Product[] = [
+const _products: Product[] = [
   {
     id: 1,
     name: 'Crain Disposable Cove Base Nozzle - 3"',
@@ -120,11 +119,9 @@ const accOptions = [
 export default function ProductDetailPage({ sortOptionsCategory }: any) {
   const router = useRouter();
   const [isMobileFilterOpen, setIsMobileFilterOpen] = useState(false);
-  const [categoryProducts, setCategoryProducts] = useState<Product[] | null>(
-    null
-  );
+  const [categoryProducts, setCategoryProducts] = useState<Product[] | null>(null);
   const [currentPage, setCurrentpage] = useState(1);
-  const [productCategory, setProductCategory] = useState(null);
+  const [_productCategory, setProductCategory] = useState(null);
   const shortOptions = sortOptionsCategory ? sortOptionsCategory : sortOptions;
   const params = useParams();
   const { slug } = params;
@@ -174,7 +171,7 @@ export default function ProductDetailPage({ sortOptionsCategory }: any) {
   useEffect(() => {
     getCatogeryBaseProducts();
     getCategoryList();
-  }, []);
+  }, [getCategoryList, getCatogeryBaseProducts]);
 
   return (
     <>
@@ -192,10 +189,7 @@ export default function ProductDetailPage({ sortOptionsCategory }: any) {
         }`}
       >
         <div className="flex justify-end items-center ">
-          <button
-            onClick={handleToggleMobileFilter}
-            className="text-black text-xl p-3 "
-          >
+          <button onClick={handleToggleMobileFilter} className="text-black text-xl p-3 ">
             <MdClose size={24} />
           </button>
         </div>
@@ -212,9 +206,7 @@ export default function ProductDetailPage({ sortOptionsCategory }: any) {
         <div className="w-full ">
           {/* desktop */}
           <div className=" hidden md:flex justify-between items-center bg-[#fff] sticky top-12 z-30 py-4">
-            <p className="font-semibold text-lg poppins-font">
-              Products Founds : 345
-            </p>
+            <p className="font-semibold text-lg poppins-font">Products Founds : 345</p>
             <div className="grid grid-cols-2 gap-6">
               <Selector
                 label="Sort By"
@@ -235,9 +227,7 @@ export default function ProductDetailPage({ sortOptionsCategory }: any) {
 
           {/* mobile */}
           <div className="md:hidden flex items-center justify-between ">
-            <p className="font-semibold text-lg poppins-font">
-              Products Founds : 345
-            </p>
+            <p className="font-semibold text-lg poppins-font">Products Founds : 345</p>
             <div className=" cursor-pointer" onClick={handleToggleMobileFilter}>
               <LuFilter size={24} />
             </div>
@@ -255,11 +245,7 @@ export default function ProductDetailPage({ sortOptionsCategory }: any) {
                   />
                 ))}
               </div>
-              <Pagination
-                currentPage={currentPage}
-                totalPages={3}
-                onPageChange={handlePageChage}
-              />
+              <Pagination currentPage={currentPage} totalPages={3} onPageChange={handlePageChage} />
             </div>
           </Suspense>
         </div>

@@ -1,14 +1,12 @@
 // lib/api/fetcher.ts
-import { notFound } from "next/navigation";
-import { unstable_cache } from "next/cache";
-import { api } from "./axios-instance";
-import type { FetchOptions, APIResponse } from "./types";
-import { AxiosError } from "axios";
 
-const getCacheConfig = (
-  strategy: FetchOptions["cache"],
-  customRevalidate?: number
-) => {
+import { AxiosError } from "axios";
+import { unstable_cache } from "next/cache";
+import { notFound } from "next/navigation";
+import { api } from "./axios-instance";
+import type { APIResponse, FetchOptions } from "./types";
+
+const getCacheConfig = (strategy: FetchOptions["cache"], customRevalidate?: number) => {
   if (strategy === "no-store") {
     return 0;
   }
@@ -26,12 +24,14 @@ const getCacheConfig = (
 async function retryRequest<T>(
   fn: () => Promise<T>,
   retries: number = 2,
-  delay: number = 1000
+  delay: number = 1000,
 ): Promise<T> {
   try {
     return await fn();
   } catch (error) {
-    if (retries === 0) throw error;
+    if (retries === 0) {
+      throw error;
+    }
 
     await new Promise((resolve) => setTimeout(resolve, delay));
     return retryRequest(fn, retries - 1, delay * 2);
@@ -64,7 +64,7 @@ export async function apiFetch<T = any>(options: FetchOptions): Promise<T> {
             timeout: timeout || undefined,
             headers,
           }),
-        retry
+        retry,
       );
 
       return response.data;
@@ -73,9 +73,7 @@ export async function apiFetch<T = any>(options: FetchOptions): Promise<T> {
         if (throw404 && error.response?.status === 404) {
           notFound();
         }
-        throw new Error(
-          `API Error: ${endpoint} - ${error.response?.status} ${error.message}`
-        );
+        throw new Error(`API Error: ${endpoint} - ${error.response?.status} ${error.message}`);
       }
       throw error;
     }
@@ -87,21 +85,17 @@ export async function apiFetch<T = any>(options: FetchOptions): Promise<T> {
   }
 
   // Cache the request with Next.js unstable_cache
-  const cachedFetch = unstable_cache(
-    fetchFunction,
-    [endpoint, JSON.stringify(params)],
-    {
-      revalidate,
-      tags: [...tags, endpoint],
-    }
-  );
+  const cachedFetch = unstable_cache(fetchFunction, [endpoint, JSON.stringify(params)], {
+    revalidate,
+    tags: [...tags, endpoint],
+  });
 
   return cachedFetch();
 }
 
 // Fetch with full response details
 export async function apiFetchWithResponse<T = any>(
-  options: FetchOptions
+  options: FetchOptions,
 ): Promise<APIResponse<T>> {
   const { endpoint, params, throw404 = false, timeout, headers = {} } = options;
 
@@ -123,9 +117,7 @@ export async function apiFetchWithResponse<T = any>(
       if (throw404 && error.response?.status === 404) {
         notFound();
       }
-      throw new Error(
-        `API Error: ${endpoint} - ${error.response?.status} ${error.message}`
-      );
+      throw new Error(`API Error: ${endpoint} - ${error.response?.status} ${error.message}`);
     }
     throw error;
   }
@@ -136,7 +128,7 @@ export async function apiFetchWithResponse<T = any>(
 export async function apiPost<T = any>(
   endpoint: string,
   data?: any,
-  options?: Omit<FetchOptions, "endpoint">
+  options?: Omit<FetchOptions, "endpoint">,
 ): Promise<T> {
   const { timeout, headers = {} } = options || {};
 
@@ -170,7 +162,7 @@ export async function apiPost<T = any>(
 export async function apiPut<T = any>(
   endpoint: string,
   data: any,
-  options?: Omit<FetchOptions, "endpoint">
+  options?: Omit<FetchOptions, "endpoint">,
 ): Promise<T> {
   const { timeout, headers = {} } = options || {};
   try {
@@ -181,9 +173,7 @@ export async function apiPut<T = any>(
     return response.data;
   } catch (error) {
     if (error instanceof AxiosError) {
-      throw new Error(
-        `API Error: ${endpoint} - ${error.response?.status} ${error.message}`
-      );
+      throw new Error(`API Error: ${endpoint} - ${error.response?.status} ${error.message}`);
     }
     throw error;
   }
@@ -192,7 +182,7 @@ export async function apiPut<T = any>(
 // DELETE request
 export async function apiDelete<T = any>(
   endpoint: string,
-  options?: Omit<FetchOptions, "endpoint">
+  options?: Omit<FetchOptions, "endpoint">,
 ): Promise<T> {
   const { timeout, headers = {} } = options || {};
 
@@ -204,9 +194,7 @@ export async function apiDelete<T = any>(
     return response.data;
   } catch (error) {
     if (error instanceof AxiosError) {
-      throw new Error(
-        `API Error: ${endpoint} - ${error.response?.status} ${error.message}`
-      );
+      throw new Error(`API Error: ${endpoint} - ${error.response?.status} ${error.message}`);
     }
     throw error;
   }
@@ -214,12 +202,10 @@ export async function apiDelete<T = any>(
 
 // Batch fetch multiple endpoints
 export async function apiFetchBatch<T extends Record<string, FetchOptions>>(
-  requests: T
+  requests: T,
 ): Promise<{ [K in keyof T]: Awaited<ReturnType<typeof apiFetch>> }> {
   const entries = Object.entries(requests);
-  const promises = entries.map(([key, options]) =>
-    apiFetch(options).then((data) => [key, data])
-  );
+  const promises = entries.map(([key, options]) => apiFetch(options).then((data) => [key, data]));
   const results = await Promise.all(promises);
   return Object.fromEntries(results) as any;
 }

@@ -1,12 +1,6 @@
 "use client";
-import {
-  createContext,
-  useContext,
-  useEffect,
-  useState,
-  ReactNode,
-} from "react";
 import Cookies from "js-cookie";
+import { createContext, type ReactNode, useContext, useEffect, useState } from "react";
 
 interface AuthContextType {
   token: string | null;

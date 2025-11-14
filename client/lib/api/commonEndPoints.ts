@@ -1,9 +1,4 @@
-import {
-  apiFetch,
-  apiFetchBatch,
-  apiFetchWithResponse,
-  apiPost,
-} from "./fetcher";
+import { apiFetch } from "./fetcher";
 // CommonComponent Content Api`
 export const CommonComponentData = {
   getWhyChooseUs: () => {

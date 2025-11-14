@@ -1,7 +1,6 @@
 "use client";
 import { useState } from "react";
-import { FiSearch, FiUser, FiShoppingCart } from "react-icons/fi";
-import ModalBox from "../ui/ModalBox";
+import { FiSearch, FiShoppingCart, FiUser } from "react-icons/fi";
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -24,9 +23,7 @@ export default function Header() {
                 </span>
               </div>
             </div>
-            <span className="text-gray-400 text-2xl lg:text-3xl font-light">
-              +
-            </span>
+            <span className="text-gray-400 text-2xl lg:text-3xl font-light">+</span>
             <div className="flex flex-col">
               <span className="text-gray-700 font-semibold text-xs lg:text-sm leading-tight">
                 GTA
@@ -127,22 +124,13 @@ export default function Header() {
 
             {/* Mobile Navigation */}
             <nav className="flex flex-col gap-3">
-              <a
-                href="#"
-                className="text-gray-700 hover:text-teal-600 font-medium py-2"
-              >
+              <a href="#" className="text-gray-700 hover:text-teal-600 font-medium py-2">
                 Special Deals
               </a>
-              <a
-                href="#"
-                className="text-gray-700 hover:text-teal-600 font-medium py-2"
-              >
+              <a href="#" className="text-gray-700 hover:text-teal-600 font-medium py-2">
                 Products
               </a>
-              <a
-                href="#"
-                className="text-gray-700 hover:text-teal-600 font-medium py-2"
-              >
+              <a href="#" className="text-gray-700 hover:text-teal-600 font-medium py-2">
                 Get a Quote
               </a>
               <a
