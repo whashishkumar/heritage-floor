@@ -8,8 +8,8 @@ import WhyChooseUsCommercial from "@/components/commercial/WhyChooseUs";
 import TestimonialsCommercial from "@/components/commercial/Testimonials";
 import GetInTouch from "@/components/commercial/GetInTouch";
 import BlogCommercial from "@/components/commercial/Blogs";
-import { BuilderPageData, CommonComponentData } from "@/lib/api/endpoints";
-
+import { BuilderPageData } from "@/lib/api/builderEndPoints";
+import { CommonComponentData } from "@/lib/api/commonEndPoints";
 const costumerData = [
   {
     image: "/images/residential/OurCustomers/1867.png",
@@ -75,18 +75,26 @@ export default async function Home() {
   const blogs = await CommonComponentData?.getOurBlogs(1);
   const builderBanner = await BuilderPageData.getBannerData();
   const customers = await BuilderPageData.getOurCustomers();
-
+  const categoryBaseProducts = await BuilderPageData.getCategoryProducts();
+  const bestSellerProducts = await BuilderPageData.bestSellerProducts();
+  const { data } = await CommonComponentData?.getTestinomials();
   return (
     <>
       <HeroSection bannerData={builderBanner?.data} />
       <ToolsGrid />
-      <BestsellerProducts data={headerProductBestSeller} />
-      <CategoryProducts />
-      {/* <WhyChooseUsCommercial bgColor={"#018C99"} /> */}
-      <OurCustomersCommercial coustumerData={costumerData} />
-      <BestsellerProducts data={headerDataCategory} />
+      <BestsellerProducts
+        bestSellerProducts={bestSellerProducts}
+        productHeader={headerProductBestSeller}
+      />
+      <CategoryProducts catgoryProductsList={categoryBaseProducts} />
+      <WhyChooseUsCommercial bgColor={"#018C99"} />
+      <OurCustomersCommercial coustumerData={customers} />
+      <BestsellerProducts
+        productHeader={headerDataCategory}
+        bestSellerProducts={bestSellerProducts}
+      />
       <Solutions />
-      <TestimonialsCommercial />
+      <TestimonialsCommercial testinomialsData={data} />
       <BlogCommercial blogs={blogs} pagePath={"builder"} />
       <GetInTouch />
     </>

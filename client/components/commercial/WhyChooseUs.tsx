@@ -1,5 +1,5 @@
 import SectionHeader from "../common/SectionHeader";
-import { CommonComponentData } from "@/lib/api/endpoints";
+import { CommonComponentData } from "@/lib/api/commonEndPoints";
 const features = [
   {
     number: 1,
@@ -84,14 +84,14 @@ export default async function WhyChooseUsCommercial({
                       className={` 
                       md:mb-[2rem] lg:mb-0
                       ${
-                        index < features.length - 1
+                        index < whyChooseUs?.data.length - 1
                           ? " border-[#E8E8E8]"
                           : "border-[#E8E8E8]"
                       } 
                     ${
                       index === 0 ? " md:pl-12 pl-8 pr-8 " : "pl-8 pr-11 "
                     } border-r-0 border-b md:border-b-0 md:border-r lg:border-r lg:last:border-r-0 py-8 ${
-                        index === features.length - 1 ? "pr-8" : ""
+                        index === whyChooseUs?.data.length - 1 ? "pr-8" : ""
                       }`}
                     >
                       {/* Number Circle */}

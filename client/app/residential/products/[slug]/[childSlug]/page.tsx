@@ -7,8 +7,6 @@ export default function page() {
   return (
     <>
       <ProductDetailPage />
-      {/* <FeaturedProducts /> */}
-
       <GetInTouch />
     </>
   );

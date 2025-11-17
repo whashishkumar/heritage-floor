@@ -96,10 +96,10 @@ export default function MajorProjectsResidential() {
 
   return (
     <>
-      {/* <div className="w-full h-full  flex items-center justify-center mb-[5rem] sm:overflow-x-auto scrollbar-hide scroll-smooth">
-        <div className="wrapper w-full mx-auto  ">
+      <div className="w-full h-full  flex items-center justify-center mb-[5rem] sm:overflow-x-auto scrollbar-hide scroll-smooth">
+        <div className="wrapper w-full mx-auto">
           <div className="flex mb-[4rem] gap-2">
-            <div className="w-full">
+            <div className="w-full md:py-10">
               <SectionHeader
                 heading="oUr major Projects"
                 subHeading="Successful Projects We’ve Delivered"
@@ -135,10 +135,10 @@ export default function MajorProjectsResidential() {
             ))}
           </div>
         </div>
-      </div> */}
+      </div>
 
-      <div className="w-full h-full mt-[2rem] sm:mt-[4rem] ">
-        <div className=" wrapper  mx-auto">
+      {/* <div className="w-full h-full  flex items-center justify-center mb-[5rem] sm:overflow-x-auto scrollbar-hide scroll-smooth">
+        <div className=" wrapper  mx-auto w-full">
           <div className=" w-full flex flex-col items-center justify-center ">
             <SectionHeader
               heading="Explore our Wide Range of "
@@ -148,7 +148,7 @@ export default function MajorProjectsResidential() {
               subHeadingCss="text-center"
               descriptionCss="leading-[1.5] mb-[2rem] sm:mb-[4rem] mt-[1rem] sm:w-[80%] w-[85%] text-center align-middle"
             />
-            <div className=" flex overflow-x-scroll lg:overflow-x-hidden lg:grid lg:grid-cols-3 gap-6 w-full ">
+            <div className="flex  md:grid-col-1 lg:grid-cols-3 gap-6 w-full  overflow-x-scroll lg:overflow-x-hidden">
               {videoData.map((vdo, index) => (
                 <div
                   className="h-[36.688rem] md:h-[44.688rem] max-w-[22.313rem] md:max-w-[28.313rem] relative overflow-hidden rounded-[1.25rem] w-full"
@@ -173,7 +173,7 @@ export default function MajorProjectsResidential() {
             </div>
           </div>
         </div>
-      </div>
+      </div> */}
       {/* Video Modal */}
       <ModalBox isOpen={isModalOpen} onClose={handleCloseModal}>
         <div className="w-full">

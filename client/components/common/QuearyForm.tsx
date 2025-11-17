@@ -1,9 +1,10 @@
 "use client";
+import { ResidentailPageData } from "@/lib/api/residentialEndPoints";
 import Image from "next/image";
 import { useState } from "react";
 
 type FormState = {
-  name: string;
+  full_name: string;
   email: string;
   phone: string;
   subject: string;
@@ -12,7 +13,7 @@ type FormState = {
 
 export default function QueryForm({ onClose }: any) {
   const [form, setForm] = useState<FormState>({
-    name: "",
+    full_name: "",
     email: "",
     phone: "",
     subject: "",
@@ -31,7 +32,7 @@ export default function QueryForm({ onClose }: any) {
   };
 
   const validate = () => {
-    if (!form.name.trim()) return "Please enter your name.";
+    if (!form.full_name.trim()) return "Please enter your name.";
     if (!form.email.trim()) return "Please enter your email.";
     if (!/^\S+@\S+\.\S+$/.test(form.email))
       return "Please enter a valid email.";
@@ -50,33 +51,29 @@ export default function QueryForm({ onClose }: any) {
       setErrorMsg(validationError);
       return;
     }
-
+    const data = await ResidentailPageData.postInquary(form);
     setLoading(true);
-    setErrorMsg(null);
-    setSuccessMsg(null);
-    onClose();
+    setErrorMsg(data.error);
+    setSuccessMsg(data.message);
+    if (data.message) {
+      setTimeout(() => {
+        onClose();
+        setLoading(false);
+      }, 1000);
+    }
   };
 
   return (
     <div className="w-full mx-auto p-4">
       <form
         onSubmit={handleSubmit}
-        className="rounded-[.75rem] p-6 flex flex-col gap-5"
+        className="rounded-[.75rem] lg:p-6 flex flex-col gap-5"
       >
-        <div className="flex items-center gap-4 mb-2">
-          <div className="h-[1.875rem] w-[1.875rem] relative">
-            <Image
-              src="/icon/share.png"
-              alt="query"
-              fill
-              className="object-contain"
-            />
-          </div>
-          <h2 className="font-semibold text-2xl lg:text-3xl text-gray-800">
+        <div className="flex items-center gap-4 mb-2 ">
+          <h2 className="font-semibold text-xl lg:text-3xl text-gray-800 md:text-center w-full md:py-3">
             Have a question? Send us a query
           </h2>
         </div>
-
         {/* Name, Email, Phone in one row */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div>
@@ -84,8 +81,8 @@ export default function QueryForm({ onClose }: any) {
               Full Name
             </label>
             <input
-              name="name"
-              value={form.name}
+              name="full_name"
+              value={form.full_name}
               onChange={handleChange}
               placeholder="Full name"
               className="w-full border border-gray-300 rounded-lg p-3 outline-none focus:ring-2 focus:ring-[#018C99]"

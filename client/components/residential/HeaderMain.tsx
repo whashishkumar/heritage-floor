@@ -7,41 +7,38 @@ import HeaderMegaMenu from "./HeaderMegaMenu";
 import { IoIosArrowBack } from "react-icons/io";
 import ModalBox from "../ui/ModalBox";
 import LoginPage from "../auth/LoginForm";
-import { useDispatch, useSelector } from "react-redux";
-import { useAuthCheck } from "@/utils/useAuthCheck";
-import { AuthValidation } from "@/lib/api/endpoints";
-
 import { usePathname } from "next/navigation";
 import Link from "next/link";
+import { CartEndPoint } from "@/lib/api/cartEndPoints";
+import { useAuth } from "@/context/userAuthContext";
 
 export default function HeaderMainBar() {
-  const dispatch = useDispatch<any>();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isDealsOpen, setIsDealsOpen] = useState(false);
   const [cartCount] = useState(0);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const { isLoggedIn, token } = useSelector((state: any) => state.loginUser);
-  const { success, customer, loading } = useAuthCheck();
 
+  const [itemsInCart, setItemsInCart] = useState(null);
+  const { isAuthenticated, logout } = useAuth();
   const pathname = usePathname();
 
-  const specialDeals = [
-    "Flooring Sale",
-    "Limited-Time Offers",
-    "New Arrivals",
-    "Clearance Items",
-    "Exclusive Online Discounts",
-  ];
   const handleCloseMegaMenu = () => {
     setIsDealsOpen(false);
     setIsMenuOpen(!isMenuOpen);
   };
 
   const handleOpenModal = () => setIsModalOpen(true);
+
   const handleCloseModal = () => setIsModalOpen(false);
-  const handleLogOut = async () => {
-    await AuthValidation.logOut();
+
+  const getCount = async () => {
+    const cardCount = await CartEndPoint.getCartItems();
+    setItemsInCart(cardCount.data.items_count);
   };
+
+  useEffect(() => {
+    // getCount();
+  }, []);
 
   return (
     <>
@@ -130,10 +127,10 @@ export default function HeaderMainBar() {
                     />
                   </div>
                 </button>
-                {success ? (
+                {isAuthenticated ? (
                   <span
                     className="text-textGray text-base leading-[1.6] cursor-pointer"
-                    onClick={() => handleLogOut()}
+                    onClick={() => logout()}
                   >
                     logout
                   </span>
@@ -159,9 +156,9 @@ export default function HeaderMainBar() {
                     fill
                     className="object-center"
                   />
-                  {cartCount > 0 && (
+                  {itemsInCart && (
                     <span className="absolute -top-2 -right-2 bg-teal-600 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
-                      {cartCount}
+                      {itemsInCart}
                     </span>
                   )}
                 </Link>
@@ -238,13 +235,24 @@ export default function HeaderMainBar() {
                 >
                   Get a Quote
                 </a>
-                <a
-                  href="#"
-                  className="flex items-center gap-2 text-gray-700 hover:text-teal-600 font-medium py-2"
-                >
-                  <FiUser className="w-5 h-5" />
-                  Account / Sign In
-                </a>
+                {isAuthenticated ? (
+                  <span
+                    className="text-textGray text-base leading-[1.6] cursor-pointer"
+                    onClick={() => logout()}
+                  >
+                    logout
+                  </span>
+                ) : (
+                  <span
+                    className="text-textGray text-base leading-[1.6] cursor-pointer"
+                    onClick={handleOpenModal}
+                  >
+                    Account / Sign In
+                  </span>
+                )}
+                <ModalBox isOpen={isModalOpen} onClose={handleCloseModal}>
+                  <LoginPage onClose={handleCloseModal} />
+                </ModalBox>
                 <a
                   href="#"
                   className="flex items-center gap-2 text-gray-700 hover:text-teal-600 font-medium py-2"

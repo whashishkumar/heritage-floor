@@ -48,9 +48,9 @@ export default function CategoriesResidential({
   ];
   const router = useRouter();
 
-  const handleCategoryDetail = (category: any) => {
-    const { name } = category;
-    router.push(`/residential/products/${name}`);
+  const handleCategoryDetail = async (category: any) => {
+    const { id } = category;
+    router.push(`/residential/products/${id}`);
   };
 
   return (
@@ -75,12 +75,14 @@ export default function CategoriesResidential({
                 key={categ.id}
               >
                 <div className=" h-[14rem] w-[14rem] rounded-[7rem] overflow-hidden relative">
-                  <Image
-                    src={categ.image}
-                    alt={categ.name}
-                    fill
-                    className=" object-cover group-hover:scale-105 ease-in-out duration-300 "
-                  />
+                  {categ.image && (
+                    <Image
+                      src={categ.image}
+                      alt={categ.name}
+                      fill
+                      className=" object-cover group-hover:scale-105 ease-in-out duration-300 "
+                    />
+                  )}
                 </div>
                 <button
                   className="w-full h-[3.563rem] bg-black rounded-[0.625rem] cursor-pointer flex items-center justify-center"

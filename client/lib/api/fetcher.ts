@@ -132,6 +132,7 @@ export async function apiFetchWithResponse<T = any>(
 }
 
 // POST request
+
 export async function apiPost<T = any>(
   endpoint: string,
   data?: any,
@@ -144,12 +145,22 @@ export async function apiPost<T = any>(
       timeout: timeout || undefined,
       headers,
     });
+
     return response.data;
   } catch (error) {
     if (error instanceof AxiosError) {
-      throw new Error(
-        `API Error: ${endpoint} - ${error.response?.status} ${error.message}`
-      );
+      // throw new Error(
+      //   `API Error: ${endpoint} - ${error.response?.status} ${error.message}`
+      // );
+      const status = error.response?.status;
+      const errors = error.response?.data;
+      const message =
+        error.response?.data?.message ||
+        error.response?.data?.error ||
+        error.message ||
+        "Unknown API Error";
+
+      throw { status, message, endpoint, errors };
     }
     throw error;
   }

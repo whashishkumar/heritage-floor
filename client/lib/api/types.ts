@@ -16,7 +16,7 @@ export interface APIResponse<T = any> {
   data: T;
   status: number;
   statusText: string;
-  headers: any;
+  headers?: any;
 }
 
 export interface PaginatedResponse<T = any> {
