@@ -1,9 +1,9 @@
 "use client";
+import { CartEndPoint } from "@/lib/api/cartEndPoints";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { CiStar } from "react-icons/ci";
 import ButtonCommon from "../ui/Button";
-import { CartEndPoint } from "@/lib/api/cartEndPoints";
 
 export interface Product {
   id: number;
@@ -29,6 +29,7 @@ export default function ProductCard({
 
   const handleAddToCartProduct = async (id: any) => {
     await CartEndPoint.addItemToCart(id);
+    // addToGuestCart({id:id})
   };
 
   return (
