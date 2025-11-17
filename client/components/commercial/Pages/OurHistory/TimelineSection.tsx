@@ -51,14 +51,53 @@ export default function TimelineSection() {
   const [activeBg, setActiveBg] = useState(timelineData[0].image);
   const [activeIndex, setActiveIndex] = useState(0);
   const sectionRefs = useRef<(HTMLDivElement | null)[]>([]);
-  const activeIndexRef = useRef(0);
+  const scrollContainerRef = useRef<HTMLDivElement | null>(null);
+  const isManualScroll = useRef(false);
 
-  // Scroll listener disabled - years only change on manual click
+  // Scroll listener to auto-select cards based on scroll position
   useEffect(() => {
-    // Initialize first item as active
-    setActiveIndex(0);
-    setActiveBg(timelineData[0].image);
-  }, []);
+    const scrollContainer = scrollContainerRef.current;
+    if (!scrollContainer) return;
+
+    const handleScroll = () => {
+      if (isManualScroll.current) {
+        isManualScroll.current = false;
+        return;
+      }
+
+      const containerRect = scrollContainer.getBoundingClientRect();
+      const containerCenter = containerRect.top + containerRect.height / 2;
+
+      let closestIndex = 0;
+      let closestDistance = Infinity;
+
+      sectionRefs.current.forEach((ref, index) => {
+        if (ref) {
+          const rect = ref.getBoundingClientRect();
+          const cardCenter = rect.top + rect.height / 2;
+          const distance = Math.abs(cardCenter - containerCenter);
+
+          if (distance < closestDistance) {
+            closestDistance = distance;
+            closestIndex = index;
+          }
+        }
+      });
+
+      if (closestIndex !== activeIndex) {
+        setActiveIndex(closestIndex);
+        setActiveBg(timelineData[closestIndex].image);
+      }
+    };
+
+    scrollContainer.addEventListener('scroll', handleScroll);
+    // Initial check
+    handleScroll();
+
+    return () => {
+      scrollContainer.removeEventListener('scroll', handleScroll);
+    };
+  }, [activeIndex]);
 
   return (
     <>
@@ -100,53 +139,62 @@ export default function TimelineSection() {
                       subHeadingCss={`text-darkBlue`}
                     />
              </div>
-    <div className="relative w-full min-h-screen overflow-hidden isolate">
+    <div className="relative w-full h-screen overflow-hidden isolate">
 
-      {/* BACKGROUND IMAGE - ABSOLUTE (contained within section) */}
+      {/* BACKGROUND IMAGE - STICKY */}
       <div
-        className="absolute top-0 left-0 w-full h-full bg-cover bg-center bg-no-repeat transition-all duration-700 ease-in-out"
+        className="sticky top-0 left-0 w-full h-screen bg-cover bg-center bg-no-repeat transition-all duration-700 ease-in-out -z-10"
         style={{
           backgroundImage: `url(${activeBg})`,
-          zIndex: 0,
         }}
-      ></div>
-
-      {/* DARK OVERLAY FOR READABILITY */}
-      <div className="absolute top-0 left-0 w-full h-full bg-black/40" style={{ zIndex: 1 }}></div>
+      >
+        {/* DARK OVERLAY FOR READABILITY */}
+        <div className="absolute inset-0 bg-black/50"></div>
+      </div>
 
       {/* MAIN CONTENT */}
-      <div className="relative container mx-auto min-h-screen flex items-center py-20" style={{ zIndex: 10 }}>
-        <div className="flex gap-20 justify-end w-full">
+      <div className="absolute top-0 left-0 w-full h-full  mx-auto flex items-center py-10 px-4 z-10">
+        <div className="flex gap-8 md:gap-20 justify-between md:justify-end w-full h-full items-center">
 
           {/* CONTENT SECTIONS - SCROLLABLE */}
-          <div className="flex flex-col gap-10 scrollbar-hide max-w-xl h-[90vh] overflow-y-auto overflow-x-hidden  scrollbar-thin scrollbar-thumb-white/30 scrollbar-track-transparent">
-            {timelineData.map((item, i) => (
-              <div
-                key={i}
-                ref={(el) => { 
-                  sectionRefs.current[i] = el;
-                }}
-                className={`bg-white/20 rounded-2xl p-10 text-white shadow-xl transition-all duration-500 ${
-                  activeIndex === i ? 'scale-105 bg-white/30' : 'scale-100'
-                }`}
-              >
-                <p className="text-center mb-4 text-sm tracking-widest">
-                  {Math.floor(item.year)}
-                </p>
-                <h2 className="text-3xl font-bold text-center mb-4">
-                  {item.title}
-                </h2>
-                <p className="text-center text-lg opacity-90">{item.description}</p>
-              </div>
-            ))}
+          <div 
+            ref={scrollContainerRef}
+            className="flex-1 md:flex-initial md:max-w-xl h-[100vh] overflow-y-auto overflow-x-hidden scrollbar-hide scroll-smooth pr-4"
+            style={{
+              scrollbarWidth: 'none',
+              msOverflowStyle: 'none',
+            }}
+          >
+            <div className="flex flex-col gap-8 py-8">
+              {timelineData.map((item, i) => (
+                <div
+                  key={i}
+                  ref={(el) => { 
+                    sectionRefs.current[i] = el;
+                  }}
+                  className={`bg-white/20 backdrop-blur-sm rounded-2xl p-6 md:p-10 text-white shadow-xl transition-all duration-500 overflow-hidden min-h-[250px] ${
+                    activeIndex === i ? 'scale-105 bg-white/30' : 'scale-100'
+                  }`}
+                >
+                  <p className="text-center mb-4 text-sm tracking-widest uppercase font-semibold">
+                    {Math.floor(item.year)}
+                  </p>
+                  <h2 className="text-2xl md:text-3xl font-bold text-center mb-4 overflow-hidden">
+                    {item.title}
+                  </h2>
+                  <p className="text-center text-base md:text-lg opacity-90 overflow-hidden">{item.description}</p>
+                </div>
+              ))}
+            </div>
           </div>
 
-              {/* TIMELINE YEARS */}
-          <div className="flex flex-col gap-6 h-fit text-white text-xl">
+          {/* TIMELINE YEARS */}
+          <div className="flex flex-col gap-4 md:gap-6 h-fit text-white text-lg md:text-xl">
             {timelineData.map((item, i) => (
               <button
                 key={i}
                 onClick={() => {
+                  isManualScroll.current = true;
                   setActiveIndex(i);
                   setActiveBg(item.image);
                   // Scroll to the corresponding section
@@ -155,10 +203,10 @@ export default function TimelineSection() {
                     block: 'center' 
                   });
                 }}
-                className={`transition-all duration-300 ${
+                className={`transition-all duration-300 font-semibold whitespace-nowrap ${
                   activeIndex === i
-                    ? "border px-4 py-2 rounded-full scale-110"
-                    : "opacity-70 hover:opacity-100"
+                    ? "border-2 px-3 md:px-4 py-2 rounded-full scale-110 bg-white/20"
+                    : "opacity-70 hover:opacity-100 hover:scale-105"
                 }`}
               >
                 {Math.floor(item.year)}

@@ -1,11 +1,10 @@
 "use client";
 import Image from "next/image";
-import { RxHamburgerMenu } from "react-icons/rx";
-import { IoSearchOutline } from "react-icons/io5";
-import { IoMailOutline } from "react-icons/io5";
+import { useState } from "react";
+import { FiChevronDown, FiX } from "react-icons/fi";
+import { IoMailOutline, IoSearchOutline } from "react-icons/io5";
 import { PiPhoneCall } from "react-icons/pi";
-import { FiSearch, FiPhone, FiMenu, FiX, FiChevronDown } from "react-icons/fi";
-import React, { useState } from "react";
+import { RxHamburgerMenu } from "react-icons/rx";
 
 const productsSubMenuItems = [
   {
@@ -67,6 +66,7 @@ export default function PhoneMenuCommercial() {
                 alt="heritage_floor"
                 fill
                 className=" object-cover"
+             
               />
             </div>
           </div>
@@ -121,6 +121,7 @@ export default function PhoneMenuCommercial() {
                       className=" object-cover"
                       unoptimized
                       quality={100}
+                  
                     />
                   </div>
                 </div>
