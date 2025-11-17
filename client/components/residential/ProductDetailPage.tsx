@@ -1,16 +1,16 @@
 "use client";
+import { ResidentailPageData } from "@/lib/api/residentialEndPoints";
 import Image from "next/image";
 import Link from "next/link";
+import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { BsCart4 } from "react-icons/bs";
 import { CiHeart } from "react-icons/ci";
+import { FaExclamationCircle } from "react-icons/fa";
 import InnerImageZoom from "react-inner-image-zoom";
+import "react-inner-image-zoom/lib/styles.min.css";
 import Accordion from "../ui/Accordian";
 import SwipeSlider from "../ui/SwipeSlider";
-import "react-inner-image-zoom/lib/styles.min.css";
-import { useParams } from "next/navigation";
-import { FaExclamationCircle } from "react-icons/fa";
-import { ResidentailPageData } from "@/lib/api/residentialEndPoints";
 
 const benefits = [
   {
@@ -193,7 +193,7 @@ const ProductDetailPage = () => {
 
   useEffect(() => {
     getProductDetails();
-  }, [getProductDetails]);
+  }, []);
 
   return (
     <div className="wrapper m-auto py-12">

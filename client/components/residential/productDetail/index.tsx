@@ -1,13 +1,13 @@
 "use client";
-import { useParams, useRouter } from "next/navigation";
-import { Suspense, useEffect, useState } from "react";
-import { LuFilter } from "react-icons/lu";
-import { MdClose } from "react-icons/md";
 import ProductCard from "@/components/common/Product";
 import Loader from "@/components/ui/Loader";
 import Pagination from "@/components/ui/Pagnation";
 import Selector from "@/components/ui/Selector";
 import { ResidentailPageData } from "@/lib/api/residentialEndPoints";
+import { useParams, useRouter } from "next/navigation";
+import { Suspense, useEffect, useState } from "react";
+import { LuFilter } from "react-icons/lu";
+import { MdClose } from "react-icons/md";
 import SideBar from "./SideBar";
 
 export interface Product {
@@ -171,7 +171,7 @@ export default function ProductDetailPage({ sortOptionsCategory }: any) {
   useEffect(() => {
     getCatogeryBaseProducts();
     getCategoryList();
-  }, [getCategoryList, getCatogeryBaseProducts]);
+  }, [ ]);
 
   return (
     <>
