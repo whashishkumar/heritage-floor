@@ -36,7 +36,7 @@ export default function WorldCount() {
         <div>
         <SectionHeader
                subHeading="A WORLD OF LUXURY"
-               headingCss={ `text-darkBlue tracking-[0.7rem] text-[2rem] `}
+               headingCss={ `text-darkBlue tracking-[0.7rem] sm:text-[1rem] lg:text-[2rem] `}
                description="From world-class master communities and luxurious residential towers to expansive master-planned developments and exclusive island resort residences, DAMAC Properties is renowned for creating projects that blend innovative design with exceptional amenities, offering an unparalleled living experience in prime locations around the globe."
                mainCss={`flex flex-col items-center justify-center  ${
                `text-darkBlue`
@@ -69,14 +69,14 @@ export default function WorldCount() {
       backgroundPosition: "center",
     }}
   />
-  <div className="relative w-full h-full flex items-center justify-end pr-15">
+  <div className="relative w-full h-full flex items-center justify-end  md:pr-5 lg:pr-15">
     <div className="rounded-xl p-4 sm:p-10 bg-[#858a82]/85  border border-white/60 ">
       <h1 className="tracking-[0.8rem] poppins-font text-center whitespace-pre-line text-2xl sm:text-sm lg:text-[1.813rem] font-extrabold uppercase tracking-widest text-white">
        Hussain Sajwani
 
       </h1>
       <p className="poppins-font text-center font-normal t text-white mb-4 uppercase">Founder</p>
-      <p className="text-center w-[420px] mx-auto text-base lg:text-lg text-white roboto-font">
+      <p className="text-center lg:w-[420px] md:w-[250px] mx-auto text-base lg:text-lg text-white roboto-font">
         Hussain Sajwani is an Emirati global entrepreneur, self-made billionaire, and founder of The DAMAC Group of Companies.
       </p>
       <button className="bg-white text-gray-500 py-4 w-full rounded-full uppercase mt-6">Reaed More</button>

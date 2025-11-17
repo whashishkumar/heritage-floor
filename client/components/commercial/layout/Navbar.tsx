@@ -7,7 +7,7 @@ import PhoneMenuCommercial from "./MobileMenu";
 const globalHeadData = [
   {
     key: "Home",
-    dest: "/",
+    dest: "/commercial",
   },
   {
     key: "About Us",
@@ -134,9 +134,9 @@ export default async function Navbar() {
                         <Link
                         href={menuList.dest}
                           key={menuList.key}
-                          className="text-white cursor-pointer py-1 text-lg hover:font-medium"
+                          className="text-white cursor-pointer py-2 text-lg hover:font-medium"
                         >
-                          {menuList.key}
+                         <p className="py-2"> {menuList.key}</p>
                         </Link>
                       ))}
                     </div>

@@ -1,5 +1,4 @@
 "use client";
-import SectionHeader from "@/components/common/SectionHeader";
 import { useEffect, useRef, useState } from "react";
 
 const timelineData = [
@@ -54,19 +53,15 @@ export default function TimelineSection() {
   const scrollContainerRef = useRef<HTMLDivElement | null>(null);
   const isManualScroll = useRef(false);
 
-  // Scroll listener to auto-select cards based on scroll position
+  // Scroll listener to auto-select cards based on scroll position (using window scroll)
   useEffect(() => {
-    const scrollContainer = scrollContainerRef.current;
-    if (!scrollContainer) return;
-
     const handleScroll = () => {
       if (isManualScroll.current) {
         isManualScroll.current = false;
         return;
       }
 
-      const containerRect = scrollContainer.getBoundingClientRect();
-      const containerCenter = containerRect.top + containerRect.height / 2;
+      const viewportCenter = window.innerHeight / 2;
 
       let closestIndex = 0;
       let closestDistance = Infinity;
@@ -75,7 +70,7 @@ export default function TimelineSection() {
         if (ref) {
           const rect = ref.getBoundingClientRect();
           const cardCenter = rect.top + rect.height / 2;
-          const distance = Math.abs(cardCenter - containerCenter);
+          const distance = Math.abs(cardCenter - viewportCenter);
 
           if (distance < closestDistance) {
             closestDistance = distance;
@@ -90,62 +85,24 @@ export default function TimelineSection() {
       }
     };
 
-    scrollContainer.addEventListener('scroll', handleScroll);
+    window.addEventListener('scroll', handleScroll);
     // Initial check
     handleScroll();
 
     return () => {
-      scrollContainer.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('scroll', handleScroll);
     };
   }, [activeIndex]);
 
   return (
     <>
-       <div className="w-full flex flex-col items-center justify-center py-16">
-                    <SectionHeader
-                      subHeading="Our Legacy"
-                      headingCss={ `text-darkBlue`}
-                      description="DAMAC Properties is more than just a luxury real estate development company; it’s the result of two decades of hard work and a steady vision, dedicated to creating developments that tell extraordinary stories. "
-                      mainCss={`flex flex-col items-center justify-center  ${
-                        `text-darkBlue`
-                      }`}
-                      descriptionCss={`leading-[1.5] mb-[2rem] mt-[0.5rem] md:w-[60%] sm:w-[75%] w-[90%] text-center align-middle ${
-                         `text-darkBlue`
-                      }`}
-                      subHeadingCss={`text-darkBlue uppercase`}
-                    />
-                       <SectionHeader
-                    
-                      description="For over 20 years, DAMAC Properties has been committed to shaping the UAE’s urban landscape and has since expanded globally. What started as a venture has grown into a leading real estate developer in the Midde East, with luxury, sustainability, innovation, safety, and placemaking at its core. 
-    
-    "
-                      mainCss={`flex flex-col items-center justify-center  ${
-                        `text-darkBlue`
-                      }`}
-                      descriptionCss={`leading-[1.5] mb-[2rem] mt-[0.5rem] md:w-[60%] sm:w-[75%] w-[90%] text-center align-middle ${
-                         `text-darkBlue`
-                      }`}
-                      subHeadingCss={`text-darkBlue`}
-                    />
-                       <SectionHeader
-                  
-                      description="For over 20 years, DAMAC Properties has been committed to shaping the UAE’s urban landscape and has since expanded globally. What started as a venture has grown into a leading real estate developer in the Midde East, with luxury, sustainability, innovation, safety, and placemaking at its core. "
-                      mainCss={`flex flex-col items-center justify-center  ${
-                        `text-darkBlue`
-                      }`}
-                      descriptionCss={`leading-[1.5] mb-[2rem] mt-[0.5rem] md:w-[60%] sm:w-[75%] w-[90%] text-center align-middle ${
-                         `text-darkBlue`
-                      }`}
-                      subHeadingCss={`text-darkBlue`}
-                    />
-             </div>
-    <div className="relative w-full h-screen overflow-hidden isolate">
-
-      {/* BACKGROUND IMAGE - STICKY */}
+    <div className="relative w-full min-h-screen">
+      {/* BACKGROUND IMAGE - FIXED */}
       <div
-        className="sticky top-0 left-0 w-full h-screen bg-cover bg-center bg-no-repeat transition-all duration-700 ease-in-out -z-10"
+        className="fixed top-0 left-0 w-full h-screen bg-cover bg-center bg-no-repeat transition-all duration-700 ease-in-out"
         style={{
           backgroundImage: `url(${activeBg})`,
+          zIndex: -1,
         }}
       >
         {/* DARK OVERLAY FOR READABILITY */}
@@ -153,17 +110,13 @@ export default function TimelineSection() {
       </div>
 
       {/* MAIN CONTENT */}
-      <div className="absolute top-0 left-0 w-full h-full  mx-auto flex items-center py-10 px-4 z-10">
-        <div className="flex gap-8 md:gap-20 justify-between md:justify-end w-full h-full items-center">
+      <div className="relative w-full mx-auto py-10 md:py-20 px-4">
+        <div className="flex gap-8 md:gap-20 justify-between md:justify-end w-full items-start">
 
-          {/* CONTENT SECTIONS - SCROLLABLE */}
+          {/* CONTENT SECTIONS - SCROLLABLE WITH PAGE */}
           <div 
             ref={scrollContainerRef}
-            className="flex-1 md:flex-initial md:max-w-xl h-[100vh] overflow-y-auto overflow-x-hidden scrollbar-hide scroll-smooth pr-4"
-            style={{
-              scrollbarWidth: 'none',
-              msOverflowStyle: 'none',
-            }}
+            className="flex-1 md:flex-initial md:max-w-xl pr-4"
           >
             <div className="flex flex-col gap-8 py-8">
               {timelineData.map((item, i) => (
@@ -188,8 +141,8 @@ export default function TimelineSection() {
             </div>
           </div>
 
-          {/* TIMELINE YEARS */}
-          <div className="flex flex-col gap-4 md:gap-6 h-fit text-white text-lg md:text-xl">
+          {/* TIMELINE YEARS - STICKY */}
+          <div className="sticky top-1/2 -translate-y-1/2 flex flex-col gap-4 md:gap-6 h-fit text-white text-lg md:text-xl mt-30">
             {timelineData.map((item, i) => (
               <button
                 key={i}
@@ -217,7 +170,6 @@ export default function TimelineSection() {
         </div>
       </div>
     </div>
-
-  </>
+    </>
   );
 }
