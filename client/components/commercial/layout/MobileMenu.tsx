@@ -1,33 +1,23 @@
 "use client";
 import Image from "next/image";
-import { RxHamburgerMenu } from "react-icons/rx";
-import { IoSearchOutline } from "react-icons/io5";
-import { IoMailOutline } from "react-icons/io5";
+import Link from "next/link";
+import { useState } from "react";
+import { FiChevronDown, FiX } from "react-icons/fi";
+import { IoMailOutline, IoSearchOutline } from "react-icons/io5";
 import { PiPhoneCall } from "react-icons/pi";
-import { FiSearch, FiPhone, FiMenu, FiX, FiChevronDown } from "react-icons/fi";
-import React, { useState } from "react";
+import { RxHamburgerMenu } from "react-icons/rx";
 
 const productsSubMenuItems = [
   {
-    key: "Carpet",
-    dest: "/",
+    key: "Over View",
+    dest: "/commercial/about-us",
   },
-  {
-    key: "HardWood",
-    dest: "/",
+ 
+    {
+    key: "Our History",
+    dest: "/commercial/our-history",
   },
-  {
-    key: "Liminate",
-    dest: "/",
-  },
-  {
-    key: "Luxary Viny",
-    dest: "/",
-  },
-  {
-    key: "Tile",
-    dest: "/",
-  },
+
 ];
 export default function PhoneMenuCommercial() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -67,6 +57,7 @@ export default function PhoneMenuCommercial() {
                 alt="heritage_floor"
                 fill
                 className=" object-cover"
+             
               />
             </div>
           </div>
@@ -121,6 +112,7 @@ export default function PhoneMenuCommercial() {
                       className=" object-cover"
                       unoptimized
                       quality={100}
+                  
                     />
                   </div>
                 </div>
@@ -150,9 +142,9 @@ export default function PhoneMenuCommercial() {
                     >
                       <span>About us</span>
                       <div
-                        className={`w-4 h-4 transition-transform ${
+                        className={`w-4 h-4 transition-transform   ${
                           activeDropdown === "about"
-                            ? "-rotate-180 duration-500 ease-in-out"
+                            ? "-rotate-180 duration-500 ease-in-out pr-2"
                             : ""
                         }`}
                       >
@@ -160,7 +152,7 @@ export default function PhoneMenuCommercial() {
                       </div>
                     </button>
                     <div
-                      className={`overflow-hidden transition-all duration-300 ${
+                      className={`overflow-hidden transition-all duration-300 mr-2 ${
                         activeDropdown === "about" ? "max-h-48" : "max-h-0"
                       }`}
                     >
@@ -186,9 +178,9 @@ export default function PhoneMenuCommercial() {
                       </div> */}
                       {productsSubMenuItems?.map((menuList, idx) => {
                         return (
-                          <p key={idx} className="pl-6 space-y-1 py-1">
-                            {menuList.key}
-                          </p>
+                          <Link href={menuList.dest} key={idx} >
+                            <p onClick={toggleMenu} className="pl-6 space-y-1 py-1">{menuList.key}</p>
+                          </Link>
                         );
                       })}
                     </div>

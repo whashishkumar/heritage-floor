@@ -1,29 +1,23 @@
-import Link from "next/link";
-import React from "react";
-import { FaFacebookF, FaWhatsapp, FaInstagram } from "react-icons/fa";
 import Image from "next/image";
+import Link from "next/link";
 import { LuSearch } from "react-icons/lu";
 import { RxCaretDown } from "react-icons/rx";
-import { RxHamburgerMenu } from "react-icons/rx";
-import { IoSearchOutline } from "react-icons/io5";
-import { IoMailOutline } from "react-icons/io5";
-import { PiPhoneCall } from "react-icons/pi";
 import PhoneMenuCommercial from "./MobileMenu";
 
 const globalHeadData = [
   {
     key: "Home",
-    dest: "/",
+    dest: "/commercial",
   },
   {
     key: "About Us",
-    dest: "/",
+    dest: "/commercial/about-us",
     icon: <RxCaretDown />,
   },
   {
     key: "Products",
     dest: "/",
-    icon: <RxCaretDown />,
+    // icon: <RxCaretDown />,
   },
   {
     key: "Contact Us",
@@ -44,28 +38,17 @@ const mediaData = [
     key: "WhatsApp",
     dest: "#",
   },
-];
+]
 
 const productsSubMenuItems = [
   {
-    key: "Carpet",
-    dest: "/",
+    key: "Over View",
+    dest: "/commercial/about-us",
   },
-  {
-    key: "HardWood",
-    dest: "/",
-  },
-  {
-    key: "Liminate",
-    dest: "/",
-  },
-  {
-    key: "Luxary Viny",
-    dest: "/",
-  },
-  {
-    key: "Tile",
-    dest: "/",
+ 
+    {
+    key: "Our History",
+    dest: "/commercial/our-history",
   },
 ];
 
@@ -82,7 +65,7 @@ export default async function Navbar() {
                 src="/logo/Vector.png"
                 alt="heritage_floor"
                 fill
-                className=" object-cover"
+                className="object-cover"
               />
             </div>
             <div className="flex gap-10">
@@ -141,19 +124,20 @@ export default async function Navbar() {
                       <div className="text-white ml-3">{data.icon}</div>
                     )}
                   </Link>
-
-                  {(data.key === "About Us" || data.key === "Products") && (
+{/* || data.key === "Products" */}
+                  {(data.key === "About Us" ) && (
                     <div
                       className="absolute top-full left-0 mt-2 w-48 p-4 lg:bg-black/60 lg:backdrop-blur-xs bg-black/10 backdrop-blur-xl 
                       opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50"
                     >
                       {productsSubMenuItems?.map((menuList) => (
-                        <p
+                        <Link
+                        href={menuList.dest}
                           key={menuList.key}
-                          className="text-white cursor-pointer py-1 text-lg hover:font-medium"
+                          className="text-white cursor-pointer py-2 text-lg hover:font-medium"
                         >
-                          {menuList.key}
-                        </p>
+                         <p className="py-2"> {menuList.key}</p>
+                        </Link>
                       ))}
                     </div>
                   )}
