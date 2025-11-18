@@ -71,7 +71,7 @@ export default function LatestAwards() {
                                `text-darkBlue`
                                }`}
                                descriptionCss={`leading-[1.5] mb-[2rem] mt-[0.5rem] md:w-[80%] sm:w-[75%] w-[90%] text-center align-middle  text-darkBlue}`}
-                               subHeadingCss={`text-darkBlue`}
+                               subHeadingCss={`text-darkBlue  uppercase text-center`}
             />  
 
    <div className=" gap-5 flex justify-center flex-wrap py-5">

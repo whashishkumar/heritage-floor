@@ -179,11 +179,11 @@
 // }
 
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
+import { RxArrowLeft, RxArrowRight } from "react-icons/rx";
 import Slider from "react-slick";
-import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import { RxArrowRight, RxArrowLeft } from "react-icons/rx";
+import "slick-carousel/slick/slick.css";
 
 interface SlickSliderProps {
   data: any[];
@@ -238,6 +238,7 @@ export default function AutoPlay({
 }: SlickSliderProps) {
   const [currentSlide, setCurrentSlide] = useState(0);
 
+
   const settings = {
     dots: false,
     infinite: true,
@@ -255,6 +256,7 @@ export default function AutoPlay({
     rtl,
     responsive,
   };
+
 
   return (
     <div className=" ">

@@ -72,7 +72,7 @@ export default async function AboutUsCommercial() {
               </div>
 
               <ButtonCommon
-                link="#"
+                link="/commercial/about-us"
                 buttonName="Explore more"
                 image="/icon/arrowRightUp.png"
               />

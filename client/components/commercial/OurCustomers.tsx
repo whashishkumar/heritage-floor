@@ -1,9 +1,9 @@
 "use client";
-import SectionHeader from "../common/SectionHeader";
-import ButtonCommon from "../ui/Button";
-import AutoPlay from "../common/Slider";
-import { CustomeCard } from "./CustomerCard";
 import { usePathname } from "next/navigation";
+import SectionHeader from "../common/SectionHeader";
+import AutoPlay from "../common/Slider";
+import ButtonCommon from "../ui/Button";
+import { CustomeCard } from "./CustomerCard";
 
 interface coustumerData {
   coustumerData?: any;

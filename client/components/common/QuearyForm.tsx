@@ -70,8 +70,8 @@ export default function QueryForm({ onClose }: any) {
         className="rounded-[.75rem] lg:p-6 flex flex-col gap-5"
       >
         <div className="flex items-center gap-4 mb-2 ">
-          <h2 className="font-semibold text-xl lg:text-3xl text-gray-800 md:text-center w-full md:py-3">
-            Have a question? Send us a query
+          <h2 className="font-semibold text-xl lg:text-3xl text-gray-800 md:text-center w-full md:py-3 capitalize">
+             Send us a query
           </h2>
         </div>
         {/* Name, Email, Phone in one row */}

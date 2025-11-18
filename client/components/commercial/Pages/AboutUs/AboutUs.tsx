@@ -1,7 +1,37 @@
 import SectionHeader from "@/components/common/SectionHeader";
+import { CiDeliveryTruck, CiHospital1 } from "react-icons/ci";
+import { IoKeyOutline } from "react-icons/io5";
+import WorldCount from "../Common/WorldCount";
 import LatestAwards from "./LatestAwards";
 import LeaderShipTeam from "./LeaderShipTeam";
-import WorldCount from "./WorldCount";
+
+ const statsData = [
+  {
+    id: 1,
+    icon: CiDeliveryTruck,
+    value: "48,000+",
+    label: "Units delivered",
+  },
+  {
+    id: 2,
+    icon: CiHospital1,
+    value: "50,000+",
+    label: "Units in progress and planning",
+  },
+  {
+    id: 3,
+    icon: IoKeyOutline,
+    value: "100+ M Sq.ft.",
+    label: "Project area in planning and progress",
+  },
+];
+
+const pageTitle = {
+    tag:'A WORLD OF LUXURY',
+    description:"From world-class master communities and luxurious residential towers to expansive master-planned developments and exclusive island resort residences, DAMAC Properties is renowned for creating projects that blend innovative design with exceptional amenities, offering an unparalleled living experience in prime locations around the globe."
+  }
+
+
 
 export default function AboutUsPage(bgColor:any) {
   return (
@@ -18,7 +48,7 @@ export default function AboutUsPage(bgColor:any) {
                descriptionCss={`leading-[1.5] mb-[2rem] mt-[0.5rem] md:w-[60%] sm:w-[75%] w-[90%] text-center align-middle ${
                   `text-darkBlue`
                }`}
-               subHeadingCss={`text-darkBlue`}
+               subHeadingCss={`text-darkBlue  uppercase text-center`}
              />
       </div>
     </div>
@@ -45,7 +75,7 @@ export default function AboutUsPage(bgColor:any) {
     </div>
   </div>
   </div>
-      <WorldCount/>
+      <WorldCount statsData={statsData} pageTitle={pageTitle}/>
       <LeaderShipTeam/>
       <LatestAwards/>
 		</>

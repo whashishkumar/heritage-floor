@@ -1,32 +1,7 @@
 import SectionHeader from "@/components/common/SectionHeader";
 import Image from "next/image";
-import { CiDeliveryTruck, CiHospital1 } from "react-icons/ci";
-import { IoKeyOutline } from "react-icons/io5";
 
-
-
- const statsData = [
-  {
-    id: 1,
-    icon: CiDeliveryTruck,
-    value: "48,000+",
-    label: "Units delivered",
-  },
-  {
-    id: 2,
-    icon: CiHospital1,
-    value: "50,000+",
-    label: "Units in progress and planning",
-  },
-  {
-    id: 3,
-    icon: IoKeyOutline,
-    value: "100+ M Sq.ft.",
-    label: "Project area in planning and progress",
-  },
-];
-
-export default function WorldCount() {
+export default function WorldCount({statsData, pageTitle}:any) {
   return (
    <div className="wrapper m-auto">
      <div className="w-full flex flex-col items-center justify-center py-16 poppins-font">
@@ -35,18 +10,18 @@ export default function WorldCount() {
         </div>
         <div>
         <SectionHeader
-               subHeading="A WORLD OF LUXURY"
+               subHeading={pageTitle.tag}
                headingCss={ `text-darkBlue tracking-[0.7rem] sm:text-[1rem] lg:text-[2rem] `}
-               description="From world-class master communities and luxurious residential towers to expansive master-planned developments and exclusive island resort residences, DAMAC Properties is renowned for creating projects that blend innovative design with exceptional amenities, offering an unparalleled living experience in prime locations around the globe."
+               description={pageTitle.description}
                mainCss={`flex flex-col items-center justify-center  ${
                `text-darkBlue`
                }`}
                descriptionCss={`leading-[1.5] mb-[2rem] mt-[0.5rem] md:w-[60%] sm:w-[75%] w-[90%] text-center align-middle  text-darkBlue}`}
-               subHeadingCss={`text-darkBlue`}
+               subHeadingCss={`text-darkBlue uppercase text-center`}
              />  
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-10 text-center w-full poppins-font">
-            {statsData?.map((item) => {
+            {statsData?.map((item:any) => {
                 const Icon = item.icon;
                 return (
                 <div key={item.id} className="flex flex-col items-center py-6">
@@ -59,8 +34,8 @@ export default function WorldCount() {
                 );
             })}
     </div>
-            <div className="my-20 w-full">
-                     <div className="relative w-full h-[38rem] ">
+      <div className="my-20 w-full">
+        <div className="relative w-full h-[38rem] ">
   <div
     className="absolute inset-0 rounded-2xl"
     style={{
