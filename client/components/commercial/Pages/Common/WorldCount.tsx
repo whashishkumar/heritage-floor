@@ -17,7 +17,7 @@ export default function WorldCount({statsData, pageTitle}:any) {
                `text-darkBlue`
                }`}
                descriptionCss={`leading-[1.5] mb-[2rem] mt-[0.5rem] md:w-[60%] sm:w-[75%] w-[90%] text-center align-middle  text-darkBlue}`}
-               subHeadingCss={`text-darkBlue uppercase`}
+               subHeadingCss={`text-darkBlue uppercase text-center`}
              />  
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-10 text-center w-full poppins-font">

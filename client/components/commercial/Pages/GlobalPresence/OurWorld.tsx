@@ -91,7 +91,7 @@ export default function OurWorld() {
             description="DAMAC Properties is renowned for developing luxurious residential towers, expansive master-planned communities, and exclusive island resort residences. Each project blends innovative design with exceptional amenities, offering an unparalleled living experience in prime locations around the world."
             mainCss={`flex flex-col items-center justify-center text-darkBlue `}
             descriptionCss={`leading-[1.5] mb-[2rem] mt-[0.5rem] md:w-[60%] sm:w-[75%] w-[100%] text-center align-middle  text-darkBlue `}
-            subHeadingCss={`text-darkBlue uppercase  tracking-[0.6rem]`}
+            subHeadingCss={`text-darkBlue uppercase  lg:tracking-[0.6rem] text-center`}
           />
         </div>
 

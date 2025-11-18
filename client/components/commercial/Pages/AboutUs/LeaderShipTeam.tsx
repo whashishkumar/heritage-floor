@@ -94,7 +94,7 @@ export default function LeaderShipTeam() {
           description="Our top management is deeply involved in shaping the company's long-term strategy, performance, culture, and values. Meet The DAMAC Group of Companies leadership team and learn more about them."
           mainCss={`flex flex-col items-center justify-center  ${`text-darkBlue`}`}
           descriptionCss={`leading-[1.5] mb-[2rem] mt-[0.5rem] md:w-[60%] sm:w-[75%] w-[90%] text-center align-middle  text-darkBlue}`}
-          subHeadingCss={`text-darkBlue`}
+          subHeadingCss={`text-darkBlue  uppercase text-center`}
         />
 
         <div className="py-16">

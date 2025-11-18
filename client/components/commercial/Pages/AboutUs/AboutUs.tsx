@@ -48,7 +48,7 @@ export default function AboutUsPage(bgColor:any) {
                descriptionCss={`leading-[1.5] mb-[2rem] mt-[0.5rem] md:w-[60%] sm:w-[75%] w-[90%] text-center align-middle ${
                   `text-darkBlue`
                }`}
-               subHeadingCss={`text-darkBlue`}
+               subHeadingCss={`text-darkBlue  uppercase text-center`}
              />
       </div>
     </div>

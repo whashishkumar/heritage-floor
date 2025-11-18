@@ -94,7 +94,7 @@ export default function GlobalPresence() {
           description="We deliver luxury lifestyle, products and services to our customers all over the world."
           mainCss={`flex flex-col items-center justify-center text-darkBlue `}
           descriptionCss={`leading-[1.5] mb-[2rem] mt-[0.5rem] md:w-[60%] sm:w-[75%] w-[100%] text-center align-middle  text-darkBlue `}
-          subHeadingCss={`text-darkBlue uppercase  tracking-[0.6rem]`}
+          subHeadingCss={`text-darkBlue uppercase  tracking-[0.6rem] text-center`}
         />
       </div>
       <div className="w-full bg-white pb-6">

@@ -1,28 +1,19 @@
+"use client";
 import Image from "next/image";
 import Link from "next/link";
 import { LuSearch } from "react-icons/lu";
 import { RxCaretDown } from "react-icons/rx";
 import PhoneMenuCommercial from "./MobileMenu";
+import { useState } from "react";
+import ModalBox from "@/components/ui/ModalBox";
+import QueryForm from "@/components/common/QuearyForm";
 
-const globalHeadData = [
-  {
-    key: "Home",
-    dest: "/commercial",
-  },
-  {
-    key: "About Us",
-    dest: "/commercial/about-us",
-    icon: <RxCaretDown />,
-  },
-  {
-    key: "Products",
-    dest: "/",
-  },
-  {
-    key: "Contact Us",
-    dest: "/",
-  },
-];
+type NavItem = {
+  key: string;
+  dest: string;
+  icon?: React.ReactNode;
+  onClick?: () => void;
+};
 
 const mediaData = [
   {
@@ -59,7 +50,30 @@ const productsSubMenuItems = [
   },
 ];
 
-export default async function Navbar() {
+export default function Navbar() {
+  const [isContactModalOpen, setIsContactModalOpen] = useState(false);
+
+  const globalHeadData: NavItem[] = [
+    {
+      key: "Home",
+      dest: "/commercial",
+    },
+    {
+      key: "About Us",
+      dest: "/commercial/about-us",
+      icon: <RxCaretDown />,
+    },
+    // {
+    //   key: "Products",
+    //   dest: "/",
+    // },
+    {
+      key: "Contact Us",
+      dest: "/commercial",
+      onClick: () => setIsContactModalOpen(true),
+    },
+  ];
+
   return (
     <>
       <div className=" w-full   min-h-[4.563rem] inset-0 justify-center flex items-center  lg:bg-black/60 lg:backdrop-blur-xs bg-black/10 backdrop-blur-xl   top-[3.125rem]    z-100 sticky  transition-all duration-300  ">
@@ -78,15 +92,27 @@ export default async function Navbar() {
             <div className="flex gap-10">
               {globalHeadData.map((data) => (
                 <div key={data.key} className="relative group inline-block">
-                  <Link
-                    href={data.dest}
-                    className="px-3 text-white flex items-center font-normal text-lg transition-all duration-300"
-                  >
-                    {data.key}
-                    {data.icon && (
-                      <div className="text-white ml-3">{data.icon}</div>
-                    )}
-                  </Link>
+                  {data.onClick ? (
+                    <button
+                      onClick={data.onClick}
+                      className="px-3 text-white flex items-center font-normal text-lg transition-all duration-300 hover:font-medium"
+                    >
+                      {data.key}
+                      {data.icon && (
+                        <div className="text-white ml-3">{data.icon}</div>
+                      )}
+                    </button>
+                  ) : (
+                    <Link
+                      href={data.dest}
+                      className="px-3 text-white flex items-center font-normal text-lg transition-all duration-300"
+                    >
+                      {data.key}
+                      {data.icon && (
+                        <div className="text-white ml-3">{data.icon}</div>
+                      )}
+                    </Link>
+                  )}
                   {(data.key === "About Us" ) && (
                     <div
                       className="absolute top-full left-0 mt-2 w-48 p-4 lg:bg-black/60 lg:backdrop-blur-xs bg-black/10 backdrop-blur-xl 
@@ -132,6 +158,11 @@ export default async function Navbar() {
         {/* Mobile Menu */}
         <PhoneMenuCommercial />
       </div>
+
+      {/* Contact Us Modal */}
+      <ModalBox isOpen={isContactModalOpen} onClose={() => setIsContactModalOpen(false)}>
+        <QueryForm onClose={() => setIsContactModalOpen(false)} />
+      </ModalBox>
     </>
   );
 }
