@@ -5,33 +5,33 @@ import SwipeSlider from "../../../ui/SwipeSlider";
 const teamData = [
   {
     id: 1,
-    name: "Sofyan Khatib",
-    role: "Group Director",
-    image: "/images/commercial/aboutUs/sofyan.webp",
+    name: "UAE GOLDEN VISA BENEFITS",
+    role: "Real estate investments in Dubai can grant you long-term residency and exclusive Golden Visa benefits.",
+    image: "/images/commercial/why/why01.webp",
   },
   {
     id: 2,
-    name: "John Doe",
-    role: "Managing Director",
-    image: "/images/commercial/aboutUs/john.webp",
+      name: "UAE GOLDEN VISA BENEFITS",
+    role: "Real estate investments in Dubai can grant you long-term residency and exclusive Golden Visa benefits.",
+    image: "/images/commercial/why/why02.webp",
   },
   {
     id: 3,
-    name: "Jane Smith",
-    role: "Vice President",
-    image: "/images/commercial/aboutUs/Danish.webp",
+    name: "UAE GOLDEN VISA BENEFITS",
+    role: "Real estate investments in Dubai can grant you long-term residency and exclusive Golden Visa benefits.",
+     image: "/images/commercial/why/why03.webp",
   },
   {
     id: 4,
-    name: "John Doe",
-    role: "Managing Director",
-    image: "/images/commercial/aboutUs/john.webp",
+       name: "UAE GOLDEN VISA BENEFITS",
+    role: "Real estate investments in Dubai can grant you long-term residency and exclusive Golden Visa benefits.",
+    image: "/images/commercial/why/why02.webp",
   },
   {
     id: 5,
-    name: "Jane Smith",
-    role: "Vice President",
-    image: "/images/commercial/aboutUs/sandip.webp",
+       name: "UAE GOLDEN VISA BENEFITS",
+    role: "Real estate investments in Dubai can grant you long-term residency and exclusive Golden Visa benefits.",
+   image: "/images/commercial/why/why01.webp",
   },
 ];
 
@@ -64,36 +64,37 @@ const breakpoints = {
 
 export function TeamCard({ item }: any) {
   return (
-    <div className="relative overflow-hidden rounded-xl shadow-lg">
-      <Image
-        src={item.image}
-        alt={item.name}
-        width={600}
-        height={800}
-        className="w-full h-[600px] object-cover"
-      />
+    <div className="relative overflow-hidden  shadow-lg rounded-sm">
+    <div className="relative w-full h-[600px]">
 
+  <Image
+    src={item.image}
+    alt={item.name}
+    fill
+    className="object-cover"
+  />
+
+  <div className="absolute inset-0 bg-black/20"></div>
+</div>
       <div className="absolute bottom-0 left-0 w-full p-6 bg-gradient-to-t from-black/80 to-transparent">
-        <h2 className="text-white text-2xl font-light tracking-widest uppercase">
+        <h2 className="text-white text-3xl  tracking-widest uppercase font-bold">
           {item.name}
         </h2>
-        <p className="text-gray-300 text-sm mt-1">{item.role}</p>
+        <p className="text-gray-300 text-sm mt-1 font-bold">{item.role}</p>
       </div>
     </div>
   );
 }
 
-export default function LeaderShipTeam() {
+export default function WhyDubai() {
   return (
     <div>
      
       <div className="wrapper m-auto">
         <SectionHeader
-          subHeading="LEADERSHIP TEAM"
+          subHeading="WHY DUBAI?"
           headingCss={`text-darkBlue tracking-[0.8rem] text-[2rem] `}
-          description="Our top management is deeply involved in shaping the company's long-term strategy, performance, culture, and values. Meet The DAMAC Group of Companies leadership team and learn more about them."
           mainCss={`flex flex-col items-center justify-center  ${`text-darkBlue`}`}
-          descriptionCss={`leading-[1.5] mb-[2rem] mt-[0.5rem] md:w-[60%] sm:w-[75%] w-[90%] text-center align-middle  text-darkBlue}`}
           subHeadingCss={`text-darkBlue`}
         />
 
@@ -104,9 +105,9 @@ export default function LeaderShipTeam() {
             swipebtn={false}
             spaceBetween={10}
             autoPlay={false}
-            loop={false}
+            loop={true}
             delay={1000}
-            speed={6000}
+            speed={8000}
             breakpoints={breakpoints}
           >
             {teamData.map((member) => (

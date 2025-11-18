@@ -50,6 +50,14 @@ const productsSubMenuItems = [
     key: "Our History",
     dest: "/commercial/our-history",
   },
+      {
+    key: "Why Us",
+    dest: "/commercial/why-us",
+  },
+        {
+    key: "Global Presence",
+    dest: "/commercial/global-presence",
+  },
 ];
 
 export default async function Navbar() {
