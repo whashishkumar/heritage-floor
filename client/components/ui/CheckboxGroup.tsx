@@ -7,10 +7,12 @@ interface Option {
   id: number | string;
   label: string;
   value: string;
+
 }
 
 interface FilterGroup {
   title: string;
+  code:string;
   options: Option[];
 }
 
@@ -51,7 +53,7 @@ const CheckboxGroup: React.FC<FilterAccordionGroupProps> = ({
 
   return (
     <div className="w-full overflow-hidden divide-y poppins-font text-[#5A5A5A]">
-      {data.map((group) => {
+      {data?.map((group) => {
         const isOpen = openAccordions[group.title] ?? false;
         const selectedValues = selectedFilters[group.title] || [];
 
@@ -62,7 +64,7 @@ const CheckboxGroup: React.FC<FilterAccordionGroupProps> = ({
               onClick={() => toggleAccordion(group.title)}
               className="flex justify-between items-center w-full py-3 font-semibold text-lg cursor-pointer"
             >
-              <span>{group.title}</span>
+              <span className="capitalize">{group.code}</span>
               {isOpen ? (
                 <FaMinus size={16} color="#018C99" />
               ) : (
