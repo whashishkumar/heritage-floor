@@ -17,7 +17,6 @@ const globalHeadData = [
   {
     key: "Products",
     dest: "/",
-    // icon: <RxCaretDown />,
   },
   {
     key: "Contact Us",
@@ -77,50 +76,6 @@ export default async function Navbar() {
               />
             </div>
             <div className="flex gap-10">
-              {/* {globalHeadData.map((data, index) => (
-                <React.Fragment key={index}>
-                  <Link
-                    href={data.dest}
-                    className={`px-3 text-white   flex items-center font-normal text-lg transition-all duration-300  relative group
-                    `}
-                  >
-                    {data.key}
-                    {data.icon && (
-                      <div className="text-white ml-3">{data.icon}</div>
-                    )}
-                    <div className="absolute top-full left-0 mt-2 w-48 p-4 bg-white border rounded-lg shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                      {productsSubMenuItems?.map((menuList) => {
-                        return <p className="text-black">{menuList?.key}</p>;
-                      })}
-                    </div>
-                  </Link>
-                </React.Fragment>
-              ))} */}
-              {/* {globalHeadData.map((data) => (
-                <Link
-                  key={data.key}
-                  href={data.dest}
-                  className={`px-3 text-white flex items-center font-normal text-lg transition-all duration-300 relative group`}
-                >
-                  {data.key}
-                  {data.icon && (
-                    <div className="text-white ml-3">{data.icon}</div>
-                  )}
-
-                  {(data.key === "About Us" || data.key === "Products") && (
-                    <div className="absolute top-full left-0 mt-2 w-48 p-4 lg:bg-black/60 lg:backdrop-blur-xs bg-black/10 backdrop-blur-xl  opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                      {productsSubMenuItems?.map((menuList) => (
-                        <p
-                          key={menuList.key}
-                          className="text-white cursor-pointer py-1 text-lg hover:font-medium"
-                        >
-                          {menuList.key}
-                        </p>
-                      ))}
-                    </div>
-                  )}
-                </Link>
-              ))} */}
               {globalHeadData.map((data) => (
                 <div key={data.key} className="relative group inline-block">
                   <Link
@@ -132,7 +87,6 @@ export default async function Navbar() {
                       <div className="text-white ml-3">{data.icon}</div>
                     )}
                   </Link>
-{/* || data.key === "Products" */}
                   {(data.key === "About Us" ) && (
                     <div
                       className="absolute top-full left-0 mt-2 w-48 p-4 lg:bg-black/60 lg:backdrop-blur-xs bg-black/10 backdrop-blur-xl 

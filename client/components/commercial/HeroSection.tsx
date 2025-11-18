@@ -30,7 +30,7 @@ export default function HeroSectionCommercial() {
                 cssButtonName=" text-black"
                 buttonName="Explore More"
                 image="/icon/rightDown.png"
-                link="#"
+                link="/commercial/global-presence"
               />
             </div>
           </div>

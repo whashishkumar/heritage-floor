@@ -1,10 +1,8 @@
 'use client'
 import SectionHeader from "@/components/common/SectionHeader";
-import Image from "next/image";
 import React, { useState } from "react";
 import { MapContainer, TileLayer, useMap } from "react-leaflet";
-
-
+import "leaflet/dist/leaflet.css";
 
 const countries = [
   {
@@ -72,14 +70,22 @@ const countries = [
   }
 ];
 
-export default function GlobalPresence() {
-    const [active, setActive] = useState(countries[0]);
-function ChangeView({ center, zoom }:any) {
+interface ChangeViewProps {
+  center: [number, number];
+  zoom: number;
+}
+
+function ChangeView({ center, zoom }: ChangeViewProps) {
   const map = useMap();
   map.setView(center, zoom);
   return null;
 }
+
+export default function GlobalPresence() {
+  const [active, setActive] = useState(countries[0]);
+
   return (
+    <>
     <div className="wrapper m-auto">
       <div className="md:py-8 lg:py-16 ">
         <SectionHeader
@@ -91,42 +97,41 @@ function ChangeView({ center, zoom }:any) {
           subHeadingCss={`text-darkBlue uppercase  tracking-[0.6rem]`}
         />
       </div>
-       <div className="w-full bg-white pb-6">
-
-      {/* Country Filter */}
-      <div className="flex gap-8 overflow-x-auto whitespace-nowrap px-6 py-4 border-b">
-        {countries.map((c) => (
-          <button
-            key={c.id}
-            onClick={() => setActive(c)}
-            className={`text-lg transition ${
-              active.id === c.id
-                ? "text-black border-b-2 border-blue-500"
-                : "text-gray-400"
-            }`}
-          >
-            {c.name}
-          </button>
-        ))}
-      </div>
-
-      {/* Map */}
-      <div className="relative w-full h-[600px]">
-        <MapContainer
-          key={active.id}
-          center={[active.lat, active.lng] as [number, number]}
-          zoom={active.zoom}
-          scrollWheelZoom={true}
-          className="w-full h-full z-0"
-        >
-          <ChangeView center={[active.lat, active.lng]} zoom={active.zoom} />
-
-          <TileLayer
-            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-          />
-        </MapContainer>
-      </div>
+      <div className="w-full bg-white pb-6">
+        {/* Country Filter */}
+        <div className="flex gap-8 overflow-x-auto whitespace-nowrap px-6 py-4 border-b">
+          {countries.map((c) => (
+            <button
+              key={c.id}
+              onClick={() => setActive(c)}
+              className={`text-lg transition ${
+                active.id === c.id
+                  ? "text-black border-b-2 border-blue-500"
+                  : "text-gray-400"
+              }`}
+            >
+              {c.name}
+            </button>
+          ))}
+        </div>
+      
       </div>
     </div>
+      {/* Map */}
+        <div className="relative w-full h-[600px]">
+          <MapContainer
+            key={active.id}
+            center={[active.lat, active.lng] as [number, number]}
+            zoom={active.zoom}
+            scrollWheelZoom={false}
+            className="w-full h-full z-0"
+          >
+            <ChangeView center={[active.lat, active.lng]} zoom={active.zoom} />
+            <TileLayer
+              url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+            />
+          </MapContainer>
+        </div>
+        </>
   );
 }
