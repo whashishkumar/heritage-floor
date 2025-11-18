@@ -1,12 +1,12 @@
 "use client";
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation, Autoplay } from "swiper/modules";
+import Image from "next/image";
+import { ReactNode, useRef } from "react";
+import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
+import type { Swiper as SwiperType } from "swiper";
 import "swiper/css";
 import "swiper/css/navigation";
-import { useRef, ReactNode } from "react";
-import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
-import Image from "next/image";
-import type { Swiper as SwiperType } from "swiper";
+import { Autoplay, Navigation } from "swiper/modules";
+import { Swiper, SwiperSlide } from "swiper/react";
 
 interface SwipeSliderProps {
   children: ReactNode | ReactNode[];
@@ -119,18 +119,18 @@ export default function SwipeSlider({
 
       {/* Bottom Navigation Buttons */}
       {bottomSwipeBtn && (
-        <div className="flex gap-5 mt-4 justify-start">
+        <div className="flex gap-5 mt-4 justify-end mr-10 ">
           <button
             type="button"
             onClick={() => swiperRef.current?.slidePrev()}
-            className="border border-[#81A694] p-3 flex items-center justify-center rounded"
+            className="border border-[#858a82] p-3 flex items-center justify-center rounded cursor-pointer"
           >
             <IoIosArrowBack />
           </button>
           <button
             type="button"
             onClick={() => swiperRef.current?.slideNext()}
-            className="border border-[#81A694] p-3 flex items-center justify-center rounded"
+            className="border border-[#858a82] p-3 flex items-center justify-center rounded cursor-pointer"
           >
             <IoIosArrowForward />
           </button>

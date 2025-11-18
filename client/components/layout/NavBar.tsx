@@ -1,8 +1,8 @@
 "use client";
 import Link from "next/link";
-import React from "react";
 import { usePathname } from "next/navigation";
-import { FaFacebookF, FaWhatsapp, FaInstagram } from "react-icons/fa";
+import { FaFacebookF, FaInstagram, FaWhatsapp } from "react-icons/fa";
+
 
 const globalHeadData = [
   {
