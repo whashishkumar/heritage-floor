@@ -8,6 +8,7 @@ import { LuFilter } from "react-icons/lu";
 import { MdClose } from "react-icons/md";
 import { useParams, useRouter } from "next/navigation";
 
+
 import Loader from "@/components/ui/Loader";
 import { ResidentailPageData } from "@/lib/api/residentialEndPoints";
 
@@ -114,13 +115,13 @@ const sortOptions = [
 
 const accOptions = [
   { label: "Acc", value: "asc" },
-  { label: "Dec", value: "dsc" },
+  { label: "Dec", value: "desc" },
 ];
 
 export default function ProductDetailPage({ sortOptionsCategory }: any) {
   const router = useRouter();
   const [isMobileFilterOpen, setIsMobileFilterOpen] = useState(false);
-  const [categoryProducts, setCategoryProducts] = useState<Product[] | null>(
+  const [categoryProducts, setCategoryProducts] = useState<any | null>(
     null
   );
   const [currentPage, setCurrentpage] = useState(1);
@@ -138,11 +139,11 @@ export default function ProductDetailPage({ sortOptionsCategory }: any) {
   }, [isMobileFilterOpen]);
 
   const handleSortChange = async (value: string | number) => {
-    const { data } = await ResidentailPageData.getCategoryBasedProducts({
+    const res = await ResidentailPageData.getCategoryBasedProducts({
       categoryid: slug ? Number(slug) : undefined,
       order: value,
     });
-    setProductCategory(data);
+    setProductCategory(res);
   };
 
   const handleToggleMobileFilter = () => {
@@ -150,12 +151,12 @@ export default function ProductDetailPage({ sortOptionsCategory }: any) {
   };
 
   const getCatogeryBaseProducts = async () => {
-    const { data } = await ResidentailPageData.getCategoryBasedProducts({
+    const  resp  = await ResidentailPageData.getCategoryBasedProducts({
       categoryid: slug ? Number(slug) : undefined,
       page: currentPage,
       limit: 12,
-    });
-    setCategoryProducts(data);
+    });    
+    setCategoryProducts(resp);
   };
 
   const getCategoryList = async () => {
@@ -167,8 +168,14 @@ export default function ProductDetailPage({ sortOptionsCategory }: any) {
     router.push(`/residential/products/${slug}/${id}`);
   };
 
-  const handlePageChage = (page: any) => {
+  const handlePageChage = async (page: any) => {
     setCurrentpage(page);
+      const  resp  = await ResidentailPageData.getCategoryBasedProducts({
+      categoryid: slug ? Number(slug) : undefined,
+      page: page,
+      limit: 12,
+    });
+    setCategoryProducts(resp);
   };
 
   useEffect(() => {
@@ -184,7 +191,6 @@ export default function ProductDetailPage({ sortOptionsCategory }: any) {
           onClick={handleToggleMobileFilter}
         />
       )}
-
       {/* Mobile Sidebar */}
       <div
         className={`fixed top-[3.063rem] left-0 h-full w-[80%] bg-white z-50 transform transition-transform duration-300 ease-in-out md:hidden overflow-x-scroll ${
@@ -213,7 +219,7 @@ export default function ProductDetailPage({ sortOptionsCategory }: any) {
           {/* desktop */}
           <div className=" hidden md:flex justify-between items-center bg-[#fff] sticky top-12 z-30 py-4">
             <p className="font-semibold text-lg poppins-font">
-              Products Founds : 345
+              Products Founds : {categoryProducts?.meta?.total}
             </p>
             <div className="grid grid-cols-2 gap-6">
               <Selector
@@ -224,9 +230,9 @@ export default function ProductDetailPage({ sortOptionsCategory }: any) {
               />
               <div>
                 <Selector
-                  label="Sort By"
+                  label="Order"
                   options={accOptions}
-                  placeholder="Order"
+                  placeholder="Acc"
                   onChange={handleSortChange}
                 />
               </div>
@@ -236,7 +242,7 @@ export default function ProductDetailPage({ sortOptionsCategory }: any) {
           {/* mobile */}
           <div className="md:hidden flex items-center justify-between ">
             <p className="font-semibold text-lg poppins-font">
-              Products Founds : 345
+              Products Founds : {categoryProducts?.meta?.total}
             </p>
             <div className=" cursor-pointer" onClick={handleToggleMobileFilter}>
               <LuFilter size={24} />
@@ -247,9 +253,9 @@ export default function ProductDetailPage({ sortOptionsCategory }: any) {
           <Suspense fallback={<Loader />}>
             <div>
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-8 justify-items-center mt-4">
-                {categoryProducts?.map((product: any) => (
+                {categoryProducts?.data?.map((product: any, idx:any) => (
                   <ProductCard
-                    key={product.id}
+                    key={idx}
                     product={product}
                     handleGetProductDetail={handleGetProductDetail}
                   />
@@ -257,7 +263,7 @@ export default function ProductDetailPage({ sortOptionsCategory }: any) {
               </div>
               <Pagination
                 currentPage={currentPage}
-                totalPages={3}
+                totalPages={categoryProducts?.meta?.last_page}
                 onPageChange={handlePageChage}
               />
             </div>
@@ -267,3 +273,4 @@ export default function ProductDetailPage({ sortOptionsCategory }: any) {
     </>
   );
 }
+

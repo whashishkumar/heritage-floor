@@ -74,4 +74,11 @@ export const ResidentailPageData = {
       cache: "no-store",
     });
   },
+
+  getProductFiltersList :() => {
+      return apiFetch({
+      endpoint: `/filters_data`,
+      cache: "no-store",
+    });
+  }
 };

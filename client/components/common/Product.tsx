@@ -32,6 +32,10 @@ export default function ProductCard({
     // addToGuestCart({id:id})
   };
 
+
+  const path = process.env.NEXT_PUBLIC_IMAGE_PATH
+  const ProductImage = `${path}${product.image}`
+
   return (
     <div className="flex flex-col">
       <div
@@ -51,15 +55,16 @@ export default function ProductCard({
             ({product.rating})
           </span>
         </span>
-        {product.image && (
-          <Image
-            src={product.image}
-            alt={product.name}
-            width={240}
-            height={240}
-            className="object-contain"
-          />
-        )}
+     {ProductImage && (
+  <Image
+    src={ProductImage}
+    alt={product.name}
+    width={340}
+    height={240}
+    className="h-full w-auto object-cover"
+  />
+)}
+
       </div>
       <div className="py-4">
         <div className="text-[#5A5A5A] text-base poppins-font font-medium leading-[30px]">

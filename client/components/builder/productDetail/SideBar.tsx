@@ -8,6 +8,7 @@ import React from "react";
 const filterData = [
   {
     title: "Brand",
+    code: "brand",
     options: [
       { id: 1, label: "Heritage", value: "heritage" },
       { id: 2, label: "Elite Floors", value: "elite" },
@@ -17,6 +18,7 @@ const filterData = [
   },
   {
     title: "Collection",
+    code: "collection",
     options: [
       { id: 5, label: "Classic", value: "classic" },
       { id: 6, label: "Modern", value: "modern" },
@@ -26,6 +28,7 @@ const filterData = [
   },
   {
     title: "Color",
+    code: "color",
     options: [
       { id: 9, label: "Oak Brown", value: "oak-brown" },
       { id: 10, label: "Grey Ash", value: "grey-ash" },
@@ -35,6 +38,7 @@ const filterData = [
   },
   {
     title: "Material",
+    code: "material",
     options: [
       { id: 13, label: "Engineered Wood", value: "engineered-wood" },
       { id: 14, label: "Solid Wood", value: "solid-wood" },
@@ -45,6 +49,7 @@ const filterData = [
   },
   {
     title: "Looks",
+    code: "looks",
     options: [
       { id: 18, label: "Matte Finish", value: "matte" },
       { id: 19, label: "Glossy Finish", value: "glossy" },
@@ -54,6 +59,7 @@ const filterData = [
   },
   {
     title: "Ply Rating",
+    code: "ply_rating",
     options: [
       { id: 22, label: "3-Ply", value: "3-ply" },
       { id: 23, label: "5-Ply", value: "5-ply" },
@@ -63,6 +69,7 @@ const filterData = [
   },
   {
     title: "Collection Name",
+    code: "collection_name",
     options: [
       { id: 26, label: "Vintage Charm", value: "vintage-charm" },
       { id: 27, label: "Urban Edge", value: "urban-edge" },
@@ -72,6 +79,7 @@ const filterData = [
   },
   {
     title: "Edge Type",
+    code: "edge_type",
     options: [
       { id: 30, label: "Square Edge", value: "square-edge" },
       { id: 31, label: "Beveled Edge", value: "beveled-edge" },
@@ -81,6 +89,7 @@ const filterData = [
   },
   {
     title: "Availability",
+    code: "availability",
     options: [
       { id: 34, label: "In Stock", value: "in-stock" },
       { id: 35, label: "Out of Stock", value: "out-of-stock" },

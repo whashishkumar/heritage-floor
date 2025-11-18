@@ -3,7 +3,21 @@ import CheckboxGroup from "@/components/ui/CheckboxGroup";
 import CheckboxSingleSelector from "@/components/ui/CheckboxSingleSelector";
 import PriceRangeSelector from "@/components/ui/PriceRangeSelector";
 import Selector from "@/components/ui/Selector";
-import React from "react";
+import { ResidentailPageData } from "@/lib/api/residentialEndPoints";
+import React, { useEffect, useState } from "react";
+
+interface Option {
+  id: number | string;
+  label: string;
+  value: string;
+}
+
+interface FilterGroup {
+  title: string;
+  code: string;
+  options: Option[];
+}
+
 
 const filterData = [
   {
@@ -116,6 +130,17 @@ const accOptions = [
 ];
 
 export default function SideBar() {
+
+  const [filterList, setFilterList] = useState<FilterGroup[]>([])
+
+
+
+  const getFiltersList = async () => {
+    const {data} = await ResidentailPageData.getProductFiltersList()
+    setFilterList(data)
+  }
+
+
   const handlePriceChange = (range: { min: number; max: number }) => {
     console.log("Selected Price Range:", range);
   };
@@ -133,6 +158,14 @@ export default function SideBar() {
   const handleSortChange = (value: string | number) => {
     console.log("Selected:", value);
   };
+
+  
+useEffect(()=>{
+  getFiltersList()
+},[])
+
+  
+
 
   return (
     <div>
@@ -156,7 +189,7 @@ export default function SideBar() {
           onChange={handleSortChange}
         />
       </div>
-      <PriceRangeSelector
+      {/* <PriceRangeSelector
         min={100}
         max={50000}
         step={500}
@@ -165,8 +198,12 @@ export default function SideBar() {
       <CheckboxSingleSelector
         onChange={handleSingleSelectionChange}
         data={filterDataSilgleSelect}
-      />
-      <CheckboxGroup onChange={handleSelectionChange} data={filterData} />
+      /> */}
+      {
+        filterList && 
+           <CheckboxGroup onChange={handleSelectionChange} data={filterList} />
+      }
+   
     </div>
   );
 }
