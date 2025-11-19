@@ -4,6 +4,8 @@ import { IoKeyOutline } from "react-icons/io5";
 import WorldCount from "../Common/WorldCount";
 import LatestAwards from "./LatestAwards";
 import LeaderShipTeam from "./LeaderShipTeam";
+import { CommercialPageData } from "@/lib/api/commercialEndPoints";
+
 
  const statsData = [
   {
@@ -33,15 +35,21 @@ const pageTitle = {
 
 
 
-export default function AboutUsPage(bgColor:any) {
+export default  async function AboutUsPage(bgColor:any) {
+
+  const data= await CommercialPageData.getAboutUsPageDetail()
+  const {about_us_intro,second_section,pageTitle,statsData,Founder,team} = data
+  const bgImage = `${process.env.NEXT_PUBLIC_IMAGE_PATH_WITHOUT_STORAGE}${second_section?.[0]?.profile_image}`;
+
+  
   return (
 		<>
     <div className="wrapper m-auto">
      <div className="w-full flex flex-col items-center justify-center py-16">
              <SectionHeader
-               subHeading="ABOUT DAMAC"
+               subHeading={about_us_intro?.[0]?.heading}
                headingCss={ `text-darkBlue`}
-               description="The DAMAC Group of Companies established its property development division with the formation of DAMAC Properties in 2002, which has since grown and expanded to become a globally recognised brand."
+               description={about_us_intro?.[0]?.description}
                mainCss={`flex flex-col items-center justify-center  ${
                  bgColor ? `text-white` : `text-darkBlue`
                }`}
@@ -56,7 +64,7 @@ export default function AboutUsPage(bgColor:any) {
   <div
     className="absolute inset-0"
     style={{
-      backgroundImage: "url('/images/commercial/aboutUs/aboutUsbg.jpg')",
+      backgroundImage: `url(${bgImage})`,
       backgroundSize: "cover",
       backgroundPosition: "center",
     }}
@@ -64,19 +72,16 @@ export default function AboutUsPage(bgColor:any) {
   <div className="relative w-full h-full flex items-center justify-center">
     <div className="rounded-xl p-4 sm:p-10 bg-[#5889d1]/85  border border-white/60">
       <h1 className="poppins-font text-center whitespace-pre-line text-2xl sm:text-sm lg:text-[1.813rem] mb-4 font-extrabold uppercase tracking-widest text-white">
-        DAMAC <br/>PROPERTIES
+       {second_section?.[0]?.second_heading}
       </h1>
       <p className="text-center max-w-xl mx-auto text-base lg:text-lg text-white roboto-font">
-        DAMAC Properties strives to set new standards for design, craftsmanship and inspired lifestyle. Whether it be
-        master communities or iconic high-rise towers, DAMAC is redefining luxury living. As a leading luxury real
-        estate developer, DAMAC believes in developing and nourishing superior residential communities that deliver
-        outstanding return on investment, while offering residents differentiated properties and services.
+        {second_section?.[0]?.second_description}
       </p>
     </div>
   </div>
   </div>
-      <WorldCount statsData={statsData} pageTitle={pageTitle}/>
-      <LeaderShipTeam/>
+      <WorldCount statsData={statsData} pageTitle={pageTitle} Founder={Founder}/>
+      <LeaderShipTeam team={team}/>
       <LatestAwards/>
 		</>
   )

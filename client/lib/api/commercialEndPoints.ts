@@ -13,4 +13,10 @@ export const CommercialPageData = {
       cache: "dynamic",
     });
   },
+    getAboutUsPageDetail: () => {
+    return apiFetch({
+      endpoint: "/commercial/aboutus-intro",
+      cache: "dynamic",
+    });
+  },
 };

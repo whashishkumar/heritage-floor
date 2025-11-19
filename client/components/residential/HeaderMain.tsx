@@ -11,6 +11,7 @@ import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { CartEndPoint } from "@/lib/api/cartEndPoints";
 import { useAuth } from "@/context/userAuthContext";
+import { getGuestCartCount } from "@/utils/addToGuestCart";
 
 export default function HeaderMainBar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -21,7 +22,7 @@ export default function HeaderMainBar() {
   const [itemsInCart, setItemsInCart] = useState(null);
   const { isAuthenticated, logout } = useAuth();
   const pathname = usePathname();
-
+  const totalItem =  getGuestCartCount();
   const handleCloseMegaMenu = () => {
     setIsDealsOpen(false);
     setIsMenuOpen(!isMenuOpen);
@@ -40,6 +41,9 @@ export default function HeaderMainBar() {
     // getCount();
   }, []);
 
+
+  console.log(pathname,"pathname");
+  
   return (
     <>
       <div className="flex items-center justify-center bg-white text-black min-h-[4.688rem] h-full w-full relative">
@@ -147,7 +151,7 @@ export default function HeaderMainBar() {
                   <LoginPage onClose={handleCloseModal} />
                 </ModalBox>
                 <Link
-                  href={`${pathname}/cart`}
+                  href={`/residential/cart`}
                   className="relative text-gray-700 hover:text-primaryTwo h-[1.5rem] w-[1.5rem]"
                 >
                   <Image
@@ -156,14 +160,20 @@ export default function HeaderMainBar() {
                     fill
                     className="object-center"
                   />
-                  {itemsInCart && (
-                    <span className="absolute -top-2 -right-2 bg-teal-600 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
-                      {itemsInCart}
-                    </span>
-                  )}
+                  {isAuthenticated
+                    ? itemsInCart && (
+                        <span className="absolute -top-2 -right-2 bg-teal-600 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+                          {itemsInCart}
+                        </span>
+                      )
+                    : totalItem && (
+                        <span className="absolute -top-2 -right-2 bg-teal-600 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+                          {totalItem}
+                        </span>
+                      )}
                 </Link>
                 <Link
-                  href={`${pathname}/cart`}
+                  href={`/residential/cart`}
                   className="relative text-gray-700 hover:text-primaryTwo h-[1.5rem] w-[1.5rem]"
                 >
                   <Image

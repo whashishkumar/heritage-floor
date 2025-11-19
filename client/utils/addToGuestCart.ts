@@ -1,8 +1,7 @@
 
-export function addToGuestCart(product:any) {
+export function addToGuestCart(product:any) {  
   const cart = JSON.parse(localStorage.getItem("guest_cart") || "[]");
   const exist = cart.find((item:any) => item.id === product.id);
-
   if (exist) {
     exist.qty += 1;
   } else {
@@ -30,4 +29,11 @@ async function mergeGuestCart(userToken:any) {
 
   // Clear guest cart
   localStorage.removeItem("guest_cart");
+}
+
+ // sum of all quantities
+export function getGuestCartCount() {
+    const cart = JSON.parse(localStorage.getItem("guest_cart") || "[]");
+  const totalCount = cart.reduce((sum: number, item: any) => sum + item.qty, 0);
+  return totalCount;
 }

@@ -4,6 +4,8 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import ButtonCommon from "../ui/Button";
 import RatingStars from "../ui/RatingStars";
+import { addToGuestCart } from "@/utils/addToGuestCart";
+
 
 export interface Product {
   id: number;
@@ -29,8 +31,8 @@ export default function ProductCard({
   const router = useRouter();
 
   const handleAddToCartProduct = async (id: any) => {
-    await CartEndPoint.addItemToCart(id);
-    // addToGuestCart({id:id})
+    // await CartEndPoint.addItemToCart(id);
+    addToGuestCart({id:id})
   };
 
   const path = process.env.NEXT_PUBLIC_IMAGE_PATH;
@@ -58,7 +60,7 @@ export default function ProductCard({
         {ProductImage && (
           <Image
             src={ProductImage}
-            alt={product.name}
+            alt={product.sku}
             width={340}
             height={240}
             className="h-full w-auto object-cover rounded-tl-lg"

@@ -11,27 +11,8 @@ import "react-inner-image-zoom/lib/styles.min.css";
 import { FaExclamationCircle } from "react-icons/fa";
 import { ResidentailPageData } from "@/lib/api/residentialEndPoints";
 import { useParams } from "next/navigation";
+import Loader from "../ui/Loader";
 
-const benefits = [
-  {
-    id: 1,
-    title: "Best price guarantee",
-    description: "If you find a lower price, we will gladly match it!",
-    icon: "/images/residential/dollar.png",
-  },
-  {
-    id: 2,
-    title: "30 days money back guarantee",
-    description: "See our return policy.",
-    icon: "/images/residential/sign01.png",
-  },
-  {
-    id: 3,
-    title: "Canadian business",
-    description: "Learn more about us.",
-    icon: "/images/residential/group01.png",
-  },
-];
 
 const socialLinks = [
   {
@@ -54,71 +35,6 @@ const socialLinks = [
   },
 ];
 
-const productImages = [
-  {
-    id: 1,
-    src: "/images/residential/prodetail.png",
-    alt: "Product Thumbnail 1",
-  },
-  {
-    id: 2,
-    src: "/images/residential/prodetail.png",
-    alt: "Product Thumbnail 2",
-  },
-  {
-    id: 3,
-    src: "/images/residential/prodetail.png",
-    alt: "Product Thumbnail 3",
-  },
-];
-
-const productImagesMoreAbstraction = [
-  {
-    id: 0,
-    src: "/images/residential/abstract3.png",
-    alt: "Product Thumbnail 1",
-  },
-  {
-    id: 1,
-    src: "/images/residential/abstract1.png",
-    alt: "Product Thumbnail 1",
-  },
-  {
-    id: 2,
-    src: "/images/residential/abstract4.png",
-    alt: "Product Thumbnail 2",
-  },
-  {
-    id: 3,
-    src: "/images/residential/abstract2.png",
-    alt: "Product Thumbnail 3",
-  },
-  {
-    id: 4,
-    src: "/images/residential/abstract3.png",
-    alt: "Product Thumbnail 1",
-  },
-  {
-    id: 5,
-    src: "/images/residential/abstract4.png",
-    alt: "Product Thumbnail 2",
-  },
-  {
-    id: 6,
-    src: "/images/residential/abstract5.png",
-    alt: "Product Thumbnail 3",
-  },
-  {
-    id: 30,
-    src: "/images/residential/abstract2.png",
-    alt: "Product Thumbnail 3",
-  },
-  {
-    id: 42,
-    src: "/images/residential/abstract3.png",
-    alt: "Product Thumbnail 1",
-  },
-];
 
 export const faqs = [
   {
@@ -175,12 +91,11 @@ const breakpoints = {
 
 const ProductDetailPage = () => {
   const params = useParams();
-  const [selectedImage, setSelectedImage] = useState(productImages[0]);
   const [productDetail, setProductDetail] = useState(null);
   const { childSlug } = params;
-  const { images }: any = productDetail || {};
-
-  console.log(productDetail, "dataproductDetail");
+  const { images,sku,name,price,tile_details,shipping_details,related_products }: any = productDetail || {};
+  const {box_price,price_per_sqft,sqft_per_box,sqft_per_tile,tile_length,tile_width,tiles_per_box} = tile_details || {}
+  const [selectedImage, setSelectedImage] = useState<any>(null);
 
   const handleSelectProductImage = (image: {
     id: number;
@@ -192,12 +107,18 @@ const ProductDetailPage = () => {
 
   const getProductDetails = async () => {
     const { data } = await ResidentailPageData.getProductDetail(childSlug);
+    const { images } = data
     setProductDetail(data);
+    setSelectedImage(images?.[0]) 
   };
 
   useEffect(() => {
     getProductDetails();
   }, []);
+ 
+  if(!productDetail) {
+    return <Loader/>
+  }
 
   return (
     <div className="wrapper m-auto py-12">
@@ -205,25 +126,25 @@ const ProductDetailPage = () => {
         <div className="mb-4 lrft-col">
           <div className="overflow-hidden rounded-2xl ">
             <InnerImageZoom
-              src={selectedImage.src}
-              zoomSrc={selectedImage.src}
+              src={selectedImage?.src}
+              zoomSrc={selectedImage?.src}
               width={750}
               height={500}
               hasSpacer={true}
               imgAttributes={{
                 className:
                   "rounded-2xl object-cover w-full h-[400px] lg:h-[500px]",
-                alt: selectedImage.alt,
+                alt: selectedImage?.alt,
               }}
             />
           </div>
           {/* Thumbnails */}
           <div className="flex gap-4 py-10">
-            {productImages.map((image) => (
+            {images?.map((image:any) => (
               <div
                 key={image.id}
                 className={`cursor-pointer rounded-lg overflow-hidden border w-[120px] h-[80px] p-2 ${
-                  selectedImage.id === image.id
+                  selectedImage?.id === image.id
                     ? "border-[#018C99] p-0.5"
                     : "border-transparent"
                 }`}
@@ -241,16 +162,15 @@ const ProductDetailPage = () => {
           </div>
 
           <div className="border  border-[#DDDDDD] p-6 rounded-2xl bg-[#F6F6F6]">
-            {benefits?.map((benefit) => (
+            {shipping_details?.map((benefit:any) => (
               <div key={benefit.id} className="flex gap-4 mb-6 poppins-font">
-                <div className="flex items-start justify-center  ">
-                  <Image
+                <div className="flex items-start justify-center h-10 w-10 ">
+                { benefit.icon && <Image
                     src={benefit.icon}
                     alt={benefit.title}
-                    height={40}
-                    width={40}
+                    fill
                     className="object-contain"
-                  />
+                  />}
                 </div>
                 <div>
                   <h3 className="text-xl  mb-2 text-black font-semibold">
@@ -284,22 +204,22 @@ const ProductDetailPage = () => {
         <div className="right-col ">
           {/* Product Information */}
           <div className="mb-4 poppins-font">
-            <p className="text-base mb-2 font-medium">
-              SKU: mOSAIC18BW{" "}
+         {  sku &&  <p className="text-base mb-2 font-medium">
+              SKU: {sku}
               <span className="ml-2 text-[#018C99] font-medium">
                 By Hertiage
               </span>
-            </p>
-            <h2 className="font-medium mb-2 text-[1.688rem] text-black">
-              Abstract Mosaic
-            </h2>
-            <p className="text-base mb-2 text-black">
-              11.93" x 11.93" | PEI of 4 - Heavy Traffic | Matte
-            </p>
-            <p className="text-[1.688rem] font-bold">$9.20 / sq. ft</p>
-            <p className="text-sm mt-2 text-black">
-              $75.45 / box (9.9 sq. ft. / box)
-            </p>
+            </p>}
+            { name && <h2 className="font-medium mb-2 text-[1.688rem] text-black">
+              {name}
+            </h2>}
+          {  tile_width &&  tile_length && <p className="text-base mb-2 text-black">
+              {tile_width}" x {tile_length}" | PEI of {tiles_per_box} - Heavy Traffic | Matte
+            </p>}
+           {sqft_per_tile  && <p className="text-[1.688rem] font-bold">$ {sqft_per_tile} / sq. ft</p>}
+           { box_price && sqft_per_box && <p className="text-sm mt-2 text-black">
+              ${box_price} / box ({sqft_per_box} sq. ft. / box)
+            </p>}
             <p className="bg-[#FFC107] p-3 px-4  poppins-font mt-4 w-fit flex items-center ">
               <span className="text-sm text-black font-medium">
                 Want a better Price?
@@ -473,7 +393,7 @@ const ProductDetailPage = () => {
           <p className=" bg-[#F1F1F1] h-[1px] my-5"></p>
           {/* More Abstractions */}
           <div className="poppins-font">
-            <div className="flex justify-start items-center gap-2 ">
+            <div className="flex justify-start items-center gap-2 pb-4 ">
               <Image
                 src="/images/residential/calander.png"
                 alt="In Stock"
@@ -481,11 +401,13 @@ const ProductDetailPage = () => {
                 width={18}
                 className="object-contain"
               />
-              <h2 className="font-medium  text-xl text-black">
-                Visit more Abstract Mosaic 6 products
+              <h2 className="font-medium  text-xl text-black ">
+                Visit more Abstract Mosaic {related_products.length} products
               </h2>
             </div>
-            <div className="flex gap-4 py-10 ">
+            {
+              related_products.length > 0 &&
+                 <div className="flex gap-4 py-10 ">
               <SwipeSlider
                 slidesPerView={6}
                 bottomSwipeBtn={false}
@@ -494,23 +416,25 @@ const ProductDetailPage = () => {
                 autoPlay={false}
                 breakpoints={breakpoints}
               >
-                {productImagesMoreAbstraction?.map((image) => (
+                {related_products?.map((product:any) => (
                   <div
-                    key={image.id}
+                    key={product.id}
                     className="cursor-pointer w-[78px] h-[78px] overflow-hidden rounded-lg"
-                    onClick={() => handleSelectProductImage(image)}
+                    onClick={() => handleSelectProductImage(product)}
                   >
-                    <Image
-                      src={image.src}
-                      alt={image.alt}
+               {   product?.image &&  <Image
+                      src={product?.image?.src}
+                      alt={product.id}
                       width={78}
                       height={78}
                       className="w-full h-full object-cover"
-                    />
+                    />}
                   </div>
                 ))}
               </SwipeSlider>
-            </div>
+            </div> 
+            }
+         
           </div>
           <p className=" bg-[#F1F1F1] h-[1px] "></p>
           {/* Description */}
