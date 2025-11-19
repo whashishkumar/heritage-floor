@@ -2,8 +2,8 @@
 import { CartEndPoint } from "@/lib/api/cartEndPoints";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { CiStar } from "react-icons/ci";
 import ButtonCommon from "../ui/Button";
+import RatingStars from "../ui/RatingStars";
 
 export interface Product {
   id: number;
@@ -14,6 +14,7 @@ export interface Product {
   discount?: number;
   rating: number;
   image: string;
+  discount_percent?: string;
 }
 
 interface Props {
@@ -32,39 +33,37 @@ export default function ProductCard({
     // addToGuestCart({id:id})
   };
 
-
-  const path = process.env.NEXT_PUBLIC_IMAGE_PATH
-  const ProductImage = `${path}${product.image}`
+  const path = process.env.NEXT_PUBLIC_IMAGE_PATH;
+  const ProductImage = `${path}${product.image}`;
 
   return (
     <div className="flex flex-col">
       <div
-        className="relative bg-white rounded-[0.625rem] flex justify-center items-center border border-[#E8E8E8] h-[341px] cursor-pointer"
+        className="relative bg-white rounded-[0.625rem] flex justify-center items-center border border-[#E8E8E8] h-[341px] cursor-pointer rounded-tl-lg"
         onClick={() => handleGetProductDetail(product.id)}
       >
-        {product.discount && (
+        {product.discount_percent && (
           <span className="absolute top-0 left-0 bg-[#BA0202] text-white text-sm px-2 py-1 rounded-tl-lg font-bold poppins-font">
-            {product.discount}% OFF
+            {product.discount_percent}% OFF
           </span>
         )}
         <span className="absolute right-0 top-0 font-semibold px-2 py-1 flex  items-center ">
-          <CiStar className="w-4 h-4 text-yellow-400 fill-yellow-400 mr-1" />
-          <CiStar className="w-4 h-4 text-yellow-400 fill-yellow-400 mr-1" />
-          <CiStar className="w-4 h-4 text-yellow-400 fill-yellow-400 mr-1" />
-          <span className="text-black poppins-font font-medium text-base">
-            ({product.rating})
-          </span>
+          {product.rating && (
+            <RatingStars
+              rating={product.rating}
+              className="absolute right-2 top-1"
+            />
+          )}
         </span>
-     {ProductImage && (
-  <Image
-    src={ProductImage}
-    alt={product.name}
-    width={340}
-    height={240}
-    className="h-full w-auto object-cover"
-  />
-)}
-
+        {ProductImage && (
+          <Image
+            src={ProductImage}
+            alt={product.name}
+            width={340}
+            height={240}
+            className="h-full w-auto object-cover rounded-tl-lg"
+          />
+        )}
       </div>
       <div className="py-4">
         <div className="text-[#5A5A5A] text-base poppins-font font-medium leading-[30px]">
@@ -80,7 +79,6 @@ export default function ProductCard({
         <div className="mt-[1.5rem]">
           <ButtonCommon
             buttonName="Add To Cart"
-            // link="#"
             image="/icon/arrowRightUp.png"
             cssParent="!rounded-[0.625rem]"
             cssChild="!rounded-r-[0.625rem]"

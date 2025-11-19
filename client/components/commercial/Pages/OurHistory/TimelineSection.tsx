@@ -60,9 +60,7 @@ export default function TimelineSection() {
         isManualScroll.current = false;
         return;
       }
-
       const viewportCenter = window.innerHeight / 2;
-
       let closestIndex = 0;
       let closestDistance = Infinity;
 
@@ -88,7 +86,6 @@ export default function TimelineSection() {
     window.addEventListener('scroll', handleScroll);
     // Initial check
     handleScroll();
-
     return () => {
       window.removeEventListener('scroll', handleScroll);
     };
