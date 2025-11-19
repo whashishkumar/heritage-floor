@@ -14,6 +14,7 @@ interface SelectorProps {
   options: Option[];
   placeholder?: string;
   defaultValue?: string | number;
+  value?: string | number | null; // Add controlled value prop
   name?: string;
   id?: number;
   onChange?: (value: string | number) => void;
@@ -24,12 +25,20 @@ const Selector: React.FC<SelectorProps> = ({
   options,
   placeholder = "Select an option",
   defaultValue,
+  value,
   onChange,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [selected, setSelected] = useState<string | number | null>(
     defaultValue || null
   );
+
+  // Sync internal state with external value prop (controlled mode)
+  useEffect(() => {
+    if (value !== undefined) {
+      setSelected(value);
+    }
+  }, [value]);
 
   const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -56,8 +65,7 @@ const Selector: React.FC<SelectorProps> = ({
   const selectedLabel =
     options?.find((opt) => opt.value === selected || opt.name === selected)?.label ||
     placeholder;
-
-    
+        
   return (
     <div
       ref={dropdownRef}

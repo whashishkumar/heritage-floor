@@ -124,6 +124,8 @@ export default function ProductDetailPage({
   const shortOptions = sortOptionsCategory ? sortOptionsCategory : sortOptions;
   const params = useParams();
   const { slug } = params;
+  const [priceSort, setPriceSort] = useState<any>(null);
+  const [order, setOrder] = useState<any>(null);
 
   useEffect(() => {
     if (isMobileFilterOpen) {
@@ -133,8 +135,14 @@ export default function ProductDetailPage({
     }
   }, [isMobileFilterOpen]);
 
-  const handleSortChange = (value: string | number) => {
-    console.log("Selected:", value);
+  const handlePriceBaseFilter = (value: string | number) => {
+    setPriceSort(value);
+    console.log("Price Sort Selected:", value);
+  };
+
+  const handleOrderChange = (value: string | number) => {
+    setOrder(value);
+    console.log("Order Selected:", value);
   };
 
   const handleToggleMobileFilter = () => {
@@ -189,14 +197,16 @@ export default function ProductDetailPage({
                 label="Sort By"
                 options={shortOptions}
                 placeholder={shortOptions?.[0].label}
-                onChange={handleSortChange}
+                value={priceSort}
+                onChange={handlePriceBaseFilter}
               />
               <div>
                 <Selector
-                  label="Sort By"
+                  label="Order"
                   options={accOptions}
                   placeholder="Order"
-                  onChange={handleSortChange}
+                  value={order}
+                  onChange={handleOrderChange}
                 />
               </div>
             </div>

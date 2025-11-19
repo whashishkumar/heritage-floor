@@ -45,6 +45,7 @@ export default function ProductDetailPage({ sortOptionsCategory }: any) {
   const [brandSort, setBrandSort] = useState<any>(null);
   const [colorSort, setColorSort] = useState<any>(null);
   const [sizeSort, setSizeSort] = useState<any>(null);
+  const [selectedCategory, setSelectedCategory] = useState<any>(null);
 
   useEffect(() => {
     if (isMobileFilterOpen) {
@@ -150,8 +151,8 @@ export default function ProductDetailPage({ sortOptionsCategory }: any) {
   };
 
   const handleCategory = async (id:any) => {
-
- const resp = await ResidentailPageData.getCategoryBasedProducts({
+    setSelectedCategory(id);
+    const resp = await ResidentailPageData.getCategoryBasedProducts({
       categoryid: id ? Number(id) : undefined,
       page: currentPage,
       limit: 12,
@@ -164,7 +165,6 @@ export default function ProductDetailPage({ sortOptionsCategory }: any) {
     getCategoryList();
   }, []);
 
-  console.log(productCategory,"productCategory");
   
   return (
     <>
@@ -218,6 +218,7 @@ export default function ProductDetailPage({ sortOptionsCategory }: any) {
                   label="Category"
                   options={productCategory}
                   placeholder="Category"
+                  value={selectedCategory}
                   onChange={handleCategory}
                 />
               </div>
@@ -225,6 +226,7 @@ export default function ProductDetailPage({ sortOptionsCategory }: any) {
                 label="Sort By"
                 options={shortOptions}
                 placeholder={shortOptions?.[0].label}
+                value={priceSort}
                 onChange={handlePriceBaseFilter}
               />
               <div>
@@ -232,6 +234,7 @@ export default function ProductDetailPage({ sortOptionsCategory }: any) {
                   label="Order"
                   options={accOptions}
                   placeholder="Acc"
+                  value={order}
                   onChange={handleSortChange}
                 />
               </div>

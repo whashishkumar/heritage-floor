@@ -38,10 +38,29 @@ interface SideBarProps {
 
 export default function SideBar({handleSortChange,handleSelectionChange,handlePriceBaseFilter,handleAllClearFilter}: SideBarProps) {
   const [filterList, setFilterList] = useState<FilterGroup[]>([])
+  const [mobilePriceSort, setMobilePriceSort] = useState<any>(null);
+  const [mobileOrder, setMobileOrder] = useState<any>(null);
+  
   const getFiltersList = async () => {
     const {data} = await ResidentailPageData.getProductFiltersList()
     setFilterList(data)
   }
+
+  const handleMobilePriceChange = (value: any) => {
+    setMobilePriceSort(value);
+    handlePriceBaseFilter?.(value);
+  };
+
+  const handleMobileOrderChange = (value: string | number) => {
+    setMobileOrder(value);
+    handleSortChange?.(value);
+  };
+
+  const handleClearAllFilters = () => {
+    setMobilePriceSort(null);
+    setMobileOrder(null);
+    handleAllClearFilter?.(null);
+  };
 
 useEffect(()=>{
   getFiltersList()
@@ -51,22 +70,24 @@ useEffect(()=>{
     <div>
       <div className="w-full grid grid-cols-2 font-bold py-2 text-[#5A5A5A] capitalize font-xl ">
         <p>Filters:</p>
-        <button className="text-right cursor-pointer capitalize" onClick={handleAllClearFilter} >Clear All</button>
+        <button className="text-right cursor-pointer capitalize" onClick={handleClearAllFilters}>Clear All</button>
       </div>
       <div className="block md:hidden mb-[1rem]">
         <Selector
           label="Sort By"
           options={sortOptions}
           placeholder="Price"
-          onChange={handlePriceBaseFilter}
+          value={mobilePriceSort}
+          onChange={handleMobilePriceChange}
         />
       </div>
       <div className="block md:hidden mb-[1rem]">
         <Selector
-          label="Sort By"
+          label="Order"
           options={accOptions}
           placeholder="Order"
-          onChange={handleSortChange}
+          value={mobileOrder}
+          onChange={handleMobileOrderChange}
         />
       </div>
       {/* <PriceRangeSelector
