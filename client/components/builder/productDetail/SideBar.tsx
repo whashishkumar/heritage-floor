@@ -125,6 +125,9 @@ const accOptions = [
 ];
 
 export default function SideBar() {
+  const [mobilePriceSort, setMobilePriceSort] = React.useState<any>(null);
+  const [mobileOrder, setMobileOrder] = React.useState<any>(null);
+
   const handlePriceChange = (range: { min: number; max: number }) => {
     console.log("Selected Price Range:", range);
   };
@@ -139,30 +142,43 @@ export default function SideBar() {
     console.log("Single selected values:", filters);
   };
 
-  const handleSortChange = (value: string | number) => {
+  const handleMobilePriceChange = (value: string | number) => {
+    setMobilePriceSort(value);
     console.log("Selected:", value);
+  };
+
+  const handleMobileOrderChange = (value: string | number) => {
+    setMobileOrder(value);
+    console.log("Selected:", value);
+  };
+
+  const handleClearAllFilters = () => {
+    setMobilePriceSort(null);
+    setMobileOrder(null);
   };
 
   return (
     <div>
       <div className="w-full grid grid-cols-2 font-bold py-2 text-[#5A5A5A] capitalize font-xl ">
         <p>Filters:</p>
-        <p className="text-right cursor-pointer">Clear All</p>
+        <p className="text-right cursor-pointer" onClick={handleClearAllFilters}>Clear All</p>
       </div>
       <div className="block md:hidden mb-[1rem]">
         <Selector
           label="Sort By"
           options={sortOptions}
           placeholder="Price"
-          onChange={handleSortChange}
+          value={mobilePriceSort}
+          onChange={handleMobilePriceChange}
         />
       </div>
       <div className="block md:hidden mb-[1rem]">
         <Selector
-          label="Sort By"
+          label="Order"
           options={accOptions}
           placeholder="Order"
-          onChange={handleSortChange}
+          value={mobileOrder}
+          onChange={handleMobileOrderChange}
         />
       </div>
       <PriceRangeSelector

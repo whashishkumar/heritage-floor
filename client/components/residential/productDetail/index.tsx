@@ -7,8 +7,6 @@ import Pagination from "@/components/ui/Pagnation";
 import { LuFilter } from "react-icons/lu";
 import { MdClose } from "react-icons/md";
 import { useParams, useRouter } from "next/navigation";
-
-
 import Loader from "@/components/ui/Loader";
 import { ResidentailPageData } from "@/lib/api/residentialEndPoints";
 
@@ -23,94 +21,9 @@ export interface Product {
   image: string;
 }
 
-const products: Product[] = [
-  {
-    id: 1,
-    name: 'Crain Disposable Cove Base Nozzle - 3"',
-    sku: "236",
-    brand: "Crain",
-    price: 4.95,
-    discount: 20,
-    rating: 4.4,
-    image: "/images/builder/pcrain.png",
-  },
-  {
-    id: 11,
-    name: 'Crain Disposable Cove Base Nozzle - 3"',
-    sku: "236",
-    brand: "Crain",
-    price: 4.95,
-    discount: 20,
-    rating: 4.4,
-    image: "/images/builder/p01.png",
-  },
-  {
-    id: 12,
-    name: 'Crain Disposable Cove Base Nozzle - 3"',
-    sku: "236",
-    brand: "Crain",
-    price: 4.95,
-    discount: 20,
-    rating: 4.4,
-    image: "/images/builder/p02.png",
-  },
-  {
-    id: 131,
-    name: 'Crain Disposable Cove Base Nozzle - 3"',
-    sku: "236",
-    brand: "Crain",
-    price: 4.95,
-    discount: 20,
-    rating: 4.4,
-    image: "/images/builder/p03.png",
-  },
-  {
-    id: 10,
-    name: 'Crain Disposable Cove Base Nozzle - 3"',
-    sku: "236",
-    brand: "Crain",
-    price: 4.95,
-    discount: 20,
-    rating: 4.4,
-    image: "/images/builder/pcrain.png",
-  },
-  {
-    id: 101,
-    name: 'Crain Disposable Cove Base Nozzle - 3"',
-    sku: "236",
-    brand: "Crain",
-    price: 4.95,
-    discount: 20,
-    rating: 4.4,
-    image: "/images/builder/p01.png",
-  },
-  {
-    id: 10120,
-    name: 'Crain Disposable Cove Base Nozzle - 3"',
-    sku: "236",
-    brand: "Crain",
-    price: 4.95,
-    discount: 20,
-    rating: 4.4,
-    image: "/images/builder/p02.png",
-  },
-  {
-    id: 10201,
-    name: 'Crain Disposable Cove Base Nozzle - 3"',
-    sku: "236",
-    brand: "Crain",
-    price: 4.95,
-    discount: 20,
-    rating: 4.4,
-    image: "/images/builder/p03.png",
-  },
-];
-
 const sortOptions = [
-  { label: "Relevance", value: "relevance" },
-  { label: "Price: Low to High", value: "low_to_high" },
-  { label: "Price: High to Low", value: "high_to_low" },
-  { label: "Newest First", value: "newest" },
+  { label: "Low to High", value: "price-asc" },
+  { label: "High to Low", value: "price-desc" },
 ];
 
 const accOptions = [
@@ -121,14 +34,18 @@ const accOptions = [
 export default function ProductDetailPage({ sortOptionsCategory }: any) {
   const router = useRouter();
   const [isMobileFilterOpen, setIsMobileFilterOpen] = useState(false);
-  const [categoryProducts, setCategoryProducts] = useState<any | null>(
-    null
-  );
+  const [categoryProducts, setCategoryProducts] = useState<any | null>(null);
   const [currentPage, setCurrentpage] = useState(1);
-  const [productCategory, setProductCategory] = useState(null);
+  const [productCategory, setProductCategory] = useState<any[]>([]);
   const shortOptions = sortOptionsCategory ? sortOptionsCategory : sortOptions;
   const params = useParams();
   const { slug } = params;
+  const [order, setOrder] = useState<any>(null);
+  const [priceSort, setPriceSort] = useState<any>(null);
+  const [brandSort, setBrandSort] = useState<any>(null);
+  const [colorSort, setColorSort] = useState<any>(null);
+  const [sizeSort, setSizeSort] = useState<any>(null);
+  const [selectedCategory, setSelectedCategory] = useState<any>(null);
 
   useEffect(() => {
     if (isMobileFilterOpen) {
@@ -139,11 +56,33 @@ export default function ProductDetailPage({ sortOptionsCategory }: any) {
   }, [isMobileFilterOpen]);
 
   const handleSortChange = async (value: string | number) => {
+    setOrder(value);
     const res = await ResidentailPageData.getCategoryBasedProducts({
       categoryid: slug ? Number(slug) : undefined,
       order: value,
+      brand: brandSort,
+      color: colorSort,
+      size: sizeSort,
+      page: currentPage,
+      limit: 12,
     });
-    setProductCategory(res);
+
+    setCategoryProducts(res);
+  };
+
+  const handlePriceBaseFilter = async (value: any) => {
+    setPriceSort(value);
+    const res = await ResidentailPageData.getCategoryBasedProducts({
+      categoryid: slug ? Number(slug) : undefined,
+      order: order,
+      sortId: value,
+      brand: brandSort,
+      color: colorSort,
+      size: sizeSort,
+      page: currentPage,
+      limit: 12,
+    });
+    setCategoryProducts(res);
   };
 
   const handleToggleMobileFilter = () => {
@@ -151,11 +90,11 @@ export default function ProductDetailPage({ sortOptionsCategory }: any) {
   };
 
   const getCatogeryBaseProducts = async () => {
-    const  resp  = await ResidentailPageData.getCategoryBasedProducts({
+    const resp = await ResidentailPageData.getCategoryBasedProducts({
       categoryid: slug ? Number(slug) : undefined,
       page: currentPage,
       limit: 12,
-    });    
+    });
     setCategoryProducts(resp);
   };
 
@@ -170,7 +109,7 @@ export default function ProductDetailPage({ sortOptionsCategory }: any) {
 
   const handlePageChage = async (page: any) => {
     setCurrentpage(page);
-      const  resp  = await ResidentailPageData.getCategoryBasedProducts({
+    const resp = await ResidentailPageData.getCategoryBasedProducts({
       categoryid: slug ? Number(slug) : undefined,
       page: page,
       limit: 12,
@@ -178,11 +117,55 @@ export default function ProductDetailPage({ sortOptionsCategory }: any) {
     setCategoryProducts(resp);
   };
 
+  const handleSelectionChange = async (filterBy: any) => {
+    const { Brand, Color, Size } = filterBy;
+    setBrandSort(Brand);
+    setColorSort(Color);
+    setSizeSort(Size);
+    const res = await ResidentailPageData.getCategoryBasedProducts({
+      categoryid: slug ? Number(slug) : undefined,
+      order: order,
+      sortId: priceSort,
+      page: currentPage,
+      brand: Brand,
+      color: Color,
+      size: Size,
+      limit: 12,
+    });
+    setCategoryProducts(res);
+  };
+
+  const handleAllClearFilter = async () => {
+    setPriceSort(null);
+    setBrandSort(null);
+    setColorSort(null);
+    setSizeSort(null);
+    const res = await ResidentailPageData.getCategoryBasedProducts({
+      categoryid: slug ? Number(slug) : undefined,
+      order: order,
+      sortId: priceSort,
+      page: currentPage,
+      limit: 12,
+    });
+    setCategoryProducts(res);
+  };
+
+  const handleCategory = async (id:any) => {
+    setSelectedCategory(id);
+    const resp = await ResidentailPageData.getCategoryBasedProducts({
+      categoryid: id ? Number(id) : undefined,
+      page: currentPage,
+      limit: 12,
+    });
+    setCategoryProducts(resp);
+  }
+
   useEffect(() => {
     getCatogeryBaseProducts();
     getCategoryList();
   }, []);
 
+  
   return (
     <>
       {isMobileFilterOpen && (
@@ -206,13 +189,21 @@ export default function ProductDetailPage({ sortOptionsCategory }: any) {
           </button>
         </div>
         <div className="px-4 overflow-y-auto    h-[calc(100%+4rem)] ">
-          <SideBar />
+          <SideBar
+            handleSortChange={handleSortChange}
+            handlePriceBaseFilter={handlePriceBaseFilter}
+          />
         </div>
       </div>
 
       <div className="wrapper m-auto flex py-6 md:py-12 gap-10 flex-col md:flex-row poppins-font ">
         <div className="w-full hidden md:block md:w-[30%] lg:w-[20%] md:sticky md:top-24 self-start h-fit ">
-          <SideBar />
+          <SideBar
+            handleSortChange={handleSortChange}
+            handlePriceBaseFilter={handlePriceBaseFilter}
+            handleSelectionChange={handleSelectionChange}
+            handleAllClearFilter={handleAllClearFilter}
+          />
         </div>
 
         <div className="w-full ">
@@ -221,18 +212,29 @@ export default function ProductDetailPage({ sortOptionsCategory }: any) {
             <p className="font-semibold text-lg poppins-font">
               Products Founds : {categoryProducts?.meta?.total}
             </p>
-            <div className="grid grid-cols-2 gap-6">
+            <div className="grid grid-cols-3 gap-4">
+                 <div>
+                <Selector
+                  label="Category"
+                  options={productCategory}
+                  placeholder="Category"
+                  value={selectedCategory}
+                  onChange={handleCategory}
+                />
+              </div>
               <Selector
                 label="Sort By"
                 options={shortOptions}
                 placeholder={shortOptions?.[0].label}
-                onChange={handleSortChange}
+                value={priceSort}
+                onChange={handlePriceBaseFilter}
               />
               <div>
                 <Selector
                   label="Order"
                   options={accOptions}
                   placeholder="Acc"
+                  value={order}
                   onChange={handleSortChange}
                 />
               </div>
@@ -252,20 +254,32 @@ export default function ProductDetailPage({ sortOptionsCategory }: any) {
           {/* Product Grid */}
           <Suspense fallback={<Loader />}>
             <div>
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-8 justify-items-center mt-4">
-                {categoryProducts?.data?.map((product: any, idx:any) => (
-                  <ProductCard
-                    key={idx}
-                    product={product}
-                    handleGetProductDetail={handleGetProductDetail}
-                  />
-                ))}
+              <div className="mt-4">
+                {categoryProducts?.data?.length === 0 ? (
+                  <p className="text-center text-gray-500 text-lg py-10 capitalize">
+                    No products found
+                  </p>
+                ) : (
+                  <>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-8 justify-items-center">
+                      {categoryProducts?.data?.map(
+                        (product: any, idx: number) => (
+                          <ProductCard
+                            key={idx}
+                            product={product}
+                            handleGetProductDetail={handleGetProductDetail}
+                          />
+                        )
+                      )}
+                    </div>
+                    <Pagination
+                      currentPage={currentPage}
+                      totalPages={categoryProducts?.meta?.last_page}
+                      onPageChange={handlePageChage}
+                    />
+                  </>
+                )}
               </div>
-              <Pagination
-                currentPage={currentPage}
-                totalPages={categoryProducts?.meta?.last_page}
-                onPageChange={handlePageChage}
-              />
             </div>
           </Suspense>
         </div>
@@ -273,4 +287,3 @@ export default function ProductDetailPage({ sortOptionsCategory }: any) {
     </>
   );
 }
-

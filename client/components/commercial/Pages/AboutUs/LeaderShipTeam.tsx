@@ -63,10 +63,11 @@ const breakpoints = {
 };
 
 export function TeamCard({ item }: any) {
+    const teamMember = `${process.env.NEXT_PUBLIC_IMAGE_PATH_WITHOUT_STORAGE}${item?.profile_image}`;
   return (
     <div className="relative overflow-hidden rounded-xl shadow-lg">
       <Image
-        src={item.image}
+        src={teamMember}
         alt={item.name}
         width={600}
         height={800}
@@ -75,23 +76,25 @@ export function TeamCard({ item }: any) {
 
       <div className="absolute bottom-0 left-0 w-full p-6 bg-gradient-to-t from-black/80 to-transparent">
         <h2 className="text-white text-2xl font-light tracking-widest uppercase">
-          {item.name}
+          {item.title}
         </h2>
-        <p className="text-gray-300 text-sm mt-1">{item.role}</p>
+        <p className="text-gray-300 text-sm mt-1">{item.designation}</p>
       </div>
     </div>
   );
 }
 
-export default function LeaderShipTeam() {
+export default function LeaderShipTeam({team}:any) {
+  const {title,description,members} = team || {}
+  
   return (
     <div>
      
       <div className="wrapper m-auto">
         <SectionHeader
-          subHeading="LEADERSHIP TEAM"
+          subHeading={title}
           headingCss={`text-darkBlue tracking-[0.8rem] text-[2rem] `}
-          description="Our top management is deeply involved in shaping the company's long-term strategy, performance, culture, and values. Meet The DAMAC Group of Companies leadership team and learn more about them."
+          description={description}
           mainCss={`flex flex-col items-center justify-center  ${`text-darkBlue`}`}
           descriptionCss={`leading-[1.5] mb-[2rem] mt-[0.5rem] md:w-[60%] sm:w-[75%] w-[90%] text-center align-middle  text-darkBlue}`}
           subHeadingCss={`text-darkBlue  uppercase text-center`}
@@ -109,7 +112,7 @@ export default function LeaderShipTeam() {
             speed={6000}
             breakpoints={breakpoints}
           >
-            {teamData.map((member) => (
+            {members?.map((member:any) => (
               <TeamCard key={member.id} item={member} />
             ))}
           </SwipeSlider>

@@ -9,8 +9,8 @@ export default async function CartPage() {
   return (
     <>
       <CartPageComponent />
-      <BestsellerProducts data={headerProductBestSeller} />
-      <CategoryProducts />
+      {/* <BestsellerProducts data={headerProductBestSeller} /> */}
+      {/* <CategoryProducts /> */}
     </>
   );
 }

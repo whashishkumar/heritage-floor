@@ -71,7 +71,6 @@ const CheckboxGroup: React.FC<FilterAccordionGroupProps> = ({
                 <FaPlus size={16} color="#018C99" />
               )}
             </button>
-
             {/* Accordion Content */}
             {isOpen && (
               <div className="p-2 flex flex-col gap-3 bg-white pb-4">

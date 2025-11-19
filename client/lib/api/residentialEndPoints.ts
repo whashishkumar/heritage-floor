@@ -59,14 +59,19 @@ export const ResidentailPageData = {
       order?: any;
       page?: any;
       limit?: any;
+      brand?:any;
+      color?:any;
+      size?:any
+
     } = {}
   ) => {
-    const { categoryid, id, sky, sortId, order, page, limit } = params;
+    const { categoryid, id, sky, sortId, order, page, limit,brand,color,size } = params;
     return apiFetch({
-      endpoint: `/products?category_id=${categoryid}&id=${id}&sku=${sky}&sort=${sortId}&order=${order}&page=${page}&limit=${limit}`,
+      endpoint: `/products?category_id=${categoryid}&id=${id}&sku=${sky}&sort=${sortId}&order=${order}&brand=${brand}&color=${color}&size=${size}&page=${page}&limit=${limit}`,
       cache: "no-store",
     });
   },
+
 
   getProductDetail: (id: any) => {
     return apiFetch({
