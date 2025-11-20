@@ -1,12 +1,6 @@
-"use client";
-import {
-  createContext,
-  useContext,
-  useEffect,
-  useState,
-  ReactNode,
-} from "react";
-import Cookies from "js-cookie";
+'use client';
+import { createContext, useContext, useEffect, useState, ReactNode } from 'react';
+import Cookies from 'js-cookie';
 
 interface AuthContextType {
   token: string | null;
@@ -24,7 +18,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   //  Load token from cookie when app mounts
   useEffect(() => {
-    const existingToken = Cookies.get("customer_token");
+    const existingToken = Cookies.get('customer_token');
     if (existingToken) {
       setToken(existingToken);
     }
@@ -34,13 +28,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   //  Keep cookie synced with React state
   useEffect(() => {
     if (token) {
-      Cookies.set("customer_token", token, {
-        path: "/",
+      Cookies.set('customer_token', token, {
+        path: '/',
         secure: true,
-        sameSite: "None",
+        sameSite: 'None',
       });
     } else {
-      Cookies.remove("customer_token", { path: "/" });
+      Cookies.remove('customer_token', { path: '/' });
     }
   }, [token]);
 
@@ -66,7 +60,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 export function useAuth() {
   const ctx = useContext(AuthContext);
   if (!ctx) {
-    throw new Error("useAuth must be used inside an AuthProvider");
+    throw new Error('useAuth must be used inside an AuthProvider');
   }
   return ctx;
 }

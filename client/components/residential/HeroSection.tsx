@@ -1,5 +1,5 @@
-import Image from "next/image";
-import ButtonCommon from "../ui/Button";
+import Image from 'next/image';
+import ButtonCommon from '../ui/Button';
 
 // const heroData = {
 //   mainHero: {

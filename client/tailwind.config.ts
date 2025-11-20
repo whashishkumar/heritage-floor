@@ -1,10 +1,10 @@
-import type { Config } from "tailwindcss";
+import type { Config } from 'tailwindcss';
 
 export default {
   content: [
-    "./pages/**/*.{js,ts,jsx,tsx,mdx}",
-    "./components/**/*.{js,ts,jsx,tsx,mdx}",
-    "./app/**/*.{js,ts,jsx,tsx,mdx}",
+    './pages/**/*.{js,ts,jsx,tsx,mdx}',
+    './components/**/*.{js,ts,jsx,tsx,mdx}',
+    './app/**/*.{js,ts,jsx,tsx,mdx}',
   ],
   theme: {
     extend: {
@@ -24,38 +24,38 @@ export default {
       //   successGreen: "#30a448",
       // },
       colors: {
-        primaryOne: "#0ABAB5",
-        primaryTwo: "#018C99",
-        darkOne: "#131313",
-        darkBlue: "#0E1D35",
-        primaryGray: "#555555",
-        secondaryGray: "#444444",
-        darkGray: "#272727",
-        white: "#FFFFFF",
+        primaryOne: '#0ABAB5',
+        primaryTwo: '#018C99',
+        darkOne: '#131313',
+        darkBlue: '#0E1D35',
+        primaryGray: '#555555',
+        secondaryGray: '#444444',
+        darkGray: '#272727',
+        white: '#FFFFFF',
       },
 
       fontSize: {
-        fontDeskUltra: "2rem",
-        fontDeskLargest: "1.25rem",
-        fontDeskLarge: "1rem",
-        fontDesk: "0.875rem",
-        fontDeskSmall: "0.75rem",
-        fontDeskSmallest: "0.5rem",
+        fontDeskUltra: '2rem',
+        fontDeskLargest: '1.25rem',
+        fontDeskLarge: '1rem',
+        fontDesk: '0.875rem',
+        fontDeskSmall: '0.75rem',
+        fontDeskSmallest: '0.5rem',
       },
 
       spacing: {
-        sectionGap: "3rem",
-        gapUltra: "2rem",
-        gapLargest: "1.5rem",
-        gapLarge: "1.25rem",
-        gap: "1rem",
-        gapMed: "0.75rem",
-        gapSmall: "0.5rem",
-        gapSmallest: "0.25rem",
+        sectionGap: '3rem',
+        gapUltra: '2rem',
+        gapLargest: '1.5rem',
+        gapLarge: '1.25rem',
+        gap: '1rem',
+        gapMed: '0.75rem',
+        gapSmall: '0.5rem',
+        gapSmallest: '0.25rem',
       },
     },
   },
-  plugins: [require("tailwind-scrollbar-hide")],
+  plugins: [require('tailwind-scrollbar-hide')],
 } satisfies Config;
 
 //  extend: {

@@ -1,47 +1,47 @@
-"use client";
-import SectionHeader from "../common/SectionHeader";
-import ProductCard from "./ProductCard";
-import SwipeSlider from "../ui/SwipeSlider";
-import { useState } from "react";
-import ModalBox from "../ui/ModalBox";
-import QueryForm from "../common/QuearyForm";
+'use client';
+import SectionHeader from '../common/SectionHeader';
+import ProductCard from './ProductCard';
+import SwipeSlider from '../ui/SwipeSlider';
+import { useState } from 'react';
+import ModalBox from '../ui/ModalBox';
+import QueryForm from '../common/QuearyForm';
 export default function FeaturedProducts() {
   const products = [
     {
       id: 1,
-      category: "Carpet",
-      name: "Abstract Mosaic",
-      brand: "Nourison",
+      category: 'Carpet',
+      name: 'Abstract Mosaic',
+      brand: 'Nourison',
       price: 345,
       rating: 5,
-      image: "/images/residential/product/abstractMosaic.png",
+      image: '/images/residential/product/abstractMosaic.png',
     },
     {
       id: 2,
-      category: "Carpet",
-      name: "Accra",
-      brand: "Stanton",
+      category: 'Carpet',
+      name: 'Accra',
+      brand: 'Stanton',
       price: 345,
       rating: 5,
-      image: "/images/residential/product/accra.png",
+      image: '/images/residential/product/accra.png',
     },
     {
       id: 3,
-      category: "Hardwood",
+      category: 'Hardwood',
       name: 'Bluenoae Lake 7"',
-      brand: "Provenza",
+      brand: 'Provenza',
       price: 325,
       rating: 5,
-      image: "/images/residential/product/bluenoae.png",
+      image: '/images/residential/product/bluenoae.png',
     },
     {
       id: 4,
-      category: "Hardwood",
-      name: "Baffin Island",
-      brand: "Provenza",
+      category: 'Hardwood',
+      name: 'Baffin Island',
+      brand: 'Provenza',
       price: 245,
       rating: 5,
-      image: "/images/residential/product/accra.png", // replace with actual image path
+      image: '/images/residential/product/accra.png', // replace with actual image path
     },
   ];
   const breakpoints = {

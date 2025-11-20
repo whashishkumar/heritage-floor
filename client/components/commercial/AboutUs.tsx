@@ -1,6 +1,6 @@
-import Image from "next/image";
-import ButtonCommon from "../ui/Button";
-import SectionHeader from "../common/SectionHeader";
+import Image from 'next/image';
+import ButtonCommon from '../ui/Button';
+import SectionHeader from '../common/SectionHeader';
 export default async function AboutUsCommercial() {
   return (
     <>

@@ -1,5 +1,5 @@
-import Image from "next/image";
-import ButtonCommon from "../ui/Button";
+import Image from 'next/image';
+import ButtonCommon from '../ui/Button';
 
 export default function HeroSectionCommercial() {
   return (
@@ -21,8 +21,7 @@ export default function HeroSectionCommercial() {
               Innovative Floors for Modern Workspaces
             </h1>
             <p className="inter-font text-white font-medium sm:text-[1.625rem] text-[1.25rem] align-middle ">
-              Durable, stylish, and performance-driven flooring materials
-              designed
+              Durable, stylish, and performance-driven flooring materials designed
             </p>
             <div className=" mt-[2rem]">
               <ButtonCommon

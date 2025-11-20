@@ -1,5 +1,5 @@
-"use client";
-import React, { useState } from "react";
+'use client';
+import React, { useState } from 'react';
 import {
   FaTimes as X,
   FaPlus as Plus,
@@ -10,9 +10,9 @@ import {
   FaTruck as Truck,
   FaShieldAlt as Shield,
   FaArrowRight as ArrowRight,
-} from "react-icons/fa";
-import { TbTruckDelivery } from "react-icons/tb";
-import { IoHeartOutline } from "react-icons/io5";
+} from 'react-icons/fa';
+import { TbTruckDelivery } from 'react-icons/tb';
+import { IoHeartOutline } from 'react-icons/io5';
 
 interface Promo {
   code: string;
@@ -23,51 +23,46 @@ const CartPageComponent = () => {
   const [cartItems, setCartItems] = useState([
     {
       id: 1,
-      name: "Premium Oak Hardwood Flooring",
-      image:
-        "https://images.unsplash.com/photo-1615971677499-5467cbab01c0?w=400&h=400&fit=crop",
+      name: 'Premium Oak Hardwood Flooring',
+      image: 'https://images.unsplash.com/photo-1615971677499-5467cbab01c0?w=400&h=400&fit=crop',
       price: 8.99,
       quantity: 2,
-      unit: "sq ft",
-      color: "Natural Oak",
-      finish: "Matte",
-      thickness: "12mm",
+      unit: 'sq ft',
+      color: 'Natural Oak',
+      finish: 'Matte',
+      thickness: '12mm',
     },
     {
       id: 2,
-      name: "Luxury Vinyl Plank - Waterproof",
-      image:
-        "https://images.unsplash.com/photo-1631679706909-1844bbd07221?w=400&h=400&fit=crop",
+      name: 'Luxury Vinyl Plank - Waterproof',
+      image: 'https://images.unsplash.com/photo-1631679706909-1844bbd07221?w=400&h=400&fit=crop',
       price: 4.5,
       quantity: 3,
-      unit: "sq ft",
-      color: "Grey Stone",
-      finish: "Textured",
-      thickness: "6mm",
+      unit: 'sq ft',
+      color: 'Grey Stone',
+      finish: 'Textured',
+      thickness: '6mm',
     },
     {
       id: 3,
-      name: "Classic Ceramic Tile Collection",
-      image:
-        "https://images.unsplash.com/photo-1582268611958-ebfd161ef9cf?w=400&h=400&fit=crop",
+      name: 'Classic Ceramic Tile Collection',
+      image: 'https://images.unsplash.com/photo-1582268611958-ebfd161ef9cf?w=400&h=400&fit=crop',
       price: 6.75,
       quantity: 1,
-      unit: "sq ft",
-      color: "Marble White",
-      finish: "Glossy",
-      thickness: "8mm",
+      unit: 'sq ft',
+      color: 'Marble White',
+      finish: 'Glossy',
+      thickness: '8mm',
     },
   ]);
 
-  const [promoCode, setPromoCode] = useState("");
+  const [promoCode, setPromoCode] = useState('');
   const [appliedPromo, setAppliedPromo] = useState<Promo | null>(null);
 
   const updateQuantity = (id: any, change: any) => {
     setCartItems((items) =>
       items.map((item) =>
-        item.id === id
-          ? { ...item, quantity: Math.max(1, item.quantity + change) }
-          : item
+        item.id === id ? { ...item, quantity: Math.max(1, item.quantity + change) } : item
       )
     );
   };
@@ -77,19 +72,16 @@ const CartPageComponent = () => {
   };
 
   const applyPromoCode = () => {
-    if (promoCode.toUpperCase() === "FLOOR25") {
-      setAppliedPromo({ code: "FLOOR25", discount: 0.25 });
-    } else if (promoCode.toUpperCase() === "SAVE10") {
-      setAppliedPromo({ code: "SAVE10", discount: 0.1 });
+    if (promoCode.toUpperCase() === 'FLOOR25') {
+      setAppliedPromo({ code: 'FLOOR25', discount: 0.25 });
+    } else if (promoCode.toUpperCase() === 'SAVE10') {
+      setAppliedPromo({ code: 'SAVE10', discount: 0.1 });
     } else {
-      alert("Invalid promo code");
+      alert('Invalid promo code');
     }
   };
 
-  const subtotal = cartItems.reduce(
-    (sum, item) => sum + item.price * item.quantity,
-    0
-  );
+  const subtotal = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
   const discount = appliedPromo ? subtotal * appliedPromo.discount : 0;
   const tax = (subtotal - discount) * 0.13;
   const total = subtotal - discount + tax;
@@ -102,12 +94,8 @@ const CartPageComponent = () => {
             <div className="bg-gradient-to-br from-yellow-100 to-yellow-200 w-32 h-32 rounded-full flex items-center justify-center mx-auto mb-6">
               <ShoppingBag className="w-16 h-16 text-yellow-700" />
             </div>
-            <h2 className="text-3xl font-bold text-gray-800 mb-4">
-              Your Cart is Empty
-            </h2>
-            <p className="text-gray-600 mb-8">
-              Start adding beautiful flooring to your cart!
-            </p>
+            <h2 className="text-3xl font-bold text-gray-800 mb-4">Your Cart is Empty</h2>
+            <p className="text-gray-600 mb-8">Start adding beautiful flooring to your cart!</p>
             <button className="bg-gradient-to-r from-yellow-600 to-yellow-700 text-white px-8 py-4 rounded-full font-semibold hover:from-yellow-700 hover:to-yellow-800 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105">
               Continue Shopping
             </button>
@@ -126,9 +114,7 @@ const CartPageComponent = () => {
             <div className="lg:col-span-2 space-y-6">
               <div className="bg-white rounded-2xl  p-6 shadow-custom-md">
                 <div className="flex justify-between items-center mb-6 pb-4 border-b-2 border-[#e8e8e8]">
-                  <h2 className="text-2xl md:text-3xl font-bold text-darkBlue">
-                    Shopping Cart
-                  </h2>
+                  <h2 className="text-2xl md:text-3xl font-bold text-darkBlue">Shopping Cart</h2>
                   <span className="bg-gradient-to-r from-primaryOne to-primaryTwo text-white px-4 py-2 rounded-full text-sm font-bold">
                     {cartItems.length} Items
                   </span>
@@ -209,9 +195,7 @@ const CartPageComponent = () => {
                               >
                                 <Minus className="w-4 h-4" />
                               </button>
-                              <span className="text-lg font-bold px-4">
-                                {item.quantity}
-                              </span>
+                              <span className="text-lg font-bold px-4">{item.quantity}</span>
                               <button
                                 onClick={() => updateQuantity(item.id, 1)}
                                 className="w-10 h-10 rounded-full text-primaryGray  hover:bg-primaryOne hover:text-white transition-all duration-300 flex items-center justify-center font-bold"
@@ -231,9 +215,7 @@ const CartPageComponent = () => {
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                 <div className="bg-white rounded-xl p-4 shadow-lg text-center">
                   <TbTruckDelivery className="w-8 h-8 text-primaryOne mx-auto mb-2" />
-                  <p className="font-semibold text-gray-800">
-                    On Time Delivery
-                  </p>
+                  <p className="font-semibold text-gray-800">On Time Delivery</p>
                   <p className="text-sm text-gray-600">On orders over $500</p>
                 </div>
                 <div className="bg-white rounded-xl p-4 shadow-lg text-center">
@@ -252,9 +234,7 @@ const CartPageComponent = () => {
             {/* Order Summary */}
             <div className="lg:col-span-1">
               <div className="bg-white rounded-xl shadow-custom-md p-6 lg:sticky lg:top-24 space-y-6">
-                <h3 className="text-2xl font-bold text-gray-800 mb-6">
-                  Order Summary
-                </h3>
+                <h3 className="text-2xl font-bold text-gray-800 mb-6">Order Summary</h3>
 
                 {/* Promo Code */}
                 <div className="space-y-3">
@@ -296,16 +276,12 @@ const CartPageComponent = () => {
                 <div className="space-y-4 pt-4 border-t-2 border-gray-100">
                   <div className="flex justify-between text-gray-700">
                     <span>Subtotal</span>
-                    <span className="font-semibold">
-                      ${subtotal.toFixed(2)}
-                    </span>
+                    <span className="font-semibold">${subtotal.toFixed(2)}</span>
                   </div>
                   {appliedPromo && (
                     <div className="flex justify-between text-green-600">
                       <span>Discount ({appliedPromo.discount * 100}%)</span>
-                      <span className="font-semibold">
-                        -${discount.toFixed(2)}
-                      </span>
+                      <span className="font-semibold">-${discount.toFixed(2)}</span>
                     </div>
                   )}
                   <div className="flex justify-between text-gray-700">
@@ -321,17 +297,13 @@ const CartPageComponent = () => {
                 {/* Total */}
                 <div className="pt-4 border-t-2 border-gray-200">
                   <div className="flex justify-between items-center mb-6">
-                    <span className="text-xl font-bold text-gray-800">
-                      Total
-                    </span>
-                    <span className="text-3xl font-bold text-primaryTwo">
-                      ${total.toFixed(2)}
-                    </span>
+                    <span className="text-xl font-bold text-gray-800">Total</span>
+                    <span className="text-3xl font-bold text-primaryTwo">${total.toFixed(2)}</span>
                   </div>
 
                   <button className=" group w-full bg-gradient-to-r from-primaryOne/90 to-primaryOne text-white py-4 rounded-xl font-bold text-lg hover:from-primaryTwo/90 hover:to-primaryTwo shadow-lg hover:shadow-xl    flex items-center justify-center gap-2">
                     <span className=" group-hover:scale-110 transform  transition-all duration-300 flex items-center gap-2">
-                      {" "}
+                      {' '}
                       Proceed to Checkout
                       <ArrowRight className="w-5 h-5" />
                     </span>
@@ -347,9 +319,7 @@ const CartPageComponent = () => {
                   <div className="flex items-center  gap-3">
                     <TbTruckDelivery className="w-[5rem] h-[4rem] text-primaryTwo flex-shrink-0" />
                     <div>
-                      <p className="font-semibold text-gray-800">
-                        Estimated Delivery
-                      </p>
+                      <p className="font-semibold text-gray-800">Estimated Delivery</p>
                       <p className="text-sm text-gray-600">3-5 business days</p>
                     </div>
                   </div>

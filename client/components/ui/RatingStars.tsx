@@ -1,12 +1,12 @@
-"use client";
+'use client';
 
-import { CiStar } from "react-icons/ci";
-import { FaStar, FaStarHalfAlt, FaRegStar } from "react-icons/fa";
+import { CiStar } from 'react-icons/ci';
+import { FaStar, FaStarHalfAlt, FaRegStar } from 'react-icons/fa';
 
 interface RatingStarsProps {
-  rating: number;       
-  max?: number;        
-  className?: string;   
+  rating: number;
+  max?: number;
+  className?: string;
 }
 
 const RatingStars: React.FC<RatingStarsProps> = ({ rating, max = 5, className }) => {
@@ -30,9 +30,7 @@ const RatingStars: React.FC<RatingStarsProps> = ({ rating, max = 5, className })
       ))}
 
       {/* Rating value */}
-      <span className="text-black poppins-font font-medium text-base ml-1">
-        ({rating})
-      </span>
+      <span className="text-black poppins-font font-medium text-base ml-1">({rating})</span>
     </span>
   );
 };

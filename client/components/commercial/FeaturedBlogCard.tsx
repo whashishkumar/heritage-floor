@@ -1,7 +1,7 @@
-import React from "react";
-import Link from "next/link";
-import { FaCalendarAlt, FaRegClock } from "react-icons/fa";
-import { GoArrowRight } from "react-icons/go";
+import React from 'react';
+import Link from 'next/link';
+import { FaCalendarAlt, FaRegClock } from 'react-icons/fa';
+import { GoArrowRight } from 'react-icons/go';
 
 interface FeaturedPost {
   image: string;
@@ -19,10 +19,7 @@ interface FeaturedArticleProps {
   handleReadMore?: (slug: string) => void;
 }
 
-const FeaturedBlogArticle: React.FC<FeaturedArticleProps> = ({
-  featuredPost,
-  handleReadMore,
-}) => {
+const FeaturedBlogArticle: React.FC<FeaturedArticleProps> = ({ featuredPost, handleReadMore }) => {
   return (
     <>
       {/* Section Header */}
@@ -66,9 +63,7 @@ const FeaturedBlogArticle: React.FC<FeaturedArticleProps> = ({
               {featuredPost.title}
             </h2>
 
-            <p className="text-primaryGray text-lg mb-6 line-clamp-3">
-              {featuredPost.excerpt}
-            </p>
+            <p className="text-primaryGray text-lg mb-6 line-clamp-3">{featuredPost.excerpt}</p>
 
             <div className="flex items-center justify-start group-hover:justify-between pb-4 border-b border-[#e8e8e8] transition-all duration-[1800ms] ease-[cubic-bezier(0.33,1,0.68,1)]">
               <div className="opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-[700ms] ease-[cubic-bezier(0.4,0,0.2,1)]">

@@ -1,64 +1,62 @@
-"use client";
-import Image from "next/image";
-import Link from "next/link";
-import React, { useEffect, useState } from "react";
-import { BsCart4 } from "react-icons/bs";
-import { CiHeart } from "react-icons/ci";
-import Accordion from "../ui/Accordian";
-import SwipeSlider from "../ui/SwipeSlider";
-import InnerImageZoom from "react-inner-image-zoom";
-import "react-inner-image-zoom/lib/styles.min.css";
-import { FaExclamationCircle } from "react-icons/fa";
-import { ResidentailPageData } from "@/lib/api/residentialEndPoints";
-import { useParams } from "next/navigation";
-import Loader from "../ui/Loader";
-
+'use client';
+import Image from 'next/image';
+import Link from 'next/link';
+import React, { useEffect, useState } from 'react';
+import { BsCart4 } from 'react-icons/bs';
+import { CiHeart } from 'react-icons/ci';
+import Accordion from '../ui/Accordian';
+import SwipeSlider from '../ui/SwipeSlider';
+import InnerImageZoom from 'react-inner-image-zoom';
+import 'react-inner-image-zoom/lib/styles.min.css';
+import { FaExclamationCircle } from 'react-icons/fa';
+import { ResidentailPageData } from '@/lib/api/residentialEndPoints';
+import { useParams } from 'next/navigation';
+import Loader from '../ui/Loader';
 
 const socialLinks = [
   {
     id: 1,
-    icon: "/images/residential/fb.svg",
-    link: "https://www.facebook.com/",
-    alt: "Facebook",
+    icon: '/images/residential/fb.svg',
+    link: 'https://www.facebook.com/',
+    alt: 'Facebook',
   },
   {
     id: 2,
-    icon: "/images/residential/insta.svg",
-    link: "https://www.instagram.com/",
-    alt: "Instagram",
+    icon: '/images/residential/insta.svg',
+    link: 'https://www.instagram.com/',
+    alt: 'Instagram',
   },
   {
     id: 3,
-    icon: "/images/residential/whatsApp.svg",
-    link: "https://web.whatsapp.com/",
-    alt: "whatsApp",
+    icon: '/images/residential/whatsApp.svg',
+    link: 'https://web.whatsapp.com/',
+    alt: 'whatsApp',
   },
 ];
-
 
 export const faqs = [
   {
     id: 1,
-    question: "Description",
+    question: 'Description',
     answer:
-      "Crafted with precision, this flooring features intricate mosaic patterns that bring texture, depth, and personality to any environment. Made from high-quality materials, it is engineered for long-lasting performance, easy maintenance, and resistance to daily wear. Whether you’re refreshing your home or designing a commercial space, the Abstract Mosaic Floor delivers both beauty and practicality.",
+      'Crafted with precision, this flooring features intricate mosaic patterns that bring texture, depth, and personality to any environment. Made from high-quality materials, it is engineered for long-lasting performance, easy maintenance, and resistance to daily wear. Whether you’re refreshing your home or designing a commercial space, the Abstract Mosaic Floor delivers both beauty and practicality.',
   },
   {
     id: 2,
-    question: "Specifications",
+    question: 'Specifications',
     answer:
       '- Dimensions: 11.93" x 11.93"\n- PEI Rating: 4 (Suitable for heavy traffic areas)\n- Finish: Matte\n- Material: Durable ceramic/porcelain\n- Installation: Suitable for both residential and commercial applications\n- Maintenance: Easy to clean with regular sweeping and mopping\n- Warranty: 10-year limited warranty against manufacturing defects',
   },
   {
     id: 3,
-    question: "FAQs",
-    answer: "Q: Is this flooring suitable for outdoor use?",
+    question: 'FAQs',
+    answer: 'Q: Is this flooring suitable for outdoor use?',
   },
   {
     id: 4,
-    question: "Additional Details",
+    question: 'Additional Details',
     answer:
-      "For more information about installation guidelines, care instructions, or to explore complementary products, please contact our customer service team or visit our website.",
+      'For more information about installation guidelines, care instructions, or to explore complementary products, please contact our customer service team or visit our website.',
   },
 ];
 
@@ -93,31 +91,36 @@ const ProductDetailPage = () => {
   const params = useParams();
   const [productDetail, setProductDetail] = useState(null);
   const { childSlug } = params;
-  const { images,sku,name,price,tile_details,shipping_details,related_products }: any = productDetail || {};
-  const {box_price,price_per_sqft,sqft_per_box,sqft_per_tile,tile_length,tile_width,tiles_per_box} = tile_details || {}
+  const { images, sku, name, price, tile_details, shipping_details, related_products }: any =
+    productDetail || {};
+  const {
+    box_price,
+    price_per_sqft,
+    sqft_per_box,
+    sqft_per_tile,
+    tile_length,
+    tile_width,
+    tiles_per_box,
+  } = tile_details || {};
   const [selectedImage, setSelectedImage] = useState<any>(null);
 
-  const handleSelectProductImage = (image: {
-    id: number;
-    src: string;
-    alt: string;
-  }) => {
+  const handleSelectProductImage = (image: { id: number; src: string; alt: string }) => {
     setSelectedImage(image);
   };
 
   const getProductDetails = async () => {
     const { data } = await ResidentailPageData.getProductDetail(childSlug);
-    const { images } = data
+    const { images } = data;
     setProductDetail(data);
-    setSelectedImage(images?.[0]) 
+    setSelectedImage(images?.[0]);
   };
 
   useEffect(() => {
     getProductDetails();
   }, []);
- 
-  if(!productDetail) {
-    return <Loader/>
+
+  if (!productDetail) {
+    return <Loader />;
   }
 
   return (
@@ -132,21 +135,18 @@ const ProductDetailPage = () => {
               height={500}
               hasSpacer={true}
               imgAttributes={{
-                className:
-                  "rounded-2xl object-cover w-full h-[400px] lg:h-[500px]",
+                className: 'rounded-2xl object-cover w-full h-[400px] lg:h-[500px]',
                 alt: selectedImage?.alt,
               }}
             />
           </div>
           {/* Thumbnails */}
           <div className="flex gap-4 py-10">
-            {images?.map((image:any) => (
+            {images?.map((image: any) => (
               <div
                 key={image.id}
                 className={`cursor-pointer rounded-lg overflow-hidden border w-[120px] h-[80px] p-2 ${
-                  selectedImage?.id === image.id
-                    ? "border-[#018C99] p-0.5"
-                    : "border-transparent"
+                  selectedImage?.id === image.id ? 'border-[#018C99] p-0.5' : 'border-transparent'
                 }`}
                 onClick={() => handleSelectProductImage(image)}
               >
@@ -162,20 +162,15 @@ const ProductDetailPage = () => {
           </div>
 
           <div className="border  border-[#DDDDDD] p-6 rounded-2xl bg-[#F6F6F6]">
-            {shipping_details?.map((benefit:any) => (
+            {shipping_details?.map((benefit: any) => (
               <div key={benefit.id} className="flex gap-4 mb-6 poppins-font">
                 <div className="flex items-start justify-center h-10 w-10 ">
-                { benefit.icon && <Image
-                    src={benefit.icon}
-                    alt={benefit.title}
-                    fill
-                    className="object-contain"
-                  />}
+                  {benefit.icon && (
+                    <Image src={benefit.icon} alt={benefit.title} fill className="object-contain" />
+                  )}
                 </div>
                 <div>
-                  <h3 className="text-xl  mb-2 text-black font-semibold">
-                    {benefit.title}
-                  </h3>
+                  <h3 className="text-xl  mb-2 text-black font-semibold">{benefit.title}</h3>
                   <Link href="#">
                     <p className="text-black text-sm font-normal underline">
                       {benefit.description}
@@ -204,26 +199,28 @@ const ProductDetailPage = () => {
         <div className="right-col ">
           {/* Product Information */}
           <div className="mb-4 poppins-font">
-         {  sku &&  <p className="text-base mb-2 font-medium">
-              SKU: {sku}
-              <span className="ml-2 text-[#018C99] font-medium">
-                By Hertiage
-              </span>
-            </p>}
-            { name && <h2 className="font-medium mb-2 text-[1.688rem] text-black">
-              {name}
-            </h2>}
-          {  tile_width &&  tile_length && <p className="text-base mb-2 text-black">
-              {tile_width}" x {tile_length}" | PEI of {tiles_per_box} - Heavy Traffic | Matte
-            </p>}
-           {sqft_per_tile  && <p className="text-[1.688rem] font-bold">$ {sqft_per_tile} / sq. ft</p>}
-           { box_price && sqft_per_box && <p className="text-sm mt-2 text-black">
-              ${box_price} / box ({sqft_per_box} sq. ft. / box)
-            </p>}
+            {sku && (
+              <p className="text-base mb-2 font-medium">
+                SKU: {sku}
+                <span className="ml-2 text-[#018C99] font-medium">By Hertiage</span>
+              </p>
+            )}
+            {name && <h2 className="font-medium mb-2 text-[1.688rem] text-black">{name}</h2>}
+            {tile_width && tile_length && (
+              <p className="text-base mb-2 text-black">
+                {tile_width}" x {tile_length}" | PEI of {tiles_per_box} - Heavy Traffic | Matte
+              </p>
+            )}
+            {sqft_per_tile && (
+              <p className="text-[1.688rem] font-bold">$ {sqft_per_tile} / sq. ft</p>
+            )}
+            {box_price && sqft_per_box && (
+              <p className="text-sm mt-2 text-black">
+                ${box_price} / box ({sqft_per_box} sq. ft. / box)
+              </p>
+            )}
             <p className="bg-[#FFC107] p-3 px-4  poppins-font mt-4 w-fit flex items-center ">
-              <span className="text-sm text-black font-medium">
-                Want a better Price?
-              </span>{" "}
+              <span className="text-sm text-black font-medium">Want a better Price?</span>{' '}
               <span className="font-bold flex justify-center items-center gap-2 ">
                 Ask for a quote!
                 <FaExclamationCircle size={14} />
@@ -237,9 +234,7 @@ const ProductDetailPage = () => {
                 width={20}
                 className="inline-block mr-2 object-contain"
               />
-              <span className="text-black font-medium text-[1rem]">
-                In stock and ready to ship
-              </span>
+              <span className="text-black font-medium text-[1rem]">In stock and ready to ship</span>
             </p>
             <div className="mt-4">
               <Image
@@ -270,9 +265,7 @@ const ProductDetailPage = () => {
                 width={20}
                 className="inline-block mr-2 object-contain"
               />
-              <span className="text-black font-semibold text-[1rem]">
-                How many do you need ?
-              </span>
+              <span className="text-black font-semibold text-[1rem]">How many do you need ?</span>
               <Link href="#" className="underline ml-2 text-sm  font-medium">
                 <p className="mt-2 text-sm">Use our flooring area calculator</p>
               </Link>
@@ -297,8 +290,8 @@ const ProductDetailPage = () => {
               </form>
             </div>
             <p className="mt-2 text-sm">
-              Shipping fees based on minimum of 138 sq. ft.. We will contact you
-              if additional fees apply.
+              Shipping fees based on minimum of 138 sq. ft.. We will contact you if additional fees
+              apply.
             </p>
           </div>
           <p className=" bg-[#F1F1F1] h-[1px] my-5"></p>
@@ -311,9 +304,7 @@ const ProductDetailPage = () => {
             <div className="flex gap-4">
               <button className="bg-[#F5F5F5] hover:cursor-pointer   py-2 px-2 rounded-2xl text-lg mb-4 border border-[#018C99] font-semibold w-[540px] md:w-full">
                 Ask For Quote
-                <p className="mt-1 text-xs">
-                  Get custom pricing for your project
-                </p>
+                <p className="mt-1 text-xs">Get custom pricing for your project</p>
               </button>
               <button className="bg-[#F5F5F5] hover:cursor-pointer   py-2 px-2 rounded-2xl text-lg mb-4 border border-[#018C99] font-semibold">
                 <CiHeart size={26} />
@@ -331,17 +322,13 @@ const ProductDetailPage = () => {
                 width={20}
                 className="inline-block mr-2 object-contain"
               />
-              <h2 className="font-medium  text-xl text-black">
-                Shipping Options
-              </h2>
+              <h2 className="font-medium  text-xl text-black">Shipping Options</h2>
             </div>
             <div className="py-2">
               <div className=" text-xs">
                 Delivery to : 
-                <Link href={"#"}>
-                  <span className="underline cursor-pointer  font-medium">
-                    Toronto - Mos18BW
-                  </span>
+                <Link href={'#'}>
+                  <span className="underline cursor-pointer  font-medium">Toronto - Mos18BW</span>
                 </Link>
               </div>
             </div>
@@ -360,15 +347,9 @@ const ProductDetailPage = () => {
                 <h2 className="text-base font-semibold text-black mb-2 text-center">
                   Warehouse Pickup
                 </h2>
-                <p className="mb-2 text-center font-normal text-sm">
-                  Vaughan, ON
-                </p>
-                <p className=" mb-2 text-center font-normal text-sm">
-                  2 - 4 Business Days
-                </p>
-                <p className="text-center font-normal font-normal text-sm">
-                  Free
-                </p>
+                <p className="mb-2 text-center font-normal text-sm">Vaughan, ON</p>
+                <p className=" mb-2 text-center font-normal text-sm">2 - 4 Business Days</p>
+                <p className="text-center font-normal font-normal text-sm">Free</p>
               </div>
               <div className="bg-white p-6 rounded-lg border border-[#DDDDDD]">
                 <div className="flex items-center justify-center mb-4">
@@ -383,9 +364,7 @@ const ProductDetailPage = () => {
                 <h2 className="text-base font-semibold text-black mb-2 text-center">
                   Scheduled Delivery
                 </h2>
-                <p className="mb-2 text-center font-normal text-sm">
-                  2 - 4 business days{" "}
-                </p>
+                <p className="mb-2 text-center font-normal text-sm">2 - 4 business days </p>
                 <p className="mb-2 text-center font-normal text-sm">$80.00</p>
               </div>
             </div>
@@ -405,36 +384,36 @@ const ProductDetailPage = () => {
                 Visit more Abstract Mosaic {related_products.length} products
               </h2>
             </div>
-            {
-              related_products.length > 0 &&
-                 <div className="flex gap-4 py-10 ">
-              <SwipeSlider
-                slidesPerView={6}
-                bottomSwipeBtn={false}
-                swipebtn={true}
-                spaceBetween={10}
-                autoPlay={false}
-                breakpoints={breakpoints}
-              >
-                {related_products?.map((product:any) => (
-                  <div
-                    key={product.id}
-                    className="cursor-pointer w-[78px] h-[78px] overflow-hidden rounded-lg"
-                    onClick={() => handleSelectProductImage(product)}
-                  >
-               {   product?.image &&  <Image
-                      src={product?.image?.src}
-                      alt={product.id}
-                      width={78}
-                      height={78}
-                      className="w-full h-full object-cover"
-                    />}
-                  </div>
-                ))}
-              </SwipeSlider>
-            </div> 
-            }
-         
+            {related_products.length > 0 && (
+              <div className="flex gap-4 py-10 ">
+                <SwipeSlider
+                  slidesPerView={6}
+                  bottomSwipeBtn={false}
+                  swipebtn={true}
+                  spaceBetween={10}
+                  autoPlay={false}
+                  breakpoints={breakpoints}
+                >
+                  {related_products?.map((product: any) => (
+                    <div
+                      key={product.id}
+                      className="cursor-pointer w-[78px] h-[78px] overflow-hidden rounded-lg"
+                      onClick={() => handleSelectProductImage(product)}
+                    >
+                      {product?.image && (
+                        <Image
+                          src={product?.image?.src}
+                          alt={product.id}
+                          width={78}
+                          height={78}
+                          className="w-full h-full object-cover"
+                        />
+                      )}
+                    </div>
+                  ))}
+                </SwipeSlider>
+              </div>
+            )}
           </div>
           <p className=" bg-[#F1F1F1] h-[1px] "></p>
           {/* Description */}

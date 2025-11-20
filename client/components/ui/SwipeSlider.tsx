@@ -1,12 +1,12 @@
-"use client";
-import Image from "next/image";
-import { ReactNode, useRef } from "react";
-import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
-import type { Swiper as SwiperType } from "swiper";
-import "swiper/css";
-import "swiper/css/navigation";
-import { Autoplay, Navigation } from "swiper/modules";
-import { Swiper, SwiperSlide } from "swiper/react";
+'use client';
+import Image from 'next/image';
+import { ReactNode, useRef } from 'react';
+import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io';
+import type { Swiper as SwiperType } from 'swiper';
+import 'swiper/css';
+import 'swiper/css/navigation';
+import { Autoplay, Navigation } from 'swiper/modules';
+import { Swiper, SwiperSlide } from 'swiper/react';
 
 interface SwipeSliderProps {
   children: ReactNode | ReactNode[];
@@ -63,13 +63,7 @@ export default function SwipeSlider({
     <div className="relative w-full">
       {/* Optional Quote Icon */}
       {textQuort && (
-        <Image
-          src="/images/strReview.png"
-          alt="quote"
-          height={40}
-          width={40}
-          className="mb-4"
-        />
+        <Image src="/images/strReview.png" alt="quote" height={40} width={40} className="mb-4" />
       )}
 
       {/* Swiper Slider */}
@@ -87,9 +81,7 @@ export default function SwipeSlider({
         slidesPerView={slidesPerView}
       >
         {Array.isArray(children) ? (
-          children.map((child, idx) => (
-            <SwiperSlide key={idx}>{child}</SwiperSlide>
-          ))
+          children.map((child, idx) => <SwiperSlide key={idx}>{child}</SwiperSlide>)
         ) : (
           <SwiperSlide key="single">{children}</SwiperSlide>
         )}

@@ -1,5 +1,5 @@
-import ProductDetailPage from "@/components/residential/productDetail";
-import React from "react";
+import ProductDetailPage from '@/components/residential/productDetail';
+import React from 'react';
 
 export interface Product {
   id: number;

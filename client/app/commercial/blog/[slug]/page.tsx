@@ -1,5 +1,5 @@
-import BlogDetail from "@/components/commercial/BlogDetail";
-import { CommonComponentData } from "@/lib/api/commonEndPoints";
+import BlogDetail from '@/components/commercial/BlogDetail';
+import { CommonComponentData } from '@/lib/api/commonEndPoints';
 
 export default async function BlogDetailPage({ params }: any) {
   const { slug } = await params;
@@ -7,7 +7,7 @@ export default async function BlogDetailPage({ params }: any) {
 
   return (
     <>
-      <BlogDetail blogsDetail={blogsDetail} slugPath={"commercial"} />
+      <BlogDetail blogsDetail={blogsDetail} slugPath={'commercial'} />
     </>
   );
 }

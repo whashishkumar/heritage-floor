@@ -1,54 +1,54 @@
-"use client";
+'use client';
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef } from 'react';
 // import { ChevronLeft, ChevronRight } from "lucide-react";
-import { FaAngleLeft } from "react-icons/fa6";
-import { FaAngleRight } from "react-icons/fa6";
-import { FaChevronRight } from "react-icons/fa";
-import Image from "next/image";
+import { FaAngleLeft } from 'react-icons/fa6';
+import { FaAngleRight } from 'react-icons/fa6';
+import { FaChevronRight } from 'react-icons/fa';
+import Image from 'next/image';
 
 const teamMembers = [
   {
-    name: "Nav Brar",
-    designation: "Director",
-    email: "Nbrar@Gtaflooringcanada.Ca",
-    image: "/images/commercial/flooringOptions/1.png",
-    bgColor: "bg-[#E5F3EC]", // replace with actual image path
+    name: 'Nav Brar',
+    designation: 'Director',
+    email: 'Nbrar@Gtaflooringcanada.Ca',
+    image: '/images/commercial/flooringOptions/1.png',
+    bgColor: 'bg-[#E5F3EC]', // replace with actual image path
   },
   {
-    name: "Mandy Brar",
-    designation: "Managing Director",
-    email: "Mandy@Gtaflooringcanada.Ca",
-    image: "/images/commercial/flooringOptions/2.png",
-    bgColor: "bg-[#F8E3E3]", // replace with actual image path
+    name: 'Mandy Brar',
+    designation: 'Managing Director',
+    email: 'Mandy@Gtaflooringcanada.Ca',
+    image: '/images/commercial/flooringOptions/2.png',
+    bgColor: 'bg-[#F8E3E3]', // replace with actual image path
   },
   {
-    name: "Vikram Brar",
-    designation: "Marketing Manager",
-    email: "Vbrar@Gtaflooringcanada.Ca",
-    image: "/images/commercial/flooringOptions/3.png", // replace with actual image path
-    bgColor: "bg-[#E3EFF8]",
+    name: 'Vikram Brar',
+    designation: 'Marketing Manager',
+    email: 'Vbrar@Gtaflooringcanada.Ca',
+    image: '/images/commercial/flooringOptions/3.png', // replace with actual image path
+    bgColor: 'bg-[#E3EFF8]',
   },
   {
-    name: "Parm Gill",
-    designation: "Operations Manager",
-    email: "Pgill@Gtaflooringcanada.Ca",
-    image: "/images/commercial/flooringOptions/4.png", // replace with actual image path
-    bgColor: "bg-[#F8E3E3]",
+    name: 'Parm Gill',
+    designation: 'Operations Manager',
+    email: 'Pgill@Gtaflooringcanada.Ca',
+    image: '/images/commercial/flooringOptions/4.png', // replace with actual image path
+    bgColor: 'bg-[#F8E3E3]',
   },
   {
-    name: "Nav Brar",
-    designation: "Director",
-    email: "Nbrar@Gtaflooringcanada.Ca",
-    image: "/images/commercial/flooringOptions/1.png",
-    bgColor: "bg-[#E5F3EC]", // replace with actual image path
+    name: 'Nav Brar',
+    designation: 'Director',
+    email: 'Nbrar@Gtaflooringcanada.Ca',
+    image: '/images/commercial/flooringOptions/1.png',
+    bgColor: 'bg-[#E5F3EC]', // replace with actual image path
   },
   {
-    name: "Mandy Brar",
-    designation: "Managing Director",
-    email: "Mandy@Gtaflooringcanada.Ca",
-    image: "/images/commercial/flooringOptions/2.png",
-    bgColor: "bg-[#F8E3E3]", // replace with actual image path
+    name: 'Mandy Brar',
+    designation: 'Managing Director',
+    email: 'Mandy@Gtaflooringcanada.Ca',
+    image: '/images/commercial/flooringOptions/2.png',
+    bgColor: 'bg-[#F8E3E3]', // replace with actual image path
   },
 ];
 
@@ -68,7 +68,7 @@ export default function FlooringTeamSlider() {
 
   // Get slides to show based on screen width
   const getSlidesToShow = () => {
-    if (typeof window === "undefined") return 4;
+    if (typeof window === 'undefined') return 4;
 
     const width = window.innerWidth;
     let slides = 1;
@@ -100,8 +100,8 @@ export default function FlooringTeamSlider() {
     };
 
     handleResize();
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
   }, [currentSlide]);
 
   // Touch handling
@@ -178,8 +178,8 @@ export default function FlooringTeamSlider() {
           disabled={!canGoPrev}
           className={`absolute left-0 -top-24 -translate-y-1/2 z-10 w-12 h-12 sm:w-14 sm:h-14 lg:w-[8.125rem] lg:h-[8.125rem] rounded-full border    border-dashed  flex items-center justify-center transition-all duration-300  ${
             canGoPrev
-              ? "border-[#444444] hover:border-cyan-500 hover:bg-cyan-50  cursor-pointer"
-              : "border-[#444444] opacity-40 cursor-not-allowed"
+              ? 'border-[#444444] hover:border-cyan-500 hover:bg-cyan-50  cursor-pointer'
+              : 'border-[#444444] opacity-40 cursor-not-allowed'
           }`}
           aria-label="Previous slide"
         >
@@ -205,8 +205,8 @@ export default function FlooringTeamSlider() {
           disabled={!canGoNext}
           className={`absolute right-0 -top-24 -translate-y-1/2 z-10 w-12 h-12 sm:w-14 sm:h-14 lg:w-[8.125rem] lg:h-[8.125rem] rounded-full border    border-dashed flex items-center justify-center transition-all duration-300 ${
             canGoNext
-              ? "border-[#444444] hover:border-cyan-500 hover:bg-cyan-50 hover:shadow-lg cursor-pointer"
-              : "border-[#444444] opacity-40 cursor-not-allowed"
+              ? 'border-[#444444] hover:border-cyan-500 hover:bg-cyan-50 hover:shadow-lg cursor-pointer'
+              : 'border-[#444444] opacity-40 cursor-not-allowed'
           }`}
           aria-label="Next slide"
         >
@@ -271,26 +271,26 @@ export default function FlooringTeamSlider() {
               //   </div>
               <div
                 className={`flex-shrink-0  h-[35.625rem] px-1.5  py-3  ${
-                  index % 2 === 0 ? "mt-[4.063rem] " : " "
+                  index % 2 === 0 ? 'mt-[4.063rem] ' : ' '
                 }`}
                 style={{ width: `${100 / slidesToShow}%` }}
                 key={index}
               >
                 <div
                   className={` ${
-                    index % 2 === 0 ? "h-[30.875rem]" : "h-[28.063rem]"
+                    index % 2 === 0 ? 'h-[30.875rem]' : 'h-[28.063rem]'
                   }  w-full overflow-hidden relative`}
                 >
                   <Image
                     src={member.image}
                     alt={member.name}
                     fill
-                    className={`object-center ${index % 2 === 0 ? "" : ""}`}
+                    className={`object-center ${index % 2 === 0 ? '' : ''}`}
                   />
                 </div>
                 <div
                   className={`flex flex-col items-center justify-center inter-font ${
-                    index % 2 === 0 ? " " : "mt-[2.125rem]"
+                    index % 2 === 0 ? ' ' : 'mt-[2.125rem]'
                   } `}
                 >
                   <div className=" font-semibold text-[1.688rem] text-[#564F4F] leading-[1.1700]">
@@ -317,8 +317,8 @@ export default function FlooringTeamSlider() {
                 onClick={() => goToSlide(idx)}
                 className={`transition-all duration-300 rounded-full ${
                   idx === currentSlide
-                    ? "bg-cyan-500 w-8 h-2"
-                    : "bg-gray-300 hover:bg-gray-400 w-2 h-2"
+                    ? 'bg-cyan-500 w-8 h-2'
+                    : 'bg-gray-300 hover:bg-gray-400 w-2 h-2'
                 }`}
                 aria-label={`Go to slide ${idx + 1}`}
                 aria-current={idx === currentSlide}

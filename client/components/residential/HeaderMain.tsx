@@ -1,28 +1,31 @@
-"use client";
-import { useEffect, useState } from "react";
-import { FiSearch, FiUser, FiShoppingCart, FiX } from "react-icons/fi";
-import { IoIosArrowForward } from "react-icons/io";
-import Image from "next/image";
-import HeaderMegaMenu from "./HeaderMegaMenu";
-import { IoIosArrowBack } from "react-icons/io";
-import ModalBox from "../ui/ModalBox";
-import LoginPage from "../auth/LoginForm";
-import { usePathname } from "next/navigation";
-import Link from "next/link";
-import { CartEndPoint } from "@/lib/api/cartEndPoints";
-import { useAuth } from "@/context/userAuthContext";
-import { getGuestCartCount } from "@/utils/addToGuestCart";
+'use client';
+import { useEffect, useState } from 'react';
+import { FiSearch, FiUser, FiShoppingCart, FiX } from 'react-icons/fi';
+import { IoIosArrowForward } from 'react-icons/io';
+import Image from 'next/image';
+import HeaderMegaMenu from './HeaderMegaMenu';
+import { IoIosArrowBack } from 'react-icons/io';
+import ModalBox from '../ui/ModalBox';
+import LoginPage from '../auth/LoginForm';
+import { usePathname } from 'next/navigation';
+import Link from 'next/link';
+import { CartEndPoint } from '@/lib/api/cartEndPoints';
+import { useAuth } from '@/context/userAuthContext';
+import { getGuestCartCount } from '@/utils/addToGuestCart';
+import { UserDetailEndpoints } from '@/lib/api/authincationEndPoints';
+
 
 export default function HeaderMainBar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isDealsOpen, setIsDealsOpen] = useState(false);
   const [cartCount] = useState(0);
   const [isModalOpen, setIsModalOpen] = useState(false);
-
   const [itemsInCart, setItemsInCart] = useState(null);
   const { isAuthenticated, logout } = useAuth();
   const pathname = usePathname();
-  const totalItem =  getGuestCartCount();
+  const totalItem = getGuestCartCount();
+  const [userDetail, setUserDetail] = useState<any>(null)
+
   const handleCloseMegaMenu = () => {
     setIsDealsOpen(false);
     setIsMenuOpen(!isMenuOpen);
@@ -37,13 +40,16 @@ export default function HeaderMainBar() {
     setItemsInCart(cardCount.data.items_count);
   };
 
+  const getUserDetail = async () => {
+    const resp =   await UserDetailEndpoints.getUserDetail()
+    setUserDetail(resp.data)  
+  }
+
   useEffect(() => {
     // getCount();
+    getUserDetail()
   }, []);
 
-
-  console.log(pathname,"pathname");
-  
   return (
     <>
       <div className="flex items-center justify-center bg-white text-black min-h-[4.688rem] h-full w-full relative">
@@ -85,16 +91,10 @@ export default function HeaderMainBar() {
                 />
                 <div className="absolute left-3 top-1/2 -translate-y-1/2">
                   <div className="h-[1.5rem] w-[1.25rem] relative overflow-hidden">
-                    <Image
-                      src="/icon/serch.svg"
-                      alt="search"
-                      className="object-cover"
-                      fill
-                    />
+                    <Image src="/icon/serch.svg" alt="search" className="object-cover" fill />
                   </div>
                 </div>
               </div>
-
               {/* Navigation Links */}
               <nav className="flex items-center gap-6">
                 <button
@@ -116,36 +116,36 @@ export default function HeaderMainBar() {
                   Get a Quote
                 </a>
               </nav>
-
               <div className="h-[1.375rem] border border-[#A7A6A6]"></div>
-
               {/* Icons */}
               <div className="flex items-center gap-4">
-                <button className="flex items-center gap-4 text-gray-700 hover:text-primaryTwo">
-                  <div className="h-[1.5rem] w-[1.5rem] relative overflow-hidden">
-                    <Image
-                      src="/icon/user.png"
-                      alt="Cart"
-                      fill
-                      className="object-center"
-                    />
-                  </div>
-                </button>
-                {isAuthenticated ? (
-                  <span
-                    className="text-textGray text-base leading-[1.6] cursor-pointer"
-                    onClick={() => logout()}
-                  >
-                    logout
-                  </span>
-                ) : (
-                  <span
-                    className="text-textGray text-base leading-[1.6] cursor-pointer"
-                    onClick={handleOpenModal}
-                  >
-                    Account / Sign In
-                  </span>
-                )}
+                <div className="relative">
+                  {!isAuthenticated ? (
+                    <button
+                      className="text-gray-700 hover:text-primaryTwo cursor-pointer flex gap-2"
+                      onClick={handleOpenModal}
+                    >
+                      <div className="h-[1.5rem] w-[1.5rem] relative overflow-hidden">
+                        <Image src="/icon/user.png" alt="User" fill className="object-center" />
+                      </div>
+                      <span className="text-textGray text-base leading-[1.6] cursor-pointer">
+                        Account / Sign In
+                      </span>
+                    </button>
+                  ) : (
+                    <Link
+                    href={'residential/my-account/profile'}
+                      className="text-gray-700 hover:text-primaryTwo cursor-pointer flex gap-2"
+                    >
+                      <div className="h-[1.5rem] w-[1.5rem] relative overflow-hidden">
+                        <Image src="/icon/user.png" alt="User" fill className="object-center" />
+                      </div>
+                      <span className="text-textGray text-base leading-[1.6] cursor-pointer">
+                        {userDetail?.name}
+                      </span>
+                    </Link>
+                  )}
+                </div>
 
                 <ModalBox isOpen={isModalOpen} onClose={handleCloseModal}>
                   <LoginPage onClose={handleCloseModal} />
@@ -154,12 +154,7 @@ export default function HeaderMainBar() {
                   href={`/residential/cart`}
                   className="relative text-gray-700 hover:text-primaryTwo h-[1.5rem] w-[1.5rem]"
                 >
-                  <Image
-                    src="/icon/BagCheck.png"
-                    alt="Cart"
-                    fill
-                    className="object-center"
-                  />
+                  <Image src="/icon/BagCheck.png" alt="Cart" fill className="object-center" />
                   {isAuthenticated
                     ? itemsInCart && (
                         <span className="absolute -top-2 -right-2 bg-teal-600 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
@@ -176,12 +171,7 @@ export default function HeaderMainBar() {
                   href={`/residential/cart`}
                   className="relative text-gray-700 hover:text-primaryTwo h-[1.5rem] w-[1.5rem]"
                 >
-                  <Image
-                    src="/icon/Heart.png"
-                    alt="Wishlist"
-                    fill
-                    className="object-center"
-                  />
+                  <Image src="/icon/Heart.png" alt="Wishlist" fill className="object-center" />
                   {cartCount >= 0 && (
                     <span className="absolute -top-2 -right-2 bg-primaryTwo text-white text-xs rounded-full w-4 h-4 flex items-center justify-center">
                       {cartCount}
@@ -199,17 +189,17 @@ export default function HeaderMainBar() {
             >
               <span
                 className={`w-6 h-0.5 bg-gray-700 transition-transform ${
-                  isMenuOpen ? "rotate-45 translate-y-2" : ""
+                  isMenuOpen ? 'rotate-45 translate-y-2' : ''
                 }`}
               ></span>
               <span
                 className={`w-6 h-0.5 bg-gray-700 transition-opacity ${
-                  isMenuOpen ? "opacity-0" : ""
+                  isMenuOpen ? 'opacity-0' : ''
                 }`}
               ></span>
               <span
                 className={`w-6 h-0.5 bg-gray-700 transition-transform ${
-                  isMenuOpen ? "-rotate-45 -translate-y-2" : ""
+                  isMenuOpen ? '-rotate-45 -translate-y-2' : ''
                 }`}
               ></span>
             </button>
@@ -233,16 +223,10 @@ export default function HeaderMainBar() {
                 <a className="flex items-center justify-between text-gray-700 hover:text-teal-600 font-medium py-2">
                   Special Deals
                 </a>
-                <a
-                  href="#"
-                  className="text-gray-700 hover:text-teal-600 font-medium py-2"
-                >
+                <a href="#" className="text-gray-700 hover:text-teal-600 font-medium py-2">
                   Products
                 </a>
-                <a
-                  href="#"
-                  className="text-gray-700 hover:text-teal-600 font-medium py-2"
-                >
+                <a href="#" className="text-gray-700 hover:text-teal-600 font-medium py-2">
                   Get a Quote
                 </a>
                 {isAuthenticated ? (
@@ -284,7 +268,7 @@ export default function HeaderMainBar() {
         {/* Slide-in Special Deals Drawer */}
         <div
           className={`fixed  lg:hidden top-0 right-0 left-0 h-full bg-white shadow-lg transform transition-transform duration-300 z-100 ${
-            isDealsOpen ? "translate-x-0" : "translate-x-full"
+            isDealsOpen ? 'translate-x-0' : 'translate-x-full'
           }`}
         >
           <div className="flex items-center justify-between p-4 border-b">

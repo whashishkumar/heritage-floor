@@ -1,18 +1,18 @@
-"use client";
-import Image from "next/image";
-import React, { useState } from "react";
-import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
-import { useSelector } from "react-redux";
-import ForgotPasswordForm from "./ForgotPasswordForm";
-import { AuthValidation } from "@/lib/api/authincationEndPoints";
-import { useAuth } from "@/context/userAuthContext";
+'use client';
+import Image from 'next/image';
+import React, { useState } from 'react';
+import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai';
+import { useSelector } from 'react-redux';
+import ForgotPasswordForm from './ForgotPasswordForm';
+import { AuthValidation } from '@/lib/api/authincationEndPoints';
+import { useAuth } from '@/context/userAuthContext';
 
 export default function LoginPage({ onClose }: any) {
   const [forgetPasswordScreen, setForgetScreen] = useState(false);
   const [formData, setFormData] = useState({
-    email: "",
-    password: "",
-    device_name: "web",
+    email: '',
+    password: '',
+    device_name: 'web',
   });
   const [showPassword, setShowPassword] = useState(false);
   const [status, setStatus] = useState<any | null>(null);
@@ -29,20 +29,20 @@ export default function LoginPage({ onClose }: any) {
       const userInfo = await AuthValidation.loginUser(formData);
       const { token } = userInfo;
       login(token);
-      if (token !== "") {
+      if (token !== '') {
         setFormData({
-          email: "",
-          password: "",
-          device_name: "web",
+          email: '',
+          password: '',
+          device_name: 'web',
         });
         setStatus(null);
-        if (token !== "") {
+        if (token !== '') {
           onClose?.();
         }
       }
     } catch (error: any) {
       setStatus(error?.errors);
-      console.log(error?.errors, "error12345");
+      console.log(error?.errors, 'error12345');
     }
   };
 
@@ -52,23 +52,19 @@ export default function LoginPage({ onClose }: any) {
         <ForgotPasswordForm />
       ) : (
         <div className="w-full max-w-md">
-          <h2 className="text-3xl font-semibold text-gray-800 text-center mb-2">
-            Welcome Back 👋
-          </h2>
+          <h2 className="text-3xl font-semibold text-gray-800 text-center mb-2">Welcome Back 👋</h2>
           <p className="text-gray-500 text-center mb-8">
             {status?.message ? (
               <span className="text-red-500 ">{status?.message}</span>
             ) : (
-              "Login to your account"
+              'Login to your account'
             )}
           </p>
 
           <form onSubmit={handleSubmit} className="space-y-5">
             {/* Email */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Email
-              </label>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Email</label>
               <input
                 type="email"
                 name="email"
@@ -82,11 +78,9 @@ export default function LoginPage({ onClose }: any) {
 
             {/* Password with Eye Icon */}
             <div className="relative">
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Password
-              </label>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Password</label>
               <input
-                type={showPassword ? "text" : "password"}
+                type={showPassword ? 'text' : 'password'}
                 name="password"
                 placeholder="Password"
                 value={formData.password}
@@ -98,11 +92,7 @@ export default function LoginPage({ onClose }: any) {
                 className="absolute top-10 right-3 flex items-center cursor-pointer text-gray-500"
                 onClick={() => setShowPassword(!showPassword)}
               >
-                {showPassword ? (
-                  <AiFillEyeInvisible size={20} />
-                ) : (
-                  <AiFillEye size={20} />
-                )}
+                {showPassword ? <AiFillEyeInvisible size={20} /> : <AiFillEye size={20} />}
               </div>
             </div>
 
@@ -135,7 +125,7 @@ export default function LoginPage({ onClose }: any) {
             </button>
 
             <p className="text-center text-sm text-gray-500 mt-4">
-              Don’t have an account?{" "}
+              Don’t have an account?{' '}
               <a href="/register" className="text-[#018C99] hover:underline">
                 Register
               </a>

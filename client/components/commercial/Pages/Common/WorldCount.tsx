@@ -1,5 +1,5 @@
-import SectionHeader from "@/components/common/SectionHeader";
-import Image from "next/image";
+import SectionHeader from '@/components/common/SectionHeader';
+import Image from 'next/image';
 
 export default function WorldCount({ statsData, pageTitle, Founder }: any) {
   const banerIncon = `${process.env.NEXT_PUBLIC_IMAGE_PATH_WITHOUT_STORAGE}${pageTitle?.[0]?.icon}`;
@@ -9,9 +9,7 @@ export default function WorldCount({ statsData, pageTitle, Founder }: any) {
     <div className="wrapper m-auto">
       <div className="w-full flex flex-col items-center justify-center py-16 poppins-font">
         <div className="mb-8 lg:mb-16">
-          {banerIncon && (
-            <Image src={banerIncon} height={110} width={110} alt="tag" />
-          )}
+          {banerIncon && <Image src={banerIncon} height={110} width={110} alt="tag" />}
         </div>
         <div>
           <SectionHeader
@@ -29,9 +27,7 @@ export default function WorldCount({ statsData, pageTitle, Founder }: any) {
             return (
               <div key={idx} className="flex flex-col items-center py-4">
                 {/* <Icon className="text-[#C9A96A] mb-4" size={60} /> */}
-                {icon && (
-                  <Image src={icon} height={150} width={150} alt="icon" />
-                )}
+                {icon && <Image src={icon} height={150} width={150} alt="icon" />}
                 <h2 className="text-4xl sm:text-5xl font-medium text-black tracking-wide">
                   {item.value}
                 </h2>
@@ -46,8 +42,8 @@ export default function WorldCount({ statsData, pageTitle, Founder }: any) {
               className="absolute inset-0 rounded-2xl"
               style={{
                 backgroundImage: `url(${founderBgImage})`,
-                backgroundSize: "cover",
-                backgroundPosition: "center",
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
               }}
             />
             <div className="relative w-full h-full flex items-center justify-end  md:pr-5 lg:pr-15">
@@ -56,14 +52,14 @@ export default function WorldCount({ statsData, pageTitle, Founder }: any) {
                   {Founder?.details?.[0]?.f_title}
                 </h1>
                 <p className="poppins-font text-center font-normal t text-white mb-4 uppercase">
-                  {" "}
+                  {' '}
                   {Founder?.details?.[0]?.f_designation}
                 </p>
                 <p className="text-center lg:w-[420px] md:w-[250px] mx-auto text-base lg:text-lg text-white roboto-font">
                   {Founder?.details?.[0]?.f_description}
                 </p>
                 <button className="bg-white text-gray-500 py-4 w-full rounded-full uppercase mt-6">
-                  {" "}
+                  {' '}
                   {Founder?.details?.[0]?.btn_text}
                 </button>
               </div>

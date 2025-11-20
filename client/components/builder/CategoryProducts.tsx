@@ -1,9 +1,9 @@
-"use client";
-import React from "react";
-import SectionHeader from "../common/SectionHeader";
-import Image from "next/image";
-import SwipeSlider from "../ui/SwipeSlider";
-import Link from "next/link";
+'use client';
+import React from 'react';
+import SectionHeader from '../common/SectionHeader';
+import Image from 'next/image';
+import SwipeSlider from '../ui/SwipeSlider';
+import Link from 'next/link';
 
 export interface Category {
   id: number;
@@ -14,23 +14,23 @@ export interface Category {
 export const categories: Category[] = [
   {
     id: 1,
-    title: "Ceramic & Stone Tools",
-    image: "/images/builder/categoryp1.png",
+    title: 'Ceramic & Stone Tools',
+    image: '/images/builder/categoryp1.png',
   },
   {
     id: 2,
-    title: "Carpet Tools",
-    image: "/images/builder/cat2.png",
+    title: 'Carpet Tools',
+    image: '/images/builder/cat2.png',
   },
   {
     id: 3,
-    title: "Heat Welding Tools",
-    image: "/images/builder/cat03.png",
+    title: 'Heat Welding Tools',
+    image: '/images/builder/cat03.png',
   },
   {
     id: 0,
-    title: "Carpet Tools",
-    image: "/images/builder/cat2.png",
+    title: 'Carpet Tools',
+    image: '/images/builder/cat2.png',
   },
 ];
 
@@ -62,10 +62,7 @@ const breakpoints = {
 };
 const CategoryProductsCard: React.FC<{ data: any }> = ({ data: product }) => {
   return (
-    <div
-      className="category-products relative h-[460px] px-3 py-8"
-      key={product?.url_key}
-    >
+    <div className="category-products relative h-[460px] px-3 py-8" key={product?.url_key}>
       {product?.image && (
         <Image
           src={product?.image}
@@ -76,7 +73,7 @@ const CategoryProductsCard: React.FC<{ data: any }> = ({ data: product }) => {
         />
       )}
       <Link
-        href={"builder/products"}
+        href={'builder/products'}
         className="absolute bottom-[15%] left-1/2 -translate-x-1/2 border border-[#D9D9D9] backdrop-blur-lg bg-[#0C0C0C66]/70 px-6 py-3 rounded-lg text-center text-[#fff] font-medium w-[80%] cursor-pointer"
       >
         {product?.name}

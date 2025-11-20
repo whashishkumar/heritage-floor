@@ -1,22 +1,22 @@
-import {
-  apiFetch,
-  apiFetchBatch,
-  apiFetchWithResponse,
-  apiPost,
-} from "./fetcher";
+import { apiFetch, apiFetchBatch, apiFetchWithResponse, apiPost, apiPut } from './fetcher';
 
 export const AuthValidation = {
-  regesterUser: (data: any) => apiPost("/customer/register", data),
+  regesterUser: (data: any) => apiPost('/customer/register', data),
 
-  loginUser: (data: any) => apiPost("/customer/login", data),
+  loginUser: (data: any) => apiPost('/customer/login', data),
 
-  validateuser: () => {
+  forgetPassword: (data: any) => apiPost('/customer/forgot-password', data),
+
+  logOut: () => apiPost('/customer/logout'),
+};
+
+
+export const UserDetailEndpoints = {
+  getUserDetail: () => {
     return apiFetch({
-      endpoint: "/auth/me",
-      cache: "no-store",
+      endpoint: `/customer/get`,
+      cache: 'no-store',
     });
   },
-
-  forgetPassword: (data: any) => apiPost("/customer/forgot-password", data),
-  logOut: () => apiPost("/customer/logout"),
-};
+  updatePeofile:(data:any) => apiPut('/customer/profile',data)
+}

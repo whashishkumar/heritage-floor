@@ -1,8 +1,8 @@
-"use client";
-import { useState } from "react";
-import Image from "next/image";
-import ModalBox from "@/components/ui/ModalBox";
-import SectionHeader from "@/components/common/SectionHeader";
+'use client';
+import { useState } from 'react';
+import Image from 'next/image';
+import ModalBox from '@/components/ui/ModalBox';
+import SectionHeader from '@/components/common/SectionHeader';
 
 type Project = {
   id: number;
@@ -19,57 +19,57 @@ export default function MajorProjectsList() {
   const projects: Project[] = [
     {
       id: 1,
-      title: "Heritage Greens",
-      location: "Pune, Maharashtra",
+      title: 'Heritage Greens',
+      location: 'Pune, Maharashtra',
       description:
-        "A luxurious residential project offering modern amenities and green landscapes designed for comfort and sustainability.",
-      image: "/images/residential/category/Eco.jpg",
-      video: "/videos/glimps1.mp4",
+        'A luxurious residential project offering modern amenities and green landscapes designed for comfort and sustainability.',
+      image: '/images/residential/category/Eco.jpg',
+      video: '/videos/glimps1.mp4',
     },
     {
       id: 2,
-      title: "Urban Heights",
-      location: "Mumbai, Maharashtra",
+      title: 'Urban Heights',
+      location: 'Mumbai, Maharashtra',
       description:
-        "A premium high-rise residential tower that blends urban sophistication with serene living spaces.",
-      image: "/images/residential/category/Eco.jpg",
-      video: "/videos/glimps2.mp4",
+        'A premium high-rise residential tower that blends urban sophistication with serene living spaces.',
+      image: '/images/residential/category/Eco.jpg',
+      video: '/videos/glimps2.mp4',
     },
     {
       id: 3,
-      title: "Riverside Villas",
-      location: "Nashik, Maharashtra",
+      title: 'Riverside Villas',
+      location: 'Nashik, Maharashtra',
       description:
-        "Exclusive riverfront villas crafted with elegance, ensuring privacy, comfort, and stunning natural views.",
-      image: "/images/residential/category/Eco.jpg",
-      video: "/videos/glimps3.mp4",
+        'Exclusive riverfront villas crafted with elegance, ensuring privacy, comfort, and stunning natural views.',
+      image: '/images/residential/category/Eco.jpg',
+      video: '/videos/glimps3.mp4',
     },
     {
       id: 4,
-      title: "Heritage Greens",
-      location: "Pune, Maharashtra",
+      title: 'Heritage Greens',
+      location: 'Pune, Maharashtra',
       description:
-        "A luxurious residential project offering modern amenities and green landscapes designed for comfort and sustainability.",
-      image: "/images/residential/category/Eco.jpg",
-      video: "/videos/glimps1.mp4",
+        'A luxurious residential project offering modern amenities and green landscapes designed for comfort and sustainability.',
+      image: '/images/residential/category/Eco.jpg',
+      video: '/videos/glimps1.mp4',
     },
     {
       id: 5,
-      title: "Urban Heights",
-      location: "Mumbai, Maharashtra",
+      title: 'Urban Heights',
+      location: 'Mumbai, Maharashtra',
       description:
-        "A premium high-rise residential tower that blends urban sophistication with serene living spaces.",
-      image: "/images/residential/category/Eco.jpg",
-      video: "/videos/glimps2.mp4",
+        'A premium high-rise residential tower that blends urban sophistication with serene living spaces.',
+      image: '/images/residential/category/Eco.jpg',
+      video: '/videos/glimps2.mp4',
     },
     {
       id: 6,
-      title: "Riverside Villas",
-      location: "Nashik, Maharashtra",
+      title: 'Riverside Villas',
+      location: 'Nashik, Maharashtra',
       description:
-        "Exclusive riverfront villas crafted with elegance, ensuring privacy, comfort, and stunning natural views.",
-      image: "/images/residential/category/Eco.jpg",
-      video: "/videos/glimps3.mp4",
+        'Exclusive riverfront villas crafted with elegance, ensuring privacy, comfort, and stunning natural views.',
+      image: '/images/residential/category/Eco.jpg',
+      video: '/videos/glimps3.mp4',
     },
   ];
 
@@ -93,21 +93,12 @@ export default function MajorProjectsList() {
               className="rounded-[1rem] overflow-hidden shadow-lg border border-gray-100 hover:shadow-xl transition-all bg-white"
             >
               <div className="relative h-[16rem] w-full">
-                <Image
-                  src={project.image}
-                  alt={project.title}
-                  fill
-                  className="object-cover"
-                />
+                <Image src={project.image} alt={project.title} fill className="object-cover" />
               </div>
 
               <div className="p-6">
-                <h3 className="text-2xl font-semibold text-gray-900 mb-2">
-                  {project.title}
-                </h3>
-                <p className="text-sm text-gray-500 mb-3">
-                  📍 {project.location}
-                </p>
+                <h3 className="text-2xl font-semibold text-gray-900 mb-2">{project.title}</h3>
+                <p className="text-sm text-gray-500 mb-3">📍 {project.location}</p>
                 <p className="text-gray-700 leading-relaxed mb-4 m-h-20 line-campe-4">
                   {project.description}
                 </p>
@@ -120,9 +111,7 @@ export default function MajorProjectsList() {
                     Watch Project Video →
                   </button>
                 ) : (
-                  <span className="text-gray-400 text-sm">
-                    No video available
-                  </span>
+                  <span className="text-gray-400 text-sm">No video available</span>
                 )}
               </div>
             </div>
@@ -131,15 +120,10 @@ export default function MajorProjectsList() {
       </div>
 
       {/* Modal for video preview */}
-      <ModalBox
-        isOpen={!!selectedProject}
-        onClose={() => setSelectedProject(null)}
-      >
+      <ModalBox isOpen={!!selectedProject} onClose={() => setSelectedProject(null)}>
         {selectedProject && (
           <div className="w-full">
-            <h2 className="text-2xl font-bold mb-4 text-black">
-              {selectedProject.title}
-            </h2>
+            <h2 className="text-2xl font-bold mb-4 text-black">{selectedProject.title}</h2>
             <video
               controls
               autoPlay

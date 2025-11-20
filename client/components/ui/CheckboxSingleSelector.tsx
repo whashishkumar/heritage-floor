@@ -1,6 +1,6 @@
-"use client";
-import React, { useState } from "react";
-import { FaMinus, FaPlus } from "react-icons/fa6";
+'use client';
+import React, { useState } from 'react';
+import { FaMinus, FaPlus } from 'react-icons/fa6';
 
 interface Option {
   id: number | string;
@@ -18,16 +18,9 @@ interface FilterAccordionGroupProps {
   onChange?: (filters: Record<string, string | null>) => void;
 }
 
-const CheckboxSingleSelector: React.FC<FilterAccordionGroupProps> = ({
-  data,
-  onChange,
-}) => {
-  const [selectedFilters, setSelectedFilters] = useState<
-    Record<string, string | null>
-  >({});
-  const [openAccordions, setOpenAccordions] = useState<Record<string, boolean>>(
-    {}
-  );
+const CheckboxSingleSelector: React.FC<FilterAccordionGroupProps> = ({ data, onChange }) => {
+  const [selectedFilters, setSelectedFilters] = useState<Record<string, string | null>>({});
+  const [openAccordions, setOpenAccordions] = useState<Record<string, boolean>>({});
 
   const toggleAccordion = (title: string) => {
     setOpenAccordions((prev) => ({ ...prev, [title]: !prev[title] }));
@@ -68,16 +61,11 @@ const CheckboxSingleSelector: React.FC<FilterAccordionGroupProps> = ({
             {isOpen && (
               <div className="p-2 flex flex-col gap-3 bg-white pb-4">
                 {group.options.map((item) => (
-                  <label
-                    key={item.id}
-                    className="flex items-center gap-2 cursor-pointer"
-                  >
+                  <label key={item.id} className="flex items-center gap-2 cursor-pointer">
                     <input
                       type="checkbox"
                       checked={selectedValue === item.value}
-                      onChange={() =>
-                        handleCheckboxChange(group.title, item.value)
-                      }
+                      onChange={() => handleCheckboxChange(group.title, item.value)}
                       className="w-4 h-4 accent-[#018C99]"
                     />
                     <span>{item.label}</span>

@@ -1,5 +1,5 @@
-"use client";
-import React from "react";
+'use client';
+import React from 'react';
 
 interface PaginationProps {
   currentPage: number;
@@ -38,8 +38,8 @@ const Pagination: React.FC<PaginationProps> = ({
         <button
           className={`flex items-center justify-center min-w-[40px] h-10 px-2 border rounded-md text-sm font-medium transition cursor-pointer ${
             currentPage === 1
-              ? "bg-gray-100 text-gray-400 border-gray-200 cursor-not-allowed opacity-60"
-              : "bg-white text-gray-700 border-gray-300 hover:bg-gray-100 hover:border-gray-400"
+              ? 'bg-gray-100 text-gray-400 border-gray-200 cursor-not-allowed opacity-60'
+              : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-100 hover:border-gray-400'
           }`}
           disabled={currentPage === 1}
           onClick={() => onPageChange(currentPage - 1)}
@@ -71,8 +71,8 @@ const Pagination: React.FC<PaginationProps> = ({
             key={pageNumber}
             className={`flex items-center justify-center min-w-[40px] h-10 px-2 border rounded-md text-sm font-medium transition cursor-pointer ${
               currentPage === pageNumber
-                ? "bg-gray-100 text-gray-900 border-gray-300 font-semibold"
-                : "bg-white text-gray-700 border-gray-300 hover:bg-gray-100 hover:border-gray-400"
+                ? 'bg-gray-100 text-gray-900 border-gray-300 font-semibold'
+                : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-100 hover:border-gray-400'
             }`}
             onClick={() => onPageChange(pageNumber)}
           >
@@ -101,8 +101,8 @@ const Pagination: React.FC<PaginationProps> = ({
         <button
           className={`flex items-center justify-center min-w-[40px] h-10 px-2 border rounded-md text-sm font-medium transition cursor-pointer ${
             currentPage === totalPages
-              ? "bg-gray-100 text-gray-400 border-gray-200 cursor-not-allowed opacity-60"
-              : "bg-white text-gray-700 border-gray-300 hover:bg-gray-100 hover:border-gray-400"
+              ? 'bg-gray-100 text-gray-400 border-gray-200 cursor-not-allowed opacity-60'
+              : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-100 hover:border-gray-400'
           }`}
           disabled={currentPage === totalPages}
           onClick={() => onPageChange(currentPage + 1)}
