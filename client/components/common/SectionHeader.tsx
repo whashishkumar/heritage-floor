@@ -22,9 +22,7 @@ export default function SectionHeader({
         <div className={`${mainCss}`}>
           <h2
             className={`text-primaryTwo uppercase ${
-              headingCss
-                ? ` ${headingCss}`
-                : " text-base  font-bold tracking-wider "
+              headingCss ? ` ${headingCss}` : ' text-base  font-bold tracking-wider '
             } `}
           >
             {heading}
@@ -35,9 +33,7 @@ export default function SectionHeader({
             {subHeading}
           </h3>
 
-          <p
-            className={`text-black text-base sm:text-lg   align-middle ${descriptionCss}`}
-          >
+          <p className={`text-black text-base sm:text-lg   align-middle ${descriptionCss}`}>
             {description}
           </p>
         </div>

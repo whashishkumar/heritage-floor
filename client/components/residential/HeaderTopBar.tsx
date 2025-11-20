@@ -1,4 +1,4 @@
-import Image from "next/image";
+import Image from 'next/image';
 export default async function HeaderTopBar() {
   return (
     <>
@@ -6,7 +6,7 @@ export default async function HeaderTopBar() {
         <div className="wrapper mx-auto w-full flex flex-col sm:flex-row items-center justify-between gap-2 sm:gap-0 px-4">
           {/* Left Section */}
           <div className="text-sm sm:text-base text-textGray font-normal leading-[1.6] text-center sm:text-left">
-            Get a consultation with us{" "}
+            Get a consultation with us{' '}
             <span className="font-medium ml-1 text-black">613-224-0300</span>
           </div>
 

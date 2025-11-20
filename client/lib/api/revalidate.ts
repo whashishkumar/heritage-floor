@@ -1,9 +1,9 @@
-"use server";
+'use server';
 
-import { revalidateTag, revalidatePath } from "next/cache";
+import { revalidateTag, revalidatePath } from 'next/cache';
 
 export async function revalidateProducts() {
-  revalidateTag("products");
+  revalidateTag('products');
 }
 
 export async function revalidateProductBySlug(slug: string) {
@@ -11,13 +11,13 @@ export async function revalidateProductBySlug(slug: string) {
 }
 
 export async function revalidateBlogs() {
-  revalidateTag("blogs");
+  revalidateTag('blogs');
 }
 
 export async function revalidateStaticContent() {
-  revalidateTag("static");
+  revalidateTag('static');
 }
 
 export async function revalidateAll() {
-  revalidatePath("/", "layout");
+  revalidatePath('/', 'layout');
 }

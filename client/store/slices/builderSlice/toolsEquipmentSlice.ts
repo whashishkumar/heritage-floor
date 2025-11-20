@@ -1,5 +1,5 @@
-import api from "@/lib/api/axios";
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import api from '@/lib/api/axios';
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
 interface toolsAndEquimentsState {
   tools?: [] | null;
@@ -21,19 +21,17 @@ export const fetchToolsAndEquimentsInfo = createAsyncThunk<
   {
     rejectValue: string;
   }
->("builder/fetchToolsAndEquimentsInfo", async (_, { rejectWithValue }) => {
+>('builder/fetchToolsAndEquimentsInfo', async (_, { rejectWithValue }) => {
   try {
-    const response = await api.get("/builder/tools-section");
+    const response = await api.get('/builder/tools-section');
     return response.data;
   } catch (error: any) {
-    return rejectWithValue(
-      error.response.data || "Fetch ToolsAnd Equiments Failed"
-    );
+    return rejectWithValue(error.response.data || 'Fetch ToolsAnd Equiments Failed');
   }
 });
 
 const toolsAndEquimentsSlice = createSlice({
-  name: "toolsAndEquiments",
+  name: 'toolsAndEquiments',
   initialState,
   reducers: {
     resetUserState: (state) => {
@@ -56,7 +54,7 @@ const toolsAndEquimentsSlice = createSlice({
     });
     builder.addCase(fetchToolsAndEquimentsInfo.rejected, (state, action) => {
       state.loading = false;
-      state.error = action.payload || "Something went wrong";
+      state.error = action.payload || 'Something went wrong';
     });
   },
 });

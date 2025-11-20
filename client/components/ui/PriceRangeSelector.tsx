@@ -1,5 +1,5 @@
-"use client";
-import React, { useState, useRef, useEffect } from "react";
+'use client';
+import React, { useState, useRef, useEffect } from 'react';
 
 interface PriceRangeSelectorProps {
   min?: number;
@@ -23,31 +23,30 @@ const PriceRangeSelector: React.FC<PriceRangeSelectorProps> = ({
   const maxPercent = ((maxValue - min) / (max - min)) * 100;
 
   // Handle dragging logic
-  const handleDrag =
-    (isMin: boolean) => (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-      if (!trackRef.current) return;
-      const track = trackRef.current;
-      const rect = track.getBoundingClientRect();
+  const handleDrag = (isMin: boolean) => (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    if (!trackRef.current) return;
+    const track = trackRef.current;
+    const rect = track.getBoundingClientRect();
 
-      const onMove = (moveEvent: MouseEvent) => {
-        const x = moveEvent.clientX - rect.left;
-        const percent = Math.min(Math.max(x / rect.width, 0), 1);
-        const value = Math.round((min + percent * (max - min)) / step) * step;
-        if (isMin) {
-          setMinValue((prev) => Math.min(value, maxValue - step));
-        } else {
-          setMaxValue((prev) => Math.max(value, minValue + step));
-        }
-      };
-
-      const onUp = () => {
-        document.removeEventListener("mousemove", onMove);
-        document.removeEventListener("mouseup", onUp);
-      };
-
-      document.addEventListener("mousemove", onMove);
-      document.addEventListener("mouseup", onUp);
+    const onMove = (moveEvent: MouseEvent) => {
+      const x = moveEvent.clientX - rect.left;
+      const percent = Math.min(Math.max(x / rect.width, 0), 1);
+      const value = Math.round((min + percent * (max - min)) / step) * step;
+      if (isMin) {
+        setMinValue((prev) => Math.min(value, maxValue - step));
+      } else {
+        setMaxValue((prev) => Math.max(value, minValue + step));
+      }
     };
+
+    const onUp = () => {
+      document.removeEventListener('mousemove', onMove);
+      document.removeEventListener('mouseup', onUp);
+    };
+
+    document.addEventListener('mousemove', onMove);
+    document.addEventListener('mouseup', onUp);
+  };
 
   // Send updates to parent
   useEffect(() => {
@@ -65,10 +64,7 @@ const PriceRangeSelector: React.FC<PriceRangeSelectorProps> = ({
       </div>
 
       {/* Slider track */}
-      <div
-        ref={trackRef}
-        className="relative h-2 bg-gray-200 rounded-full cursor-pointer"
-      >
+      <div ref={trackRef} className="relative h-2 bg-gray-200 rounded-full cursor-pointer">
         {/* Active Range */}
         <div
           className="absolute h-2 bg-[#018C99] rounded-full transition-all duration-150"

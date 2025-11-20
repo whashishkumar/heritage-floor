@@ -1,4 +1,4 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 
 :root {
   --background: #ffffff;
@@ -42,9 +42,9 @@ body {
 
   /* font family */
 
-  --font-sans: "DM Sans", sans-serif;
+  --font-sans: 'DM Sans', sans-serif;
   /* --font-playfair: "Playfair Display", serif; */
-  --font-inter: "Inter", sans-serif;
+  --font-inter: 'Inter', sans-serif;
 
   /* font size */
   --text-pxs: 0.75rem;
@@ -265,21 +265,20 @@ img {
 }
 
 /* Use this to show the number input arrows */
-input[type="number"]::-webkit-inner-spin-button,
-input[type="number"]::-webkit-outer-spin-button {
+input[type='number']::-webkit-inner-spin-button,
+input[type='number']::-webkit-outer-spin-button {
   opacity: 1;
 }
 
 @layer utilities {
-
   /* Smooth Concave Curve (Dips Down) */
   .clip-concave-smooth {
-    clip-path: path("M 0,0 L 256,0 L 256,32 Q 128,12 0,32 Z");
+    clip-path: path('M 0,0 L 256,0 L 256,32 Q 128,12 0,32 Z');
   }
 
   /* Smooth Convex Curve (Bulges Up) */
   .clip-convex-smooth {
-    clip-path: path("M 0,0 Q 128,20 256,0 L 256,32 L 0,32 Z");
+    clip-path: path('M 0,0 Q 128,20 256,0 L 256,32 L 0,32 Z');
   }
 
   /* Ellipse Based */
@@ -301,11 +300,11 @@ input[type="number"]::-webkit-outer-spin-button {
   }
 
   .clip-concave-responsive {
-    clip-path: path("M 0,0 L 100%,0 L 100%,100% Q 50%,80% 0,100% Z");
+    clip-path: path('M 0,0 L 100%,0 L 100%,100% Q 50%,80% 0,100% Z');
   }
 
   .clip-convex-responsive {
-    clip-path: path("M 0,0 Q 50%,20% 100%,0 L 100%,100% L 0,100% Z");
+    clip-path: path('M 0,0 Q 50%,20% 100%,0 L 100%,100% L 0,100% Z');
   }
 }
 
@@ -334,7 +333,7 @@ input[type="number"]::-webkit-outer-spin-button {
 
 /* ------------------------_Blog----------------------- */
 .blog-article {
-  font-family: "Poppins", sans-serif;
+  font-family: 'Poppins', sans-serif;
   color: #333;
   line-height: 1.75;
   max-width: full;
@@ -452,9 +451,7 @@ input[type="number"]::-webkit-outer-spin-button {
 }
 
 .blog-article .key-considerations {
-  background: linear-gradient(135deg,
-      rgb(10, 186, 181, 0.1),
-      rgb(1, 140, 153, 0.1));
+  background: linear-gradient(135deg, rgb(10, 186, 181, 0.1), rgb(1, 140, 153, 0.1));
   padding: 2rem;
   border-radius: 0.75rem;
   margin: 2rem 0;
@@ -482,7 +479,7 @@ input[type="number"]::-webkit-outer-spin-button {
 }
 
 .blog-article .key-considerations li::before {
-  content: "›";
+  content: '›';
   color: #018c99;
   /* primaryTwo */
   font-size: 1.25rem;
@@ -492,5 +489,4 @@ input[type="number"]::-webkit-outer-spin-button {
 .scrollbar-hide {
   -ms-overflow-style: none;
   scrollbar-width: none;
-
 }

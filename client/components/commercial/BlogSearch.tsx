@@ -1,7 +1,5 @@
-
-
-import React from "react";
-import { LuSearch } from "react-icons/lu";
+import React from 'react';
+import { LuSearch } from 'react-icons/lu';
 
 interface SearchBarProps {
   searchQuery: string;
@@ -12,7 +10,7 @@ interface SearchBarProps {
 const SearchBarBlog: React.FC<SearchBarProps> = ({
   searchQuery,
   setSearchQuery,
-  placeholder = "Search articles, topics, or keywords...",
+  placeholder = 'Search articles, topics, or keywords...',
 }) => {
   return (
     <div className="mt-12 max-w-2xl mx-auto">

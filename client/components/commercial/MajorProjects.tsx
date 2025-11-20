@@ -1,54 +1,54 @@
-import { title } from "process";
-import Image from "next/image";
-import SectionHeader from "../common/SectionHeader";
+import { title } from 'process';
+import Image from 'next/image';
+import SectionHeader from '../common/SectionHeader';
 const MajorProjectData = [
   {
-    image: "/images/commercial/majorProject/hyatt.png",
-    area: "Worked Area 5000 sqft ",
-    logo: "/images/commercial/majorProject/Hyatt-Place-Logo.png",
-    title: "hyatt palace ",
+    image: '/images/commercial/majorProject/hyatt.png',
+    area: 'Worked Area 5000 sqft ',
+    logo: '/images/commercial/majorProject/Hyatt-Place-Logo.png',
+    title: 'hyatt palace ',
   },
   {
-    image: "/images/commercial/majorProject/nationalBank.png",
-    area: "Worked Area 5000 sqft ",
-    logo: "/images/commercial/majorProject/National_Bank_of_Canada-Logo.wine 1.png",
-    title: "hyatt palace ",
+    image: '/images/commercial/majorProject/nationalBank.png',
+    area: 'Worked Area 5000 sqft ',
+    logo: '/images/commercial/majorProject/National_Bank_of_Canada-Logo.wine 1.png',
+    title: 'hyatt palace ',
   },
   {
-    image: "/images/commercial/majorProject/shell.png",
-    area: "Worked Area 5000 sqft ",
-    logo: "/images/commercial/majorProject/shell 1.png",
-    title: "hyatt palace ",
+    image: '/images/commercial/majorProject/shell.png',
+    area: 'Worked Area 5000 sqft ',
+    logo: '/images/commercial/majorProject/shell 1.png',
+    title: 'hyatt palace ',
   },
   {
-    image: "/images/commercial/majorProject/tim.png",
-    area: "Worked Area 5000 sqft ",
-    logo: "/images/commercial/majorProject/Toronto_Pearson_logo.svg 1.png",
-    title: "hyatt palace ",
+    image: '/images/commercial/majorProject/tim.png',
+    area: 'Worked Area 5000 sqft ',
+    logo: '/images/commercial/majorProject/Toronto_Pearson_logo.svg 1.png',
+    title: 'hyatt palace ',
   },
   {
-    image: "/images/commercial/majorProject/bramalea.png",
-    area: "Worked Area 5000 sqft ",
-    logo: "/images/commercial/majorProject/BCC_black 1.png",
-    title: "hyatt palace ",
+    image: '/images/commercial/majorProject/bramalea.png',
+    area: 'Worked Area 5000 sqft ',
+    logo: '/images/commercial/majorProject/BCC_black 1.png',
+    title: 'hyatt palace ',
   },
   {
-    image: "/images/commercial/majorProject/toronto.png",
-    area: "Worked Area 5000 sqft ",
-    logo: "/images/commercial/majorProject/Toronto_Pearson_logo.svg 1.png",
-    title: "hyatt palace ",
+    image: '/images/commercial/majorProject/toronto.png',
+    area: 'Worked Area 5000 sqft ',
+    logo: '/images/commercial/majorProject/Toronto_Pearson_logo.svg 1.png',
+    title: 'hyatt palace ',
   },
   {
-    image: "/images/commercial/majorProject/rm.png",
-    area: "Worked Area 5000 sqft ",
-    logo: "/images/commercial/majorProject/Royal_Ontario_Museum_logo.svg 1.png",
-    title: "hyatt palace ",
+    image: '/images/commercial/majorProject/rm.png',
+    area: 'Worked Area 5000 sqft ',
+    logo: '/images/commercial/majorProject/Royal_Ontario_Museum_logo.svg 1.png',
+    title: 'hyatt palace ',
   },
   {
-    image: "/images/commercial/majorProject/york.png",
-    area: "Worked Area 5000 sqft ",
-    logo: "/images/commercial/majorProject/Logo_York_University 1.png",
-    title: "hyatt palace ",
+    image: '/images/commercial/majorProject/york.png',
+    area: 'Worked Area 5000 sqft ',
+    logo: '/images/commercial/majorProject/Logo_York_University 1.png',
+    title: 'hyatt palace ',
   },
 ];
 export default async function OurMajorProjectsCommercial() {
@@ -70,15 +70,13 @@ export default async function OurMajorProjectsCommercial() {
             {MajorProjectData.map((project: any, index: any) => (
               <div
                 className={`h-[30.563rem]  min-w-[18.875rem] lg:max-w-[18.875rem] w-full relative rounded-[1.25rem] overflow-hidden ${
-                  index % 2 !== 0 ? "" : "mt-[2.313rem]"
+                  index % 2 !== 0 ? '' : 'mt-[2.313rem]'
                 }`}
                 key={index}
               >
                 <Image
-                  src={
-                    project.image || "/images/commercial/majorProject/hyatt.png"
-                  }
-                  alt={project.title || "hyatt"}
+                  src={project.image || '/images/commercial/majorProject/hyatt.png'}
+                  alt={project.title || 'hyatt'}
                   fill
                   className="object-center rounded-[1.25rem]"
                 />
@@ -86,38 +84,33 @@ export default async function OurMajorProjectsCommercial() {
                   className="absolute inset-0 mix-blend-multiply"
                   style={{
                     background:
-                      "linear-gradient(180deg, rgba(0, 0, 0, 0) 30.09%, rgba(0, 0, 0, 0.76) 84.69%)",
+                      'linear-gradient(180deg, rgba(0, 0, 0, 0) 30.09%, rgba(0, 0, 0, 0.76) 84.69%)',
                   }}
                 />
                 <div
                   className={`absolute bottom-5 flex items-center  w-full  ${
-                    index % 2 !== 0
-                      ? "justify-between flex-row-reverse"
-                      : "justify-between"
+                    index % 2 !== 0 ? 'justify-between flex-row-reverse' : 'justify-between'
                   } `}
                 >
                   {/* area */}
                   <div
                     className={`h-[3.813rem] w-[7.688rem] bg-primaryTwo text-white flex items-center justify-center ${
-                      index % 2 !== 0 ? " rounded-l-full " : "rounded-r-full"
+                      index % 2 !== 0 ? ' rounded-l-full ' : 'rounded-r-full'
                     } `}
                   >
                     <div className=" text-wrap flex items-center justify-center w-[80%]  font-medium text-sm">
-                      {project.area || "  Worked Area 5000 sqft"}
+                      {project.area || '  Worked Area 5000 sqft'}
                     </div>
                   </div>
                   {/* logo */}
                   <div className="   h-[3.813rem] w-[7.688rem] text-white flex items-center justify-center ">
                     <div
                       className={`h-[3.813rem] w-[7.688rem] relative ${
-                        index % 2 !== 0 ? " ml-4" : " mr-4"
+                        index % 2 !== 0 ? ' ml-4' : ' mr-4'
                       } `}
                     >
                       <Image
-                        src={
-                          project.logo ||
-                          "/images/commercial/majorProject/Hyatt-Place-Logo.png"
-                        }
+                        src={project.logo || '/images/commercial/majorProject/Hyatt-Place-Logo.png'}
                         alt="hyatt"
                         fill
                         className=" object-contain py-2"

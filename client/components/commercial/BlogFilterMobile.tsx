@@ -1,5 +1,5 @@
-import React from "react";
-import { FiChevronDown } from "react-icons/fi";
+import React from 'react';
+import { FiChevronDown } from 'react-icons/fi';
 
 interface MobileBlogFilterProps {
   categories: string[];
@@ -27,9 +27,7 @@ const MobileBlogFilter: React.FC<MobileBlogFilterProps> = ({
       >
         <span>{selectedCategory}</span>
         <FiChevronDown
-          className={`w-5 h-5 transition-transform ${
-            isFilterOpen ? "rotate-180" : ""
-          }`}
+          className={`w-5 h-5 transition-transform ${isFilterOpen ? 'rotate-180' : ''}`}
         />
       </button>
 
@@ -46,8 +44,8 @@ const MobileBlogFilter: React.FC<MobileBlogFilterProps> = ({
               }}
               className={`w-full text-left px-4 py-3 hover:bg-gray-50 transition-colors ${
                 selectedCategory === category
-                  ? "bg-primaryTwo/10 text-primaryTwo font-medium"
-                  : "text-darkBlue"
+                  ? 'bg-primaryTwo/10 text-primaryTwo font-medium'
+                  : 'text-darkBlue'
               }`}
             >
               {category?.name}

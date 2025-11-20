@@ -178,12 +178,12 @@
 //   );
 // }
 
-"use client";
-import React, { useState } from "react";
-import { RxArrowLeft, RxArrowRight } from "react-icons/rx";
-import Slider from "react-slick";
-import "slick-carousel/slick/slick-theme.css";
-import "slick-carousel/slick/slick.css";
+'use client';
+import React, { useState } from 'react';
+import { RxArrowLeft, RxArrowRight } from 'react-icons/rx';
+import Slider from 'react-slick';
+import 'slick-carousel/slick/slick-theme.css';
+import 'slick-carousel/slick/slick.css';
 
 interface SlickSliderProps {
   data: any[];
@@ -200,7 +200,7 @@ const NextArrow = ({ onClick, currentSlide, slideCount }: any) => {
   return (
     <button
       className={`absolute xl:top-[6rem] md:top-[4rem] top-[1.5rem] right-2 sm:right-4 xl:-right-[8rem] 2xl:-right-[11rem] transform -translate-y-1/2 z-10 ${
-        isLast ? "text-gray-400" : "text-primary1"
+        isLast ? 'text-gray-400' : 'text-primary1'
       }`}
       onClick={onClick}
     >
@@ -208,19 +208,13 @@ const NextArrow = ({ onClick, currentSlide, slideCount }: any) => {
     </button>
   );
 };
-// 
-const PrevArrow = ({
-  onClick,
-  currentSlide,
-}: {
-  onClick?: () => void;
-  currentSlide?: number;
-}) => {
+//
+const PrevArrow = ({ onClick, currentSlide }: { onClick?: () => void; currentSlide?: number }) => {
   const isFirst = currentSlide === 0;
   return (
     <button
       className={`absolute xl:top-[6rem] md:top-[4rem] top-[1.5rem] left-2 sm:left-4 xl:-left-[8rem] 2xl:-left-[11rem] transform -translate-y-1/2 z-10 ${
-        isFirst ? "text-gray-400" : "text-primary1"
+        isFirst ? 'text-gray-400' : 'text-primary1'
       }`}
       onClick={onClick}
     >
@@ -238,7 +232,6 @@ export default function AutoPlay({
 }: SlickSliderProps) {
   const [currentSlide, setCurrentSlide] = useState(0);
 
-
   const settings = {
     dots: false,
     infinite: true,
@@ -247,7 +240,7 @@ export default function AutoPlay({
     slidesToScroll: 1,
     autoplay: true,
     autoplaySpeed: 0,
-    cssEase: "linear",
+    cssEase: 'linear',
     swipeToSlide: true,
     arrows: false,
     pauseOnHover: true,
@@ -256,7 +249,6 @@ export default function AutoPlay({
     rtl,
     responsive,
   };
-
 
   return (
     <div className=" ">

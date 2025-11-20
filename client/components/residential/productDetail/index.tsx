@@ -1,14 +1,14 @@
-"use client";
-import ProductCard from "@/components/common/Product";
-import React, { useState, useEffect, Suspense } from "react";
-import SideBar from "./SideBar";
-import Selector from "@/components/ui/Selector";
-import Pagination from "@/components/ui/Pagnation";
-import { LuFilter } from "react-icons/lu";
-import { MdClose } from "react-icons/md";
-import { useParams, useRouter } from "next/navigation";
-import Loader from "@/components/ui/Loader";
-import { ResidentailPageData } from "@/lib/api/residentialEndPoints";
+'use client';
+import ProductCard from '@/components/common/Product';
+import React, { useState, useEffect, Suspense } from 'react';
+import SideBar from './SideBar';
+import Selector from '@/components/ui/Selector';
+import Pagination from '@/components/ui/Pagnation';
+import { LuFilter } from 'react-icons/lu';
+import { MdClose } from 'react-icons/md';
+import { useParams, useRouter } from 'next/navigation';
+import Loader from '@/components/ui/Loader';
+import { ResidentailPageData } from '@/lib/api/residentialEndPoints';
 
 export interface Product {
   id: number;
@@ -22,13 +22,13 @@ export interface Product {
 }
 
 const sortOptions = [
-  { label: "Low to High", value: "price-asc" },
-  { label: "High to Low", value: "price-desc" },
+  { label: 'Low to High', value: 'price-asc' },
+  { label: 'High to Low', value: 'price-desc' },
 ];
 
 const accOptions = [
-  { label: "Acc", value: "asc" },
-  { label: "Dec", value: "desc" },
+  { label: 'Acc', value: 'asc' },
+  { label: 'Dec', value: 'desc' },
 ];
 
 export default function ProductDetailPage({ sortOptionsCategory }: any) {
@@ -49,9 +49,9 @@ export default function ProductDetailPage({ sortOptionsCategory }: any) {
 
   useEffect(() => {
     if (isMobileFilterOpen) {
-      document.body.style.overflow = "hidden";
+      document.body.style.overflow = 'hidden';
     } else {
-      document.body.style.overflow = "";
+      document.body.style.overflow = '';
     }
   }, [isMobileFilterOpen]);
 
@@ -150,7 +150,7 @@ export default function ProductDetailPage({ sortOptionsCategory }: any) {
     setCategoryProducts(res);
   };
 
-  const handleCategory = async (id:any) => {
+  const handleCategory = async (id: any) => {
     setSelectedCategory(id);
     const resp = await ResidentailPageData.getCategoryBasedProducts({
       categoryid: id ? Number(id) : undefined,
@@ -158,14 +158,13 @@ export default function ProductDetailPage({ sortOptionsCategory }: any) {
       limit: 12,
     });
     setCategoryProducts(resp);
-  }
+  };
 
   useEffect(() => {
     getCatogeryBaseProducts();
     getCategoryList();
   }, []);
 
-  
   return (
     <>
       {isMobileFilterOpen && (
@@ -177,14 +176,11 @@ export default function ProductDetailPage({ sortOptionsCategory }: any) {
       {/* Mobile Sidebar */}
       <div
         className={`fixed top-[3.063rem] left-0 h-full w-[80%] bg-white z-50 transform transition-transform duration-300 ease-in-out md:hidden overflow-x-scroll ${
-          isMobileFilterOpen ? "translate-x-0" : "-translate-x-full"
+          isMobileFilterOpen ? 'translate-x-0' : '-translate-x-full'
         }`}
       >
         <div className="flex justify-end items-center ">
-          <button
-            onClick={handleToggleMobileFilter}
-            className="text-black text-xl p-3 "
-          >
+          <button onClick={handleToggleMobileFilter} className="text-black text-xl p-3 ">
             <MdClose size={24} />
           </button>
         </div>
@@ -213,7 +209,7 @@ export default function ProductDetailPage({ sortOptionsCategory }: any) {
               Products Founds : {categoryProducts?.meta?.total}
             </p>
             <div className="grid grid-cols-3 gap-4">
-                 <div>
+              <div>
                 <Selector
                   label="Category"
                   options={productCategory}
@@ -262,15 +258,13 @@ export default function ProductDetailPage({ sortOptionsCategory }: any) {
                 ) : (
                   <>
                     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-8 justify-items-center">
-                      {categoryProducts?.data?.map(
-                        (product: any, idx: number) => (
-                          <ProductCard
-                            key={idx}
-                            product={product}
-                            handleGetProductDetail={handleGetProductDetail}
-                          />
-                        )
-                      )}
+                      {categoryProducts?.data?.map((product: any, idx: number) => (
+                        <ProductCard
+                          key={idx}
+                          product={product}
+                          handleGetProductDetail={handleGetProductDetail}
+                        />
+                      ))}
                     </div>
                     <Pagination
                       currentPage={currentPage}

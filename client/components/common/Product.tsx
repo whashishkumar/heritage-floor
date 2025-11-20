@@ -1,11 +1,10 @@
-"use client";
-import { CartEndPoint } from "@/lib/api/cartEndPoints";
-import Image from "next/image";
-import { useRouter } from "next/navigation";
-import ButtonCommon from "../ui/Button";
-import RatingStars from "../ui/RatingStars";
-import { addToGuestCart } from "@/utils/addToGuestCart";
-
+'use client';
+import { CartEndPoint } from '@/lib/api/cartEndPoints';
+import Image from 'next/image';
+import { useRouter } from 'next/navigation';
+import ButtonCommon from '../ui/Button';
+import RatingStars from '../ui/RatingStars';
+import { addToGuestCart } from '@/utils/addToGuestCart';
 
 export interface Product {
   id: number;
@@ -24,15 +23,12 @@ interface Props {
   handleGetProductDetail: (id: any) => void;
 }
 
-export default function ProductCard({
-  product,
-  handleGetProductDetail,
-}: Props) {
+export default function ProductCard({ product, handleGetProductDetail }: Props) {
   const router = useRouter();
 
   const handleAddToCartProduct = async (id: any) => {
     // await CartEndPoint.addItemToCart(id);
-    addToGuestCart({id:id})
+    addToGuestCart({ id: id });
   };
 
   const path = process.env.NEXT_PUBLIC_IMAGE_PATH;
@@ -51,10 +47,7 @@ export default function ProductCard({
         )}
         <span className="absolute right-0 top-0 font-semibold px-2 py-1 flex  items-center ">
           {product.rating && (
-            <RatingStars
-              rating={product.rating}
-              className="absolute right-2 top-1"
-            />
+            <RatingStars rating={product.rating} className="absolute right-2 top-1" />
           )}
         </span>
         {ProductImage && (
@@ -75,7 +68,7 @@ export default function ProductCard({
           {product.name}
         </h3>
         <p className="mt-2 text-black poppins-font font-extrabold leading-[1.875rem] text-[1.875rem] ">
-          {product.price ? "$" + `${product.price}` : "_"}
+          {product.price ? '$' + `${product.price}` : '_'}
         </p>
         {/* Button */}
         <div className="mt-[1.5rem]">

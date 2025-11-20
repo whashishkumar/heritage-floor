@@ -1,15 +1,12 @@
 // lib/api/fetcher.ts
-import { notFound } from "next/navigation";
-import { unstable_cache } from "next/cache";
-import { api } from "./axios-instance";
-import type { FetchOptions, APIResponse } from "./types";
-import { AxiosError } from "axios";
+import { notFound } from 'next/navigation';
+import { unstable_cache } from 'next/cache';
+import { api } from './axios-instance';
+import type { FetchOptions, APIResponse } from './types';
+import { AxiosError } from 'axios';
 
-const getCacheConfig = (
-  strategy: FetchOptions["cache"],
-  customRevalidate?: number
-) => {
-  if (strategy === "no-store") {
+const getCacheConfig = (strategy: FetchOptions['cache'], customRevalidate?: number) => {
+  if (strategy === 'no-store') {
     return 0;
   }
 
@@ -44,7 +41,7 @@ export async function apiFetch<T = any>(options: FetchOptions): Promise<T> {
     endpoint,
     params,
     throw404 = false,
-    cache = "dynamic",
+    cache = 'dynamic',
     customRevalidate,
     tags = [],
     retry = 2,
@@ -73,28 +70,22 @@ export async function apiFetch<T = any>(options: FetchOptions): Promise<T> {
         if (throw404 && error.response?.status === 404) {
           notFound();
         }
-        throw new Error(
-          `API Error: ${endpoint} - ${error.response?.status} ${error.message}`
-        );
+        throw new Error(`API Error: ${endpoint} - ${error.response?.status} ${error.message}`);
       }
       throw error;
     }
   };
 
   // Use Next.js cache only if not no-store
-  if (cache === "no-store") {
+  if (cache === 'no-store') {
     return fetchFunction();
   }
 
   // Cache the request with Next.js unstable_cache
-  const cachedFetch = unstable_cache(
-    fetchFunction,
-    [endpoint, JSON.stringify(params)],
-    {
-      revalidate,
-      tags: [...tags, endpoint],
-    }
-  );
+  const cachedFetch = unstable_cache(fetchFunction, [endpoint, JSON.stringify(params)], {
+    revalidate,
+    tags: [...tags, endpoint],
+  });
 
   return cachedFetch();
 }
@@ -123,9 +114,7 @@ export async function apiFetchWithResponse<T = any>(
       if (throw404 && error.response?.status === 404) {
         notFound();
       }
-      throw new Error(
-        `API Error: ${endpoint} - ${error.response?.status} ${error.message}`
-      );
+      throw new Error(`API Error: ${endpoint} - ${error.response?.status} ${error.message}`);
     }
     throw error;
   }
@@ -136,7 +125,7 @@ export async function apiFetchWithResponse<T = any>(
 export async function apiPost<T = any>(
   endpoint: string,
   data?: any,
-  options?: Omit<FetchOptions, "endpoint">
+  options?: Omit<FetchOptions, 'endpoint'>
 ): Promise<T> {
   const { timeout, headers = {} } = options || {};
 
@@ -158,7 +147,7 @@ export async function apiPost<T = any>(
         error.response?.data?.message ||
         error.response?.data?.error ||
         error.message ||
-        "Unknown API Error";
+        'Unknown API Error';
 
       throw { status, message, endpoint, errors };
     }
@@ -170,7 +159,7 @@ export async function apiPost<T = any>(
 export async function apiPut<T = any>(
   endpoint: string,
   data: any,
-  options?: Omit<FetchOptions, "endpoint">
+  options?: Omit<FetchOptions, 'endpoint'>
 ): Promise<T> {
   const { timeout, headers = {} } = options || {};
   try {
@@ -181,9 +170,7 @@ export async function apiPut<T = any>(
     return response.data;
   } catch (error) {
     if (error instanceof AxiosError) {
-      throw new Error(
-        `API Error: ${endpoint} - ${error.response?.status} ${error.message}`
-      );
+      throw new Error(`API Error: ${endpoint} - ${error.response?.status} ${error.message}`);
     }
     throw error;
   }
@@ -192,7 +179,7 @@ export async function apiPut<T = any>(
 // DELETE request
 export async function apiDelete<T = any>(
   endpoint: string,
-  options?: Omit<FetchOptions, "endpoint">
+  options?: Omit<FetchOptions, 'endpoint'>
 ): Promise<T> {
   const { timeout, headers = {} } = options || {};
 
@@ -204,9 +191,7 @@ export async function apiDelete<T = any>(
     return response.data;
   } catch (error) {
     if (error instanceof AxiosError) {
-      throw new Error(
-        `API Error: ${endpoint} - ${error.response?.status} ${error.message}`
-      );
+      throw new Error(`API Error: ${endpoint} - ${error.response?.status} ${error.message}`);
     }
     throw error;
   }
@@ -217,9 +202,7 @@ export async function apiFetchBatch<T extends Record<string, FetchOptions>>(
   requests: T
 ): Promise<{ [K in keyof T]: Awaited<ReturnType<typeof apiFetch>> }> {
   const entries = Object.entries(requests);
-  const promises = entries.map(([key, options]) =>
-    apiFetch(options).then((data) => [key, data])
-  );
+  const promises = entries.map(([key, options]) => apiFetch(options).then((data) => [key, data]));
   const results = await Promise.all(promises);
   return Object.fromEntries(results) as any;
 }

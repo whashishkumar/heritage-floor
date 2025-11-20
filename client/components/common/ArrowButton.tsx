@@ -1,5 +1,5 @@
-import { FiArrowUpRight } from "react-icons/fi";
-import Link from "next/link";
+import { FiArrowUpRight } from 'react-icons/fi';
+import Link from 'next/link';
 
 export default function OnlyButton() {
   return (

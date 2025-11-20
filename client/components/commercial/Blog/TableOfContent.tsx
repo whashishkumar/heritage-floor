@@ -1,6 +1,6 @@
-"use client";
-import React from "react";
-import { CiUser } from "react-icons/ci";
+'use client';
+import React from 'react';
+import { CiUser } from 'react-icons/ci';
 
 interface TableOfContentsProps {
   tableOfContents: { id: string; title: string }[];
@@ -18,9 +18,7 @@ const TableOfContents: React.FC<TableOfContentsProps> = ({
   const { author, author_desc, author_profile } = authorInfo || {};
   return (
     <div className="sticky top-24">
-      <h3 className="text-lg font-bold text-darkBlue mb-4">
-        Table of Contents
-      </h3>
+      <h3 className="text-lg font-bold text-darkBlue mb-4">Table of Contents</h3>
       <nav className="space-y-2">
         {tableOfContents.map((item) => (
           <button
@@ -28,8 +26,8 @@ const TableOfContents: React.FC<TableOfContentsProps> = ({
             onClick={() => scrollToSection(item.id)}
             className={`block w-full text-left px-4 py-2 rounded-lg text-base transition-all ${
               activeSection === item.id
-                ? "bg-primaryOne/10 text-primaryTwo font-medium"
-                : "text-gray-600 hover:bg-primaryOne/10"
+                ? 'bg-primaryOne/10 text-primaryTwo font-medium'
+                : 'text-gray-600 hover:bg-primaryOne/10'
             }`}
           >
             {item.title}

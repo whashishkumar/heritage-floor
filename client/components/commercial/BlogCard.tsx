@@ -1,6 +1,6 @@
-import React from "react";
-import { FaCalendarAlt } from "react-icons/fa";
-import { FaArrowRightLong } from "react-icons/fa6";
+import React from 'react';
+import { FaCalendarAlt } from 'react-icons/fa';
+import { FaArrowRightLong } from 'react-icons/fa6';
 
 export interface BlogPost {
   id: number;
@@ -21,11 +21,7 @@ interface BlogCardProps {
   handleReadMoreCard?: (slug?: string) => void;
 }
 
-const BlogCard: React.FC<BlogCardProps> = ({
-  post,
-  index,
-  handleReadMoreCard,
-}: BlogCardProps) => {
+const BlogCard: React.FC<BlogCardProps> = ({ post, index, handleReadMoreCard }: BlogCardProps) => {
   return (
     <div key={post.id}>
       <div className="relative h-[20rem] overflow-hidden">
@@ -52,9 +48,7 @@ const BlogCard: React.FC<BlogCardProps> = ({
           {post.title}
         </h3>
 
-        <p className="text-primaryGray text-sm mb-4 line-clamp-2">
-          {post.excerpt}
-        </p>
+        <p className="text-primaryGray text-sm mb-4 line-clamp-2">{post.excerpt}</p>
 
         <div
           onClick={() => handleReadMoreCard?.(post.slug)}

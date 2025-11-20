@@ -1,7 +1,7 @@
-"use client";
-import React from "react";
-import Image from "next/image";
-import { useRouter } from "next/navigation";
+'use client';
+import React from 'react';
+import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 
 interface CategoriesResidential {
   id: number;
@@ -11,39 +11,37 @@ interface CategoriesResidential {
 interface CategoriesResidentialProps {
   data: CategoriesResidential[];
 }
-export default function CategoriesResidential({
-  data,
-}: CategoriesResidentialProps) {
+export default function CategoriesResidential({ data }: CategoriesResidentialProps) {
   const categories = [
     {
       id: 1,
-      name: "Hardwood",
-      image: "/images/residential/category/hardWood.jpg",
+      name: 'Hardwood',
+      image: '/images/residential/category/hardWood.jpg',
     },
     {
       id: 2,
-      name: "Laminate",
-      image: "/images/residential/category/laminate.jpg",
+      name: 'Laminate',
+      image: '/images/residential/category/laminate.jpg',
     },
     {
       id: 3,
-      name: "Tile & Store",
-      image: "/images/residential/category/tile&store.jpg",
+      name: 'Tile & Store',
+      image: '/images/residential/category/tile&store.jpg',
     },
     {
       id: 4,
-      name: "Carpet",
-      image: "/images/residential/category/carpet.jpg",
+      name: 'Carpet',
+      image: '/images/residential/category/carpet.jpg',
     },
     {
       id: 5,
-      name: "Vinyl & LVT",
-      image: "/images/residential/category/vinyl.jpg",
+      name: 'Vinyl & LVT',
+      image: '/images/residential/category/vinyl.jpg',
     },
     {
       id: 6,
-      name: "Eco-Friendly Options",
-      image: "/images/residential/category/Eco.jpg",
+      name: 'Eco-Friendly Options',
+      image: '/images/residential/category/Eco.jpg',
     },
   ];
   const router = useRouter();
@@ -89,7 +87,7 @@ export default function CategoriesResidential({
                   onClick={() => handleCategoryDetail(categ)}
                 >
                   <div className="text-white text-lg font-bold align-middle ">
-                    {categ?.name || " "}
+                    {categ?.name || ' '}
                   </div>
                 </button>
               </div>

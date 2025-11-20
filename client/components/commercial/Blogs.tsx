@@ -1,10 +1,10 @@
-"use client";
-import Image from "next/image";
-import { FiArrowUpRight } from "react-icons/fi";
-import SectionHeader from "../common/SectionHeader";
-import ButtonCommon from "../ui/Button";
-import Link from "next/link";
-import { useParams, useRouter } from "next/navigation";
+'use client';
+import Image from 'next/image';
+import { FiArrowUpRight } from 'react-icons/fi';
+import SectionHeader from '../common/SectionHeader';
+import ButtonCommon from '../ui/Button';
+import Link from 'next/link';
+import { useParams, useRouter } from 'next/navigation';
 
 export default function FeaturedBlogs({ blogs, pagePath }: any) {
   const { heading, subheading, description, data }: any = blogs || {};

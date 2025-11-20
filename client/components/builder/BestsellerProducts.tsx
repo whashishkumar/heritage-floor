@@ -1,9 +1,9 @@
-"use client";
-import React from "react";
-import SectionHeader from "../common/SectionHeader";
-import ProductCard from "../common/Product";
-import { useRouter } from "next/navigation";
-import SwipeSlider from "../ui/SwipeSlider";
+'use client';
+import React from 'react';
+import SectionHeader from '../common/SectionHeader';
+import ProductCard from '../common/Product';
+import { useRouter } from 'next/navigation';
+import SwipeSlider from '../ui/SwipeSlider';
 
 export interface Product {
   id: number;
@@ -19,42 +19,42 @@ const products: Product[] = [
   {
     id: 1,
     name: 'Crain Disposable Cove Base Nozzle - 3"',
-    sku: "236",
-    brand: "Crain",
+    sku: '236',
+    brand: 'Crain',
     price: 4.95,
     discount: 20,
     rating: 4.4,
-    image: "/images/builder/pcrain.png",
+    image: '/images/builder/pcrain.png',
   },
   {
     id: 11,
     name: 'Crain Disposable Cove Base Nozzle - 3"',
-    sku: "236",
-    brand: "Crain",
+    sku: '236',
+    brand: 'Crain',
     price: 4.95,
     discount: 20,
     rating: 4.4,
-    image: "/images/builder/p01.png",
+    image: '/images/builder/p01.png',
   },
   {
     id: 12,
     name: 'Crain Disposable Cove Base Nozzle - 3"',
-    sku: "236",
-    brand: "Crain",
+    sku: '236',
+    brand: 'Crain',
     price: 4.95,
     discount: 20,
     rating: 4.4,
-    image: "/images/builder/p02.png",
+    image: '/images/builder/p02.png',
   },
   {
     id: 121,
     name: 'Crain Disposable Cove Base Nozzle - 3"',
-    sku: "236",
-    brand: "Crain",
+    sku: '236',
+    brand: 'Crain',
     price: 4.95,
     discount: 20,
     rating: 4.4,
-    image: "/images/builder/p03.png",
+    image: '/images/builder/p03.png',
   },
 ];
 
@@ -84,15 +84,12 @@ const breakpoints = {
     spaceBetween: 25,
   },
 };
-export default function BestsellerProducts({
-  bestSellerProducts,
-  productHeader,
-}: any) {
+export default function BestsellerProducts({ bestSellerProducts, productHeader }: any) {
   const router = useRouter();
   const { data } = bestSellerProducts || [];
   const { heading, subHeading } = productHeader || {};
   const handleViewAllProducts = () => {
-    router.push("/builder/products");
+    router.push('/builder/products');
   };
 
   const handleGetProductDetail = (id: string) => {

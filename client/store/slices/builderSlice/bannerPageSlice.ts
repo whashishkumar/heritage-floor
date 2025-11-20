@@ -1,5 +1,5 @@
-import api from "@/lib/api/axios";
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import api from '@/lib/api/axios';
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
 interface builderBannerState {
   builderBanner?: [] | null;
@@ -21,17 +21,17 @@ export const fetchBuilderBannerPageInfo = createAsyncThunk<
   {
     rejectValue: string;
   }
->("builder/fetchBuilderBannerPageInfo", async (_, { rejectWithValue }) => {
+>('builder/fetchBuilderBannerPageInfo', async (_, { rejectWithValue }) => {
   try {
-    const response = await api.get("/builder/hero-section");
+    const response = await api.get('/builder/hero-section');
     return response.data;
   } catch (error: any) {
-    return rejectWithValue(error.response.data || "Fetch Banner Page Failed");
+    return rejectWithValue(error.response.data || 'Fetch Banner Page Failed');
   }
 });
 
 const builderBannerSlice = createSlice({
-  name: "builderBanner",
+  name: 'builderBanner',
   initialState,
   reducers: {
     resetUserState: (state) => {
@@ -54,7 +54,7 @@ const builderBannerSlice = createSlice({
     });
     builder.addCase(fetchBuilderBannerPageInfo.rejected, (state, action) => {
       state.loading = false;
-      state.error = action.payload || "Something went wrong";
+      state.error = action.payload || 'Something went wrong';
     });
   },
 });
