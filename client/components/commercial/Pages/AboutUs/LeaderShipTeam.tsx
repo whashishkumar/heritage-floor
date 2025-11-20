@@ -66,13 +66,13 @@ export function TeamCard({ item }: any) {
   const teamMember = `${process.env.NEXT_PUBLIC_IMAGE_PATH_WITHOUT_STORAGE}${item?.profile_image}`;
   return (
     <div className="relative overflow-hidden rounded-xl shadow-lg">
-      <Image
+ { teamMember &&    <Image
         src={teamMember}
-        alt={item.name}
+        alt={item.name || 'member'}
         width={600}
         height={800}
         className="w-full h-[600px] object-cover"
-      />
+      />}
       <div className="absolute bottom-0 left-0 w-full p-6 bg-gradient-to-t from-black/80 to-transparent">
         <h2 className="text-white text-2xl font-light tracking-widest uppercase">{item.title}</h2>
         <p className="text-gray-300 text-sm mt-1">{item.designation}</p>

@@ -1,16 +1,17 @@
 import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
-images: {
-  unoptimized: true,
-  remotePatterns: [
-    {
-      protocol: "https",
-      hostname: "heritagefloor.whdev.in",
-      pathname: "/**", 
-    },
-  ],
-},
+  images: {
+    unoptimized: true,
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'heritagefloor.whdev.in',
+        port: '',
+        pathname: '/**',
+      },
+    ],
+  },
 
   reactStrictMode: true,
   async rewrites() {
