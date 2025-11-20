@@ -1,18 +1,18 @@
-"use client";
-import { AuthValidation } from "@/lib/api/authincationEndPoints";
-import Image from "next/image";
-import { useRouter } from "next/navigation";
-import React, { useState } from "react";
-import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
+'use client';
+import { AuthValidation } from '@/lib/api/authincationEndPoints';
+import Image from 'next/image';
+import { useRouter } from 'next/navigation';
+import React, { useState } from 'react';
+import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai';
 
 export default function RegisterPage() {
   const router = useRouter();
   const [formData, setFormData] = useState({
-    first_name: "",
-    last_name: "",
-    email: "",
-    password: "",
-    password_confirmation: "",
+    first_name: '',
+    last_name: '',
+    email: '',
+    password: '',
+    password_confirmation: '',
   });
 
   const [showPassword, setShowPassword] = useState(false);
@@ -31,16 +31,16 @@ export default function RegisterPage() {
     e.preventDefault();
     try {
       const resp = await AuthValidation.regesterUser(formData);
-      if (resp.message !== "") {
+      if (resp.message !== '') {
         setFormData({
-          first_name: "",
-          last_name: "",
-          email: "",
-          password: "",
-          password_confirmation: "",
+          first_name: '',
+          last_name: '',
+          email: '',
+          password: '',
+          password_confirmation: '',
         });
         setStatus(null);
-        router.push("/residential");
+        router.push('/residential');
       }
     } catch (error: any) {
       setStatus(error?.errors?.errors);
@@ -67,16 +67,12 @@ export default function RegisterPage() {
           <h2 className="text-3xl font-semibold text-gray-800 text-center mb-2">
             Create an Account
           </h2>
-          <p className="text-gray-500 text-center mb-8">
-            Join us and explore more
-          </p>
+          <p className="text-gray-500 text-center mb-8">Join us and explore more</p>
 
           <form onSubmit={handleSubmit} className="space-y-5">
             {/* First Name */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                First Name
-              </label>
+              <label className="block text-sm font-medium text-gray-700 mb-1">First Name</label>
               <input
                 type="text"
                 name="first_name"
@@ -90,9 +86,7 @@ export default function RegisterPage() {
 
             {/* Last Name */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Last Name
-              </label>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Last Name</label>
               <input
                 type="text"
                 name="last_name"
@@ -106,9 +100,7 @@ export default function RegisterPage() {
 
             {/* Email */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Email
-              </label>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Email</label>
               <input
                 type="email"
                 name="email"
@@ -118,18 +110,14 @@ export default function RegisterPage() {
                 className="w-full border border-gray-300 rounded-lg p-3 outline-none focus:ring-2 focus:ring-[#018C99]"
                 required
               />
-              {status?.email && (
-                <p className="text-red-500 text-sm">{status?.email}</p>
-              )}
+              {status?.email && <p className="text-red-500 text-sm">{status?.email}</p>}
             </div>
 
             {/* Password */}
             <div className="relative">
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Password
-              </label>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Password</label>
               <input
-                type={showPassword ? "text" : "password"}
+                type={showPassword ? 'text' : 'password'}
                 name="password"
                 placeholder="Password"
                 value={formData.password}
@@ -141,11 +129,7 @@ export default function RegisterPage() {
                 className="absolute top-10 right-3 flex items-center cursor-pointer text-gray-500"
                 onClick={() => setShowPassword(!showPassword)}
               >
-                {showPassword ? (
-                  <AiFillEyeInvisible size={20} />
-                ) : (
-                  <AiFillEye size={20} />
-                )}
+                {showPassword ? <AiFillEyeInvisible size={20} /> : <AiFillEye size={20} />}
               </div>
             </div>
 
@@ -155,7 +139,7 @@ export default function RegisterPage() {
                 Confirm Password
               </label>
               <input
-                type={showConfirmPassword ? "text" : "password"}
+                type={showConfirmPassword ? 'text' : 'password'}
                 name="password_confirmation"
                 placeholder="Confirm Password"
                 value={formData.password_confirmation}
@@ -167,17 +151,11 @@ export default function RegisterPage() {
                 className="absolute top-10 right-3 flex items-center cursor-pointer text-gray-500"
                 onClick={() => setShowConfirmPassword(!showConfirmPassword)}
               >
-                {showConfirmPassword ? (
-                  <AiFillEyeInvisible size={20} />
-                ) : (
-                  <AiFillEye size={20} />
-                )}
+                {showConfirmPassword ? <AiFillEyeInvisible size={20} /> : <AiFillEye size={20} />}
               </div>
             </div>
             {status?.password && (
-              <p className="text-red-500 text-sm">
-                {status?.password?.map((err: any) => err)}
-              </p>
+              <p className="text-red-500 text-sm">{status?.password?.map((err: any) => err)}</p>
             )}
             {/* Submit */}
             <button

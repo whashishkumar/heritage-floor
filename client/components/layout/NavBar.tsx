@@ -1,45 +1,44 @@
-"use client";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { FaFacebookF, FaInstagram, FaWhatsapp } from "react-icons/fa";
-
+'use client';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+import { FaFacebookF, FaInstagram, FaWhatsapp } from 'react-icons/fa';
 
 const globalHeadData = [
   {
-    key: "Commercial",
-    dest: "/commercial",
-    path: "/commercial",
+    key: 'Commercial',
+    dest: '/commercial',
+    path: '/commercial',
   },
   {
-    key: "Residential",
-    dest: "/residential",
-    path: "/residential",
+    key: 'Residential',
+    dest: '/residential',
+    path: '/residential',
   },
   {
-    key: "Builder/Pro",
-    dest: "/builder",
-    path: "/builder",
+    key: 'Builder/Pro',
+    dest: '/builder',
+    path: '/builder',
   },
 ];
 
 const socialMediaData = [
   {
-    key: "Facebook",
-    dest: "https://facebook.com",
+    key: 'Facebook',
+    dest: 'https://facebook.com',
     icon: FaFacebookF,
-    label: "Visit our Facebook page",
+    label: 'Visit our Facebook page',
   },
   {
-    key: "WhatsApp",
-    dest: "https://wa.me/",
+    key: 'WhatsApp',
+    dest: 'https://wa.me/',
     icon: FaWhatsapp,
-    label: "Contact us on WhatsApp",
+    label: 'Contact us on WhatsApp',
   },
   {
-    key: "Instagram",
-    dest: "https://instagram.com",
+    key: 'Instagram',
+    dest: 'https://instagram.com',
     icon: FaInstagram,
-    label: "Follow us on Instagram",
+    label: 'Follow us on Instagram',
   },
 ];
 
@@ -48,9 +47,9 @@ export default function Navbar() {
 
   // Helper function to check if the current path matches or starts with the nav item path
   const isActive = (navPath: string) => {
-    if (navPath === "/commercial") {
+    if (navPath === '/commercial') {
       // For commercial, match exact root "/" or paths starting with "/commercial"
-      return pathname === "/" || pathname.startsWith("/commercial");
+      return pathname === '/' || pathname.startsWith('/commercial');
     }
     return pathname.startsWith(navPath);
   };
@@ -59,22 +58,18 @@ export default function Navbar() {
     <nav className="w-full bg-primaryTwo h-[3.125rem] justify-center flex items-center z-50 sticky top-0 transition-all duration-300 shadow-md">
       <div className="wrapper flex justify-between items-center w-full">
         {/* Left Menu */}
-        <div
-          className="flex items-center"
-          role="navigation"
-          aria-label="Main navigation"
-        >
+        <div className="flex items-center" role="navigation" aria-label="Main navigation">
           {globalHeadData.map((data, index) => {
             const isCurrentlyActive = isActive(data.path);
             return (
               <Link
                 key={data.key}
                 href={data.dest}
-                aria-current={isCurrentlyActive ? "page" : undefined}
+                aria-current={isCurrentlyActive ? 'page' : undefined}
                 className={`px-3 h-[3.125rem] flex items-center font-medium text-sm min-[440px]:text-base sm:text-lg transition-all duration-300 ${
                   isCurrentlyActive
-                    ? "bg-white text-primaryTwo"
-                    : "text-white hover:bg-white hover:text-primaryTwo mb-[2px]"
+                    ? 'bg-white text-primaryTwo'
+                    : 'text-white hover:bg-white hover:text-primaryTwo mb-[2px]'
                 }`}
               >
                 {data.key}

@@ -1,10 +1,5 @@
-import {
-  apiFetch,
-  apiFetchBatch,
-  apiFetchWithResponse,
-  apiPost,
-} from "./fetcher";
-import type { PaginatedResponse } from "./types";
+import { apiFetch, apiFetchBatch, apiFetchWithResponse, apiPost } from './fetcher';
+import type { PaginatedResponse } from './types';
 
 // Product APIs
 // export const productAPI = {
@@ -171,72 +166,72 @@ import type { PaginatedResponse } from "./types";
 export const pageAPI = {
   getAboutUs: () =>
     apiFetch({
-      endpoint: "/pages/about-us",
-      cache: "static",
-      tags: ["pages", "about-us"],
+      endpoint: '/pages/about-us',
+      cache: 'static',
+      tags: ['pages', 'about-us'],
     }),
 
   getAboutUsInner: () =>
     apiFetch({
-      endpoint: "/aboutsection",
-      cache: "static",
-      tags: ["pages", "about-section"],
+      endpoint: '/aboutsection',
+      cache: 'static',
+      tags: ['pages', 'about-section'],
     }),
 
   getContact: () =>
     apiFetch({
-      endpoint: "/contactad",
-      cache: "static",
-      tags: ["pages", "contact"],
+      endpoint: '/contactad',
+      cache: 'static',
+      tags: ['pages', 'contact'],
     }),
 
   getServices: () =>
     apiFetch({
-      endpoint: "/pages/services",
-      cache: "static",
-      tags: ["pages", "services"],
+      endpoint: '/pages/services',
+      cache: 'static',
+      tags: ['pages', 'services'],
     }),
 
   getPcdOpportunity: () =>
     apiFetch({
-      endpoint: "/site-options/pcd-franchise",
-      cache: "static",
-      tags: ["pages", "pcd"],
+      endpoint: '/site-options/pcd-franchise',
+      cache: 'static',
+      tags: ['pages', 'pcd'],
     }),
 
   getCareer: () =>
     apiFetch({
-      endpoint: "/pages/career",
-      cache: "static",
-      tags: ["pages", "career"],
+      endpoint: '/pages/career',
+      cache: 'static',
+      tags: ['pages', 'career'],
     }),
 
   getTerms: () =>
     apiFetch({
-      endpoint: "/pages/terms-and-conditions",
-      cache: "static",
-      tags: ["pages", "terms"],
+      endpoint: '/pages/terms-and-conditions',
+      cache: 'static',
+      tags: ['pages', 'terms'],
     }),
 
   getHowWeWork: () =>
     apiFetch({
-      endpoint: "/pages/how-we-work",
-      cache: "static",
-      tags: ["pages", "how-we-work"],
+      endpoint: '/pages/how-we-work',
+      cache: 'static',
+      tags: ['pages', 'how-we-work'],
     }),
 
   getFaqs: () =>
     apiFetch({
-      endpoint: "/faqs",
-      cache: "static",
-      tags: ["pages", "faqs"],
+      endpoint: '/faqs',
+      cache: 'static',
+      tags: ['pages', 'faqs'],
     }),
 };
 
 // Form submission API (POST example)
 export const formAPI = {
   submitContact: (data: { name: string; email: string; message: string }) =>
-    apiPost("/contact", data),
-  submitInquiry: (data: any) => apiPost("/inquiry", data),
-  subscribe: (email: string) => apiPost("/newsletter/subscribe", { email }),
+    apiPost('/contact', data),
+  submitInquiry: (data: any) => apiPost('/inquiry', data),
+  subscribe: (email: string) => apiPost('/newsletter/subscribe', { email }),
 };

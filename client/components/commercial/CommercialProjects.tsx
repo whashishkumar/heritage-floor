@@ -55,12 +55,12 @@
 //   );
 // }
 
-"use client";
-import { useState } from "react";
-import SectionHeader from "../common/SectionHeader";
-import ButtonCommon from "../ui/Button";
-import Image from "next/image";
-import ModalBox from "../ui/ModalBox";
+'use client';
+import { useState } from 'react';
+import SectionHeader from '../common/SectionHeader';
+import ButtonCommon from '../ui/Button';
+import Image from 'next/image';
+import ModalBox from '../ui/ModalBox';
 
 export default function MajorProjectsResidential() {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -69,18 +69,18 @@ export default function MajorProjectsResidential() {
   const videoData = [
     {
       id: 1,
-      gif: "/gif/mp1.gif",
-      video: "/videos/glimps1.mp4",
+      gif: '/gif/mp1.gif',
+      video: '/videos/glimps1.mp4',
     },
     {
       id: 2,
-      gif: "/gif/mp2.gif",
-      video: "/videos/glimps2.mp4",
+      gif: '/gif/mp2.gif',
+      video: '/videos/glimps2.mp4',
     },
     {
       id: 3,
-      gif: "/gif/mp3.gif",
-      video: "/videos/glimps3.mp4",
+      gif: '/gif/mp3.gif',
+      video: '/videos/glimps3.mp4',
     },
   ];
 

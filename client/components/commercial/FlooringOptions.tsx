@@ -1,51 +1,51 @@
-import SectionHeader from "../common/SectionHeader";
-import Image from "next/image";
-import FlooringOptionsCard from "./FlooringOptionCard";
-import FlooringOptionSlider from "./FlooringOptionSlider";
-import FlooringTeamSlider from "./FlooringOptionSlider";
+import SectionHeader from '../common/SectionHeader';
+import Image from 'next/image';
+import FlooringOptionsCard from './FlooringOptionCard';
+import FlooringOptionSlider from './FlooringOptionSlider';
+import FlooringTeamSlider from './FlooringOptionSlider';
 export default async function FlooringOptionsCommercial() {
   const teamMembers = [
     {
-      name: "Nav Brar",
-      designation: "Director",
-      email: "Nbrar@Gtaflooringcanada.Ca",
-      image: "/images/commercial/flooringOptions/1.png",
-      bgColor: "bg-[#E5F3EC]", // replace with actual image path
+      name: 'Nav Brar',
+      designation: 'Director',
+      email: 'Nbrar@Gtaflooringcanada.Ca',
+      image: '/images/commercial/flooringOptions/1.png',
+      bgColor: 'bg-[#E5F3EC]', // replace with actual image path
     },
     {
-      name: "Mandy Brar",
-      designation: "Managing Director",
-      email: "Mandy@Gtaflooringcanada.Ca",
-      image: "/images/commercial/flooringOptions/2.png",
-      bgColor: "bg-[#F8E3E3]", // replace with actual image path
+      name: 'Mandy Brar',
+      designation: 'Managing Director',
+      email: 'Mandy@Gtaflooringcanada.Ca',
+      image: '/images/commercial/flooringOptions/2.png',
+      bgColor: 'bg-[#F8E3E3]', // replace with actual image path
     },
     {
-      name: "Vikram Brar",
-      designation: "Marketing Manager",
-      email: "Vbrar@Gtaflooringcanada.Ca",
-      image: "/images/commercial/flooringOptions/3.png", // replace with actual image path
-      bgColor: "bg-[#E3EFF8]",
+      name: 'Vikram Brar',
+      designation: 'Marketing Manager',
+      email: 'Vbrar@Gtaflooringcanada.Ca',
+      image: '/images/commercial/flooringOptions/3.png', // replace with actual image path
+      bgColor: 'bg-[#E3EFF8]',
     },
     {
-      name: "Parm Gill",
-      designation: "Operations Manager",
-      email: "Pgill@Gtaflooringcanada.Ca",
-      image: "/images/commercial/flooringOptions/4.png", // replace with actual image path
-      bgColor: "bg-[#F8E3E3]",
+      name: 'Parm Gill',
+      designation: 'Operations Manager',
+      email: 'Pgill@Gtaflooringcanada.Ca',
+      image: '/images/commercial/flooringOptions/4.png', // replace with actual image path
+      bgColor: 'bg-[#F8E3E3]',
     },
     {
-      name: "Nav Brar",
-      designation: "Director",
-      email: "Nbrar@Gtaflooringcanada.Ca",
-      image: "/images/commercial/flooringOptions/1.png",
-      bgColor: "bg-[#E5F3EC]", // replace with actual image path
+      name: 'Nav Brar',
+      designation: 'Director',
+      email: 'Nbrar@Gtaflooringcanada.Ca',
+      image: '/images/commercial/flooringOptions/1.png',
+      bgColor: 'bg-[#E5F3EC]', // replace with actual image path
     },
     {
-      name: "Mandy Brar",
-      designation: "Managing Director",
-      email: "Mandy@Gtaflooringcanada.Ca",
-      image: "/images/commercial/flooringOptions/2.png",
-      bgColor: "bg-[#F8E3E3]", // replace with actual image path
+      name: 'Mandy Brar',
+      designation: 'Managing Director',
+      email: 'Mandy@Gtaflooringcanada.Ca',
+      image: '/images/commercial/flooringOptions/2.png',
+      bgColor: 'bg-[#F8E3E3]', // replace with actual image path
     },
   ];
 

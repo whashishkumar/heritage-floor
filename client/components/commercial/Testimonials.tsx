@@ -1,7 +1,7 @@
-"use client";
-import SectionHeader from "../common/SectionHeader";
-import AutoPlay from "../common/Slider";
-import TestimonialCard from "../ui/TestimonialCard";
+'use client';
+import SectionHeader from '../common/SectionHeader';
+import AutoPlay from '../common/Slider';
+import TestimonialCard from '../ui/TestimonialCard';
 
 const responsiveSettings = [
   {

@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import { useState } from "react";
-import { MdExpandLess } from "react-icons/md";
-import { GrFormDown } from "react-icons/gr";
+import { useState } from 'react';
+import { MdExpandLess } from 'react-icons/md';
+import { GrFormDown } from 'react-icons/gr';
 
 interface FAQItem {
   id?: number | string;
@@ -26,18 +26,13 @@ export default function Accordion({ faqs }: AccordionProps) {
   return (
     <div className="space-y-4 poppins-font">
       {faqs?.map((faq, idx) => (
-        <div
-          key={faq.id ?? idx}
-          className="border-b border-[#F1F1F1] mb-0 py-2"
-        >
+        <div key={faq.id ?? idx} className="border-b border-[#F1F1F1] mb-0 py-2">
           <button
             type="button"
             className="w-full flex justify-between items-center  py-2 text-left accordian-question hover:cursor-pointer"
             onClick={() => toggleAccordion(idx)}
           >
-            <span className="font-medium text-xl">
-              {faq.question || faq.title}
-            </span>
+            <span className="font-medium text-xl">{faq.question || faq.title}</span>
             {openIndex === idx ? (
               <MdExpandLess className="w-6 h-6" />
             ) : (
@@ -46,9 +41,7 @@ export default function Accordion({ faqs }: AccordionProps) {
           </button>
 
           {openIndex === idx && (
-            <div className="py-4 text-base font-normal">
-              {faq.answer || faq.description}
-            </div>
+            <div className="py-4 text-base font-normal">{faq.answer || faq.description}</div>
           )}
         </div>
       ))}

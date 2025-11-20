@@ -1,162 +1,103 @@
-"use client";
-import CheckboxGroup from "@/components/ui/CheckboxGroup";
-import CheckboxSingleSelector from "@/components/ui/CheckboxSingleSelector";
-import PriceRangeSelector from "@/components/ui/PriceRangeSelector";
-import Selector from "@/components/ui/Selector";
-import React from "react";
+'use client';
+import CheckboxGroup from '@/components/ui/CheckboxGroup';
+import CheckboxSingleSelector from '@/components/ui/CheckboxSingleSelector';
+import PriceRangeSelector from '@/components/ui/PriceRangeSelector';
+import Selector from '@/components/ui/Selector';
+import { ResidentailPageData } from '@/lib/api/residentialEndPoints';
+import React, { useEffect, useState } from 'react';
 
-const filterData = [
-  {
-    title: "Brand",
-    options: [
-      { id: 1, label: "Heritage", value: "heritage" },
-      { id: 2, label: "Elite Floors", value: "elite" },
-      { id: 3, label: "WoodWorks", value: "woodworks" },
-      { id: 4, label: "FloorCraft", value: "floorcraft" },
-    ],
-  },
-  {
-    title: "Collection",
-    options: [
-      { id: 5, label: "Classic", value: "classic" },
-      { id: 6, label: "Modern", value: "modern" },
-      { id: 7, label: "Luxury", value: "luxury" },
-      { id: 8, label: "Rustic", value: "rustic" },
-    ],
-  },
-  {
-    title: "Color",
-    options: [
-      { id: 9, label: "Oak Brown", value: "oak-brown" },
-      { id: 10, label: "Grey Ash", value: "grey-ash" },
-      { id: 11, label: "Natural Maple", value: "natural-maple" },
-      { id: 12, label: "Walnut", value: "walnut" },
-    ],
-  },
-  {
-    title: "Material",
-    options: [
-      { id: 13, label: "Engineered Wood", value: "engineered-wood" },
-      { id: 14, label: "Solid Wood", value: "solid-wood" },
-      { id: 15, label: "Laminate", value: "laminate" },
-      { id: 16, label: "Vinyl", value: "vinyl" },
-      { id: 17, label: "SPC (Stone Plastic Composite)", value: "spc" },
-    ],
-  },
-  {
-    title: "Looks",
-    options: [
-      { id: 18, label: "Matte Finish", value: "matte" },
-      { id: 19, label: "Glossy Finish", value: "glossy" },
-      { id: 20, label: "Textured", value: "textured" },
-      { id: 21, label: "Rustic Finish", value: "rustic-finish" },
-    ],
-  },
-  {
-    title: "Ply Rating",
-    options: [
-      { id: 22, label: "3-Ply", value: "3-ply" },
-      { id: 23, label: "5-Ply", value: "5-ply" },
-      { id: 24, label: "7-Ply", value: "7-ply" },
-      { id: 25, label: "9-Ply", value: "9-ply" },
-    ],
-  },
-  {
-    title: "Collection Name",
-    options: [
-      { id: 26, label: "Vintage Charm", value: "vintage-charm" },
-      { id: 27, label: "Urban Edge", value: "urban-edge" },
-      { id: 28, label: "Coastal Breeze", value: "coastal-breeze" },
-      { id: 29, label: "Nature Essence", value: "nature-essence" },
-    ],
-  },
-  {
-    title: "Edge Type",
-    options: [
-      { id: 30, label: "Square Edge", value: "square-edge" },
-      { id: 31, label: "Beveled Edge", value: "beveled-edge" },
-      { id: 32, label: "Micro Bevel", value: "micro-bevel" },
-      { id: 33, label: "Rolled Edge", value: "rolled-edge" },
-    ],
-  },
-  {
-    title: "Availability",
-    options: [
-      { id: 34, label: "In Stock", value: "in-stock" },
-      { id: 35, label: "Out of Stock", value: "out-of-stock" },
-      { id: 36, label: "Pre-Order", value: "pre-order" },
-    ],
-  },
-];
+interface Option {
+  id: number | string;
+  label: string;
+  value: string;
+}
+interface FilterGroup {
+  title: string;
+  code: string;
+  options: Option[];
+}
 
 const sortOptions = [
-  { label: "Relevance", value: "relevance" },
-  { label: "Price: Low to High", value: "low_to_high" },
-  { label: "Price: High to Low", value: "high_to_low" },
-  { label: "Newest First", value: "newest" },
-];
-
-const filterDataSilgleSelect = [
-  {
-    title: "Product Types",
-    options: [
-      { id: 1, label: "Ceramic Tiles", value: "ceramic" },
-      { id: 2, label: "Porcelain Tiles", value: "porcelain" },
-      { id: 3, label: "Vitrified Tiles", value: "vitrified" },
-      { id: 4, label: "Mosaic Tiles", value: "mosaic" },
-      { id: 5, label: "Stone Tiles", value: "stone" },
-      { id: 6, label: "Cement Tiles", value: "cement" },
-    ],
-  },
+  { label: 'Relevance', value: 'relevance' },
+  { label: 'Price: Low to High', value: 'low_to_high' },
+  { label: 'Price: High to Low', value: 'high_to_low' },
+  { label: 'Newest First', value: 'newest' },
 ];
 
 const accOptions = [
-  { label: "Acc", value: "acc" },
-  { label: "Dec", value: "dec" },
+  { label: 'Acc', value: 'acc' },
+  { label: 'Dec', value: 'dec' },
 ];
 
-export default function SideBar() {
-  const handlePriceChange = (range: { min: number; max: number }) => {
-    console.log("Selected Price Range:", range);
+interface SideBarProps {
+  handleSortChange?: (value: string | number) => void;
+  handleSelectionChange?: (filters: Record<string, string[]>) => void;
+  handlePriceBaseFilter?: (value: any) => void;
+  handleAllClearFilter?: (value: any) => void;
+}
+
+export default function SideBar({
+  handleSortChange,
+  handleSelectionChange,
+  handlePriceBaseFilter,
+  handleAllClearFilter,
+}: SideBarProps) {
+  const [filterList, setFilterList] = useState<FilterGroup[]>([]);
+  const [mobilePriceSort, setMobilePriceSort] = useState<any>(null);
+  const [mobileOrder, setMobileOrder] = useState<any>(null);
+
+  const getFiltersList = async () => {
+    const { data } = await ResidentailPageData.getProductFiltersList();
+    setFilterList(data);
   };
 
-  const handleSelectionChange = (filters: Record<string, string[]>) => {
-    console.log("Selected values:", filters);
+  const handleMobilePriceChange = (value: any) => {
+    setMobilePriceSort(value);
+    handlePriceBaseFilter?.(value);
   };
 
-  const handleSingleSelectionChange = (
-    filters: Record<string, string | null>
-  ) => {
-    console.log("Single selected values:", filters);
+  const handleMobileOrderChange = (value: string | number) => {
+    setMobileOrder(value);
+    handleSortChange?.(value);
   };
 
-  const handleSortChange = (value: string | number) => {
-    console.log("Selected:", value);
+  const handleClearAllFilters = () => {
+    setMobilePriceSort(null);
+    setMobileOrder(null);
+    handleAllClearFilter?.(null);
   };
+
+  useEffect(() => {
+    getFiltersList();
+  }, []);
 
   return (
     <div>
       <div className="w-full grid grid-cols-2 font-bold py-2 text-[#5A5A5A] capitalize font-xl ">
         <p>Filters:</p>
-        <p className="text-right cursor-pointer">Clear All</p>
+        <button className="text-right cursor-pointer capitalize" onClick={handleClearAllFilters}>
+          Clear All
+        </button>
       </div>
       <div className="block md:hidden mb-[1rem]">
         <Selector
           label="Sort By"
           options={sortOptions}
           placeholder="Price"
-          onChange={handleSortChange}
+          value={mobilePriceSort}
+          onChange={handleMobilePriceChange}
         />
       </div>
       <div className="block md:hidden mb-[1rem]">
         <Selector
-          label="Sort By"
+          label="Order"
           options={accOptions}
           placeholder="Order"
-          onChange={handleSortChange}
+          value={mobileOrder}
+          onChange={handleMobileOrderChange}
         />
       </div>
-      <PriceRangeSelector
+      {/* <PriceRangeSelector
         min={100}
         max={50000}
         step={500}
@@ -165,8 +106,8 @@ export default function SideBar() {
       <CheckboxSingleSelector
         onChange={handleSingleSelectionChange}
         data={filterDataSilgleSelect}
-      />
-      <CheckboxGroup onChange={handleSelectionChange} data={filterData} />
+      /> */}
+      {filterList && <CheckboxGroup onChange={handleSelectionChange} data={filterList} />}
     </div>
   );
 }

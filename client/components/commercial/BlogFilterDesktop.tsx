@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 
 interface DesktopBlogFilterProps {
   categories: string[];
@@ -26,8 +26,8 @@ const DesktopBlogFilter: React.FC<DesktopBlogFilterProps> = ({
           onClick={() => CategoryBaseArticles(category)}
           className={`px-6 py-2.5 rounded-full font-medium whitespace-nowrap transition-all ${
             selectedCategory === category
-              ? "bg-gray-900 text-white shadow-lg scale-105"
-              : "bg-gray-100 text-darkBlue hover:bg-gray-200"
+              ? 'bg-gray-900 text-white shadow-lg scale-105'
+              : 'bg-gray-100 text-darkBlue hover:bg-gray-200'
           }`}
         >
           {category.name}

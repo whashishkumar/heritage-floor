@@ -1,30 +1,29 @@
-"use client";
-import React, { useState, useEffect } from "react";
-import { FaCalendarAlt, FaRegClock } from "react-icons/fa";
-import { CiUser } from "react-icons/ci";
-import { FiShare2 } from "react-icons/fi";
-import { LuFacebook } from "react-icons/lu";
-import { RiTwitterXLine } from "react-icons/ri";
-import { FiLinkedin } from "react-icons/fi";
-import { CiMail } from "react-icons/ci";
-import { MdChevronRight } from "react-icons/md";
-import { LuMessageSquare } from "react-icons/lu";
-import { FaArrowLeftLong } from "react-icons/fa6";
-import Image from "next/image";
-import BlogCard from "@/components/commercial/BlogCard";
-import TableOfContents from "./Blog/TableOfContent";
-import { useRouter } from "next/navigation";
+'use client';
+import React, { useState, useEffect } from 'react';
+import { FaCalendarAlt, FaRegClock } from 'react-icons/fa';
+import { CiUser } from 'react-icons/ci';
+import { FiShare2 } from 'react-icons/fi';
+import { LuFacebook } from 'react-icons/lu';
+import { RiTwitterXLine } from 'react-icons/ri';
+import { FiLinkedin } from 'react-icons/fi';
+import { CiMail } from 'react-icons/ci';
+import { MdChevronRight } from 'react-icons/md';
+import { LuMessageSquare } from 'react-icons/lu';
+import { FaArrowLeftLong } from 'react-icons/fa6';
+import Image from 'next/image';
+import BlogCard from '@/components/commercial/BlogCard';
+import TableOfContents from './Blog/TableOfContent';
+import { useRouter } from 'next/navigation';
 
 const BlogDetail = ({ blogsDetail, slugPath }: any) => {
   const router = useRouter();
-  const [activeSection, setActiveSection] = useState("");
+  const [activeSection, setActiveSection] = useState('');
   const [scrollProgress, setScrollProgress] = useState(0);
   const [tableOfContents, setTableOfContents] = useState<
     { id: string; title: string; level: number }[]
   >([]);
   const { related, data } = blogsDetail;
-  const { author, category, date, excerpt, image, readTime, title, tags } =
-    data || {};
+  const { author, category, date, excerpt, image, readTime, title, tags } = data || {};
 
   const content = `<article class="blog-article">
   <h2>Introduction to Tile Textures</h2>
@@ -120,20 +119,20 @@ const BlogDetail = ({ blogsDetail, slugPath }: any) => {
 
   useEffect(() => {
     // Parse HTML string
-    const tempDiv = document.createElement("div");
+    const tempDiv = document.createElement('div');
     tempDiv.innerHTML = content;
 
-    const headings = Array.from(tempDiv.querySelectorAll("h2, h3"));
+    const headings = Array.from(tempDiv.querySelectorAll('h2, h3'));
     const tocItems = headings.map((heading) => {
-      const title = heading.textContent?.trim() || "";
+      const title = heading.textContent?.trim() || '';
       const id = title
         .toLowerCase()
-        .replace(/[^\w]+/g, "-") // create slug-like id
-        .replace(/^-|-$/g, ""); // trim - from start/end
-      const level = heading.tagName === "H2" ? 2 : 3;
+        .replace(/[^\w]+/g, '-') // create slug-like id
+        .replace(/^-|-$/g, ''); // trim - from start/end
+      const level = heading.tagName === 'H2' ? 2 : 3;
 
       // Assign the id directly in the actual content DOM element
-      heading.setAttribute("id", id);
+      heading.setAttribute('id', id);
 
       return { id, title, level };
     });
@@ -145,13 +144,12 @@ const BlogDetail = ({ blogsDetail, slugPath }: any) => {
 
   useEffect(() => {
     const handleScroll = () => {
-      const totalHeight =
-        document.documentElement.scrollHeight - window.innerHeight;
+      const totalHeight = document.documentElement.scrollHeight - window.innerHeight;
       const progress = (window.scrollY / totalHeight) * 100;
       setScrollProgress(progress);
 
       // Update active section based on scroll position
-      const sections = document.querySelectorAll("h2[id]");
+      const sections = document.querySelectorAll('h2[id]');
       sections.forEach((section) => {
         const rect = section.getBoundingClientRect();
         if (rect.top <= 150 && rect.bottom >= 150) {
@@ -160,54 +158,54 @@ const BlogDetail = ({ blogsDetail, slugPath }: any) => {
       });
     };
 
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   const tableOfContent = [
-    { id: "introduction", title: "Introduction to Tile Textures" },
-    { id: "science", title: "The Science Behind Textures" },
-    { id: "types", title: "Types of Tile Textures" },
-    { id: "commercial", title: "Commercial Applications" },
-    { id: "selection", title: "Selection Guide" },
-    { id: "maintenance", title: "Maintenance Tips" },
+    { id: 'introduction', title: 'Introduction to Tile Textures' },
+    { id: 'science', title: 'The Science Behind Textures' },
+    { id: 'types', title: 'Types of Tile Textures' },
+    { id: 'commercial', title: 'Commercial Applications' },
+    { id: 'selection', title: 'Selection Guide' },
+    { id: 'maintenance', title: 'Maintenance Tips' },
   ];
 
   const relatedPosts = [
     {
       id: 1,
-      title: "Tile Tips: The Science of Tile Texture",
+      title: 'Tile Tips: The Science of Tile Texture',
       excerpt:
-        "Discover how tile texture impacts both aesthetics and functionality in your commercial spaces. Learn about the latest innovations in tile design.",
-      image: "/images/commercial/blog/1.png",
-      category: "Product Guides",
-      date: "October 25, 2025",
-      readTime: "5 min read",
-      author: "Sarah Johnson",
+        'Discover how tile texture impacts both aesthetics and functionality in your commercial spaces. Learn about the latest innovations in tile design.',
+      image: '/images/commercial/blog/1.png',
+      category: 'Product Guides',
+      date: 'October 25, 2025',
+      readTime: '5 min read',
+      author: 'Sarah Johnson',
       featured: true,
     },
     {
       id: 2,
-      title: "Ready To Revamp Your House With Pantone Colours of 2025?",
+      title: 'Ready To Revamp Your House With Pantone Colours of 2025?',
       excerpt:
         "Explore how this year's trending colors can transform your flooring choices and create stunning interior designs.",
-      image: "/images/commercial/blog/2.png",
-      category: "Design Trends",
-      date: "October 22, 2025",
-      readTime: "7 min read",
-      author: "Michael Chen",
+      image: '/images/commercial/blog/2.png',
+      category: 'Design Trends',
+      date: 'October 22, 2025',
+      readTime: '7 min read',
+      author: 'Michael Chen',
     },
     {
       id: 3,
-      title: "Sustainable Flooring: The Future of Commercial Spaces",
+      title: 'Sustainable Flooring: The Future of Commercial Spaces',
       excerpt:
         "Learn about eco-friendly flooring options that don't compromise on style or durability for your business.",
-      image: "/images/commercial/blog/3.png",
-      category: "Industry News",
-      date: "October 18, 2025",
+      image: '/images/commercial/blog/3.png',
+      category: 'Industry News',
+      date: 'October 18, 2025',
 
-      readTime: "6 min read",
-      author: "Emma Williams",
+      readTime: '6 min read',
+      author: 'Emma Williams',
     },
   ];
 
@@ -227,7 +225,7 @@ const BlogDetail = ({ blogsDetail, slugPath }: any) => {
       const offset = 100;
       const elementPosition = element.getBoundingClientRect().top;
       const offsetPosition = elementPosition + window.scrollY - offset;
-      window.scrollTo({ top: offsetPosition, behavior: "smooth" });
+      window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
     }
   };
 
@@ -270,7 +268,7 @@ const BlogDetail = ({ blogsDetail, slugPath }: any) => {
         <div className="wrapper mx-auto px-4 sm:px-6 lg:px-8 py-12">
           <div className="mb-6">
             <span className="inline-block px-4 py-1.5 bg-primaryTwo/10 text-primaryTwo text-base font-medium rounded-full ">
-              {category || "Design Trends"}
+              {category || 'Design Trends'}
             </span>
           </div>
 
@@ -278,14 +276,12 @@ const BlogDetail = ({ blogsDetail, slugPath }: any) => {
             {title}
           </h1>
 
-          <p className="text-xl text-primaryGray mb-8 leading-relaxed">
-            {excerpt}
-          </p>
+          <p className="text-xl text-primaryGray mb-8 leading-relaxed">{excerpt}</p>
 
           <div className="flex flex-wrap items-center gap-6 text-primaryGray mb-8">
             <div className="flex items-center gap-2">
               <CiUser className="w-5 h-5" />
-              <span className="font-medium">{author || "Sarah Mitchell"}</span>
+              <span className="font-medium">{author || 'Sarah Mitchell'}</span>
             </div>
             <div className="flex items-center gap-2">
               <FaCalendarAlt className="w-5 h-5" />
@@ -293,15 +289,13 @@ const BlogDetail = ({ blogsDetail, slugPath }: any) => {
             </div>
             <div className="flex items-center gap-2">
               <FaRegClock className="w-5 h-5" />
-              <span>{readTime || "8 min read"}</span>
+              <span>{readTime || '8 min read'}</span>
             </div>
           </div>
 
           {/* Social Share */}
           <div className="flex items-center gap-3 pb-8 border-b border-[#e8e8e8]">
-            <span className="text-sm font-medium text-gray-600">
-              Socila Links:
-            </span>
+            <span className="text-sm font-medium text-gray-600">Socila Links:</span>
             <button className="p-2 hover:bg-blue-50 rounded-full transition-colors">
               <LuFacebook className="w-5 h-5 text-darkBlue" />
             </button>
@@ -396,13 +390,10 @@ const BlogDetail = ({ blogsDetail, slugPath }: any) => {
 
         {/* CTA Section */}
         <div className="mt-12 p-8 bg-gray-900 rounded-xl text-white">
-          <h3 className="text-2xl font-bold mb-4">
-            Ready to Transform Your Space?
-          </h3>
+          <h3 className="text-2xl font-bold mb-4">Ready to Transform Your Space?</h3>
           <p className="text-gray-300 mb-6">
-            Explore our extensive collection of textured tiles or consult with
-            our design experts to find the perfect solution for your commercial
-            project.
+            Explore our extensive collection of textured tiles or consult with our design experts to
+            find the perfect solution for your commercial project.
           </p>
           <button className="px-8 py-3 bg-primaryTwo hover:bg-primaryOne rounded-lg font-semibold transition-colors cursor-pointer">
             Browse Our Collection
@@ -411,20 +402,14 @@ const BlogDetail = ({ blogsDetail, slugPath }: any) => {
 
         {/* Related Posts */}
         <div className="mt-16">
-          <h2 className="text-3xl font-bold text-darkBlue mb-8">
-            Related Articles
-          </h2>
+          <h2 className="text-3xl font-bold text-darkBlue mb-8">Related Articles</h2>
           <div className="lg:grid  lg:grid-cols-3 gap-8">
             {related?.map((post: any, index: any) => (
               <div
                 className="group bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 cursor-pointer"
                 key={index}
               >
-                <BlogCard
-                  post={post}
-                  index={index}
-                  handleReadMoreCard={handleReadMoreCard}
-                />
+                <BlogCard post={post} index={index} handleReadMoreCard={handleReadMoreCard} />
               </div>
             ))}
           </div>

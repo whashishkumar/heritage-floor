@@ -1,8 +1,8 @@
-import HeaderTopBar from "../HeaderTopBar";
-import HeaderMainBar from "../HeaderMain";
-import HeaderMegaMenu from "../HeaderMegaMenu";
-import ThinBanner from "../ThinBanner";
-import Header from "../Untitled-1";
+import HeaderTopBar from '../HeaderTopBar';
+import HeaderMainBar from '../HeaderMain';
+import HeaderMegaMenu from '../HeaderMegaMenu';
+import ThinBanner from '../ThinBanner';
+import Header from '../Untitled-1';
 
 export default async function Navbar() {
   return (

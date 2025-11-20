@@ -1,37 +1,37 @@
-import Image from "next/image";
-import SectionHeader from "../../../common/SectionHeader";
-import SwipeSlider from "../../../ui/SwipeSlider";
+import Image from 'next/image';
+import SectionHeader from '../../../common/SectionHeader';
+import SwipeSlider from '../../../ui/SwipeSlider';
 
 const teamData = [
   {
     id: 1,
-    name: "UAE GOLDEN VISA BENEFITS",
-    role: "Real estate investments in Dubai can grant you long-term residency and exclusive Golden Visa benefits.",
-    image: "/images/commercial/why/why01.webp",
+    name: 'UAE GOLDEN VISA BENEFITS',
+    role: 'Real estate investments in Dubai can grant you long-term residency and exclusive Golden Visa benefits.',
+    image: '/images/commercial/why/why01.webp',
   },
   {
     id: 2,
-    name: "UAE GOLDEN VISA BENEFITS",
-    role: "Real estate investments in Dubai can grant you long-term residency and exclusive Golden Visa benefits.",
-    image: "/images/commercial/why/why02.webp",
+    name: 'UAE GOLDEN VISA BENEFITS',
+    role: 'Real estate investments in Dubai can grant you long-term residency and exclusive Golden Visa benefits.',
+    image: '/images/commercial/why/why02.webp',
   },
   {
     id: 3,
-    name: "UAE GOLDEN VISA BENEFITS",
-    role: "Real estate investments in Dubai can grant you long-term residency and exclusive Golden Visa benefits.",
-    image: "/images/commercial/why/why03.webp",
+    name: 'UAE GOLDEN VISA BENEFITS',
+    role: 'Real estate investments in Dubai can grant you long-term residency and exclusive Golden Visa benefits.',
+    image: '/images/commercial/why/why03.webp',
   },
   {
     id: 4,
-    name: "UAE GOLDEN VISA BENEFITS",
-    role: "Real estate investments in Dubai can grant you long-term residency and exclusive Golden Visa benefits.",
-    image: "/images/commercial/why/why02.webp",
+    name: 'UAE GOLDEN VISA BENEFITS',
+    role: 'Real estate investments in Dubai can grant you long-term residency and exclusive Golden Visa benefits.',
+    image: '/images/commercial/why/why02.webp',
   },
   {
     id: 5,
-    name: "UAE GOLDEN VISA BENEFITS",
-    role: "Real estate investments in Dubai can grant you long-term residency and exclusive Golden Visa benefits.",
-    image: "/images/commercial/why/why01.webp",
+    name: 'UAE GOLDEN VISA BENEFITS',
+    role: 'Real estate investments in Dubai can grant you long-term residency and exclusive Golden Visa benefits.',
+    image: '/images/commercial/why/why01.webp',
   },
 ];
 
@@ -71,9 +71,7 @@ export function TeamCard({ item }: any) {
         <div className="absolute inset-0 bg-black/20"></div>
       </div>
       <div className="absolute bottom-0 left-0 w-full p-6 bg-gradient-to-t from-black/80 to-transparent">
-        <h2 className="text-white text-3xl  tracking-widest uppercase font-bold">
-          {item.name}
-        </h2>
+        <h2 className="text-white text-3xl  tracking-widest uppercase font-bold">{item.name}</h2>
         <p className="text-gray-300 text-sm mt-1 font-bold">{item.role}</p>
       </div>
     </div>
@@ -107,8 +105,8 @@ export default function OurWorld() {
             speed={8000}
             breakpoints={breakpoints}
           >
-            {teamData.map((member) => (
-              <TeamCard key={member.id} item={member} />
+            {teamData.map((member, idx) => (
+              <TeamCard key={`item-${Date.now()}-${idx}`} item={member} />
             ))}
           </SwipeSlider>
         </div>

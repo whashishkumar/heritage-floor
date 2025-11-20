@@ -1,5 +1,5 @@
-import BlogPage from "@/components/commercial/BlogPage";
-import { CommonComponentData } from "@/lib/api/commonEndPoints";
+import BlogPage from '@/components/commercial/BlogPage';
+import { CommonComponentData } from '@/lib/api/commonEndPoints';
 
 export default async function Blogs() {
   const blogs = await CommonComponentData?.getOurBlogs(1);
@@ -7,11 +7,7 @@ export default async function Blogs() {
 
   return (
     <>
-      <BlogPage
-        blogs={blogs}
-        featuredBlogs={featuredBlogs}
-        slugPath={"commercial"}
-      />
+      <BlogPage blogs={blogs} featuredBlogs={featuredBlogs} slugPath={'commercial'} />
     </>
   );
 }

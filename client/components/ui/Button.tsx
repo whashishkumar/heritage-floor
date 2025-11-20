@@ -1,5 +1,5 @@
-import Image from "next/image";
-import Link from "next/link";
+import Image from 'next/image';
+import Link from 'next/link';
 
 interface Button {
   buttonName: string;
@@ -21,12 +21,9 @@ export default function ButtonCommon({
 }: Button) {
   return (
     <>
-      <button
-        className=" cursor-pointer text-white inter-font"
-        onClick={onClick}
-      >
+      <button className=" cursor-pointer text-white inter-font" onClick={onClick}>
         <Link
-          href={link ? link : ""}
+          href={link ? link : ''}
           className={`h-[3.625rem] ${cssParent} w-[16rem] flex bg-black rounded-l-[5px] rounded-r-[5px] hover:scale-105 transition ease-in-out duration-300`}
         >
           <div
@@ -38,14 +35,7 @@ export default function ButtonCommon({
             className={`w-[25%] h-full bg-[#018c99] ${cssChild} flex items-center justify-center rounded-r-[5px]`}
           >
             <div className=" relative h-[.75rem] w-[.75rem] ">
-              {image && (
-                <Image
-                  src={image}
-                  alt={buttonName}
-                  fill
-                  className=" object-center "
-                />
-              )}
+              {image && <Image src={image} alt={buttonName} fill className=" object-center " />}
             </div>
           </div>
         </Link>

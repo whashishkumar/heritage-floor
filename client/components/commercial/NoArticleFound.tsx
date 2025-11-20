@@ -1,5 +1,5 @@
-import React from "react";
-import { LuSearch } from "react-icons/lu";
+import React from 'react';
+import { LuSearch } from 'react-icons/lu';
 
 interface NoResultsProps {
   title?: string;
@@ -7,7 +7,7 @@ interface NoResultsProps {
 }
 
 const NoResults: React.FC<NoResultsProps> = ({
-  title = "No articles found",
+  title = 'No articles found',
   message = "Try adjusting your search or filter to find what you're looking for.",
 }) => {
   return (

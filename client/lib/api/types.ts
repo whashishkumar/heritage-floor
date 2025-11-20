@@ -1,4 +1,4 @@
-export type CacheStrategy = "static" | "dynamic" | "realtime" | "no-store";
+export type CacheStrategy = 'static' | 'dynamic' | 'realtime' | 'no-store';
 
 export interface FetchOptions {
   endpoint: string;

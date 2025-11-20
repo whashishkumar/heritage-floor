@@ -1,18 +1,18 @@
-"use client";
-import React, { useEffect, useState } from "react";
-import BlogCard from "./BlogCard";
-import DesktopBlogFilter from "./BlogFilterDesktop";
-import MobileBlogFilter from "@/components/commercial/BlogFilterMobile";
-import SearchBarBlog from "@/components/commercial/BlogSearch";
-import NoResults from "@/components/commercial/NoArticleFound";
-import FeaturedBlogArticle from "@/components/commercial/FeaturedBlogCard";
-import { useParams } from "next/navigation";
-import { useRouter } from "next/navigation";
-import { CommonComponentData } from "@/lib/api/commonEndPoints";
+'use client';
+import React, { useEffect, useState } from 'react';
+import BlogCard from './BlogCard';
+import DesktopBlogFilter from './BlogFilterDesktop';
+import MobileBlogFilter from '@/components/commercial/BlogFilterMobile';
+import SearchBarBlog from '@/components/commercial/BlogSearch';
+import NoResults from '@/components/commercial/NoArticleFound';
+import FeaturedBlogArticle from '@/components/commercial/FeaturedBlogCard';
+import { useParams } from 'next/navigation';
+import { useRouter } from 'next/navigation';
+import { CommonComponentData } from '@/lib/api/commonEndPoints';
 
 const BlogPage = ({ blogs, featuredBlogs, slugPath }: any) => {
-  const [selectedCategory, setSelectedCategory] = useState("");
-  const [searchQuery, setSearchQuery] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState('');
+  const [searchQuery, setSearchQuery] = useState('');
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const { categories, data }: any = blogs || {};
   const [blogData, setBlogData]: any = useState(null);
@@ -92,8 +92,7 @@ const BlogPage = ({ blogs, featuredBlogs, slugPath }: any) => {
         <div
           className="relative bg-menu text-white  poppins-font h-[25rem] overflow-hidden  bg-cover bg-center bg-no-repeat flex items-center justify-center"
           style={{
-            backgroundImage:
-              "url('/images/commercial/services/serviceBackground.png')",
+            backgroundImage: "url('/images/commercial/services/serviceBackground.png')",
           }}
         >
           <div className="absolute inset-0 bg-black/80"></div>
@@ -109,16 +108,13 @@ const BlogPage = ({ blogs, featuredBlogs, slugPath }: any) => {
                 Insights & Inspiration
               </h1>
               <p className="text-lg sm:text-xl text-offWhite max-w-3xl mx-auto ">
-                Expert insights, design trends, and success stories from the
-                world of premium flooring
+                Expert insights, design trends, and success stories from the world of premium
+                flooring
               </p>
             </div>
 
             {/* Search Bar */}
-            <SearchBarBlog
-              searchQuery={searchQuery}
-              setSearchQuery={setSearchQuery}
-            />
+            <SearchBarBlog searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
           </div>
         </div>
 
@@ -163,11 +159,7 @@ const BlogPage = ({ blogs, featuredBlogs, slugPath }: any) => {
                   className="group bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-2"
                   key={index}
                 >
-                  <BlogCard
-                    post={post}
-                    index={index}
-                    handleReadMoreCard={handleReadMoreCard}
-                  />
+                  <BlogCard post={post} index={index} handleReadMoreCard={handleReadMoreCard} />
                 </div>
               ))}
             </div>

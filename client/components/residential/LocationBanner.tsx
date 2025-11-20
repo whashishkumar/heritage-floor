@@ -1,4 +1,4 @@
-import Image from "next/image";
+import Image from 'next/image';
 
 export default async function LocationBanner() {
   return (
@@ -32,7 +32,7 @@ export default async function LocationBanner() {
       <div className="wrapper m-auto">
         <div className="banner relative mt-12 rounded-lg overflow-hidden">
           <Image
-            src={"/images/residential/bg-banner.jpg"}
+            src={'/images/residential/bg-banner.jpg'}
             alt="Commercial Banner"
             width={1440}
             height={168}

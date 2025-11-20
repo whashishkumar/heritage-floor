@@ -1,27 +1,27 @@
-import Image from "next/image";
-import React from "react";
+import Image from 'next/image';
+import React from 'react';
 
 const solutions = [
   {
     id: 1,
-    title: "Skilled Professionals You Can Trust",
+    title: 'Skilled Professionals You Can Trust',
     description:
-      "Our certified installers and project specialists deliver precision workmanship and attentive service from start to finish.",
-    image: "/images/builder/skilled.png",
+      'Our certified installers and project specialists deliver precision workmanship and attentive service from start to finish.',
+    image: '/images/builder/skilled.png',
   },
   {
     id: 2,
-    title: "Eco-Friendly Flooring Options",
+    title: 'Eco-Friendly Flooring Options',
     description:
-      "Choose from responsibly sourced materials and low-VOC finishes to create a healthier, greener home.",
-    image: "/images/builder/ecoFriendly.png",
+      'Choose from responsibly sourced materials and low-VOC finishes to create a healthier, greener home.',
+    image: '/images/builder/ecoFriendly.png',
   },
   {
     id: 3,
-    title: "Custom Expertise Quote",
+    title: 'Custom Expertise Quote',
     description:
-      "Receive a detailed, no-obligation estimate designed to fit your budget and specific flooring needs.",
-    image: "/images/builder/custom.png",
+      'Receive a detailed, no-obligation estimate designed to fit your budget and specific flooring needs.',
+    image: '/images/builder/custom.png',
   },
 ];
 
@@ -41,19 +41,15 @@ export default function Solutions() {
               />
             </div>
             <div className="w-full poppins-font">
-              <h3 className="text-2xl font-medium mb-2 text-xl text-black">
-                {solution.title}
-              </h3>
-              <p className="text-black text-base font-normal">
-                {solution.description}
-              </p>
+              <h3 className="text-2xl font-medium mb-2 text-xl text-black">{solution.title}</h3>
+              <p className="text-black text-base font-normal">{solution.description}</p>
             </div>
           </div>
         ))}
       </div>
       <div className="banner relative mt-12 rounded-lg overflow-hidden">
         <Image
-          src={"/images/builder/solutionbanner.jpg"}
+          src={'/images/builder/solutionbanner.jpg'}
           alt="Commercial Banner"
           width={1440}
           height={168}
