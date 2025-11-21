@@ -102,7 +102,8 @@ export default function OurCustomers({ coustumerData }: coustumerData) {
             subHeadingCss="text-center "
           />
           <ButtonCommon
-            link={`${pathname}/products/brands`}
+            // link={`${pathname}/products/brands`}
+            link="/residential/products/brands"
             buttonName="Shop by Brands"
             image="/icon/arrowRightUp.png"
           />

@@ -2,8 +2,11 @@ import SectionHeader from '@/components/common/SectionHeader';
 import Image from 'next/image';
 
 export default function WorldCount({ statsData, pageTitle, Founder }: any) {
-  const banerIncon = `${process.env.NEXT_PUBLIC_IMAGE_PATH_WITHOUT_STORAGE}${pageTitle?.[0]?.icon}`;
+  const banerIncon = `${process.env.NEXT_PUBLIC_IMAGE_PATH_WITHOUT_STORAGE}${pageTitle?.image}`;
   const founderBgImage = `${process.env.NEXT_PUBLIC_IMAGE_PATH_WITHOUT_STORAGE}${Founder?.f_bg_image}`;
+  const whyBannerImage = `${process.env.NEXT_PUBLIC_IMAGE_PATH_WITHOUT_STORAGE}${Founder?.image}`;
+
+  console.log(founderBgImage, 'banerIncon');
 
   return (
     <div className="wrapper m-auto">
@@ -13,9 +16,9 @@ export default function WorldCount({ statsData, pageTitle, Founder }: any) {
         </div>
         <div>
           <SectionHeader
-            subHeading={pageTitle.tag}
+            subHeading={pageTitle?.tag || pageTitle?.heading}
             headingCss={`text-darkBlue tracking-[0.7rem] sm:text-[1rem] lg:text-[2rem] `}
-            description={pageTitle.description}
+            description={pageTitle?.description}
             mainCss={`flex flex-col items-center justify-center  ${`text-darkBlue`}`}
             descriptionCss={`leading-[1.5] mb-[2rem] mt-[0.5rem] md:w-[60%] sm:w-[75%] w-[90%] text-center align-middle  text-darkBlue}`}
             subHeadingCss={`text-darkBlue uppercase text-center`}
@@ -29,34 +32,46 @@ export default function WorldCount({ statsData, pageTitle, Founder }: any) {
                 {/* <Icon className="text-[#C9A96A] mb-4" size={60} /> */}
                 {icon && <Image src={icon} height={150} width={150} alt="icon" />}
                 <h2 className="text-4xl sm:text-5xl font-medium text-black tracking-wide">
-                  {item.value}
+                  {item?.value || item?.title}
                 </h2>
-                <p className="text-gray-600 mt-2 text-lg">{item.label}</p>
+                <p className="text-gray-600 mt-2 text-lg">{item?.label || item?.description}</p>
               </div>
             );
           })}
         </div>
         <div className="my-20 w-full">
           <div className="relative w-full h-[38rem] ">
-            <div
-              className="absolute inset-0 rounded-2xl"
-              style={{
-                backgroundImage: `url(${founderBgImage})`,
-                backgroundSize: 'cover',
-                backgroundPosition: 'center',
-              }}
-            />
-            <div className="relative w-full h-full flex items-center justify-end  md:pr-5 lg:pr-15">
-              <div className="rounded-xl p-4 sm:p-10 bg-[#858a82]/85  border border-white/60 ">
+            {founderBgImage && (
+              <div
+                className="absolute inset-0 rounded-2xl"
+                style={{
+                  backgroundImage: `url(${founderBgImage})`,
+                  backgroundSize: 'cover',
+                  backgroundPosition: 'center',
+                }}
+              />
+            )}
+            {whyBannerImage && (
+              <div
+                className="absolute inset-0 rounded-2xl"
+                style={{
+                  backgroundImage: `url(${whyBannerImage})`,
+                  backgroundSize: 'cover',
+                  backgroundPosition: 'center',
+                }}
+              />
+            )}
+            <div className="relative w-full h-full flex items-center justify-end  md:pr-5 lg:pr-15 ">
+              <div className="rounded-xl p-4 sm:p-10 bg-[#858a82]/85  border border-white/60 lg:w-[420px] w-[250px]">
                 <h1 className="tracking-[0.8rem] poppins-font text-center whitespace-pre-line text-2xl sm:text-sm lg:text-[1.813rem] font-extrabold uppercase tracking-widest text-white">
-                  {Founder?.details?.[0]?.f_title}
+                  {Founder?.details?.[0]?.f_title || Founder?.heading}
                 </h1>
                 <p className="poppins-font text-center font-normal t text-white mb-4 uppercase">
                   {' '}
                   {Founder?.details?.[0]?.f_designation}
                 </p>
-                <p className="text-center lg:w-[420px] md:w-[250px] mx-auto text-base lg:text-lg text-white roboto-font">
-                  {Founder?.details?.[0]?.f_description}
+                <p className="text-center  mx-auto text-base lg:text-lg text-white roboto-font">
+                  {Founder?.details?.[0]?.f_description || Founder?.description}
                 </p>
                 <button className="bg-white text-gray-500 py-4 w-full rounded-full uppercase mt-6">
                   {' '}

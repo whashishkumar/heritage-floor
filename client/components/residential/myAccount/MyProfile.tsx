@@ -1,67 +1,68 @@
-"use client";
-import { useEffect, useState } from "react";
-import SideBarNav from "./SideBarNav";
-import { UserDetailEndpoints } from "@/lib/api/authincationEndPoints";
-
+'use client';
+import { useEffect, useState } from 'react';
+import SideBarNav from './SideBarNav';
+import { UserMyAccountEndpoints } from '@/lib/api/authincationEndPoints';
+import { useAuth } from '@/context/userAuthContext';
+import { useToast } from '@/components/ui/Tooltip';
 
 export default function MyProfileForm() {
-  const [formData, setFormData] = useState({
-    first_name: "",
-    last_name: "",
-    gender: "",
-    date_of_birth: "",
-    phone: "",
-    email: "",
-    subscribed_to_news_letter: false,
-    // current_password: "",
-    // new_password: "",
-    // new_password_confirmation: "",
-  });
+  const { showToast } = useToast();
 
+  const { isAuthenticated } = useAuth();
+  const [formData, setFormData] = useState({
+    first_name: '',
+    last_name: '',
+    gender: '',
+    date_of_birth: '',
+    phone: '',
+    email: '',
+    subscribed_to_news_letter: false,
+  });
+  const [alertMessage, setAlertMessage] = useState<string | null>(null);
   const [image, setImage] = useState<File | null>(null);
 
-
   const fetchUserDetail = async () => {
-    const resp = await UserDetailEndpoints.getUserDetail()
-   fillForm(resp.data)
-    
-  }
+    const resp = await UserMyAccountEndpoints.getUserDetail();
+    fillForm(resp.data);
+  };
 
   const fillForm = (data: any) => {
-  setFormData(prev => ({
-    ...prev,
-    first_name: data.first_name ?? "",
-    last_name: data.last_name ?? "",
-    gender: data.gender ?? "",
-    date_of_birth: data.date_of_birth ?? "",
-    phone: data.phone ?? "",
-    email: data.email ?? "",
-  }));
-};
+    setFormData((prev) => ({
+      ...prev,
+      first_name: data.first_name ?? '',
+      last_name: data.last_name ?? '',
+      gender: data.gender ?? '',
+      date_of_birth: data.date_of_birth ?? '',
+      phone: data.phone ?? '',
+      email: data.email ?? '',
+    }));
+  };
 
   const handleChange = (e: any) => {
     const { name, value, type, checked } = e.target;
     setFormData({
       ...formData,
-      [name]: type === "checkbox" ? checked : value,
+      [name]: type === 'checkbox' ? checked : value,
     });
   };
 
   const handleSubmit = async () => {
     const fd = new FormData();
     Object.entries(formData).forEach(([key, value]) => fd.append(key, value as any));
-    if (image) fd.append("image[]", image);
-    // await UserDetailEndpoints.updatePeofile(formData)
-    console.log(formData,"fd");
+    if (image) fd.append('image[]', image);
+    const resp = await UserMyAccountEndpoints.updatePeofile(formData);
+    showToast(resp.message, 'success');
   };
 
-
-  useEffect(()=>{
-    fetchUserDetail()
-  },[])
+  useEffect(() => {
+    if (isAuthenticated) {
+      fetchUserDetail();
+    }
+  }, [isAuthenticated]);
 
   // Tailwind common input style
-  const inputClass ="border border-gray-300 rounded-md px-4 py-2 text-gray-800 bg-white focus:ring-2 focus:ring-teal-500 focus:outline-none";
+  const inputClass =
+    'border border-gray-300 rounded-md px-4 py-2 text-gray-800 bg-white focus:ring-2 focus:ring-teal-500 focus:outline-none';
 
   return (
     <div className="bg-[#f3f4f6] min-h-screen">
@@ -80,7 +81,6 @@ export default function MyProfileForm() {
 
             {/* FORM */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-
               {/* First name */}
               <div className="flex flex-col">
                 <label className="text-sm font-medium mb-1">First name *</label>
@@ -113,9 +113,9 @@ export default function MyProfileForm() {
                   className={inputClass}
                 >
                   <option value="">Select</option>
-                  <option value="male">Male</option>
-                  <option value="female">Female</option>
-                  <option value="other">Other</option>
+                  <option value="Male">Male</option>
+                  <option value="Female">Female</option>
+                  <option value="Other">Other</option>
                 </select>
               </div>
 
@@ -207,19 +207,18 @@ export default function MyProfileForm() {
                   className={inputClass}
                 />
               </div> */}
-
             </div>
 
             {/* Save button */}
+
             <div className="flex justify-end mt-8 border-t pt-6">
               <button
                 onClick={handleSubmit}
-                className="bg-teal-600 text-white px-8 py-2 rounded-md font-semibold hover:bg-teal-700 transition-all"
+                className="bg-teal-600 text-white px-8 py-2 rounded-md font-semibold hover:bg-teal-700 transition-all cursor-pointer"
               >
                 Save
               </button>
             </div>
-
           </div>
         </div>
       </div>

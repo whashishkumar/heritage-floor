@@ -1,49 +1,52 @@
 'use client';
 
-import { ReactNode, useState } from 'react';
+import { createContext, useContext, useState, ReactNode } from 'react';
 
-interface TooltipProps {
-  text: string;
-  children: ReactNode;
-  position?: 'top' | 'bottom' | 'left' | 'right';
+interface Toast {
+  message: string;
+  type: 'success' | 'error';
+  visible: boolean;
 }
 
-export default function Tooltip({ text, children, position = 'top' }: TooltipProps) {
-  const [visible, setVisible] = useState(false);
+interface ToastContextType {
+  showToast: (msg: string, type?: 'success' | 'error') => void;
+}
 
-  const positionClasses = {
-    top: 'bottom-full left-1/2 -translate-x-1/2 mb-2',
-    bottom: 'top-full left-1/2 -translate-x-1/2 mt-2',
-    left: 'right-full top-1/2 -translate-y-1/2 mr-2',
-    right: 'left-full top-1/2 -translate-y-1/2 ml-2',
-  }[position];
+const ToastContext = createContext<ToastContextType | null>(null);
+
+export function ToastProvider({ children }: { children: ReactNode }) {
+  const [toast, setToast] = useState<Toast>({
+    message: '',
+    type: 'success',
+    visible: false,
+  });
+
+  const showToast = (message: string, type: 'success' | 'error' = 'success') => {
+    setToast({ message, type, visible: true });
+
+    setTimeout(() => {
+      setToast((prev) => ({ ...prev, visible: false }));
+    }, 3000);
+  };
 
   return (
-    <div
-      className="relative inline-flex items-center"
-      onMouseEnter={() => setVisible(true)}
-      onMouseLeave={() => setVisible(false)}
-    >
+    <ToastContext.Provider value={{ showToast }}>
       {children}
 
-      {visible && (
+      {toast.visible && (
         <div
-          className={`absolute z-50 whitespace-nowrap px-2 py-1 text-xs text-white bg-gray-900 rounded-md shadow-md transition-opacity duration-200 ${positionClasses}`}
+          className={`fixed left-50 right-50 px-4 py-3 rounded-lg shadow-lg text-white text-sm transition-all duration-300
+            ${toast.type === 'success' ? 'bg-[#008c99]' : 'bg-red-600'}`}
         >
-          {text}
-          <div
-            className={`absolute w-2 h-2 bg-gray-900 rotate-45 ${
-              position === 'top'
-                ? 'top-full left-1/2 -translate-x-1/2'
-                : position === 'bottom'
-                  ? 'bottom-full left-1/2 -translate-x-1/2'
-                  : position === 'left'
-                    ? 'left-full top-1/2 -translate-y-1/2'
-                    : 'right-full top-1/2 -translate-y-1/2'
-            }`}
-          />
+          {toast.message}
         </div>
       )}
-    </div>
+    </ToastContext.Provider>
   );
 }
+
+export const useToast = () => {
+  const context = useContext(ToastContext);
+  if (!context) throw new Error('useToast must be used inside ToastProvider');
+  return context;
+};

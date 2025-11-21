@@ -25,13 +25,11 @@ const menu = [
 export default function SidebarNav() {
   const router = useRouter()
   const pathname = usePathname();
-  const {logout, isAuthenticated} = useAuth();
+  const {logout} = useAuth();
 
   const handleLogOut = () => {
     logout()
-    if(!isAuthenticated) {
       router.push('/residential')
-    }
   }
   
   return (

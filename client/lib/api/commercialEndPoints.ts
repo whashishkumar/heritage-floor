@@ -21,5 +21,25 @@ export const CommercialPageData = {
       cache: 'dynamic',
     });
   },
-  
+
+  getOurHistory: () => {
+    return apiFetch({
+      endpoint: '/commercial/our-history',
+      cache: 'dynamic',
+    });
+  },
+
+  getGlobalPresenceDetails: () => {
+    return apiFetch({
+      endpoint: '/commercial/global-presence',
+      cache: 'dynamic',
+    });
+  },
+
+  getWhyUsDetails: () => {
+    return apiFetch({
+      endpoint: '/commercial/about/why-us',
+      cache: 'dynamic',
+    });
+  },
 };

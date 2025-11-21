@@ -1,18 +1,19 @@
-'use client';
 import OurWorld from '@/components/commercial/Pages/GlobalPresence/OurWorld';
 import React from 'react';
 import dynamic from 'next/dynamic';
+import { CommercialPageData } from '@/lib/api/commercialEndPoints';
+import GlobalPresence from '@/components/commercial/Pages/GlobalPresence';
 
-// Dynamically import GlobalPresence with no SSR to avoid window reference errors
-const GlobalPresence = dynamic(() => import('@/components/commercial/Pages/GlobalPresence'), {
-  ssr: false,
-});
+export default async function page() {
+  const { timelineData, heading, second_section_data } =
+    await CommercialPageData.getGlobalPresenceDetails();
+  const { t_data } = timelineData || {};
 
-export default function page() {
+  console.log('timelineData', second_section_data);
   return (
     <>
-      <GlobalPresence />
-      <OurWorld />
+      <GlobalPresence countries={t_data} headerBanner={heading} />
+      <OurWorld worldPresence={second_section_data} />
     </>
   );
 }

@@ -12,8 +12,7 @@ import Link from 'next/link';
 import { CartEndPoint } from '@/lib/api/cartEndPoints';
 import { useAuth } from '@/context/userAuthContext';
 import { getGuestCartCount } from '@/utils/addToGuestCart';
-import { UserDetailEndpoints } from '@/lib/api/authincationEndPoints';
-
+import { UserMyAccountEndpoints } from '@/lib/api/authincationEndPoints';
 
 export default function HeaderMainBar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -24,7 +23,7 @@ export default function HeaderMainBar() {
   const { isAuthenticated, logout } = useAuth();
   const pathname = usePathname();
   const totalItem = getGuestCartCount();
-  const [userDetail, setUserDetail] = useState<any>(null)
+  const [userDetail, setUserDetail] = useState<any>(null);
 
   const handleCloseMegaMenu = () => {
     setIsDealsOpen(false);
@@ -37,18 +36,20 @@ export default function HeaderMainBar() {
 
   const getCount = async () => {
     const cardCount = await CartEndPoint.getCartItems();
-    setItemsInCart(cardCount.data.items_count);
+    // setItemsInCart(cardCount?.data?.items_count);
   };
 
   const getUserDetail = async () => {
-    const resp =   await UserDetailEndpoints.getUserDetail()
-    setUserDetail(resp.data)  
-  }
+    const resp = await UserMyAccountEndpoints.getUserDetail();
+    setUserDetail(resp.data);
+  };
 
   useEffect(() => {
+    if (isAuthenticated) {
+      getUserDetail();
+    }
     // getCount();
-    getUserDetail()
-  }, []);
+  }, [isAuthenticated]);
 
   return (
     <>
@@ -134,7 +135,7 @@ export default function HeaderMainBar() {
                     </button>
                   ) : (
                     <Link
-                    href={'residential/my-account/profile'}
+                      href={'residential/my-account/profile'}
                       className="text-gray-700 hover:text-primaryTwo cursor-pointer flex gap-2"
                     >
                       <div className="h-[1.5rem] w-[1.5rem] relative overflow-hidden">

@@ -44,29 +44,34 @@ const brandCollection = [
   },
 ];
 
-export default function BrandCollebration() {
+export default function BrandCollebration({ brands, countries }: any) {
+  const { heading, description, items } = countries || {};
+  const { heading: tag, description: detail, button_text, image } = brands;
+
   return (
     <div className="wrapper m-auto w-full">
       <div className="">
         <SectionHeader
-          subHeading="Iconic Brand Collaborations"
+          subHeading={heading}
           headingCss={`text-darkBlue`}
-          description="When we build, we build to stay, to enrich, and to grow. Explore curated collaborations that reflect luxury within a unified ecosystem, featuring DAMAC’s exclusive partnerships with renowned brands."
+          description={description}
           mainCss={`flex flex-col items-center justify-center text-darkBlue `}
-          descriptionCss={`leading-[1.5] mb-[2rem] mt-[0.5rem] md:w-[60%] sm:w-[75%] w-[100%] text-center align-middle  text-darkBlue `}
-          subHeadingCss={`text-darkBlue uppercase  tracking-[0.6rem]`}
+          descriptionCss={`leading-[1.5] mb-[2rem] mt-[0.5rem] md:w-[60%] sm:w-[75%] w-[100%] text-center align-middle  text-darkBlue text-center`}
+          subHeadingCss={`text-darkBlue uppercase  lg:tracking-[0.6rem] md:text-[1rem] lg:text-[2.5rem] text-center`}
         />
       </div>
       <div className="flex gap-10 justify-center py-14 flex-wrap">
-        {brandCollection?.map((brand) => {
+        {items?.map((brand: any) => {
+          const iconImage = `${process.env.NEXT_PUBLIC_IMAGE_PATH_WITHOUT_STORAGE}${brand?.image}`;
           return (
-            <div key={brand.id}>
+            <div key={brand.id} className="w-[120px] sm:w-[90px] md:w-[110px] lg:w-[120px]">
               <Image
-                src={brand?.image}
-                height={180}
-                width={120}
-                alt={'brand'}
-                className="object-contain"
+                src={iconImage}
+                alt="brand"
+                width={90}
+                height={80}
+                sizes="100vw"
+                className="w-full h-auto object-contain"
               />
             </div>
           );
@@ -78,7 +83,7 @@ export default function BrandCollebration() {
           <div
             className="absolute inset-0 rounded-2xl"
             style={{
-              backgroundImage: "url('/images/commercial/brands/brandbg.png')",
+              backgroundImage: `url(${image})`,
               backgroundSize: 'cover',
               backgroundPosition: 'center',
             }}
@@ -86,18 +91,13 @@ export default function BrandCollebration() {
           <div className="relative w-full h-full flex items-center justify-center  md:pr-5 lg:pr-15">
             <div className="rounded-xl p-4 sm:p-10 bg-[#508699]/95  border border-white/60 lg:w-[420px] md:w-[250px]  ">
               <h1 className="tracking-[0.8rem] poppins-font text-center whitespace-pre-line text-2xl sm:text-sm lg:text-[1.813rem] font-extrabold uppercase tracking-widest text-white">
-                Committed To A Sustainable Future
+                {tag}
               </h1>
-
               <p className="text-center mx-auto text-base lg:text-lg text-white roboto-font">
-                With a holistic approach to sustainability, we lead in responsible construction and
-                luxury property development, systematically adopting the highest environmental,
-                social, and ethical standards. We aspire to be a global leader in creating
-                sustainable developments that drive value for our partners, customers, communities,
-                the environment, and our team members.
+                {detail}
               </p>
               <button className="bg-white text-gray-500 py-4 w-full rounded-full uppercase mt-6">
-                Discover More
+                {button_text}
               </button>
             </div>
           </div>

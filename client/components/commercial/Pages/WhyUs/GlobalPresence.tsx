@@ -1,5 +1,6 @@
 'use client';
 import AutoPlay from '@/components/common/Slider';
+import { log } from 'console';
 import Image from 'next/image';
 
 const brandData = [
@@ -90,27 +91,36 @@ const responsiveSettings = [
   },
 ];
 
-export const BrandCard = (item: any) => {
+export const BrandCard = (brand: any) => {
+  const { data } = brand || {};
+
   return (
     <div className="relative w-[340px] h-[219px] rounded-xl overflow-hidden poppins-font">
-      {item?.image && <Image src={item?.image} alt={item?.title} fill className="object-center" />}
+      {data?.image && (
+        <Image src={data?.image} alt={data?.title || 'log'} fill className="object-center" />
+      )}
       <div className="absolute inset-0 bg-black/20"></div>
       <div className="absolute top-4 w-full flex justify-center">
-        {item?.logo && (
-          <Image src={item?.logo} alt={'logo'} width={120} height={80} className="object-contain" />
+        {data?.logo && (
+          <Image src={data?.logo} alt={'logo'} width={120} height={80} className="object-contain" />
         )}
       </div>
       <div className="absolute bottom-4 w-full text-center px-4">
         <h2 className="text-white text-xl font-medium tracking-wide tracking-[0.8rem]">
-          {item?.title?.toUpperCase()}
+          {data?.title?.toUpperCase()}
         </h2>
-        <p className="text-gray-200 text-base mt-2 font-normal">{item?.location}</p>
+        <p className="text-gray-200 text-base mt-2 font-normal">{data?.location}</p>
       </div>
+      <Image src={'/images/commercial/brands/bgCard01.webp'} height={30} width={30} alt="img" />
     </div>
   );
 };
 
-export default function GlobalPresence() {
+export default function GlobalPresence({ countries }: any) {
+  const { heading, description, items } = countries || {};
+
+  console.log(countries, 'countries');
+
   return (
     <div className="py-16">
       <h2 className="text-[2.5rem] sm:text-[2.5rem]  text-darkBlue  leading-[1.3750] text-darkBlue uppercase  tracking-[0.6rem] text-center pb-12 poppins-font">

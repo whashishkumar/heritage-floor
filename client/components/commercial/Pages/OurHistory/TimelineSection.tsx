@@ -1,56 +1,14 @@
 'use client';
 import { useEffect, useRef, useState } from 'react';
 
-const timelineData = [
-  {
-    year: 2001,
-    title: 'DAMAC PROPERTIES ESTABLISHMENT',
-    description:
-      'DAMAC Properties is established following the introduction of freehold ownership rights for expatriate owners in Dubai.',
-    image: '/images/commercial/aboutUs/aboutUsbg.jpg',
-  },
-  {
-    year: 2002,
-    title: 'MARINA TERRACE',
-    description:
-      'The first land purchase is made, and the Marina Terrace project launched in the heart of Dubai Marina.',
-    image: '/images/commercial/aboutUs/aboutCountbg.jpg',
-  },
-  {
-    year: 2003,
-    title: 'PROJECT EXPANSION',
-    description: 'Major expansion into new residential and commercial sectors.',
-
-    image: '/images/commercial/aboutUs/aboutUsbg.jpg',
-  },
-  {
-    year: 2004,
-    title: 'DAMAC PROPERTIES ESTABLISHMENT',
-    description:
-      'DAMAC Properties is established following the introduction of freehold ownership rights for expatriate owners in Dubai.',
-    image: '/images/commercial/aboutUs/aboutCountbg.jpg',
-  },
-  {
-    year: 2005,
-    title: 'MARINA TERRACE',
-    description:
-      'The first land purchase is made, and the Marina Terrace project launched in the heart of Dubai Marina.',
-    image: '/images/commercial/aboutUs/aboutUsbg.jpg',
-  },
-  {
-    year: 2006,
-    title: 'PROJECT EXPANSION',
-    description: 'Major expansion into new residential and commercial sectors.',
-    image: '/images/commercial/aboutUs/aboutCountbg.jpg',
-  },
-];
-
-export default function TimelineSection() {
-  const [activeBg, setActiveBg] = useState(timelineData[0].image);
+export default function TimelineSection({ timelineData }: any) {
+  const { t_data } = timelineData || {};
+  const [activeBg, setActiveBg] = useState(t_data[0]?.image);
   const [activeIndex, setActiveIndex] = useState(0);
   const sectionRefs = useRef<(HTMLDivElement | null)[]>([]);
   const scrollContainerRef = useRef<HTMLDivElement | null>(null);
   const isManualScroll = useRef(false);
+  const imagePath = process.env.NEXT_PUBLIC_IMAGE_PATH_WITHOUT_STORAGE;
 
   // Scroll listener to auto-select cards based on scroll position (using window scroll)
   useEffect(() => {
@@ -78,7 +36,7 @@ export default function TimelineSection() {
 
       if (closestIndex !== activeIndex) {
         setActiveIndex(closestIndex);
-        setActiveBg(timelineData[closestIndex].image);
+        setActiveBg(timelineData[closestIndex]?.image);
       }
     };
 
@@ -97,7 +55,7 @@ export default function TimelineSection() {
         <div
           className="fixed top-0 left-0 w-full h-screen bg-cover bg-center bg-no-repeat transition-all duration-700 ease-in-out"
           style={{
-            backgroundImage: `url(${activeBg})`,
+            backgroundImage: `url(${imagePath}${activeBg})`,
             zIndex: -1,
           }}
         >
@@ -111,7 +69,7 @@ export default function TimelineSection() {
             {/* CONTENT SECTIONS - SCROLLABLE WITH PAGE */}
             <div ref={scrollContainerRef} className="flex-1 md:flex-initial md:max-w-xl pr-4">
               <div className="flex flex-col gap-8 py-8">
-                {timelineData.map((item, i) => (
+                {t_data?.map((item: any, i: any) => (
                   <div
                     key={i}
                     ref={(el) => {
@@ -122,13 +80,13 @@ export default function TimelineSection() {
                     }`}
                   >
                     <p className="text-center mb-4 text-sm tracking-widest uppercase font-semibold">
-                      {Math.floor(item.year)}
+                      {Math.floor(item?.year)}
                     </p>
                     <h2 className="text-2xl md:text-3xl font-bold text-center mb-4 overflow-hidden">
-                      {item.title}
+                      {item?.title}
                     </h2>
                     <p className="text-center text-base md:text-lg opacity-90 overflow-hidden">
-                      {item.description}
+                      {item?.description}
                     </p>
                   </div>
                 ))}
@@ -137,13 +95,13 @@ export default function TimelineSection() {
 
             {/* TIMELINE YEARS - STICKY */}
             <div className="sticky top-1/2 -translate-y-1/2 flex flex-col gap-4 md:gap-6 h-fit text-white text-lg md:text-xl mt-30">
-              {timelineData.map((item, i) => (
+              {t_data?.map((item: any, i: any) => (
                 <button
                   key={i}
                   onClick={() => {
                     isManualScroll.current = true;
                     setActiveIndex(i);
-                    setActiveBg(item.image);
+                    setActiveBg(item?.image);
                     // Scroll to the corresponding section
                     sectionRefs.current[i]?.scrollIntoView({
                       behavior: 'smooth',
@@ -156,7 +114,7 @@ export default function TimelineSection() {
                       : 'opacity-70 hover:opacity-100 hover:scale-105'
                   }`}
                 >
-                  {Math.floor(item.year)}
+                  {Math.floor(item?.year)}
                 </button>
               ))}
             </div>

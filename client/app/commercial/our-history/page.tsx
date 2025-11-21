@@ -1,9 +1,13 @@
 import OurHistory from '@/components/commercial/Pages/OurHistory';
+import { CommercialPageData } from '@/lib/api/commercialEndPoints';
 
-export default function page() {
+
+export default async function page() {
+  const ourHistoryData = await CommercialPageData.getOurHistory();
+
   return (
     <div>
-      <OurHistory />
+      <OurHistory ourHistoryData={ourHistoryData}/>
     </div>
   );
 }
