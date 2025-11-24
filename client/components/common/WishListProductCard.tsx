@@ -4,6 +4,7 @@ import { useRouter } from 'next/navigation';
 import ButtonCommon from '../ui/Button';
 import RatingStars from '../ui/RatingStars';
 import { addToGuestCart } from '@/utils/addToGuestCart';
+import { CartEndPoint } from '@/lib/api/cartEndPoints';
 
 export interface Product {
   id: number;
@@ -20,26 +21,21 @@ export interface Product {
 interface Props {
   product: Product;
   handleGetProductDetail: (id: any) => void;
+  handleMoveToCartProduct?: (id: any) => void;
 }
 
-export default function WishListProductCard({ product, handleGetProductDetail }: Props) {
-  const router = useRouter();
-
-  const handleAddToCartProduct = async (id: any) => {
-    // await CartEndPoint.addItemToCart(id);
-    addToGuestCart({ id: id });
-  };
-
+export default function WishListProductCard({
+  product,
+  handleGetProductDetail,
+  handleMoveToCartProduct,
+}: Props) {
   const path = process.env.NEXT_PUBLIC_IMAGE_PATH;
   const ProductImage = `${path}${product.image}`;
 
-  console.log(product,"productlist");
-  
-
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col w-[298px]">
       <div
-        className="relative bg-white rounded-[0.625rem] flex justify-center items-center border border-[#E8E8E8] h-[341px] cursor-pointer rounded-tl-lg"
+        className="relative bg-white rounded-[0.625rem] flex justify-center items-center border border-[#E8E8E8] h-[321px]  cursor-pointer rounded-tl-lg"
         onClick={() => handleGetProductDetail(product.id)}
       >
         {product?.discount_percent && (
@@ -75,11 +71,11 @@ export default function WishListProductCard({ product, handleGetProductDetail }:
         {/* Button */}
         <div className="mt-[1.5rem]">
           <ButtonCommon
-            buttonName="Add To Cart"
+            buttonName="Move To Cart"
             image="/icon/arrowRightUp.png"
             cssParent="!rounded-[0.625rem]"
             cssChild="!rounded-r-[0.625rem]"
-            onClick={() => handleAddToCartProduct(product?.id)}
+            onClick={() => handleMoveToCartProduct?.(product?.id)}
           />
         </div>
       </div>

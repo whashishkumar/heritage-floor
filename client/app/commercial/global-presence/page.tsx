@@ -6,10 +6,11 @@ import GlobalPresence from '@/components/commercial/Pages/GlobalPresence';
 
 export default async function page() {
   const { timelineData, heading, second_section_data } =
-    await CommercialPageData.getGlobalPresenceDetails();
+    (await CommercialPageData.getGlobalPresenceDetails()) || {};
   const { t_data } = timelineData || {};
 
-  console.log('timelineData', second_section_data);
+  console.log('timelineData', timelineData);
+
   return (
     <>
       <GlobalPresence countries={t_data} headerBanner={heading} />

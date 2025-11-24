@@ -77,13 +77,13 @@ interface ChangeViewProps {
 
 function ChangeView({ center, zoom }: ChangeViewProps) {
   const map = useMap();
-  map.setView(center, zoom);
+  map?.setView(center, zoom);
   return null;
 }
 
 export default function GlobalPresence({ countries, headerBanner }: any) {
-  const [active, setActive] = useState(countries[0]);
-  const { heading, description } = headerBanner;
+  const [active, setActive] = useState(countries?.[0]);
+  const { heading, description } = headerBanner || {};
 
   return (
     <>
@@ -101,15 +101,15 @@ export default function GlobalPresence({ countries, headerBanner }: any) {
         <div className="w-full bg-white pb-6">
           {/* Country Filter */}
           <div className="flex gap-8 overflow-x-auto whitespace-nowrap px-6 py-4 border-b">
-            {countries.map((c: any) => (
+            {countries?.map((c: any) => (
               <button
-                key={c.id}
+                key={c?.id}
                 onClick={() => setActive(c)}
                 className={`text-lg transition cursor-pointer ${
                   active.id === c.id ? 'text-black border-b-2 border-blue-500' : 'text-gray-400'
                 }`}
               >
-                {c.name}
+                {c?.name}
               </button>
             ))}
           </div>
@@ -118,13 +118,13 @@ export default function GlobalPresence({ countries, headerBanner }: any) {
       {/* Map */}
       <div className="relative w-full h-[450px]">
         <MapContainer
-          key={active.id}
-          center={[active.lat, active.long] as [number, number]}
-          zoom={active.zoom}
+          key={active?.id}
+          center={[active?.lat, active?.long] as [number, number]}
+          zoom={active?.zoom}
           scrollWheelZoom={false}
           className="w-full h-full z-0"
         >
-          <ChangeView center={[active.lat, active.long]} zoom={active.zoom} />
+          <ChangeView center={[active?.lat, active?.long]} zoom={active?.zoom} />
           <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
         </MapContainer>
       </div>

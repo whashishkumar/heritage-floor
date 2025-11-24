@@ -135,7 +135,7 @@ export default function HeaderMainBar() {
                     </button>
                   ) : (
                     <Link
-                      href={'residential/my-account/profile'}
+                      href={'/residential/my-account/profile'}
                       className="text-gray-700 hover:text-primaryTwo cursor-pointer flex gap-2"
                     >
                       <div className="h-[1.5rem] w-[1.5rem] relative overflow-hidden">

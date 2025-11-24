@@ -37,7 +37,7 @@ export default function ProductCard({ product, handleGetProductDetail }: Props) 
   return (
     <div className="flex flex-col">
       <div
-        className="relative bg-white rounded-[0.625rem] flex justify-center items-center border border-[#E8E8E8] h-[341px] cursor-pointer rounded-tl-lg"
+        className="relative bg-white rounded-[0.625rem] flex justify-center items-center border border-[#E8E8E8] h-[341px] w-[320px] cursor-pointer rounded-tl-lg"
         onClick={() => handleGetProductDetail(product.id)}
       >
         {product.discount_percent && (
@@ -56,7 +56,7 @@ export default function ProductCard({ product, handleGetProductDetail }: Props) 
             alt={product.sku}
             width={340}
             height={240}
-            className="h-full w-auto object-cover rounded-tl-lg"
+            className="h-full  object-cover rounded-tl-lg"
           />
         )}
       </div>

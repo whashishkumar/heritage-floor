@@ -19,8 +19,7 @@ export const CartEndPoint = {
 
   addRemoveListItems: (productId: any) => apiPost(`/customer/wishlist/${productId}`),
 
-  moveWishListToCart: (productId: any) =>
-    apiPost(`/customer/wishlist/${productId}/move-to-cart`),
-    
+  moveWishListToCart: (productId: any) => apiPost(`/customer/wishlist/${productId}/move-to-cart`),
+
   removeAllWishList: () => apiDelete('/customer/wishlist/all'),
 };
