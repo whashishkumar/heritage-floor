@@ -48,7 +48,7 @@ export default function WishListProductCard({
             <RatingStars rating={product.rating} className="absolute right-2 top-1" />
           )}
         </span>
-        {/* {ProductImage && (
+        {ProductImage && (
           <Image
             src={ProductImage}
             alt={product.sku}
@@ -56,7 +56,7 @@ export default function WishListProductCard({
             height={240}
             className="h-full w-auto object-cover rounded-tl-lg"
           />
-        )} */}
+        )}
       </div>
       <div className="py-4">
         <div className="text-[#5A5A5A] text-base poppins-font font-medium leading-[30px]">

@@ -51,6 +51,8 @@ export default function HeaderMainBar() {
     // getCount();
   }, [isAuthenticated]);
 
+  console.log(userDetail?.profile_image, 'userDetail');
+
   return (
     <>
       <div className="flex items-center justify-center bg-white text-black min-h-[4.688rem] h-full w-full relative">

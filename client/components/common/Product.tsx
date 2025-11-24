@@ -34,6 +34,7 @@ export default function ProductCard({ product, handleGetProductDetail }: Props) 
   const path = process.env.NEXT_PUBLIC_IMAGE_PATH;
   const ProductImage = `${path}${product.image}`;
 
+  console.log(ProductImage, 'productimage');
   return (
     <div className="flex flex-col">
       <div

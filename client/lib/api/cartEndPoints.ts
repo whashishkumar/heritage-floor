@@ -22,4 +22,13 @@ export const CartEndPoint = {
   moveWishListToCart: (productId: any) => apiPost(`/customer/wishlist/${productId}/move-to-cart`),
 
   removeAllWishList: () => apiDelete('/customer/wishlist/all'),
+
+  getUserAddressList: () => {
+    return apiFetch({
+      endpoint: '/customer/addresses',
+      cache: 'no-store',
+    });
+  },
+
+  addCustomerAddress: (data: any) => apiPost('/customer/addresses', data),
 };

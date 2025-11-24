@@ -4,6 +4,7 @@ import SideBarNav from './SideBarNav';
 import { UserMyAccountEndpoints } from '@/lib/api/authincationEndPoints';
 import { useAuth } from '@/context/userAuthContext';
 import { useToast } from '@/components/ui/Tooltip';
+import { log } from 'console';
 
 export default function MyProfileForm() {
   const { showToast } = useToast();
@@ -19,7 +20,7 @@ export default function MyProfileForm() {
     subscribed_to_news_letter: false,
   });
   const [alertMessage, setAlertMessage] = useState<string | null>(null);
-  const [image, setImage] = useState<File | null>(null);
+  const [imageFile, setImageFile] = useState<File | null>(null);
 
   const fetchUserDetail = async () => {
     const resp = await UserMyAccountEndpoints.getUserDetail();
@@ -35,6 +36,8 @@ export default function MyProfileForm() {
       date_of_birth: data.date_of_birth ?? '',
       phone: data.phone ?? '',
       email: data.email ?? '',
+      image: data.profile_image ?? '',
+      subscribed_to_news_letter: data.subscribed_to_news_letter ?? false,
     }));
   };
 
@@ -47,9 +50,6 @@ export default function MyProfileForm() {
   };
 
   const handleSubmit = async () => {
-    const fd = new FormData();
-    Object.entries(formData).forEach(([key, value]) => fd.append(key, value as any));
-    if (image) fd.append('image[]', image);
     const resp = await UserMyAccountEndpoints.updatePeofile(formData);
     showToast(resp.message, 'success');
   };
@@ -60,6 +60,7 @@ export default function MyProfileForm() {
     }
   }, [isAuthenticated]);
 
+  console.log(formData, 'formdatahit');
   // Tailwind common input style
   const inputClass =
     'border border-gray-300 rounded-md px-4 py-2 text-gray-800 bg-white focus:ring-2 focus:ring-teal-500 focus:outline-none';
@@ -91,7 +92,6 @@ export default function MyProfileForm() {
                   className={inputClass}
                 />
               </div>
-
               {/* Last name */}
               <div className="flex flex-col">
                 <label className="text-sm font-medium mb-1">Last name *</label>
@@ -102,7 +102,6 @@ export default function MyProfileForm() {
                   className={inputClass}
                 />
               </div>
-
               {/* Gender */}
               <div className="flex flex-col">
                 <label className="text-sm font-medium mb-1">Gender *</label>
@@ -118,7 +117,6 @@ export default function MyProfileForm() {
                   <option value="Other">Other</option>
                 </select>
               </div>
-
               {/* DOB */}
               <div className="flex flex-col">
                 <label className="text-sm font-medium mb-1">Date of birth *</label>
@@ -130,7 +128,6 @@ export default function MyProfileForm() {
                   className={inputClass}
                 />
               </div>
-
               {/* Phone */}
               <div className="flex flex-col">
                 <label className="text-sm font-medium mb-1">Phone *</label>
@@ -141,7 +138,6 @@ export default function MyProfileForm() {
                   className={inputClass}
                 />
               </div>
-
               {/* Email */}
               <div className="flex flex-col">
                 <label className="text-sm font-medium mb-1">Email *</label>
@@ -153,18 +149,20 @@ export default function MyProfileForm() {
                   className={`${inputClass} bg-gray-100 cursor-not-allowed`}
                 />
               </div>
-
               {/* Image Upload */}
               <div className="flex flex-col md:col-span-2">
                 <label className="text-sm font-medium mb-1">Profile Image</label>
                 <input
                   type="file"
                   accept="image/*"
-                  onChange={(e: any) => setImage(e.target.files[0])}
+                  onChange={(e: any) => {
+                    if (e.target.files && e.target.files[0]) {
+                      setImageFile(e.target.files[0]);
+                    }
+                  }}
                   className={inputClass}
                 />
               </div>
-
               {/* Newsletter */}
               <div className="flex items-center gap-3 md:col-span-2">
                 <input
@@ -175,38 +173,7 @@ export default function MyProfileForm() {
                   className="h-4 w-4 text-teal-600 focus:ring-teal-500"
                 />
                 <label className="text-sm">Subscribe to newsletter</label>
-              </div>
-
-              {/* Password section */}
-              {/* <div className="flex flex-col md:col-span-2">
-                <label className="text-sm font-medium mb-1">Current Password</label>
-                <input
-                  name="current_password"
-                  type="password"
-                  onChange={handleChange}
-                  className={inputClass}
-                />
-              </div>
-
-              <div className="flex flex-col">
-                <label className="text-sm font-medium mb-1">New Password</label>
-                <input
-                  name="new_password"
-                  type="password"
-                  onChange={handleChange}
-                  className={inputClass}
-                />
-              </div>
-
-              <div className="flex flex-col">
-                <label className="text-sm font-medium mb-1">Confirm New Password</label>
-                <input
-                  name="new_password_confirmation"
-                  type="password"
-                  onChange={handleChange}
-                  className={inputClass}
-                />
-              </div> */}
+              </div>{' '}
             </div>
 
             {/* Save button */}

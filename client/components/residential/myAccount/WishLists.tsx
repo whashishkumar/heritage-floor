@@ -1,14 +1,12 @@
 'use client';
 import React, { useEffect } from 'react';
 import SidebarNav from './SideBarNav';
-import { useAuth } from '@/context/userAuthContext';
 import { CartEndPoint } from '@/lib/api/cartEndPoints';
 import WishListProductCard from '@/components/common/WishListProductCard';
 import { useToast } from '@/components/ui/Tooltip';
 
 export default function WishLists() {
   const { showToast } = useToast();
-  const { isAuthenticated } = useAuth();
   const [wishListItems, setWishListItems] = React.useState<any>([]);
 
   const getAllListItems = async () => {

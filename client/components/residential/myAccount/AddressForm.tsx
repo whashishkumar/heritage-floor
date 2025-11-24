@@ -1,6 +1,7 @@
 'use client';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import SidebarNav from './SideBarNav';
+import { CartEndPoint } from '@/lib/api/cartEndPoints';
 
 export default function AddressForm() {
   const [formData, setFormData] = useState({
@@ -22,6 +23,15 @@ export default function AddressForm() {
       [e.target.name]: e.target.value,
     });
   };
+
+  const fetChAddressList = async () => {
+    const resp = await CartEndPoint.getUserAddressList();
+    console.log(resp, 'address list');
+  };
+
+  useEffect(() => {
+    fetChAddressList();
+  }, []);
 
   return (
     <div className="bg-[#f3f4f6]">
