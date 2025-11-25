@@ -4,7 +4,6 @@ import SideBarNav from './SideBarNav';
 import { UserMyAccountEndpoints } from '@/lib/api/authincationEndPoints';
 import { useAuth } from '@/context/userAuthContext';
 import { useToast } from '@/components/ui/Tooltip';
-import { log } from 'console';
 
 export default function MyProfileForm() {
   const { showToast } = useToast();
@@ -36,7 +35,6 @@ export default function MyProfileForm() {
       date_of_birth: data.date_of_birth ?? '',
       phone: data.phone ?? '',
       email: data.email ?? '',
-      image: data.profile_image ?? '',
       subscribed_to_news_letter: data.subscribed_to_news_letter ?? false,
     }));
   };
@@ -49,8 +47,16 @@ export default function MyProfileForm() {
     });
   };
 
-  const handleSubmit = async () => {
-    const resp = await UserMyAccountEndpoints.updatePeofile(formData);
+  const handleSubmit = async (e: any) => {
+    e.preventDefault();
+    const payload = new FormData();
+    payload.append('_method', 'PUT');
+
+    if (imageFile) {
+      payload.append('image', imageFile as Blob);
+    }
+
+    const resp = await UserMyAccountEndpoints.updatePeofile(payload);
     showToast(resp.message, 'success');
   };
 
@@ -60,7 +66,6 @@ export default function MyProfileForm() {
     }
   }, [isAuthenticated]);
 
-  console.log(formData, 'formdatahit');
   // Tailwind common input style
   const inputClass =
     'border border-gray-300 rounded-md px-4 py-2 text-gray-800 bg-white focus:ring-2 focus:ring-teal-500 focus:outline-none';

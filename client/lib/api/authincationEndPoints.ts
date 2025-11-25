@@ -17,6 +17,7 @@ export const UserMyAccountEndpoints = {
       cache: 'no-store',
     });
   },
-  updatePeofile: (data: any) => apiPut('/customer/profile', data),
+  updatePeofile: (data: any) => apiPost('/customer/profile', data),
+
   getSubscriptionStatus: (email: string) => apiPost('/customer/subscription', { email: email }),
 };

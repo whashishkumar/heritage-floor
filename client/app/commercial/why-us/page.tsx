@@ -37,7 +37,15 @@ const pageTitle = {
 
 export default async function page() {
   const whyUs = await CommercialPageData.getWhyUsDetails();
-  const { banner, journey, third_section, countries, fifth_section, seventh_section } = whyUs || {};
+  const {
+    banner,
+    journey,
+    third_section,
+    countries,
+    fifth_section,
+    seventh_section,
+    globalPresenceSection,
+  } = whyUs || {};
   const { items, data } = journey || {};
 
   return (
@@ -45,7 +53,7 @@ export default async function page() {
       <WhyUs banner={banner} />
       <WorldCount statsData={items} pageTitle={data} Founder={third_section} />
       <BrandCollebration brands={fifth_section} countries={countries} />
-      <GlobalPresence countries={countries} />
+      <GlobalPresence countries={globalPresenceSection} />
       <WhyDubai whyDubai={seventh_section} />
     </div>
   );
