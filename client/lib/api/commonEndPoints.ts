@@ -1,3 +1,4 @@
+import { get } from 'http';
 import { apiFetch, apiFetchBatch, apiFetchWithResponse, apiPost } from './fetcher';
 // CommonComponent Content Api`
 export const CommonComponentData = {
@@ -46,7 +47,13 @@ export const CommonComponentData = {
   getCountriesList: () => {
     return apiFetch({
       endpoint: '/countries',
-      cache: 'dynamic',
+      cache: 'no-store',
+    });
+  },
+  getStatesList: (countryCode: string) => {
+    return apiFetch({
+      endpoint: `/countries-states?country_code=${countryCode}`,
+      cache: 'no-store',
     });
   },
 };

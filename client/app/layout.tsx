@@ -43,6 +43,7 @@ export const metadata: Metadata = {
     'Heritage Floor and Home offers premium flooring and home improvement products designed to enhance your space with quality, style, and long-lasting durability. Shop top floors and home essentials online',
   robots: {
     index: false,
+    follow: false,
   },
   icons: {
     icon: '/logo/heritage.svg',

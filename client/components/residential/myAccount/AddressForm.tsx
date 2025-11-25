@@ -20,6 +20,8 @@ export default function AddressForm() {
     default_address: false,
   });
 
+  const [countryList, setCountryList] = useState<Array<any>>([]);
+  const [stateList, setStateList] = useState<Array<any>>([]);
   const handleChange = (e: any) => {
     const { name, value, type, checked } = e.target;
 
@@ -35,23 +37,26 @@ export default function AddressForm() {
 
   const fetchCountries = async () => {
     const resp = await CommonComponentData.getCountriesList();
-    console.log(resp, 'COUNTRIES LIST');
-    alert('Check console for countries list');
+    setCountryList(resp?.data);
+  };
+
+  const fetchStates = async (countryCode: string) => {
+    const resp = await CommonComponentData.getStatesList(countryCode);
+    setStateList(resp?.data);
   };
 
   const handleSubmitAddress = async () => {
     const payload = {
       ...formData,
-      address: [formData.address], // convert main address into array
+      address: [formData.address],
     };
-
     const resp = await CartEndPoint.addCustomerAddress(payload);
-    console.log(resp, 'FINAL ADDRESS PAYLOAD');
   };
 
   useEffect(() => {
-    // fetChAddressList();
+    fetChAddressList();
     fetchCountries();
+    fetchStates(formData.country);
   }, []);
 
   return (
@@ -170,19 +175,30 @@ export default function AddressForm() {
               onChange={handleChange}
               className="w-full border border-gray-300 rounded-md px-3 py-2 bg-white"
             >
-              <option value="US">United States</option>
-              <option value="CA">Canada</option>
-              <option value="IN">India</option>
+              {countryList.length > 0 &&
+                countryList.map((country) => (
+                  <option key={country.code} value={country.code} className="">
+                    {country.name}
+                  </option>
+                ))}
             </select>
           </div>
 
           <div>
             <label className="text-sm font-medium text-gray-700 mb-1 block">State</label>
-            <input
+            <select
               name="state"
+              value={formData.country}
               onChange={handleChange}
-              className="w-full border border-gray-300 rounded-md px-3 py-2"
-            />
+              className="w-full border border-gray-300 rounded-md px-3 py-2 bg-white"
+            >
+              {stateList.length > 0 &&
+                stateList?.map((country) => (
+                  <option key={country.code} value={country.code}>
+                    {country.default_name}
+                  </option>
+                ))}
+            </select>
           </div>
 
           <div>
