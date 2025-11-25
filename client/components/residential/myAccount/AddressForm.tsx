@@ -5,28 +5,43 @@ import { CartEndPoint } from '@/lib/api/cartEndPoints';
 
 export default function AddressForm() {
   const [formData, setFormData] = useState({
-    firstName: '',
-    lastName: '',
-    company: '',
+    first_name: '',
+    last_name: '',
+    company_name: '',
     phone: '',
     address: '',
     address2: '',
     city: '',
-    country: 'Canada',
-    province: '',
-    postalCode: '',
+    country: 'US',
+    state: '',
+    postcode: '',
+    email: '',
+    vat_id: '',
+    default_address: false,
   });
 
   const handleChange = (e: any) => {
+    const { name, value, type, checked } = e.target;
+
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value,
+      [name]: type === 'checkbox' ? checked : value,
     });
   };
 
   const fetChAddressList = async () => {
     const resp = await CartEndPoint.getUserAddressList();
-    console.log(resp, 'address list');
+    // console.log(resp, 'address list');
+  };
+
+  const handleSubmitAddress = async () => {
+    const payload = {
+      ...formData,
+      address: [formData.address], // convert main address into array
+    };
+
+    const resp = await CartEndPoint.addCustomerAddress(payload);
+    console.log(resp, 'FINAL ADDRESS PAYLOAD');
   };
 
   useEffect(() => {
@@ -37,32 +52,41 @@ export default function AddressForm() {
     <div className="bg-[#f3f4f6]">
       <div className="wrapper m-auto py-16">
         <div className="flex gap-10">
-          <SidebarNav />
+          <div className="sticky top-20 h-fit">
+            <SidebarNav />
+          </div>
+
           <div className="w-full max-w-4xl mx-auto bg-white p-6 rounded-lg">
             <div className="flex justify-between items-center mb-6">
               <h2 className="text-2xl font-semibold text-gray-900">Create address</h2>
             </div>
 
             <hr className="mb-6" />
+
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {/* First Name */}
               <div>
                 <label className="text-sm font-medium text-gray-700 mb-1 block">First name</label>
                 <input
                   type="text"
-                  name="firstName"
+                  name="first_name"
                   onChange={handleChange}
-                  className="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-teal-500 focus:border-teal-500"
+                  className="w-full border border-gray-300 rounded-md px-3 py-2"
                 />
               </div>
+
+              {/* Last Name */}
               <div>
                 <label className="text-sm font-medium text-gray-700 mb-1 block">Last name</label>
                 <input
                   type="text"
-                  name="lastName"
+                  name="last_name"
                   onChange={handleChange}
-                  className="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-teal-500 focus:border-teal-500"
+                  className="w-full border border-gray-300 rounded-md px-3 py-2"
                 />
               </div>
+
+              {/* Company */}
               <div>
                 <div className="flex justify-between">
                   <label className="text-sm font-medium text-gray-700 mb-1 block">Company</label>
@@ -70,29 +94,57 @@ export default function AddressForm() {
                 </div>
                 <input
                   type="text"
-                  name="company"
+                  name="company_name"
                   onChange={handleChange}
-                  className="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-teal-500 focus:border-teal-500"
+                  className="w-full border border-gray-300 rounded-md px-3 py-2"
                 />
               </div>
+
+              {/* Phone */}
               <div>
                 <label className="text-sm font-medium text-gray-700 mb-1 block">Phone</label>
                 <input
                   type="text"
                   name="phone"
                   onChange={handleChange}
-                  className="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-teal-500 focus:border-teal-500"
+                  className="w-full border border-gray-300 rounded-md px-3 py-2"
                 />
               </div>
+
+              {/* Email */}
+              <div>
+                <label className="text-sm font-medium text-gray-700 mb-1 block">Email</label>
+                <input
+                  type="email"
+                  name="email"
+                  onChange={handleChange}
+                  className="w-full border border-gray-300 rounded-md px-3 py-2"
+                />
+              </div>
+
+              {/* VAT ID */}
+              <div>
+                <label className="text-sm font-medium text-gray-700 mb-1 block">VAT ID</label>
+                <input
+                  type="text"
+                  name="vat_id"
+                  onChange={handleChange}
+                  className="w-full border border-gray-300 rounded-md px-3 py-2"
+                />
+              </div>
+
+              {/* Address */}
               <div>
                 <label className="text-sm font-medium text-gray-700 mb-1 block">Address</label>
                 <input
                   type="text"
                   name="address"
                   onChange={handleChange}
-                  className="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-teal-500 focus:border-teal-500"
+                  className="w-full border border-gray-300 rounded-md px-3 py-2"
                 />
               </div>
+
+              {/* Address 2 */}
               <div>
                 <div className="flex justify-between">
                   <label className="text-sm font-medium text-gray-700 mb-1 block">Address 2</label>
@@ -103,7 +155,7 @@ export default function AddressForm() {
                   name="address2"
                   placeholder="Apt, Suite, Etc"
                   onChange={handleChange}
-                  className="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-teal-500 focus:border-teal-500"
+                  className="w-full border border-gray-300 rounded-md px-3 py-2"
                 />
               </div>
 
@@ -114,7 +166,7 @@ export default function AddressForm() {
                   type="text"
                   name="city"
                   onChange={handleChange}
-                  className="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-teal-500 focus:border-teal-500"
+                  className="w-full border border-gray-300 rounded-md px-3 py-2"
                 />
               </div>
 
@@ -125,27 +177,22 @@ export default function AddressForm() {
                   name="country"
                   value={formData.country}
                   onChange={handleChange}
-                  className="w-full border border-gray-300 rounded-md px-3 py-2 bg-white focus:ring-teal-500 focus:border-teal-500"
+                  className="w-full border border-gray-300 rounded-md px-3 py-2 bg-white"
                 >
-                  <option>Canada</option>
-                  <option>United States</option>
-                  <option>India</option>
+                  <option value="US">United States</option>
+                  <option value="CA">Canada</option>
+                  <option value="IN">India</option>
                 </select>
               </div>
 
-              {/* Province */}
+              {/* State */}
               <div>
-                <label className="text-sm font-medium text-gray-700 mb-1 block">Province</label>
-                <select
-                  name="province"
+                <label className="text-sm font-medium text-gray-700 mb-1 block">State</label>
+                <input
+                  name="state"
                   onChange={handleChange}
-                  className="w-full border border-gray-300 rounded-md px-3 py-2 bg-white focus:ring-teal-500 focus:border-teal-500"
-                >
-                  <option>Select a Province</option>
-                  <option>Ontario</option>
-                  <option>Quebec</option>
-                  <option>British Columbia</option>
-                </select>
+                  className="w-full border border-gray-300 rounded-md px-3 py-2"
+                />
               </div>
 
               {/* Postal Code */}
@@ -153,16 +200,25 @@ export default function AddressForm() {
                 <label className="text-sm font-medium text-gray-700 mb-1 block">Postal Code</label>
                 <input
                   type="text"
-                  name="postalCode"
+                  name="postcode"
                   onChange={handleChange}
-                  className="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-teal-500 focus:border-teal-500"
+                  className="w-full border border-gray-300 rounded-md px-3 py-2"
                 />
+              </div>
+
+              {/* Default Address */}
+              <div className="flex items-center gap-2 mt-2">
+                <input type="checkbox" name="default_address" onChange={handleChange} />
+                <label className="text-sm font-medium text-gray-700">Set as default address</label>
               </div>
             </div>
 
             {/* Buttons */}
             <div className="flex gap-4 mt-8">
-              <button className="bg-teal-600 text-white px-6 py-2 rounded-lg font-medium hover:bg-teal-700">
+              <button
+                className="bg-teal-600 text-white px-6 py-2 rounded-lg font-medium hover:bg-teal-700"
+                onClick={handleSubmitAddress}
+              >
                 Save
               </button>
               <button className="border border-gray-300 px-6 py-2 rounded-lg font-medium hover:bg-gray-100">

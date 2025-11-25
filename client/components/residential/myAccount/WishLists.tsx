@@ -4,10 +4,12 @@ import SidebarNav from './SideBarNav';
 import { CartEndPoint } from '@/lib/api/cartEndPoints';
 import WishListProductCard from '@/components/common/WishListProductCard';
 import { useToast } from '@/components/ui/Tooltip';
+import { useRouter } from 'next/navigation';
 
 export default function WishLists() {
   const { showToast } = useToast();
   const [wishListItems, setWishListItems] = React.useState<any>([]);
+  const router = useRouter();
 
   const getAllListItems = async () => {
     const resp = await CartEndPoint.getWishListItems();
@@ -25,6 +27,10 @@ export default function WishLists() {
     getAllListItems();
   };
 
+  const handleGetProductDetail = (id: any) => {
+    router.push(`/residential/products/${'wish-list'}/${id}`);
+  };
+
   useEffect(() => {
     getAllListItems();
   }, []);
@@ -34,7 +40,10 @@ export default function WishLists() {
       <div className="bg-[#f3f4f6]">
         <div className="wrapper m-auto py-16">
           <div className="flex gap-10">
-            <SidebarNav />
+            <div className="sticky top-20 h-fit">
+              <SidebarNav />
+            </div>
+
             <div className="border border-gray-300 rounded-lg p-8 bg-white w-full mx-auto">
               <div className="mb-8">
                 <div className="flex justify-between items-center">
@@ -55,7 +64,7 @@ export default function WishLists() {
                   {wishListItems?.map((item: any) => (
                     <WishListProductCard
                       product={item?.product}
-                      handleGetProductDetail={() => {}}
+                      handleGetProductDetail={handleGetProductDetail}
                       handleMoveToCartProduct={handleMoveToCartProduct}
                     />
                   ))}
