@@ -45,7 +45,7 @@ export const CommonComponentData = {
 
   getCountriesList: () => {
     return apiFetch({
-      endpoint: '/common/countries',
+      endpoint: '/countries',
       cache: 'dynamic',
     });
   },

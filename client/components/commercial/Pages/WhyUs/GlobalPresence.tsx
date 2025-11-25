@@ -1,6 +1,5 @@
 'use client';
 import AutoPlay from '@/components/common/Slider';
-import { log } from 'console';
 import Image from 'next/image';
 
 const brandData = [
