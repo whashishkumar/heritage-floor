@@ -35,8 +35,8 @@ export function ToastProvider({ children }: { children: ReactNode }) {
 
       {toast.visible && (
         <div
-          className={`fixed top-4 left-1/2 transform -translate-x-1/2 z-50 px-6 py-3 rounded-lg shadow-lg text-white text-sm transition-all duration-300 min-w-[300px] text-center
-            ${toast.type === 'success' ? 'bg-[#008c99]' : 'bg-red-600'}`}
+          className={`fixed z-50 top-6 right-4 sm:top-7 sm:right-4 xs:top-20 xs:right-3 max-w-[90vw] px-4 py-3 rounded-lg shadow-lg text-white text-sm transition-all duration-300
+          ${toast.type === 'success' ? 'bg-[#008c99]' : 'bg-red-600'}`}
         >
           {toast.message}
         </div>

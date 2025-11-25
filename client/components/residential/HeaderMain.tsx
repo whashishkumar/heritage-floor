@@ -140,8 +140,15 @@ export default function HeaderMainBar() {
                       href={'/residential/my-account/profile'}
                       className="text-gray-700 hover:text-primaryTwo cursor-pointer flex gap-2"
                     >
-                      <div className="h-[1.5rem] w-[1.5rem] relative overflow-hidden">
-                        <Image src="/icon/user.png" alt="User" fill className="object-center" />
+                      <div className="h-[1.5rem] w-[1.5rem] relative overflow-hidden rounded-full">
+                        {userDetail?.profile_image && (
+                          <Image
+                            src={userDetail?.profile_image}
+                            alt="User"
+                            fill
+                            className="object-center"
+                          />
+                        )}
                       </div>
                       <span className="text-textGray text-base leading-[1.6] cursor-pointer">
                         {userDetail?.name}
@@ -232,20 +239,37 @@ export default function HeaderMainBar() {
                 <a href="#" className="text-gray-700 hover:text-teal-600 font-medium py-2">
                   Get a Quote
                 </a>
-                {isAuthenticated ? (
-                  <span
-                    className="text-textGray text-base leading-[1.6] cursor-pointer"
-                    onClick={() => logout()}
-                  >
-                    logout
-                  </span>
-                ) : (
-                  <span
-                    className="text-textGray text-base leading-[1.6] cursor-pointer"
+                {!isAuthenticated ? (
+                  <button
+                    className="text-gray-700 hover:text-primaryTwo cursor-pointer flex gap-2"
                     onClick={handleOpenModal}
                   >
-                    Account / Sign In
-                  </span>
+                    <div className="h-[1.5rem] w-[1.5rem] relative overflow-hidden">
+                      <Image src="/icon/user.png" alt="User" fill className="object-center" />
+                    </div>
+                    <span className="text-textGray text-base leading-[1.6] cursor-pointer">
+                      Account / Sign In
+                    </span>
+                  </button>
+                ) : (
+                  <Link
+                    href={'/residential/my-account/profile'}
+                    className="text-gray-700 hover:text-primaryTwo cursor-pointer flex gap-2"
+                  >
+                    <div className="h-[1.5rem] w-[1.5rem] relative overflow-hidden rounded-full">
+                      {userDetail?.profile_image && (
+                        <Image
+                          src={userDetail?.profile_image}
+                          alt="User"
+                          fill
+                          className="object-center"
+                        />
+                      )}
+                    </div>
+                    <span className="text-textGray text-base leading-[1.6] cursor-pointer">
+                      {userDetail?.name}
+                    </span>
+                  </Link>
                 )}
                 <ModalBox isOpen={isModalOpen} onClose={handleCloseModal}>
                   <LoginPage onClose={handleCloseModal} />

@@ -18,6 +18,13 @@ export default function MyProfileForm() {
     email: '',
     subscribed_to_news_letter: false,
   });
+  const [errors, setErrors] = useState({
+    first_name: '',
+    last_name: '',
+    gender: '',
+    date_of_birth: '',
+    phone: '',
+  });
   const [alertMessage, setAlertMessage] = useState<string | null>(null);
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
@@ -53,26 +60,80 @@ export default function MyProfileForm() {
       ...formData,
       [name]: type === 'checkbox' ? checked : value,
     });
+
+    // Clear error when user starts typing
+    if (errors[name as keyof typeof errors]) {
+      setErrors({
+        ...errors,
+        [name]: '',
+      });
+    }
+  };
+
+  const validateForm = () => {
+    const newErrors = {
+      first_name: '',
+      last_name: '',
+      gender: '',
+      date_of_birth: '',
+      phone: '',
+    };
+
+    let isValid = true;
+
+    if (!formData.first_name.trim()) {
+      newErrors.first_name = 'First name is required';
+      isValid = false;
+    }
+
+    if (!formData.last_name.trim()) {
+      newErrors.last_name = 'Last name is required';
+      isValid = false;
+    }
+
+    if (!formData.gender) {
+      newErrors.gender = 'Gender is required';
+      isValid = false;
+    }
+
+    if (!formData.date_of_birth) {
+      newErrors.date_of_birth = 'Date of birth is required';
+      isValid = false;
+    }
+
+    if (!formData.phone.trim()) {
+      newErrors.phone = 'Phone is required';
+      isValid = false;
+    }
+
+    setErrors(newErrors);
+    return isValid;
   };
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
+
+    // Validate form before submitting
+    if (!validateForm()) {
+      showToast('Please fill in all required fields', 'error');
+      return;
+    }
+
     const userData = new FormData();
     userData.append('_method', 'PUT');
-    // Append all form fields to userData
-    // userData.append('first_name', formData.first_name);
-    // userData.append('last_name', formData.last_name);
-    // userData.append('gender', formData.gender);
-    // userData.append('date_of_birth', formData.date_of_birth);
-    // userData.append('phone', formData.phone);
-    // userData.append('email', formData.email);
-    // userData.append('subscribed_to_news_letter', formData.subscribed_to_news_letter.toString());
-    // Append image file if exists
+    userData.append('first_name', formData.first_name);
+    userData.append('last_name', formData.last_name);
+    userData.append('gender', formData.gender);
+    userData.append('date_of_birth', formData.date_of_birth);
+    userData.append('phone', formData.phone);
+    userData.append('email', formData.email);
+    userData.append('subscribed_to_news_letter', formData.subscribed_to_news_letter.toString());
     if (imageFile) {
-      userData.append('image', imageFile as Blob);
+      userData.append('image[]', imageFile);
     }
-    // const resp = await UserMyAccountEndpoints.updatePeofile(userData);
-    // showToast(resp.message, 'success');
+
+    const resp = await UserMyAccountEndpoints.updatePeofile(userData);
+    showToast(resp.message, 'success');
   };
 
   useEffect(() => {
@@ -109,8 +170,14 @@ export default function MyProfileForm() {
                   name="first_name"
                   value={formData.first_name}
                   onChange={handleChange}
-                  className={inputClass}
+                  className={`${inputClass} ${
+                    errors.first_name ? 'border-red-500 focus:ring-red-500' : ''
+                  }`}
+                  required
                 />
+                {errors.first_name && (
+                  <span className="text-red-500 text-xs mt-1">{errors.first_name}</span>
+                )}
               </div>
               {/* Last name */}
               <div className="flex flex-col">
@@ -119,8 +186,14 @@ export default function MyProfileForm() {
                   name="last_name"
                   value={formData.last_name}
                   onChange={handleChange}
-                  className={inputClass}
+                  className={`${inputClass} ${
+                    errors.last_name ? 'border-red-500 focus:ring-red-500' : ''
+                  }`}
+                  required
                 />
+                {errors.last_name && (
+                  <span className="text-red-500 text-xs mt-1">{errors.last_name}</span>
+                )}
               </div>
               {/* Gender */}
               <div className="flex flex-col">
@@ -129,13 +202,19 @@ export default function MyProfileForm() {
                   name="gender"
                   onChange={handleChange}
                   value={formData.gender}
-                  className={inputClass}
+                  className={`${inputClass} ${
+                    errors.gender ? 'border-red-500 focus:ring-red-500' : ''
+                  }`}
+                  required
                 >
                   <option value="">Select</option>
                   <option value="Male">Male</option>
                   <option value="Female">Female</option>
                   <option value="Other">Other</option>
                 </select>
+                {errors.gender && (
+                  <span className="text-red-500 text-xs mt-1">{errors.gender}</span>
+                )}
               </div>
               {/* DOB */}
               <div className="flex flex-col">
@@ -145,8 +224,14 @@ export default function MyProfileForm() {
                   type="date"
                   value={formData.date_of_birth}
                   onChange={handleChange}
-                  className={inputClass}
+                  className={`${inputClass} ${
+                    errors.date_of_birth ? 'border-red-500 focus:ring-red-500' : ''
+                  }`}
+                  required
                 />
+                {errors.date_of_birth && (
+                  <span className="text-red-500 text-xs mt-1">{errors.date_of_birth}</span>
+                )}
               </div>
               {/* Phone */}
               <div className="flex flex-col">
@@ -155,8 +240,12 @@ export default function MyProfileForm() {
                   name="phone"
                   value={formData.phone}
                   onChange={handleChange}
-                  className={inputClass}
+                  className={`${inputClass} ${
+                    errors.phone ? 'border-red-500 focus:ring-red-500' : ''
+                  }`}
+                  required
                 />
+                {errors.phone && <span className="text-red-500 text-xs mt-1">{errors.phone}</span>}
               </div>
               {/* Email */}
               <div className="flex flex-col">
@@ -191,7 +280,7 @@ export default function MyProfileForm() {
                           fileInputRef.current.value = '';
                         }
                       }}
-                      className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-1.5 hover:bg-red-600 transition-colors shadow-lg"
+                      className="absolute -top-2 left-28 bg-red-500 text-white rounded-full p-1.5 hover:bg-red-600 transition-colors shadow-lg"
                       title="Remove image"
                     >
                       <svg
