@@ -39,10 +39,16 @@ export default function MyProfileForm() {
       email: data.email ?? '',
       subscribed_to_news_letter: data.subscribed_to_news_letter ?? false,
     }));
+
+    // Set the existing profile image if available
+    if (data.image) {
+      setImagePreview(data.image);
+    }
   };
 
   const handleChange = (e: any) => {
     const { name, value, type, checked } = e.target;
+
     setFormData({
       ...formData,
       [name]: type === 'checkbox' ? checked : value,
@@ -51,15 +57,22 @@ export default function MyProfileForm() {
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
-    const payload = new FormData();
-    payload.append('_method', 'PUT');
-
+    const userData = new FormData();
+    userData.append('_method', 'PUT');
+    // Append all form fields to userData
+    // userData.append('first_name', formData.first_name);
+    // userData.append('last_name', formData.last_name);
+    // userData.append('gender', formData.gender);
+    // userData.append('date_of_birth', formData.date_of_birth);
+    // userData.append('phone', formData.phone);
+    // userData.append('email', formData.email);
+    // userData.append('subscribed_to_news_letter', formData.subscribed_to_news_letter.toString());
+    // Append image file if exists
     if (imageFile) {
-      payload.append('image', imageFile as Blob);
+      userData.append('image', imageFile as Blob);
     }
-
-    const resp = await UserMyAccountEndpoints.updatePeofile(payload);
-    showToast(resp.message, 'success');
+    // const resp = await UserMyAccountEndpoints.updatePeofile(userData);
+    // showToast(resp.message, 'success');
   };
 
   useEffect(() => {
