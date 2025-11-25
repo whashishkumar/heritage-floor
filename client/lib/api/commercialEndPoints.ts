@@ -42,4 +42,18 @@ export const CommercialPageData = {
       cache: 'dynamic',
     });
   },
+
+  getCommercialHeroSection: () => {
+    return apiFetch({
+      endpoint: '',
+      cache: 'dynamic',
+    });
+  },
+
+  getCommercialAboutSections: () => {
+    return apiFetch({
+      endpoint: '',
+      cache: 'dynamic',
+    });
+  },
 };

@@ -1,12 +1,12 @@
 'use client';
 import Image from 'next/image';
-import { useRouter } from 'next/navigation';
 import ButtonCommon from '../ui/Button';
 import RatingStars from '../ui/RatingStars';
 import { addToGuestCart } from '@/utils/addToGuestCart';
 import { CartEndPoint } from '@/lib/api/cartEndPoints';
 
 export interface Product {
+  [x: string]: any;
   id: number;
   name: string;
   sku: string;
@@ -30,10 +30,10 @@ export default function WishListProductCard({
   handleMoveToCartProduct,
 }: Props) {
   const path = process.env.NEXT_PUBLIC_IMAGE_PATH;
-  const ProductImage = `${path}${product.image}`;
+  const ProductImage = product?.images?.[0].large_image_url;
 
   return (
-    <div className="flex flex-col w-[298px]">
+    <div className="flex flex-col w-full max-w-[288px]">
       <div
         className="relative bg-white rounded-[0.625rem] flex justify-center items-center border border-[#E8E8E8] h-[321px]  cursor-pointer rounded-tl-lg"
         onClick={() => handleGetProductDetail(product.id)}
@@ -50,11 +50,11 @@ export default function WishListProductCard({
         </span>
         {ProductImage && (
           <Image
-            src={ProductImage}
+            src={ProductImage as string}
             alt={product.sku}
             width={340}
             height={240}
-            className="h-full w-auto object-cover rounded-tl-lg"
+            className="h-full w-full object-cover rounded-tl-lg"
           />
         )}
       </div>
