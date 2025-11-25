@@ -43,6 +43,10 @@ export const CommonComponentData = {
     });
   },
 
-  
+  getCountriesList: () => {
+    return apiFetch({
+      endpoint: '/common/countries',
+      cache: 'dynamic',
+    });
+  },
 };
-

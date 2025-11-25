@@ -51,8 +51,6 @@ export default function HeaderMainBar() {
     // getCount();
   }, [isAuthenticated]);
 
-  console.log(userDetail?.profile_image, 'userDetail');
-
   return (
     <>
       <div className="flex items-center justify-center bg-white text-black min-h-[4.688rem] h-full w-full relative">
@@ -230,19 +228,32 @@ export default function HeaderMainBar() {
 
               {/* Mobile Navigation */}
               <nav className="flex flex-col gap-3">
-                <a className="flex items-center justify-between text-gray-700 hover:text-teal-600 font-medium py-2">
+                <a
+                  className="flex items-center justify-between text-gray-700 hover:text-teal-600 font-medium py-2"
+                  onClick={() => setIsMenuOpen(false)}
+                >
                   Special Deals
                 </a>
-                <a href="#" className="text-gray-700 hover:text-teal-600 font-medium py-2">
+                <a
+                  href="#"
+                  className="text-gray-700 hover:text-teal-600 font-medium py-2"
+                  onClick={() => setIsMenuOpen(false)}
+                >
                   Products
                 </a>
-                <a href="#" className="text-gray-700 hover:text-teal-600 font-medium py-2">
+                <a
+                  href="#"
+                  className="text-gray-700 hover:text-teal-600 font-medium py-2"
+                  onClick={() => setIsMenuOpen(false)}
+                >
                   Get a Quote
                 </a>
                 {!isAuthenticated ? (
                   <button
                     className="text-gray-700 hover:text-primaryTwo cursor-pointer flex gap-2"
-                    onClick={handleOpenModal}
+                    onClick={() => {
+                      handleOpenModal();
+                    }}
                   >
                     <div className="h-[1.5rem] w-[1.5rem] relative overflow-hidden">
                       <Image src="/icon/user.png" alt="User" fill className="object-center" />
@@ -255,6 +266,7 @@ export default function HeaderMainBar() {
                   <Link
                     href={'/residential/my-account/profile'}
                     className="text-gray-700 hover:text-primaryTwo cursor-pointer flex gap-2"
+                    onClick={() => setIsMenuOpen(false)}
                   >
                     <div className="h-[1.5rem] w-[1.5rem] relative overflow-hidden rounded-full">
                       {userDetail?.profile_image && (
@@ -274,16 +286,20 @@ export default function HeaderMainBar() {
                 <ModalBox isOpen={isModalOpen} onClose={handleCloseModal}>
                   <LoginPage onClose={handleCloseModal} />
                 </ModalBox>
-                <a
-                  href="#"
+                <Link
+                  href="/residential/cart"
                   className="flex items-center gap-2 text-gray-700 hover:text-teal-600 font-medium py-2"
+                  onClick={() => setIsMenuOpen(false)}
                 >
                   <FiShoppingCart className="w-5 h-5" />
                   Cart {cartCount > 0 && `(${cartCount})`}
-                </a>
+                </Link>
               </nav>
               <button
-                onClick={() => setIsDealsOpen(true)}
+                onClick={() => {
+                  setIsDealsOpen(true);
+                  setIsMenuOpen(false);
+                }}
                 className="flex items-center justify-between text-gray-700 hover:text-teal-600 font-medium py-2"
               >
                 Mega Menu

@@ -17,6 +17,7 @@ export default function MyProfileForm() {
     phone: '',
     email: '',
     subscribed_to_news_letter: false,
+    profile_image: null,
   });
   const [errors, setErrors] = useState({
     first_name: '',
@@ -45,11 +46,12 @@ export default function MyProfileForm() {
       phone: data.phone ?? '',
       email: data.email ?? '',
       subscribed_to_news_letter: data.subscribed_to_news_letter ?? false,
+      profile_image: data.profile_image ?? null,
     }));
 
     // Set the existing profile image if available
     if (data.image) {
-      setImagePreview(data.image);
+      setImagePreview(data.profile_image);
     }
   };
 
@@ -146,11 +148,15 @@ export default function MyProfileForm() {
   const inputClass =
     'border border-gray-300 rounded-md px-4 py-2 text-gray-800 bg-white focus:ring-2 focus:ring-teal-500 focus:outline-none';
 
+  console.log(formData?.profile_image, 'formData');
+
   return (
     <div className="bg-[#f3f4f6] min-h-screen">
       <div className="wrapper m-auto py-16">
         <div className="flex gap-10">
-          <SideBarNav />
+          <div className="sticky top-20 h-fit">
+            <SideBarNav />
+          </div>
 
           <div className="border border-gray-300 rounded-lg p-8 bg-white w-full mx-auto shadow-sm">
             {/* Header */}
