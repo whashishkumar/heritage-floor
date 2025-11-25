@@ -1,5 +1,5 @@
 'use client';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import SideBarNav from './SideBarNav';
 import { UserMyAccountEndpoints } from '@/lib/api/authincationEndPoints';
 import { useAuth } from '@/context/userAuthContext';
@@ -20,6 +20,8 @@ export default function MyProfileForm() {
   });
   const [alertMessage, setAlertMessage] = useState<string | null>(null);
   const [imageFile, setImageFile] = useState<File | null>(null);
+  const [imagePreview, setImagePreview] = useState<string | null>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const fetchUserDetail = async () => {
     const resp = await UserMyAccountEndpoints.getUserDetail();
@@ -157,12 +159,61 @@ export default function MyProfileForm() {
               {/* Image Upload */}
               <div className="flex flex-col md:col-span-2">
                 <label className="text-sm font-medium mb-1">Profile Image</label>
+
+                {/* Image Preview with Close Icon */}
+                {imagePreview && (
+                  <div className="relative mb-4 inline-block">
+                    <img
+                      src={imagePreview}
+                      alt="Profile preview"
+                      className="w-32 h-32 rounded-lg object-cover border-2 border-gray-300"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setImageFile(null);
+                        setImagePreview(null);
+                        // Clear the file input
+                        if (fileInputRef.current) {
+                          fileInputRef.current.value = '';
+                        }
+                      }}
+                      className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-1.5 hover:bg-red-600 transition-colors shadow-lg"
+                      title="Remove image"
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="h-4 w-4"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M6 18L18 6M6 6l12 12"
+                        />
+                      </svg>
+                    </button>
+                  </div>
+                )}
+
                 <input
+                  ref={fileInputRef}
                   type="file"
                   accept="image/*"
                   onChange={(e: any) => {
                     if (e.target.files && e.target.files[0]) {
-                      setImageFile(e.target.files[0]);
+                      const file = e.target.files[0];
+                      setImageFile(file);
+
+                      // Create preview URL
+                      const reader = new FileReader();
+                      reader.onloadend = () => {
+                        setImagePreview(reader.result as string);
+                      };
+                      reader.readAsDataURL(file);
                     }
                   }}
                   className={inputClass}
