@@ -63,21 +63,22 @@ const breakpoints = {
 };
 
 export function TeamCard({ item }: any) {
+  const bannerImage = `${process.env.NEXT_PUBLIC_IMAGE_PATH_WITHOUT_STORAGE}${item.image}`;
   return (
     <div className="relative overflow-hidden  shadow-lg rounded-sm">
       <div className="relative w-full h-[600px]">
-        <Image src={item.image} alt={item.name} fill className="object-cover" />
+       {bannerImage && <Image src={bannerImage} alt={'banner-image'} fill className="object-cover" />}
         <div className="absolute inset-0 bg-black/20"></div>
       </div>
       <div className="absolute bottom-0 left-0 w-full p-6 bg-gradient-to-t from-black/80 to-transparent">
-        <h2 className="text-white text-3xl  tracking-widest uppercase font-bold">{item.name}</h2>
-        <p className="text-gray-300 text-sm mt-1 font-bold">{item.role}</p>
+        <h2 className="text-white text-3xl  tracking-widest uppercase font-bold">{item.title}</h2>
+        <p className="text-gray-300 text-sm mt-1 font-bold">{item.description}</p>
       </div>
     </div>
   );
 }
 
-export default function WhyDubai() {
+export default function WhyDubai({whyDubai}:any) {
   return (
     <div>
       <div className="wrapper m-auto">
@@ -87,7 +88,6 @@ export default function WhyDubai() {
           mainCss={`flex flex-col items-center justify-center  ${`text-darkBlue`}`}
           subHeadingCss={`text-darkBlue`}
         />
-
         <div className="py-16">
           <SwipeSlider
             slidesPerView={3}
@@ -100,7 +100,7 @@ export default function WhyDubai() {
             speed={8000}
             breakpoints={breakpoints}
           >
-            {teamData.map((member, idx) => (
+            {whyDubai?.map((member:any, idx:any) => (
               <TeamCard key={`item-${Date.now()}-${idx}`} item={member} />
             ))}
           </SwipeSlider>

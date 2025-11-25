@@ -1,10 +1,10 @@
 'use client';
-import { CartEndPoint } from '@/lib/api/cartEndPoints';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import ButtonCommon from '../ui/Button';
 import RatingStars from '../ui/RatingStars';
 import { addToGuestCart } from '@/utils/addToGuestCart';
+import { CartEndPoint } from '@/lib/api/cartEndPoints';
 
 export interface Product {
   id: number;
@@ -21,27 +21,24 @@ export interface Product {
 interface Props {
   product: Product;
   handleGetProductDetail: (id: any) => void;
+  handleMoveToCartProduct?: (id: any) => void;
 }
 
-export default function ProductCard({ product, handleGetProductDetail }: Props) {
-  const router = useRouter();
-
-  const handleAddToCartProduct = async (id: any) => {
-    // await CartEndPoint.addItemToCart(id);
-    addToGuestCart({ id: id });
-  };
-
+export default function WishListProductCard({
+  product,
+  handleGetProductDetail,
+  handleMoveToCartProduct,
+}: Props) {
   const path = process.env.NEXT_PUBLIC_IMAGE_PATH;
   const ProductImage = `${path}${product.image}`;
 
-  console.log(ProductImage, 'productimage');
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col w-[298px]">
       <div
-        className="relative bg-white rounded-[0.625rem] flex justify-center items-center border border-[#E8E8E8] h-[341px] w-[320px] cursor-pointer rounded-tl-lg"
+        className="relative bg-white rounded-[0.625rem] flex justify-center items-center border border-[#E8E8E8] h-[321px]  cursor-pointer rounded-tl-lg"
         onClick={() => handleGetProductDetail(product.id)}
       >
-        {product.discount_percent && (
+        {product?.discount_percent && (
           <span className="absolute top-0 left-0 bg-[#BA0202] text-white text-sm px-2 py-1 rounded-tl-lg font-bold poppins-font">
             {product.discount_percent}% OFF
           </span>
@@ -57,7 +54,7 @@ export default function ProductCard({ product, handleGetProductDetail }: Props) 
             alt={product.sku}
             width={340}
             height={240}
-            className="h-full  object-cover rounded-tl-lg"
+            className="h-full w-auto object-cover rounded-tl-lg"
           />
         )}
       </div>
@@ -66,7 +63,7 @@ export default function ProductCard({ product, handleGetProductDetail }: Props) 
           SKU: {product.sku} by {product.brand}
         </div>
         <h3 className="text-[#000000] poppins-font leading-[1.75rem] font-medium text-[1.375rem] h-14 line-clamp-2 ">
-          {product.name}
+          {product?.name}
         </h3>
         <p className="mt-2 text-black poppins-font font-extrabold leading-[1.875rem] text-[1.875rem] ">
           {product.price ? '$' + `${product.price}` : '_'}
@@ -74,11 +71,11 @@ export default function ProductCard({ product, handleGetProductDetail }: Props) 
         {/* Button */}
         <div className="mt-[1.5rem]">
           <ButtonCommon
-            buttonName="Add To Cart"
+            buttonName="Move To Cart"
             image="/icon/arrowRightUp.png"
             cssParent="!rounded-[0.625rem]"
             cssChild="!rounded-r-[0.625rem]"
-            onClick={() => handleAddToCartProduct(product?.id)}
+            onClick={() => handleMoveToCartProduct?.(product?.id)}
           />
         </div>
       </div>

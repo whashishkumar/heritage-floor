@@ -10,13 +10,14 @@ export const AuthValidation = {
   logOut: () => apiPost('/customer/logout'),
 };
 
-
-export const UserDetailEndpoints = {
+export const UserMyAccountEndpoints = {
   getUserDetail: () => {
     return apiFetch({
       endpoint: `/customer/get`,
       cache: 'no-store',
     });
   },
-  updatePeofile:(data:any) => apiPut('/customer/profile',data)
-}
+  updatePeofile: (data: any) => apiPost('/customer/profile', data),
+
+  getSubscriptionStatus: (email: string) => apiPost('/customer/subscription', { email: email }),
+};

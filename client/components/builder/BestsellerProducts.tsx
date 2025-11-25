@@ -4,7 +4,6 @@ import SectionHeader from '../common/SectionHeader';
 import ProductCard from '../common/Product';
 import { useRouter } from 'next/navigation';
 import SwipeSlider from '../ui/SwipeSlider';
-
 export interface Product {
   id: number;
   name: string;
@@ -84,6 +83,7 @@ const breakpoints = {
     spaceBetween: 25,
   },
 };
+
 export default function BestsellerProducts({ bestSellerProducts, productHeader }: any) {
   const router = useRouter();
   const { data } = bestSellerProducts || [];

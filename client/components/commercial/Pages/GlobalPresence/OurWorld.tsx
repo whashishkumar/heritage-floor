@@ -63,11 +63,11 @@ const breakpoints = {
 };
 
 export function TeamCard({ item }: any) {
+  const countryImage = `${process.env.NEXT_PUBLIC_IMAGE_PATH_WITHOUT_STORAGE}${item.image}`;
   return (
     <div className="relative overflow-hidden  shadow-lg rounded-sm">
       <div className="relative w-full h-[600px]">
-        <Image src={item.image} alt={item.name} fill className="object-cover" />
-
+        {countryImage && <Image src={countryImage} alt={item.name} fill className="object-cover" />}
         <div className="absolute inset-0 bg-black/20"></div>
       </div>
       <div className="absolute bottom-0 left-0 w-full p-6 bg-gradient-to-t from-black/80 to-transparent">
@@ -78,15 +78,16 @@ export function TeamCard({ item }: any) {
   );
 }
 
-export default function OurWorld() {
+export default function OurWorld({ worldPresence }: any) {
+  const { heading_visa, description_visa, visas } = worldPresence || [];
   return (
     <div>
       <div className="wrapper m-auto">
         <div className="py-10">
           <SectionHeader
-            subHeading="Our world of luxury"
+            subHeading={heading_visa}
             headingCss={`text-darkBlue`}
-            description="DAMAC Properties is renowned for developing luxurious residential towers, expansive master-planned communities, and exclusive island resort residences. Each project blends innovative design with exceptional amenities, offering an unparalleled living experience in prime locations around the world."
+            description={description_visa}
             mainCss={`flex flex-col items-center justify-center text-darkBlue `}
             descriptionCss={`leading-[1.5] mb-[2rem] mt-[0.5rem] md:w-[60%] sm:w-[75%] w-[100%] text-center align-middle  text-darkBlue `}
             subHeadingCss={`text-darkBlue uppercase  lg:tracking-[0.6rem] text-center`}
@@ -105,7 +106,7 @@ export default function OurWorld() {
             speed={8000}
             breakpoints={breakpoints}
           >
-            {teamData.map((member, idx) => (
+            {visas?.map((member: any, idx: any) => (
               <TeamCard key={`item-${Date.now()}-${idx}`} item={member} />
             ))}
           </SwipeSlider>
