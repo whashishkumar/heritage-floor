@@ -92,7 +92,6 @@ api.interceptors.response.use(
     // If token expired / invalid → logout logic
     if (status === 401 || status === 403) {
       console.warn('🔐 Auth error. Token expired or invalid.');
-      Cookies.remove('customer_token');
       // Optionally redirect:
       // window.location.href = "/login";
     }

@@ -31,30 +31,6 @@ export default function SidebarNav() {
   };
 
   return (
-    // <div className="lg:w-[240px] space-y-3">
-    //   {menu.map((item) => {
-    //     const Icon = item.icon;
-    //     const isActive = pathname === item.href;
-    //     return (
-    //       <Link
-    //         key={item.name}
-    //         href={item.href}
-    //         className={`flex items-center gap-3 px-4 py-2 rounded-md transition
-    //         ${isActive ? 'bg-white shadow-sm text-green-700' : 'text-gray-700 hover:text-black'}`}
-    //       >
-    //         <Icon className={`text-[22px] ${isActive ? 'text-green-700' : 'text-gray-500'}`} />
-    //         <span className="text-sm lg:text-base font-medium">{item.name}</span>
-    //       </Link>
-    //     );
-    //   })}
-    //   <button
-    //     onClick={handleLogOut}
-    //     className={`flex items-center gap-3 px-4 py-2 rounded-md transition text-gray-700 hover:text-black cursor-pointer`}
-    //   >
-    //     <AiOutlineLogout size={22} />
-    //     <span className="text-[16px] font-medium">Sign Out</span>
-    //   </button>
-    // </div>
     <div className="w-full lg:w-[240px] space-y-3">
       {menu.map((item) => {
         const Icon = item.icon;
@@ -65,12 +41,12 @@ export default function SidebarNav() {
             key={item.name}
             href={item.href}
             className={`flex items-center gap-3 px-4 py-2 rounded-md transition-all
-          ${isActive ? 'bg-white shadow text-green-700' : 'text-gray-700 hover:bg-gray-100'}
+          ${isActive ? 'bg-white shadow text-[#008c99]' : 'text-gray-700 hover:bg-gray-100'}
         `}
           >
             <Icon
               className={`text-[22px] ${
-                isActive ? 'text-green-700' : 'text-gray-500 group-hover:text-black'
+                isActive ? 'text-[#008c99]' : 'text-gray-500 group-hover:text-black'
               }`}
             />
             <span className="text-sm lg:text-base font-medium">{item.name}</span>

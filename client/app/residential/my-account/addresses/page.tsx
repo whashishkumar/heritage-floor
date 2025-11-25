@@ -1,10 +1,10 @@
-import AddressForm from '@/components/residential/myAccount/AddressForm'
-import React from 'react'
+import AddressList from '@/components/residential/myAccount/AddressCard';
+import React from 'react';
 
 export default function page() {
   return (
     <div>
-      <AddressForm/>
+      <AddressList />
     </div>
-  )
+  );
 }

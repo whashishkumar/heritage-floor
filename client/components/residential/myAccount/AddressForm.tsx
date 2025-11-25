@@ -1,7 +1,7 @@
 'use client';
 import { useEffect, useState } from 'react';
-import SidebarNav from './SideBarNav';
 import { CartEndPoint } from '@/lib/api/cartEndPoints';
+import { CommonComponentData } from '@/lib/api/commonEndPoints';
 
 export default function AddressForm() {
   const [formData, setFormData] = useState({
@@ -31,7 +31,12 @@ export default function AddressForm() {
 
   const fetChAddressList = async () => {
     const resp = await CartEndPoint.getUserAddressList();
-    // console.log(resp, 'address list');
+  };
+
+  const fetchCountries = async () => {
+    const resp = await CommonComponentData.getCountriesList();
+    console.log(resp, 'COUNTRIES LIST');
+    alert('Check console for countries list');
   };
 
   const handleSubmitAddress = async () => {
@@ -45,189 +50,170 @@ export default function AddressForm() {
   };
 
   useEffect(() => {
-    fetChAddressList();
+    // fetChAddressList();
+    fetchCountries();
   }, []);
 
   return (
-    <div className="bg-[#f3f4f6]">
-      <div className="wrapper m-auto py-16">
-        <div className="flex gap-10">
-          <div className="sticky top-20 h-fit">
-            <SidebarNav />
+    <>
+      {/* <div className="wrapper m-auto py-16"> */}
+      <div className="w-full max-w-4xl mx-auto bg-white p-6 rounded-lg">
+        <div className="flex justify-between items-center mb-4">
+          <h2 className="text-2xl font-semibold text-gray-900">Create address</h2>
+        </div>
+
+        <hr className="mb-4" />
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div>
+            <label className="text-sm font-medium text-gray-700 mb-1 block">First name</label>
+            <input
+              type="text"
+              name="first_name"
+              onChange={handleChange}
+              className="w-full border border-gray-300 rounded-md px-3 py-2"
+            />
           </div>
 
-          <div className="w-full max-w-4xl mx-auto bg-white p-6 rounded-lg">
-            <div className="flex justify-between items-center mb-6">
-              <h2 className="text-2xl font-semibold text-gray-900">Create address</h2>
+          <div>
+            <label className="text-sm font-medium text-gray-700 mb-1 block">Last name</label>
+            <input
+              type="text"
+              name="last_name"
+              onChange={handleChange}
+              className="w-full border border-gray-300 rounded-md px-3 py-2"
+            />
+          </div>
+
+          <div>
+            <div className="flex justify-between">
+              <label className="text-sm font-medium text-gray-700 mb-1 block">Company</label>
+              <span className="text-gray-400 text-sm">Optional</span>
             </div>
+            <input
+              type="text"
+              name="company_name"
+              onChange={handleChange}
+              className="w-full border border-gray-300 rounded-md px-3 py-2"
+            />
+          </div>
 
-            <hr className="mb-6" />
+          <div>
+            <label className="text-sm font-medium text-gray-700 mb-1 block">Phone</label>
+            <input
+              type="text"
+              name="phone"
+              onChange={handleChange}
+              className="w-full border border-gray-300 rounded-md px-3 py-2"
+            />
+          </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {/* First Name */}
-              <div>
-                <label className="text-sm font-medium text-gray-700 mb-1 block">First name</label>
-                <input
-                  type="text"
-                  name="first_name"
-                  onChange={handleChange}
-                  className="w-full border border-gray-300 rounded-md px-3 py-2"
-                />
-              </div>
+          <div>
+            <label className="text-sm font-medium text-gray-700 mb-1 block">Email</label>
+            <input
+              type="email"
+              name="email"
+              onChange={handleChange}
+              className="w-full border border-gray-300 rounded-md px-3 py-2"
+            />
+          </div>
 
-              {/* Last Name */}
-              <div>
-                <label className="text-sm font-medium text-gray-700 mb-1 block">Last name</label>
-                <input
-                  type="text"
-                  name="last_name"
-                  onChange={handleChange}
-                  className="w-full border border-gray-300 rounded-md px-3 py-2"
-                />
-              </div>
+          <div>
+            <label className="text-sm font-medium text-gray-700 mb-1 block">VAT ID</label>
+            <input
+              type="text"
+              name="vat_id"
+              onChange={handleChange}
+              className="w-full border border-gray-300 rounded-md px-3 py-2"
+            />
+          </div>
 
-              {/* Company */}
-              <div>
-                <div className="flex justify-between">
-                  <label className="text-sm font-medium text-gray-700 mb-1 block">Company</label>
-                  <span className="text-gray-400 text-sm">Optional</span>
-                </div>
-                <input
-                  type="text"
-                  name="company_name"
-                  onChange={handleChange}
-                  className="w-full border border-gray-300 rounded-md px-3 py-2"
-                />
-              </div>
+          <div>
+            <label className="text-sm font-medium text-gray-700 mb-1 block">Address</label>
+            <input
+              type="text"
+              name="address"
+              onChange={handleChange}
+              className="w-full border border-gray-300 rounded-md px-3 py-2"
+            />
+          </div>
 
-              {/* Phone */}
-              <div>
-                <label className="text-sm font-medium text-gray-700 mb-1 block">Phone</label>
-                <input
-                  type="text"
-                  name="phone"
-                  onChange={handleChange}
-                  className="w-full border border-gray-300 rounded-md px-3 py-2"
-                />
-              </div>
-
-              {/* Email */}
-              <div>
-                <label className="text-sm font-medium text-gray-700 mb-1 block">Email</label>
-                <input
-                  type="email"
-                  name="email"
-                  onChange={handleChange}
-                  className="w-full border border-gray-300 rounded-md px-3 py-2"
-                />
-              </div>
-
-              {/* VAT ID */}
-              <div>
-                <label className="text-sm font-medium text-gray-700 mb-1 block">VAT ID</label>
-                <input
-                  type="text"
-                  name="vat_id"
-                  onChange={handleChange}
-                  className="w-full border border-gray-300 rounded-md px-3 py-2"
-                />
-              </div>
-
-              {/* Address */}
-              <div>
-                <label className="text-sm font-medium text-gray-700 mb-1 block">Address</label>
-                <input
-                  type="text"
-                  name="address"
-                  onChange={handleChange}
-                  className="w-full border border-gray-300 rounded-md px-3 py-2"
-                />
-              </div>
-
-              {/* Address 2 */}
-              <div>
-                <div className="flex justify-between">
-                  <label className="text-sm font-medium text-gray-700 mb-1 block">Address 2</label>
-                  <span className="text-gray-400 text-sm">Optional</span>
-                </div>
-                <input
-                  type="text"
-                  name="address2"
-                  placeholder="Apt, Suite, Etc"
-                  onChange={handleChange}
-                  className="w-full border border-gray-300 rounded-md px-3 py-2"
-                />
-              </div>
-
-              {/* City */}
-              <div>
-                <label className="text-sm font-medium text-gray-700 mb-1 block">City</label>
-                <input
-                  type="text"
-                  name="city"
-                  onChange={handleChange}
-                  className="w-full border border-gray-300 rounded-md px-3 py-2"
-                />
-              </div>
-
-              {/* Country */}
-              <div>
-                <label className="text-sm font-medium text-gray-700 mb-1 block">Country</label>
-                <select
-                  name="country"
-                  value={formData.country}
-                  onChange={handleChange}
-                  className="w-full border border-gray-300 rounded-md px-3 py-2 bg-white"
-                >
-                  <option value="US">United States</option>
-                  <option value="CA">Canada</option>
-                  <option value="IN">India</option>
-                </select>
-              </div>
-
-              {/* State */}
-              <div>
-                <label className="text-sm font-medium text-gray-700 mb-1 block">State</label>
-                <input
-                  name="state"
-                  onChange={handleChange}
-                  className="w-full border border-gray-300 rounded-md px-3 py-2"
-                />
-              </div>
-
-              {/* Postal Code */}
-              <div>
-                <label className="text-sm font-medium text-gray-700 mb-1 block">Postal Code</label>
-                <input
-                  type="text"
-                  name="postcode"
-                  onChange={handleChange}
-                  className="w-full border border-gray-300 rounded-md px-3 py-2"
-                />
-              </div>
-
-              {/* Default Address */}
-              <div className="flex items-center gap-2 mt-2">
-                <input type="checkbox" name="default_address" onChange={handleChange} />
-                <label className="text-sm font-medium text-gray-700">Set as default address</label>
-              </div>
+          <div>
+            <div className="flex justify-between">
+              <label className="text-sm font-medium text-gray-700 mb-1 block">Address 2</label>
+              <span className="text-gray-400 text-sm">Optional</span>
             </div>
+            <input
+              type="text"
+              name="address2"
+              placeholder="Apt, Suite, Etc"
+              onChange={handleChange}
+              className="w-full border border-gray-300 rounded-md px-3 py-2"
+            />
+          </div>
 
-            {/* Buttons */}
-            <div className="flex gap-4 mt-8">
-              <button
-                className="bg-teal-600 text-white px-6 py-2 rounded-lg font-medium hover:bg-teal-700"
-                onClick={handleSubmitAddress}
-              >
-                Save
-              </button>
-              <button className="border border-gray-300 px-6 py-2 rounded-lg font-medium hover:bg-gray-100">
-                Cancel
-              </button>
-            </div>
+          <div>
+            <label className="text-sm font-medium text-gray-700 mb-1 block">City</label>
+            <input
+              type="text"
+              name="city"
+              onChange={handleChange}
+              className="w-full border border-gray-300 rounded-md px-3 py-2"
+            />
+          </div>
+
+          <div>
+            <label className="text-sm font-medium text-gray-700 mb-1 block">Country</label>
+            <select
+              name="country"
+              value={formData.country}
+              onChange={handleChange}
+              className="w-full border border-gray-300 rounded-md px-3 py-2 bg-white"
+            >
+              <option value="US">United States</option>
+              <option value="CA">Canada</option>
+              <option value="IN">India</option>
+            </select>
+          </div>
+
+          <div>
+            <label className="text-sm font-medium text-gray-700 mb-1 block">State</label>
+            <input
+              name="state"
+              onChange={handleChange}
+              className="w-full border border-gray-300 rounded-md px-3 py-2"
+            />
+          </div>
+
+          <div>
+            <label className="text-sm font-medium text-gray-700 mb-1 block">Postal Code</label>
+            <input
+              type="text"
+              name="postcode"
+              onChange={handleChange}
+              className="w-full border border-gray-300 rounded-md px-3 py-2"
+            />
+          </div>
+
+          <div className="flex items-center gap-2 mt-2">
+            <input type="checkbox" name="default_address" onChange={handleChange} />
+            <label className="text-sm font-medium text-gray-700">Set as default address</label>
           </div>
         </div>
+
+        <div className="flex gap-4 mt-8">
+          <button
+            className="bg-teal-600 text-white px-6 py-2 rounded-lg font-medium hover:bg-teal-700"
+            onClick={handleSubmitAddress}
+          >
+            Save
+          </button>
+          {/* <button className="border border-gray-300 px-6 py-2 rounded-lg font-medium hover:bg-gray-100">
+            Cancel
+          </button> */}
+        </div>
       </div>
-    </div>
+    </>
+    // </div>
   );
 }
