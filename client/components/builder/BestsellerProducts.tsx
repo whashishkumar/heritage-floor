@@ -120,9 +120,9 @@ export default function BestsellerProducts({ bestSellerProducts, productHeader }
               slidesPerView={4}
               bottomSwipeBtn={false}
               swipebtn={false}
-              spaceBetween={10}
-              autoPlay={true}
-              loop={true}
+              spaceBetween={20}
+              autoPlay={false}
+              loop={false}
               delay={1000}
               speed={4000}
               breakpoints={breakpoints}
