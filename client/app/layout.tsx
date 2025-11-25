@@ -5,6 +5,7 @@ import Footer from '@/components/layout/Footer';
 import localFont from 'next/font/local';
 import { Providers } from '@/store/providers';
 import { AuthProvider } from '@/context/userAuthContext';
+import { ToastProvider } from '@/components/ui/Tooltip';
 
 const poppins = localFont({
   src: [
@@ -56,13 +57,15 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${roboto.variable}  ${poppins.variable}  ${inter.variable} antialiased `}>
-        <AuthProvider>
-          <Providers>
-            <Navbar />
-            <main>{children}</main>
-            <Footer />
-          </Providers>
-        </AuthProvider>
+        <ToastProvider>
+          <AuthProvider>
+            <Providers>
+              <Navbar />
+              <main>{children}</main>
+              <Footer />
+            </Providers>
+          </AuthProvider>
+        </ToastProvider>
       </body>
     </html>
   );

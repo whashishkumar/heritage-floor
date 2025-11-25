@@ -4,6 +4,7 @@ import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
 import { BsCart4 } from 'react-icons/bs';
 import { CiHeart } from 'react-icons/ci';
+import { IoHeart } from 'react-icons/io5';
 import Accordion from '../ui/Accordian';
 import SwipeSlider from '../ui/SwipeSlider';
 import InnerImageZoom from 'react-inner-image-zoom';
@@ -12,6 +13,8 @@ import { FaExclamationCircle } from 'react-icons/fa';
 import { ResidentailPageData } from '@/lib/api/residentialEndPoints';
 import { useParams } from 'next/navigation';
 import Loader from '../ui/Loader';
+import { CartEndPoint } from '@/lib/api/cartEndPoints';
+import { useToast } from '../ui/Tooltip';
 
 const socialLinks = [
   {
@@ -88,8 +91,9 @@ const breakpoints = {
 };
 
 const ProductDetailPage = () => {
+  const { showToast } = useToast();
   const params = useParams();
-  const [productDetail, setProductDetail] = useState(null);
+  const [productDetail, setProductDetail] = useState<any>(null);
   const { childSlug } = params;
   const { images, sku, name, price, tile_details, shipping_details, related_products }: any =
     productDetail || {};
@@ -103,6 +107,7 @@ const ProductDetailPage = () => {
     tiles_per_box,
   } = tile_details || {};
   const [selectedImage, setSelectedImage] = useState<any>(null);
+  const [isInWishlist, setIsInWishlist] = useState(false);
 
   const handleSelectProductImage = (image: { id: number; src: string; alt: string }) => {
     setSelectedImage(image);
@@ -118,6 +123,14 @@ const ProductDetailPage = () => {
   useEffect(() => {
     getProductDetails();
   }, []);
+
+  const handleWhshlistAdd = async (e: React.MouseEvent<HTMLButtonElement>, productId: number) => {
+    e.preventDefault();
+    setIsInWishlist(!isInWishlist);
+    const wishLitItem = await CartEndPoint.addRemoveListItems(productId);
+    const { message } = wishLitItem;
+    showToast(message);
+  };
 
   if (!productDetail) {
     return <Loader />;
@@ -306,8 +319,17 @@ const ProductDetailPage = () => {
                 Ask For Quote
                 <p className="mt-1 text-xs">Get custom pricing for your project</p>
               </button>
-              <button className="bg-[#F5F5F5] hover:cursor-pointer   py-2 px-2 rounded-2xl text-lg mb-4 border border-[#018C99] font-semibold">
-                <CiHeart size={26} />
+              <button
+                onClick={(e) => handleWhshlistAdd(e, productDetail?.id)}
+                className={`${
+                  isInWishlist ? 'bg-[#018C99]' : 'bg-[#F5F5F5]'
+                } hover:cursor-pointer py-2 px-2 rounded-2xl text-lg mb-4 border border-[#018C99] font-semibold transition-colors duration-200`}
+              >
+                {isInWishlist ? (
+                  <IoHeart size={26} className="text-white" />
+                ) : (
+                  <CiHeart size={26} className="text-[#018C99]" />
+                )}
               </button>
             </div>
           </div>
@@ -381,10 +403,10 @@ const ProductDetailPage = () => {
                 className="object-contain"
               />
               <h2 className="font-medium  text-xl text-black ">
-                Visit more Abstract Mosaic {related_products.length} products
+                Visit more Abstract Mosaic {related_products?.length} products
               </h2>
             </div>
-            {related_products.length > 0 && (
+            {related_products?.length > 0 && (
               <div className="flex gap-4 py-10 ">
                 <SwipeSlider
                   slidesPerView={6}
