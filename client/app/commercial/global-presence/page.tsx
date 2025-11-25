@@ -1,12 +1,7 @@
 import OurWorld from '@/components/commercial/Pages/GlobalPresence/OurWorld';
 import React from 'react';
-import dynamic from 'next/dynamic';
 import { CommercialPageData } from '@/lib/api/commercialEndPoints';
-
-// Dynamically import GlobalPresence with SSR disabled to prevent hydration errors
-const GlobalPresence = dynamic(() => import('@/components/commercial/Pages/GlobalPresence'), {
-  ssr: false,
-});
+import GlobalPresenceClient from './GlobalPresenceClient';
 
 export default async function page() {
   const { timelineData, heading, second_section_data } =
@@ -15,7 +10,7 @@ export default async function page() {
 
   return (
     <>
-      <GlobalPresence countries={t_data} headerBanner={heading} />
+      <GlobalPresenceClient countries={t_data} headerBanner={heading} />
       <OurWorld worldPresence={second_section_data} />
     </>
   );
