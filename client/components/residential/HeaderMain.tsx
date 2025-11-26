@@ -13,8 +13,9 @@ import { CartEndPoint } from '@/lib/api/cartEndPoints';
 import { useAuth } from '@/context/userAuthContext';
 import { getGuestCartCount } from '@/utils/addToGuestCart';
 import { UserMyAccountEndpoints } from '@/lib/api/authincationEndPoints';
+import QueryForm from '../common/QuearyForm';
 
-export default function HeaderMainBar() {
+export default function HeaderMainBar({ megaMenuData }: any) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isDealsOpen, setIsDealsOpen] = useState(false);
   const [cartCount] = useState(0);
@@ -24,6 +25,8 @@ export default function HeaderMainBar() {
   const pathname = usePathname();
   const totalItem = getGuestCartCount();
   const [userDetail, setUserDetail] = useState<any>(null);
+  const [isQuoteModel, setIsQuoteModel] = useState(false);
+  const cleanPath = pathname.replace(/^\/residential/, '');
 
   const handleCloseMegaMenu = () => {
     setIsDealsOpen(false);
@@ -31,8 +34,10 @@ export default function HeaderMainBar() {
   };
 
   const handleOpenModal = () => setIsModalOpen(true);
-
   const handleCloseModal = () => setIsModalOpen(false);
+
+  const handleOpenQuoteModal = () => setIsQuoteModel(true);
+  const handleCloseQuoteModal = () => setIsQuoteModel(false);
 
   const getCount = async () => {
     const cardCount = await CartEndPoint.getCartItems();
@@ -50,6 +55,8 @@ export default function HeaderMainBar() {
     }
     // getCount();
   }, [isAuthenticated]);
+
+  console.log(pathname, 'pathname');
 
   return (
     <>
@@ -104,18 +111,21 @@ export default function HeaderMainBar() {
                 >
                   Special Deals
                 </button>
-                <a
-                  href="#"
+                <Link
+                  href="/residential/products"
                   className="text-textGray hover:text-primaryTwo font-normal text-base leading-[1.6]"
                 >
                   Products
-                </a>
-                <a
-                  href="#"
-                  className="text-textGray hover:text-primaryTwo font-normal text-base leading-[1.6]"
+                </Link>
+                <button
+                  onClick={handleOpenQuoteModal}
+                  className="text-textGray hover:text-primaryTwo font-normal text-base leading-[1.6] cursor-pointer"
                 >
                   Get a Quote
-                </a>
+                </button>
+                <ModalBox isOpen={isQuoteModel} onClose={handleCloseQuoteModal}>
+                  <QueryForm onClose={handleCloseQuoteModal} />
+                </ModalBox>
               </nav>
               <div className="h-[1.375rem] border border-[#A7A6A6]"></div>
               {/* Icons */}
@@ -308,9 +318,10 @@ export default function HeaderMainBar() {
             </div>
           )}
         </div>
+
         {/* Slide-in Special Deals Drawer */}
         <div
-          className={`fixed  lg:hidden top-0 right-0 left-0 h-full bg-white shadow-lg transform transition-transform duration-300 z-100 ${
+          className={`fixed lg:hidden top-0 right-0 left-0 h-full bg-white shadow-lg transform transition-transform duration-300 z-[100] ${
             isDealsOpen ? 'translate-x-0' : 'translate-x-full'
           }`}
         >
@@ -323,17 +334,20 @@ export default function HeaderMainBar() {
               <FiX className="w-6 h-6 text-gray-600 hover:text-black" />
             </button>
           </div>
-          <HeaderMegaMenu isDealsOpen={isDealsOpen} />
+          <HeaderMegaMenu isDealsOpen={isDealsOpen} megaMenu={megaMenuData} />
         </div>
 
         {/* Overlay */}
         {isDealsOpen && (
           <div
             onClick={() => setIsDealsOpen(false)}
-            className="fixed inset-0 bg-black/30 z-40"
+            className="fixed inset-0 bg-black/30 z-40 lg:hidden"
           ></div>
         )}
       </div>
+
+      {/* Desktop Mega Menu - Rendered outside main header */}
+      <HeaderMegaMenu isDealsOpen={false} megaMenu={megaMenuData} />
     </>
   );
 }
