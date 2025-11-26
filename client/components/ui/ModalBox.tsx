@@ -6,7 +6,7 @@ export default function ModalBox({ isOpen, onClose, children }: any) {
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/20 backdrop-blur-sm p-8 overflow-y-auto scrollbar-hide"
+      className="fixed inset-0 z-100 flex items-center justify-center bg-black/20 backdrop-blur-sm p-8 overflow-y-auto scrollbar-hide"
       onClick={onClose}
     >
       <div
