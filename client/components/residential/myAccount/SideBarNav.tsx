@@ -42,14 +42,10 @@ export default function SidebarNav() {
   return (
     <>
       {/* Mobile Filter Button */}
-      <button
-        onClick={() => setIsDrawerOpen(true)}
-        className="md:hidden bg-[#008c99]/80 text-white p-3  h-20 w-full rounded-sm shadow-md  transition-all mb-4 flex flex-col items-center gap-2 justify-center "
-        aria-label="Filter Menu"
-      >
-        <AiOutlineFilter size={20} />
-        <span className="text-sm font-medium">Filter</span>
-      </button>
+      <div className="flex justify-between block md:hidden">
+        <span className="text-xl font-medium">Account Details</span>
+        <AiOutlineFilter size={28} onClick={() => setIsDrawerOpen(true)} />
+      </div>
 
       {/* Desktop Sidebar */}
       <div className="w-full lg:w-[240px] space-y-3 hidden md:block lg:block">
@@ -87,7 +83,7 @@ export default function SidebarNav() {
 
       {/* Mobile Drawer */}
       <div
-        className={`md:hidden fixed top-0 left-0 h-full w-[280px] bg-white shadow-2xl transform transition-transform duration-300 z-50 ${
+        className={`md:hidden fixed top-10 left-0 h-full w-[280px] bg-white shadow-2xl transform transition-transform duration-300 z-50 ${
           isDrawerOpen ? 'translate-x-0' : '-translate-x-full'
         }`}
       >

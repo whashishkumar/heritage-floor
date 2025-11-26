@@ -1,6 +1,6 @@
 'use client';
 import { useEffect, useState, useRef } from 'react';
-import SideBarNav from './SideBarNav';
+import SidebarNav from './SideBarNav';
 import { UserMyAccountEndpoints } from '@/lib/api/authincationEndPoints';
 import { useAuth } from '@/context/userAuthContext';
 import { useToast } from '@/components/ui/Tooltip';
@@ -152,10 +152,10 @@ export default function MyProfileForm() {
 
   return (
     <div className="bg-[#f3f4f6] min-h-screen">
-      <div className="wrapper m-auto py-16">
-        <div className="flex gap-10 flex-col md:flex-row lg:flex-row">
-          <div className="sticky top-20 h-fit">
-            <SideBarNav />
+      <div className="wrapper m-auto py-10 md:py-16">
+        <div className="flex gap-5 md:gap-10 flex-col md:flex-row lg:flex-row">
+          <div className="md:sticky  top-20 h-fit z-10">
+            <SidebarNav />
           </div>
 
           <div className="border border-gray-300 rounded-lg p-8 bg-white w-full mx-auto shadow-sm">

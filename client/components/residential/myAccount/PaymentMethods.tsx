@@ -5,9 +5,9 @@ export default function PaymentMethods() {
   return (
     <div>
       <div className="bg-[#f3f4f6]">
-        <div className="wrapper m-auto py-16">
-          <div className="flex gap-10 flex-col md:flex-row lg:flex-row">
-            <div className="sticky top-20 h-fit">
+        <div className="wrapper m-auto py-10 md:py-16">
+          <div className="flex gap-5 md:gap-10 flex-col md:flex-row lg:flex-row">
+            <div className="md:sticky  top-20 h-fit z-10">
               <SidebarNav />
             </div>
             <div className="border border-gray-300 rounded-lg p-8 bg-white w-full mx-auto">

@@ -102,23 +102,23 @@ export default function AddressList() {
 
   return (
     <div className="bg-[#f3f4f6]">
-      <div className="wrapper m-auto py-16">
-        <div className="flex gap-10 flex-col md:flex-row lg:flex-row">
-          <div className="sticky top-20 h-fit">
+      <div className="wrapper m-auto py-10 md:py-16">
+        <div className="flex gap-5 md:gap-10 flex-col md:flex-row lg:flex-row">
+          <div className="md:sticky  top-20 h-fit z-10">
             <SidebarNav />
           </div>
           <div className="w-full">
             {/* Add New Address Button */}
-            <div className="sticky top-10 bg-[#f3f4f6]  p-4 ">
+            <div className="sticky top-10 bg-[#f3f4f6]  p-4 z-5 md:z-20">
               <div className="flex justify-between items-center">
-                <h2 className="text-2xl font-semibold text-gray-900 poppins-font capitalize">
+                <h2 className=" text-xl md:text-2xl font-semibold text-gray-900 poppins-font capitalize">
                   Create address
                 </h2>
                 <button
                   onClick={handleAddAddress}
-                  className="flex items-center gap-2 border-2 border-dashed border-gray-400 px-4 py-3 rounded-xl hover:bg-gray-100 transition cursor-pointer"
+                  className="flex items-center  text-sm md:text-xl gap-2 border-2 border-dashed border-gray-400 py-1 px-2 md:px-4 md:py-3 rounded-xl hover:bg-gray-100 transition cursor-pointer"
                 >
-                  <FiPlus className="text-xl poppins-font" /> Add New Address
+                  <FiPlus className="text-sm md:text-xl poppins-font" /> Add New Address
                 </button>
               </div>
             </div>

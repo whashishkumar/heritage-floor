@@ -48,17 +48,19 @@ export default function WishLists() {
   return (
     <>
       <div className="bg-[#f3f4f6]">
-        <div className="wrapper m-auto md:py-16">
-          <div className="flex gap-10 flex-col md:flex-row lg:flex-row">
-            <div className="sticky top-20 h-fit">
+        <div className="wrapper m-auto py-10 md:py-16">
+          <div className="flex gap-5 md:gap-10 flex-col md:flex-row lg:flex-row">
+            <div className="md:sticky  top-20 h-fit z-10">
               <SidebarNav />
             </div>
 
-            <div className="border border-gray-300 rounded-lg p-8 bg-white w-full mx-auto">
+            <div className="border border-gray-300 rounded-lg p-4 md:p-8 bg-white w-full mx-auto">
               <div className="mb-8">
                 <div className="flex justify-between items-center">
                   <div>
-                    <h2 className="text-2xl font-semibold text-gray-800">WishList Items</h2>
+                    <h2 className="text-xl md:text-2xl font-semibold text-gray-800">
+                      WishList Items
+                    </h2>
                     <p className="text-gray-500 text-sm mt-1">
                       Here is a list of all your saved Items
                     </p>
@@ -78,6 +80,7 @@ export default function WishLists() {
                   ) : (
                     wishListItems?.map((item: any) => (
                       <WishListProductCard
+                        key={item?.product?.id || item?.id}
                         product={item?.product}
                         handleGetProductDetail={handleGetProductDetail}
                         handleMoveToCartProduct={handleMoveToCartProduct}
