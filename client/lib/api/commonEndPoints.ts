@@ -56,4 +56,10 @@ export const CommonComponentData = {
       cache: 'no-store',
     });
   },
+  getMenuItemsList: () => {
+    return apiFetch({
+      endpoint: '/residential/menus',
+      cache: 'dynamic',
+    });
+  },
 };
