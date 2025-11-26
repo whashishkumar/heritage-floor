@@ -9,7 +9,6 @@ const getCacheConfig = (strategy: FetchOptions['cache'], customRevalidate?: numb
   if (strategy === 'no-store') {
     return 0;
   }
-
   const revalidateMap = {
     static: 3600,
     dynamic: 600,
@@ -185,6 +184,27 @@ export async function apiDelete<T = any>(
 
   try {
     const response = await api.delete(endpoint, {
+      timeout: timeout || undefined,
+      headers,
+    });
+    return response.data;
+  } catch (error) {
+    if (error instanceof AxiosError) {
+      throw new Error(`API Error: ${endpoint} - ${error.response?.status} ${error.message}`);
+    }
+    throw error;
+  }
+}
+
+// PATCH request
+export async function apiPatch<T = any>(
+  endpoint: string,
+  data?: any,
+  options?: Omit<FetchOptions, 'endpoint'>
+): Promise<T> {
+  const { timeout, headers = {} } = options || {};
+  try {
+    const response = await api.patch(endpoint, data, {
       timeout: timeout || undefined,
       headers,
     });

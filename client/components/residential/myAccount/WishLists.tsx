@@ -5,15 +5,25 @@ import { CartEndPoint } from '@/lib/api/cartEndPoints';
 import WishListProductCard from '@/components/common/WishListProductCard';
 import { useToast } from '@/components/ui/Tooltip';
 import { useRouter } from 'next/navigation';
+import Loader from '@/components/ui/Loader';
 
 export default function WishLists() {
   const { showToast } = useToast();
   const [wishListItems, setWishListItems] = React.useState<any>([]);
+  const [isLoading, setIsLoading] = React.useState<boolean>(false);
   const router = useRouter();
 
   const getAllListItems = async () => {
-    const resp = await CartEndPoint.getWishListItems();
-    setWishListItems(resp?.data);
+    try {
+      setIsLoading(true);
+      const resp = await CartEndPoint.getWishListItems();
+      setWishListItems(resp?.data);
+    } catch (error: any) {
+      showToast(error?.message || 'Failed to fetch wishlist items', 'error');
+      console.error('Error fetching wishlist items:', error);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleClearAllWishList = async () => {
@@ -61,13 +71,19 @@ export default function WishLists() {
                   </button>
                 </div>
                 <div className="flex flex-wrap gap-4 py-12">
-                  {wishListItems?.map((item: any) => (
-                    <WishListProductCard
-                      product={item?.product}
-                      handleGetProductDetail={handleGetProductDetail}
-                      handleMoveToCartProduct={handleMoveToCartProduct}
-                    />
-                  ))}
+                  {isLoading ? (
+                    <div className="w-full flex justify-center items-center py-12">
+                      <Loader />
+                    </div>
+                  ) : (
+                    wishListItems?.map((item: any) => (
+                      <WishListProductCard
+                        product={item?.product}
+                        handleGetProductDetail={handleGetProductDetail}
+                        handleMoveToCartProduct={handleMoveToCartProduct}
+                      />
+                    ))
+                  )}
                 </div>
               </div>
             </div>

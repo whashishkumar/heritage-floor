@@ -1,13 +1,14 @@
 import Image from 'next/image';
-export default async function HeaderTopBar() {
+export default async function HeaderTopBar({ data }: any) {
+  const { address, email, phone } = data || {};
+
   return (
     <>
       <div className=" hidden md:flex lg:flex items-center justify-center bg-offWhite text-black h-auto py-2 w-full">
         <div className="wrapper mx-auto w-full flex flex-col sm:flex-row items-center justify-between gap-2 sm:gap-0 px-4">
           {/* Left Section */}
           <div className="text-sm sm:text-base text-textGray font-normal leading-[1.6] text-center sm:text-left">
-            Get a consultation with us{' '}
-            <span className="font-medium ml-1 text-black">613-224-0300</span>
+            Get a consultation with us <span className="font-medium ml-1 text-black">{phone}</span>
           </div>
 
           {/* Right Section */}
@@ -23,7 +24,7 @@ export default async function HeaderTopBar() {
                 />
               </div>
               <p className="text-xs sm:text-sm text-textGray font-normal leading-[1.6] text-center sm:text-left">
-                207 Colonnade Rd S. Nepean, ON K2E 7K3
+                {address}
               </p>
             </div>
 
@@ -38,7 +39,7 @@ export default async function HeaderTopBar() {
                 />
               </div>
               <p className="text-xs sm:text-sm text-textGray font-normal leading-[1.6] text-center sm:text-left">
-                ottawa@heritagefloorandhome.ca
+                {email}
               </p>
             </div>
           </div>

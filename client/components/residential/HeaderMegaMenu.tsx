@@ -175,7 +175,7 @@ import { useState, useEffect, useRef } from 'react';
 import { BiChevronDown } from 'react-icons/bi';
 import { PiGreaterThanLight } from 'react-icons/pi';
 
-export default function MegaMenu({ isDealsOpen }: any) {
+export default function MegaMenu({ isDealsOpen, megaMenu }: any) {
   // Desktop states
   const [desktopMenuOpen, setDesktopMenuOpen] = useState(false);
   const [desktopActiveMenu, setDesktopActiveMenu] = useState<string | null>(null);
@@ -210,6 +210,8 @@ export default function MegaMenu({ isDealsOpen }: any) {
       setMobileActiveSubMenu(null);
     }
   };
+
+  console.log(megaMenu, 'megaMenu');
 
   return (
     <div className="relative w-full" onMouseLeave={handleMenuClose}>
