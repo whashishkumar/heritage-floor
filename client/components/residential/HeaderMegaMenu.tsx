@@ -1,179 +1,26 @@
 'use client';
 
-const megaMenuData = [
-  {
-    key: 'Brands',
-    dest: '/brands',
-    subMenu: [
-      {
-        key: 'Johnson',
-        dest: '/brands/johnson',
-        items: ['Tiles', 'Granite', 'Marble', 'Bathroom Accessories'],
-      },
-      {
-        key: 'Kajaria',
-        dest: '/brands/kajaria',
-        items: ['Wall Tiles', 'Floor Tiles', 'Bathroom Fittings', 'Outdoor Tiles'],
-      },
-      {
-        key: 'Somany',
-        dest: '/brands/somany',
-        items: ['Vitrified Tiles', 'Ceramic Tiles', 'Outdoor Tiles', 'Wall Cladding'],
-      },
-      {
-        key: 'Nitco',
-        dest: '/brands/nitco',
-        items: ['Designer Tiles', 'Marble', 'Mosaic', 'Granite'],
-      },
-      {
-        key: 'Orient Bell',
-        dest: '/brands/orient-bell',
-        items: ['Digital Wall Tiles', 'Floor Tiles', 'Parking Tiles', 'Wood Look Tiles'],
-      },
-      {
-        key: 'Varmora',
-        dest: '/brands/varmora',
-        items: ['Porcelain Tiles', 'Vitrified Tiles', 'Ceramic Tiles', 'Bathroom Fittings'],
-      },
-      {
-        key: 'Simpolo',
-        dest: '/brands/simpolo',
-        items: ['Luxury Tiles', 'Quartz Surfaces', 'Outdoor Tiles', 'Bathroom Products'],
-      },
-      {
-        key: 'Asian Granito',
-        dest: '/brands/asian-granito',
-        items: ['Wall Tiles', 'Floor Tiles', 'Engineered Marble', 'Quartz'],
-      },
-    ],
-  },
-
-  {
-    key: 'Hardware',
-    dest: '/hardware',
-    subMenu: [
-      {
-        key: 'Hettich',
-        dest: '/hardware/hettich',
-        items: ['Hinges', 'Drawer Systems', 'Handles'],
-      },
-      {
-        key: 'Godrej',
-        dest: '/hardware/godrej',
-        items: ['Locks', 'Door Closers', 'Safes'],
-      },
-      {
-        key: 'Dorset',
-        dest: '/hardware/dorset',
-        items: ['Smart Locks', 'Glass Fittings', 'Door Handles'],
-      },
-    ],
-  },
-  {
-    key: 'Tile & Stone',
-    dest: '/tile-stone',
-    subMenu: [
-      {
-        key: 'Wall Tiles',
-        dest: '/tile-stone/wall-tiles',
-        items: ['Glossy Finish', 'Matt Finish'],
-      },
-      {
-        key: 'Floor Tiles',
-        dest: '/tile-stone/floor-tiles',
-        items: ['Vitrified', 'Ceramic', 'Wood Look'],
-      },
-      {
-        key: 'Mosaic & Marble',
-        dest: '/tile-stone/mosaic-marble',
-        items: ['Italian Marble', 'Mosaic Stone', 'Granite'],
-      },
-    ],
-  },
-  {
-    key: 'Carpet',
-    dest: '/carpet',
-    subMenu: [
-      {
-        key: 'Shaw',
-        dest: '/carpet/shaw',
-        items: ['Pattern Carpet', 'Nylon Carpet'],
-      },
-      {
-        key: 'Mohawk',
-        dest: '/carpet/mohawk',
-        items: ['Wool Carpet', 'Custom Rugs'],
-      },
-    ],
-  },
-  {
-    key: 'Laminate',
-    dest: '/laminate',
-    subMenu: [
-      {
-        key: 'Wood Look',
-        dest: '/laminate/wood-look',
-        items: ['Oak Finish', 'Pine Finish'],
-      },
-      {
-        key: 'Stone Look',
-        dest: '/laminate/stone-look',
-        items: ['Granite', 'Marble Effect'],
-      },
-      {
-        key: 'Waterproof',
-        dest: '/laminate/waterproof',
-        items: ['AquaGuard', 'HydroShield'],
-      },
-    ],
-  },
-  {
-    key: 'Vinyl & LVT',
-    dest: '/vinyl-lvt',
-    subMenu: [
-      {
-        key: 'Luxury Vinyl Plank',
-        dest: '/vinyl-lvt/luxury-plank',
-        items: ['Rigid Core', 'Flexible Core'],
-      },
-      {
-        key: 'Vinyl Sheet',
-        dest: '/vinyl-lvt/vinyl-sheet',
-        items: ['Patterned', 'Plain'],
-      },
-      {
-        key: 'Glue Down',
-        dest: '/vinyl-lvt/glue-down',
-        items: ['Heavy Duty', 'Light Duty'],
-      },
-    ],
-  },
-  {
-    key: 'Resources',
-    dest: '/resources',
-    subMenu: [
-      {
-        key: 'Installation Guides',
-        dest: '/resources/installation',
-        items: [],
-      },
-      {
-        key: 'Care & Maintenance',
-        dest: '/resources/care',
-        items: [],
-      },
-      {
-        key: 'Inspiration Gallery',
-        dest: '/resources/gallery',
-        items: [],
-      },
-    ],
-  },
-];
-
 import { useState, useEffect, useRef } from 'react';
 import { BiChevronDown } from 'react-icons/bi';
 import { PiGreaterThanLight } from 'react-icons/pi';
+
+export function transformMegaMenuData(categories: any[]) {
+  return categories?.map((category) => ({
+    key: category.name,
+    image: category.image,
+    slug: category.slug,
+
+    // Sub Menu
+    subMenu:
+      category.children?.map((sub: any) => ({
+        key: sub.name,
+        slug: sub.slug,
+
+        // Items (nested children)
+        items: sub.children?.map((item: any) => item.name) || [],
+      })) || [],
+  }));
+}
 
 export default function MegaMenu({ isDealsOpen, megaMenu }: any) {
   // Desktop states
@@ -205,20 +52,19 @@ export default function MegaMenu({ isDealsOpen, megaMenu }: any) {
       setMobileActiveSubMenu(null);
     } else {
       // Open new menu
-
       setMobileActiveMenu(menuKey);
       setMobileActiveSubMenu(null);
     }
   };
 
-  console.log(megaMenu, 'megaMenu');
+  const megaMenuDataList = transformMegaMenuData(megaMenu);
 
   return (
     <div className="relative w-full" onMouseLeave={handleMenuClose}>
       {/* 🔹 Desktop Navigation Bar */}
       <div className="flex items-center justify-between wrapper mx-auto lg:h-[3.125rem] px-4 ">
         <div className="hidden lg:flex items-center justify-center gap-[3.5rem] w-full">
-          {megaMenuData?.map((item: any, index: any) => (
+          {megaMenuDataList?.map((item: any, index: any) => (
             <button
               key={index}
               onMouseEnter={() => handleDesktopMenuHover(item.key)}
@@ -237,7 +83,7 @@ export default function MegaMenu({ isDealsOpen, megaMenu }: any) {
             {/* LEFT - SubMenu (Brands list) */}
             <ul className="py-4 w-1/5">
               {desktopActiveMenu ? (
-                megaMenuData
+                megaMenuDataList
                   .find((menu: any) => menu.key === desktopActiveMenu)
                   ?.subMenu.map((sub: any, i: any) => (
                     <li
@@ -254,7 +100,7 @@ export default function MegaMenu({ isDealsOpen, megaMenu }: any) {
                     </li>
                   ))
               ) : (
-                <div className="text-gray-500 px-4">Select a category to see brands</div>
+                <div className="text-gray-500 px-4"></div>
               )}
             </ul>
 
@@ -262,7 +108,7 @@ export default function MegaMenu({ isDealsOpen, megaMenu }: any) {
             <div className="w-1/3 py-6">
               {desktopActiveSubMenu ? (
                 <ul className="grid grid-cols-1 gap-2">
-                  {megaMenuData
+                  {megaMenuDataList
                     .find((menu: any) => menu.key === desktopActiveMenu)
                     ?.subMenu.find((sub: any) => sub.key === desktopActiveSubMenu)
                     ?.items.map((item: any, i: any) => (
@@ -275,7 +121,7 @@ export default function MegaMenu({ isDealsOpen, megaMenu }: any) {
                     ))}
                 </ul>
               ) : (
-                <div className="text-gray-500">Select a brand to see available items</div>
+                <div className="text-gray-500"></div>
               )}
             </div>
           </div>
@@ -283,9 +129,9 @@ export default function MegaMenu({ isDealsOpen, megaMenu }: any) {
       )}
 
       {/* 🔹 Mobile / Tablet Dropdown */}
-      {isDealsOpen && megaMenuData && (
+      {isDealsOpen && megaMenuDataList && (
         <div className="absolute top-[0rem] left-0 w-full z-50 flex flex-col items-start gap-3 p-4 lg:hidden bg-white inter-font">
-          {megaMenuData.map((item: any, index: any) => (
+          {megaMenuDataList?.map((item: any, index: any) => (
             <div key={index} className="w-full">
               <button
                 onClick={() => handleMobileMenuClick(item.key)}
