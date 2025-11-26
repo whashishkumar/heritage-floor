@@ -94,9 +94,18 @@ const ProductDetailPage = () => {
   const { showToast } = useToast();
   const params = useParams();
   const [productDetail, setProductDetail] = useState<any>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const { childSlug } = params;
-  const { images, sku, name, price, tile_details, shipping_details, related_products }: any =
-    productDetail || {};
+  const {
+    images,
+    sku,
+    name,
+    price,
+    tile_details,
+    shipping_details,
+    related_products,
+    is_wishlist,
+  }: any = productDetail || {};
   const {
     box_price,
     price_per_sqft,
@@ -114,10 +123,18 @@ const ProductDetailPage = () => {
   };
 
   const getProductDetails = async () => {
-    const { data } = await ResidentailPageData.getProductDetail(childSlug);
-    const { images } = data;
-    setProductDetail(data);
-    setSelectedImage(images?.[0]);
+    try {
+      setIsLoading(true);
+      const { data } = await ResidentailPageData.getProductDetail(childSlug);
+      const { images } = data;
+      setProductDetail(data);
+      setSelectedImage(images?.[0]);
+    } catch (error: any) {
+      showToast(error?.message || 'Failed to fetch product details', 'error');
+      console.error('Error fetching product details:', error);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   useEffect(() => {
@@ -132,8 +149,20 @@ const ProductDetailPage = () => {
     showToast(message);
   };
 
+  if (isLoading) {
+    return (
+      <div className="wrapper m-auto py-12 flex justify-center items-center min-h-[400px]">
+        <Loader />
+      </div>
+    );
+  }
+
   if (!productDetail) {
-    return <Loader />;
+    return (
+      <div className="wrapper m-auto py-12 text-center">
+        <p className="text-gray-500 text-lg">Product not found</p>
+      </div>
+    );
   }
 
   return (
@@ -325,6 +354,7 @@ const ProductDetailPage = () => {
                   isInWishlist ? 'bg-[#018C99]' : 'bg-[#F5F5F5]'
                 } hover:cursor-pointer py-2 px-2 rounded-2xl text-lg mb-4 border border-[#018C99] font-semibold transition-colors duration-200`}
               >
+                {/* is_wishlist */}
                 {isInWishlist ? (
                   <IoHeart size={26} className="text-white" />
                 ) : (

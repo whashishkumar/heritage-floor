@@ -9,6 +9,7 @@ import { MdClose } from 'react-icons/md';
 import { useParams, useRouter } from 'next/navigation';
 import Loader from '@/components/ui/Loader';
 import { ResidentailPageData } from '@/lib/api/residentialEndPoints';
+import { useToast } from '@/components/ui/Tooltip';
 
 export interface Product {
   id: number;
@@ -33,8 +34,10 @@ const accOptions = [
 
 export default function ProductDetailPage({ sortOptionsCategory }: any) {
   const router = useRouter();
+  const { showToast } = useToast();
   const [isMobileFilterOpen, setIsMobileFilterOpen] = useState(false);
   const [categoryProducts, setCategoryProducts] = useState<any | null>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [currentPage, setCurrentpage] = useState(1);
   const [productCategory, setProductCategory] = useState<any[]>([]);
   const shortOptions = sortOptionsCategory ? sortOptionsCategory : sortOptions;
@@ -46,14 +49,6 @@ export default function ProductDetailPage({ sortOptionsCategory }: any) {
   const [colorSort, setColorSort] = useState<any>(null);
   const [sizeSort, setSizeSort] = useState<any>(null);
   const [selectedCategory, setSelectedCategory] = useState<any>(null);
-
-  useEffect(() => {
-    if (isMobileFilterOpen) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = '';
-    }
-  }, [isMobileFilterOpen]);
 
   const handleSortChange = async (value: string | number) => {
     setOrder(value);
@@ -90,12 +85,19 @@ export default function ProductDetailPage({ sortOptionsCategory }: any) {
   };
 
   const getCatogeryBaseProducts = async () => {
-    const resp = await ResidentailPageData.getCategoryBasedProducts({
-      categoryid: slug ? Number(slug) : undefined,
-      page: currentPage,
-      limit: 12,
-    });
-    setCategoryProducts(resp);
+    try {
+      setIsLoading(true);
+      const resp = await ResidentailPageData.getCategoryBasedProducts({
+        categoryid: slug ? Number(slug) : undefined,
+        page: currentPage,
+        limit: 12,
+      });
+      setCategoryProducts(resp);
+    } catch (error: any) {
+      console.error('Error fetching category products:', error);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const getCategoryList = async () => {
@@ -159,6 +161,14 @@ export default function ProductDetailPage({ sortOptionsCategory }: any) {
     });
     setCategoryProducts(resp);
   };
+
+  useEffect(() => {
+    if (isMobileFilterOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+  }, [isMobileFilterOpen]);
 
   useEffect(() => {
     getCatogeryBaseProducts();
@@ -258,19 +268,27 @@ export default function ProductDetailPage({ sortOptionsCategory }: any) {
                 ) : (
                   <>
                     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-10 justify-items-center">
-                      {categoryProducts?.data?.map((product: any, idx: number) => (
-                        <ProductCard
-                          key={idx}
-                          product={product}
-                          handleGetProductDetail={handleGetProductDetail}
-                        />
-                      ))}
+                      {isLoading ? (
+                        <div className="col-span-full w-full flex justify-center items-center py-20">
+                          <Loader />
+                        </div>
+                      ) : (
+                        categoryProducts?.data?.map((product: any, idx: number) => (
+                          <ProductCard
+                            key={idx}
+                            product={product}
+                            handleGetProductDetail={handleGetProductDetail}
+                          />
+                        ))
+                      )}
                     </div>
-                    <Pagination
-                      currentPage={currentPage}
-                      totalPages={categoryProducts?.meta?.last_page}
-                      onPageChange={handlePageChage}
-                    />
+                    {categoryProducts?.data && (
+                      <Pagination
+                        currentPage={currentPage}
+                        totalPages={categoryProducts?.meta?.last_page}
+                        onPageChange={handlePageChage}
+                      />
+                    )}
                   </>
                 )}
               </div>
