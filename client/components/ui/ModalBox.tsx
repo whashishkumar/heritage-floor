@@ -13,7 +13,7 @@ export default function ModalBox({ isOpen, onClose, children }: any) {
         className="bg-white rounded-2xl shadow-xl w-full max-w-3xl mx-auto p-6 relative max-h-[90vh] overflow-y-auto scrollbar-hide"
         onClick={(e) => e.stopPropagation()}
       >
-        <button onClick={onClose} className="absolute top-5 right-5 text-black ">
+        <button onClick={onClose} className="absolute top-5 right-5 text-black cursor-pointer ">
           ✕
         </button>
 

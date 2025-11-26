@@ -1,6 +1,5 @@
 'use client';
-
-import { useState, useEffect, useRef } from 'react';
+import { useState, useRef } from 'react';
 import { BiChevronDown } from 'react-icons/bi';
 import { PiGreaterThanLight } from 'react-icons/pi';
 
@@ -9,13 +8,11 @@ export function transformMegaMenuData(categories: any[]) {
     key: category.name,
     image: category.image,
     slug: category.slug,
-
     // Sub Menu
     subMenu:
       category.children?.map((sub: any) => ({
         key: sub.name,
         slug: sub.slug,
-
         // Items (nested children)
         items: sub.children?.map((item: any) => item.name) || [],
       })) || [],
@@ -78,8 +75,11 @@ export default function MegaMenu({ isDealsOpen, megaMenu }: any) {
       </div>
       {/* 🔹 Desktop Mega Menu Dropdown */}
       {desktopMenuOpen && (
-        <div className="hidden lg:block bg-white absolute z-50 w-full shadow-md" ref={menuRef}>
-          <div className="wrapper mx-auto flex gap-12 ">
+        <div
+          className="hidden lg:block bg-white absolute left-0 right-0 top-full z-50 w-full shadow-lg border-t border-gray-200"
+          ref={menuRef}
+        >
+          <div className="wrapper mx-auto flex gap-12">
             {/* LEFT - SubMenu (Brands list) */}
             <ul className="py-4 w-1/5">
               {desktopActiveMenu ? (
@@ -130,7 +130,7 @@ export default function MegaMenu({ isDealsOpen, megaMenu }: any) {
 
       {/* 🔹 Mobile / Tablet Dropdown */}
       {isDealsOpen && megaMenuDataList && (
-        <div className="absolute top-[0rem] left-0 w-full z-50 flex flex-col items-start gap-3 p-4 lg:hidden bg-white inter-font">
+        <div className="w-full flex flex-col items-start gap-3 p-4 lg:hidden bg-white inter-font overflow-y-auto max-h-[calc(100vh-8rem)]">
           {megaMenuDataList?.map((item: any, index: any) => (
             <div key={index} className="w-full">
               <button
