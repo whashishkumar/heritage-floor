@@ -108,116 +108,119 @@ export default function ChangePasswordForm() {
     <div className="bg-[#f3f4f6]">
       <div className="wrapper m-auto py-16">
         <div className="flex gap-10">
-          <SidebarNav />
-        </div>
-
-        <div className="border border-gray-300 rounded-lg p-8 bg-white w-full mx-auto">
-          {/* Header */}
-          <div className="mb-8">
-            <h2 className="text-2xl font-semibold text-gray-800">Change your password</h2>
-            <p className="text-gray-500 text-sm mt-1">
-              You can change your password for security reasons or reset it if you forget it
-            </p>
+          <div className="sticky top-20 h-fit">
+            <SidebarNav />
           </div>
-
-          {/* Form */}
-          <div className="flex flex-col gap-6">
-            {/* General Error Message */}
-            {errors.general && (
-              <div className="bg-red-50 border border-red-200 text-red-600 px-4 py-3 rounded-md text-sm">
-                {errors.general}
-              </div>
-            )}
-
-            {/* Current Password */}
-            <div className="flex flex-col relative">
-              <label className="text-sm font-medium text-gray-700 mb-1">Current password</label>
-              <input
-                type={showPass.current ? 'text' : 'password'}
-                name="current_password"
-                value={formData.current_password}
-                onChange={handleChange}
-                className={`border rounded-md px-4 py-2 pr-10 text-gray-800 focus:ring-2 focus:ring-teal-500 focus:outline-none ${
-                  errors.current_password ? 'border-red-500' : 'border-gray-300'
-                }`}
-              />
-              <span
-                className="absolute right-3 top-8 cursor-pointer text-gray-600"
-                onClick={() => setShowPass({ ...showPass, current: !showPass.current })}
-              >
-                {showPass.current ? (
-                  <AiOutlineEyeInvisible size={20} />
-                ) : (
-                  <AiOutlineEye size={20} />
-                )}
-              </span>
-              {errors.current_password && (
-                <span className="text-red-500 text-xs mt-1">{errors.current_password}</span>
-              )}
+          <div className="border border-gray-300 rounded-lg p-8 bg-white w-full mx-auto">
+            {/* Header */}
+            <div className="mb-8">
+              <h2 className="text-2xl font-semibold text-gray-800">Change your password</h2>
+              <p className="text-gray-500 text-sm mt-1">
+                You can change your password for security reasons or reset it if you forget it
+              </p>
             </div>
 
-            {/* New Password */}
-            <div className="flex flex-col relative">
-              <label className="text-sm font-medium text-gray-700 mb-1">New password</label>
-              <input
-                type={showPass.new ? 'text' : 'password'}
-                name="new_password"
-                value={formData.new_password}
-                onChange={handleChange}
-                className={`border rounded-md px-4 py-2 pr-10 text-gray-800 focus:ring-2 focus:ring-teal-500 focus:outline-none ${
-                  errors.new_password ? 'border-red-500' : 'border-gray-300'
-                }`}
-              />
-              <span
-                className="absolute right-3 top-8 cursor-pointer text-gray-600"
-                onClick={() => setShowPass({ ...showPass, new: !showPass.new })}
-              >
-                {showPass.new ? <AiOutlineEyeInvisible size={20} /> : <AiOutlineEye size={20} />}
-              </span>
-              {errors.new_password && (
-                <span className="text-red-500 text-xs mt-1">{errors.new_password}</span>
+            {/* Form */}
+            <div className="flex flex-col gap-6">
+              {/* General Error Message */}
+              {errors.general && (
+                <div className="bg-red-50 border border-red-200 text-red-600 px-4 py-3 rounded-md text-sm">
+                  {errors.general}
+                </div>
               )}
-            </div>
 
-            {/* Confirm Password */}
-            <div className="flex flex-col relative">
-              <label className="text-sm font-medium text-gray-700 mb-1">Confirm new password</label>
-              <input
-                type={showPass.confirm ? 'text' : 'password'}
-                name="new_password_confirmation"
-                value={formData.new_password_confirmation}
-                onChange={handleChange}
-                className={`border rounded-md px-4 py-2 pr-10 text-gray-800 focus:ring-2 focus:ring-teal-500 focus:outline-none ${
-                  errors.new_password_confirmation ? 'border-red-500' : 'border-gray-300'
-                }`}
-              />
-              <span
-                className="absolute right-3 top-8 cursor-pointer text-gray-600"
-                onClick={() => setShowPass({ ...showPass, confirm: !showPass.confirm })}
-              >
-                {showPass.confirm ? (
-                  <AiOutlineEyeInvisible size={20} />
-                ) : (
-                  <AiOutlineEye size={20} />
-                )}
-              </span>
-              {errors.new_password_confirmation && (
-                <span className="text-red-500 text-xs mt-1">
-                  {errors.new_password_confirmation}
+              {/* Current Password */}
+              <div className="flex flex-col relative">
+                <label className="text-sm font-medium text-gray-700 mb-1">Current password</label>
+                <input
+                  type={showPass.current ? 'text' : 'password'}
+                  name="current_password"
+                  value={formData.current_password}
+                  onChange={handleChange}
+                  className={`border rounded-md px-4 py-2 pr-10 text-gray-800 focus:ring-2 focus:ring-teal-500 focus:outline-none ${
+                    errors.current_password ? 'border-red-500' : 'border-gray-300'
+                  }`}
+                />
+                <span
+                  className="absolute right-3 top-8 cursor-pointer text-gray-600"
+                  onClick={() => setShowPass({ ...showPass, current: !showPass.current })}
+                >
+                  {showPass.current ? (
+                    <AiOutlineEyeInvisible size={20} />
+                  ) : (
+                    <AiOutlineEye size={20} />
+                  )}
                 </span>
-              )}
-            </div>
-          </div>
+                {errors.current_password && (
+                  <span className="text-red-500 text-xs mt-1">{errors.current_password}</span>
+                )}
+              </div>
 
-          {/* Save Button */}
-          <div className="flex justify-end mt-10 border-t border-gray-300 pt-6">
-            <button
-              onClick={handleSetNewPassword}
-              disabled={loading}
-              className="bg-teal-600 text-white px-8 py-2 rounded-md font-semibold hover:bg-teal-700 transition cursor-pointer disabled:bg-gray-400"
-            >
-              {loading ? 'Saving...' : 'Save'}
-            </button>
+              {/* New Password */}
+              <div className="flex flex-col relative">
+                <label className="text-sm font-medium text-gray-700 mb-1">New password</label>
+                <input
+                  type={showPass.new ? 'text' : 'password'}
+                  name="new_password"
+                  value={formData.new_password}
+                  onChange={handleChange}
+                  className={`border rounded-md px-4 py-2 pr-10 text-gray-800 focus:ring-2 focus:ring-teal-500 focus:outline-none ${
+                    errors.new_password ? 'border-red-500' : 'border-gray-300'
+                  }`}
+                />
+                <span
+                  className="absolute right-3 top-8 cursor-pointer text-gray-600"
+                  onClick={() => setShowPass({ ...showPass, new: !showPass.new })}
+                >
+                  {showPass.new ? <AiOutlineEyeInvisible size={20} /> : <AiOutlineEye size={20} />}
+                </span>
+                {errors.new_password && (
+                  <span className="text-red-500 text-xs mt-1">{errors.new_password}</span>
+                )}
+              </div>
+
+              {/* Confirm Password */}
+              <div className="flex flex-col relative">
+                <label className="text-sm font-medium text-gray-700 mb-1">
+                  Confirm new password
+                </label>
+                <input
+                  type={showPass.confirm ? 'text' : 'password'}
+                  name="new_password_confirmation"
+                  value={formData.new_password_confirmation}
+                  onChange={handleChange}
+                  className={`border rounded-md px-4 py-2 pr-10 text-gray-800 focus:ring-2 focus:ring-teal-500 focus:outline-none ${
+                    errors.new_password_confirmation ? 'border-red-500' : 'border-gray-300'
+                  }`}
+                />
+                <span
+                  className="absolute right-3 top-8 cursor-pointer text-gray-600"
+                  onClick={() => setShowPass({ ...showPass, confirm: !showPass.confirm })}
+                >
+                  {showPass.confirm ? (
+                    <AiOutlineEyeInvisible size={20} />
+                  ) : (
+                    <AiOutlineEye size={20} />
+                  )}
+                </span>
+                {errors.new_password_confirmation && (
+                  <span className="text-red-500 text-xs mt-1">
+                    {errors.new_password_confirmation}
+                  </span>
+                )}
+              </div>
+            </div>
+
+            {/* Save Button */}
+            <div className="flex justify-end mt-10 border-t border-gray-300 pt-6">
+              <button
+                onClick={handleSetNewPassword}
+                disabled={loading}
+                className="bg-teal-600 text-white px-8 py-2 rounded-md font-semibold hover:bg-teal-700 transition cursor-pointer disabled:bg-gray-400"
+              >
+                {loading ? 'Saving...' : 'Save'}
+              </button>
+            </div>
           </div>
         </div>
       </div>
