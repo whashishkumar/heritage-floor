@@ -26,6 +26,7 @@ export default function HeaderMainBar({ megaMenuData }: any) {
   const totalItem = getGuestCartCount();
   const [userDetail, setUserDetail] = useState<any>(null);
   const [isQuoteModel, setIsQuoteModel] = useState(false);
+  const cleanPath = pathname.replace(/^\/residential/, '');
 
   const handleCloseMegaMenu = () => {
     setIsDealsOpen(false);
@@ -111,7 +112,7 @@ export default function HeaderMainBar({ megaMenuData }: any) {
                   Special Deals
                 </button>
                 <Link
-                  href={`${pathname}/products`}
+                  href="/residential/products"
                   className="text-textGray hover:text-primaryTwo font-normal text-base leading-[1.6]"
                 >
                   Products
