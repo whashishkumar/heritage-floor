@@ -85,7 +85,6 @@ const responsiveSettings = [
 
 export default function OurCustomers({ coustumerData }: coustumerData) {
   const pathname = usePathname();
-  console.log('coustumerData', coustumerData);
 
   return (
     <div className="w-full h-full py-12 md:py-16 ">
@@ -103,8 +102,8 @@ export default function OurCustomers({ coustumerData }: coustumerData) {
             subHeadingCss="text-center "
           />
           <ButtonCommon
-            // link={`${pathname}/products/brands`}
-            link="/residential/products/brands"
+            // link={`${pathname}/products`}
+            link="/residential/products"
             buttonName="Shop by Brands"
             image="/icon/arrowRightUp.png"
           />

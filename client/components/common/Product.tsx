@@ -54,7 +54,7 @@ export default function ProductCard({ product, handleGetProductDetail }: Props) 
         {ProductImage && (
           <Image
             src={ProductImage}
-            alt={product.sku}
+            alt={product.sku || 'Product'}
             width={340}
             height={240}
             className="h-full  object-cover rounded-tl-lg"
