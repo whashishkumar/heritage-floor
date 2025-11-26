@@ -31,7 +31,7 @@ export default function SidebarNav() {
   };
 
   return (
-    <div className="w-full lg:w-[240px] space-y-3">
+    <div className="w-full lg:w-[240px] space-y-3 hidden md:block lg:block">
       {menu.map((item) => {
         const Icon = item.icon;
         const isActive = pathname === item.href;

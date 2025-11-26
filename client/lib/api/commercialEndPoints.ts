@@ -2,6 +2,18 @@ import { apiFetch, apiFetchBatch, apiFetchWithResponse, apiPost } from './fetche
 
 //Commercial Page
 export const CommercialPageData = {
+  getHeroBannerData: () => {
+    return apiFetch({
+      endpoint: '/commercial/hero-section',
+      cache: 'dynamic',
+    });
+  },
+  getWhyToChooseUsDetails: () => {
+    return apiFetch({
+      endpoint: '/commercial/why-choose-us',
+      cache: 'dynamic',
+    });
+  },
   getOurCustomers: () => {
     return apiFetch({
       endpoint: '/builder/our-customers',

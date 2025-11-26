@@ -38,10 +38,16 @@ const features = [
   },
 ];
 
-export default async function WhyChooseUsCommercial({ bgColor }: { bgColor?: string }) {
+export default async function WhyChooseUsCommercial({
+  bgColor,
+  WhyChooseUsProps,
+}: {
+  bgColor?: string;
+  WhyChooseUsProps: any;
+}) {
   const whyChooseUs = await CommonComponentData.getWhyChooseUs();
+  const whyToChooseUseData = WhyChooseUsProps ? WhyChooseUsProps : whyChooseUs?.data;
 
-  const data = ['', ''];
   return (
     <>
       <div
@@ -70,20 +76,20 @@ export default async function WhyChooseUsCommercial({ bgColor }: { bgColor?: str
                   bgColor ? `` : `  md:border-0 lg:border  border-[#E8E8E8]`
                 }`}
               >
-                {whyChooseUs?.data?.slice(0, 5)?.map((feature: any, index: any) => (
+                {whyToChooseUseData?.slice(0, 5)?.map((feature: any, index: any) => (
                   <div
                     key={index}
                     className={` 
                       md:mb-[2rem] lg:mb-0
                       ${
-                        index < whyChooseUs?.data.length - 1
+                        index < whyToChooseUseData?.length - 1
                           ? ' border-[#E8E8E8]'
                           : 'border-[#E8E8E8]'
                       } 
                     ${
                       index === 0 ? ' md:pl-12 pl-8 pr-8 ' : 'pl-8 pr-11 '
                     } border-r-0 border-b md:border-b-0 md:border-r lg:border-r lg:last:border-r-0 py-8 ${
-                      index === whyChooseUs?.data.length - 1 ? 'pr-8' : ''
+                      index === whyToChooseUseData?.length - 1 ? 'pr-8' : ''
                     }`}
                   >
                     {/* Number Circle */}

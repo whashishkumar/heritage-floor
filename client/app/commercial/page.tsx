@@ -50,14 +50,16 @@ export default async function Home({ params }: any) {
   const blogs = await CommonComponentData.getOurBlogs(1);
   const ourCustomers = await CommercialPageData.getOurCustomers();
   const { data } = await CommonComponentData?.getTestinomials();
+  const WhyChooseUs = await CommercialPageData.getWhyToChooseUsDetails();
+  const { banner } = await CommercialPageData.getHeroBannerData();
 
   return (
     <>
-      <HeroSectionCommercial />
+      <HeroSectionCommercial heroBannerData={banner} />
       <AboutUsCommercial />
       <OurCustomers coustumerData={ourCustomers} />
       <OurMajorProjectsCommercial />
-      <WhyChooseUsCommercial />
+      <WhyChooseUsCommercial WhyChooseUsProps={WhyChooseUs?.data} />
       <ServicesCommercial />
       <CommercialProjects />
       <FlooringOptionsCommercial />
