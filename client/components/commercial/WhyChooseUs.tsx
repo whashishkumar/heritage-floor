@@ -43,7 +43,7 @@ export default async function WhyChooseUsCommercial({
   WhyChooseUsProps,
 }: {
   bgColor?: string;
-  WhyChooseUsProps: any;
+  WhyChooseUsProps?: any;
 }) {
   const whyChooseUs = await CommonComponentData.getWhyChooseUs();
   const whyToChooseUseData = WhyChooseUsProps ? WhyChooseUsProps : whyChooseUs?.data;
