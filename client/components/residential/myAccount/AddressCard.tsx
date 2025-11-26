@@ -103,13 +103,13 @@ export default function AddressList() {
   return (
     <div className="bg-[#f3f4f6]">
       <div className="wrapper m-auto py-16">
-        <div className="flex gap-10">
+        <div className="flex gap-10 flex-col md:flex-row lg:flex-row">
           <div className="sticky top-20 h-fit">
             <SidebarNav />
           </div>
           <div className="w-full">
             {/* Add New Address Button */}
-            <div className="sticky top-10 bg-[#f3f4f6] z-20  p-4 ">
+            <div className="sticky top-10 bg-[#f3f4f6]  p-4 ">
               <div className="flex justify-between items-center">
                 <h2 className="text-2xl font-semibold text-gray-900 poppins-font capitalize">
                   Create address

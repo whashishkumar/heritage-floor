@@ -153,7 +153,7 @@ export default function MyProfileForm() {
   return (
     <div className="bg-[#f3f4f6] min-h-screen">
       <div className="wrapper m-auto py-16">
-        <div className="flex gap-10">
+        <div className="flex gap-10 flex-col md:flex-row lg:flex-row">
           <div className="sticky top-20 h-fit">
             <SideBarNav />
           </div>
