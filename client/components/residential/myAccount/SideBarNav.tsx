@@ -1,8 +1,9 @@
 'use client';
 import { useAuth } from '@/context/userAuthContext';
 import Link from 'next/link';
-import { usePathname, useRouter } from 'next/navigation';
+import { useParams, usePathname, useRouter } from 'next/navigation';
 import { useState } from 'react';
+
 import {
   AiOutlineClockCircle,
   AiOutlineHeart,
@@ -15,12 +16,12 @@ import { RiLockPasswordLine } from 'react-icons/ri';
 import { FiX } from 'react-icons/fi';
 
 const menu = [
-  { name: 'My Orders', href: '/residential/my-account/orders', icon: AiOutlineClockCircle },
-  { name: 'My Lists', href: '/residential/my-account/lists', icon: AiOutlineHeart },
-  { name: 'My Addresses', href: '/residential/my-account/addresses', icon: MdLocationOn },
-  { name: 'Payment Methods', href: '/residential/my-account/payment-methods', icon: MdPayment },
-  { name: 'My Profile', href: '/residential/my-account/profile', icon: AiOutlineUser },
-  { name: 'Password', href: '/residential/my-account/password', icon: RiLockPasswordLine },
+  { name: 'My Orders', href: '/orders', icon: AiOutlineClockCircle },
+  { name: 'My Lists', href: '/lists', icon: AiOutlineHeart },
+  { name: 'My Addresses', href: '/addresses', icon: MdLocationOn },
+  { name: 'Payment Methods', href: '/payment-methods', icon: MdPayment },
+  { name: 'My Profile', href: '/profile', icon: AiOutlineUser },
+  { name: 'Password', href: '/password', icon: RiLockPasswordLine },
 ];
 
 export default function SidebarNav() {
@@ -28,6 +29,12 @@ export default function SidebarNav() {
   const pathname = usePathname();
   const { logout } = useAuth();
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const params = useParams();
+
+  // Extract base path (e.g., /residential/my-account/)
+  const basePath = pathname.includes('/my-account')
+    ? pathname.split('/my-account')[0] + '/my-account'
+    : '/residential/my-account';
 
   const handleLogOut = () => {
     logout();
@@ -51,12 +58,12 @@ export default function SidebarNav() {
       <div className="w-full lg:w-[240px] space-y-3 hidden md:block lg:block">
         {menu.map((item) => {
           const Icon = item.icon;
-          const isActive = pathname === item.href;
+          const isActive = pathname === `${basePath}${item.href}`;
 
           return (
             <Link
               key={item.name}
-              href={item.href}
+              href={`${basePath}${item.href}`}
               className={`flex items-center gap-3 px-4 py-2 rounded-md transition-all
             ${isActive ? 'bg-white shadow text-[#008c99]' : 'text-gray-700 hover:bg-gray-100'}
           `}
@@ -103,12 +110,12 @@ export default function SidebarNav() {
         <div className="p-4 space-y-2">
           {menu.map((item) => {
             const Icon = item.icon;
-            const isActive = pathname === item.href;
+            const isActive = pathname === `${basePath}${item.href}`;
 
             return (
               <Link
                 key={item.name}
-                href={item.href}
+                href={`${basePath}${item.href}`}
                 onClick={handleMenuClick}
                 className={`flex items-center gap-3 px-4 py-3 rounded-md transition-all
                 ${isActive ? 'bg-[#008c99] text-white' : 'text-gray-700 hover:bg-gray-100'}

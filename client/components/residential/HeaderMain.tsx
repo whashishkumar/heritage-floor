@@ -14,6 +14,8 @@ import { useAuth } from '@/context/userAuthContext';
 import { getGuestCartCount } from '@/utils/addToGuestCart';
 import { UserMyAccountEndpoints } from '@/lib/api/authincationEndPoints';
 import QueryForm from '../common/QuearyForm';
+import { usePathSegments } from '@/utils/segmentPath';
+import { useRouter } from 'next/navigation';
 
 export default function HeaderMainBar({ megaMenuData }: any) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -23,10 +25,16 @@ export default function HeaderMainBar({ megaMenuData }: any) {
   const [itemsInCart, setItemsInCart] = useState(null);
   const { isAuthenticated, logout } = useAuth();
   const pathname = usePathname();
+  const router = useRouter();
   const totalItem = getGuestCartCount();
   const [userDetail, setUserDetail] = useState<any>(null);
   const [isQuoteModel, setIsQuoteModel] = useState(false);
-  const cleanPath = pathname.replace(/^\/residential/, '');
+  const { mainPath } = usePathSegments();
+
+  const handleOpenMegaMenu = () => {
+    setIsDealsOpen(true);
+    setIsMenuOpen(!isMenuOpen);
+  };
 
   const handleCloseMegaMenu = () => {
     setIsDealsOpen(false);
@@ -49,14 +57,21 @@ export default function HeaderMainBar({ megaMenuData }: any) {
     setUserDetail(resp.data);
   };
 
+  const handleProductPageRedirection = () => {
+    setIsMenuOpen(false);
+    router.push(`${mainPath}/products`);
+  };
+
+  const handleMobileGetQuate = () => {
+    setIsQuoteModel(true);
+  };
+
   useEffect(() => {
     if (isAuthenticated) {
       getUserDetail();
     }
     // getCount();
   }, [isAuthenticated]);
-
-  console.log(pathname, 'pathname');
 
   return (
     <>
@@ -112,7 +127,7 @@ export default function HeaderMainBar({ megaMenuData }: any) {
                   Special Deals
                 </button>
                 <Link
-                  href="/residential/products"
+                  href={`${mainPath}/products`}
                   className="text-textGray hover:text-primaryTwo font-normal text-base leading-[1.6]"
                 >
                   Products
@@ -145,7 +160,7 @@ export default function HeaderMainBar({ megaMenuData }: any) {
                     </button>
                   ) : (
                     <Link
-                      href={'/residential/my-account/profile'}
+                      href={`${mainPath}/my-account/profile`}
                       className="text-gray-700 hover:text-primaryTwo cursor-pointer flex gap-2"
                     >
                       <div className="h-[1.5rem] w-[1.5rem] relative overflow-hidden rounded-full">
@@ -238,26 +253,29 @@ export default function HeaderMainBar({ megaMenuData }: any) {
 
               {/* Mobile Navigation */}
               <nav className="flex flex-col gap-3">
-                <a
-                  className="flex items-center justify-between text-gray-700 hover:text-teal-600 font-medium py-2"
+                <p
                   onClick={() => setIsMenuOpen(false)}
+                  className="text-textGray hover:text-primaryTwo font-normal text-base leading-[1.6]"
                 >
                   Special Deals
-                </a>
-                <a
-                  href="#"
-                  className="text-gray-700 hover:text-teal-600 font-medium py-2"
-                  onClick={() => setIsMenuOpen(false)}
+                </p>
+                <p
+                  // href={`${mainPath}/products`}
+                  onClick={handleProductPageRedirection}
+                  className="text-textGray hover:text-primaryTwo font-normal text-base leading-[1.6]"
                 >
                   Products
-                </a>
-                <a
-                  href="#"
-                  className="text-gray-700 hover:text-teal-600 font-medium py-2"
-                  onClick={() => setIsMenuOpen(false)}
+                </p>
+                <p
+                  onClick={handleMobileGetQuate}
+                  className="text-textGray hover:text-primaryTwo font-normal text-base leading-[1.6] cursor-pointer"
                 >
                   Get a Quote
-                </a>
+                </p>
+                <ModalBox isOpen={isQuoteModel} onClose={handleCloseQuoteModal}>
+                  <QueryForm onClose={handleCloseQuoteModal} />
+                </ModalBox>
+
                 {!isAuthenticated ? (
                   <button
                     className="text-gray-700 hover:text-primaryTwo cursor-pointer flex gap-2"
@@ -274,7 +292,7 @@ export default function HeaderMainBar({ megaMenuData }: any) {
                   </button>
                 ) : (
                   <Link
-                    href={'/residential/my-account/profile'}
+                    href={`${mainPath}/my-account/profile`}
                     className="text-gray-700 hover:text-primaryTwo cursor-pointer flex gap-2"
                     onClick={() => setIsMenuOpen(false)}
                   >
