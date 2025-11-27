@@ -26,7 +26,7 @@ interface Props {
   handleGetProductDetail: (id: any) => void;
 }
 
-export default function ProductCard({ product, handleGetProductDetail }: Props) {
+export default function ProductCard({ product, handleGetProductDetail }: Props | any) {
   const router = useRouter();
   const { isAuthenticated } = useAuth();
   const { showToast } = useToast();
@@ -39,6 +39,10 @@ export default function ProductCard({ product, handleGetProductDetail }: Props) 
     try {
       if (isAuthenticated) {
         await CartEndPoint.addItemToCart(id);
+        // [
+        //   { product_id: 55, quantity: 3 },
+        //   { product_id: 13, quantity: 3 },
+        // ];
         showToast('Product added to cart successfully!', 'success');
       } else {
         addToGuestCart({ id: id });
@@ -55,29 +59,28 @@ export default function ProductCard({ product, handleGetProductDetail }: Props) 
   };
 
   const path = process.env.NEXT_PUBLIC_IMAGE_PATH;
-  const ProductImage = `${path}${product.image}`;
+  const ProductImage = `${path}${product?.image}`;
 
-  console.log(ProductImage, 'productimage');
   return (
     <div className="flex flex-col">
       <div
         className="relative bg-white rounded-[0.625rem] flex justify-center items-center border border-[#E8E8E8] h-[341px] w-[296px] cursor-pointer rounded-tl-lg"
         onClick={() => handleGetProductDetail(product.id)}
       >
-        {product.discount_percent && (
+        {product?.discount_percent && (
           <span className="absolute top-0 left-0 bg-[#BA0202] text-white text-sm px-2 py-1 rounded-tl-lg font-bold poppins-font">
-            {product.discount_percent}% OFF
+            {product?.discount_percent}% OFF
           </span>
         )}
         <span className="absolute right-0 top-0 font-semibold px-2 py-1 flex  items-center ">
-          {product.rating && (
+          {product?.rating && (
             <RatingStars rating={product.rating} className="absolute right-2 top-1" />
           )}
         </span>
         {ProductImage && (
           <Image
             src={ProductImage}
-            alt={product.sku || 'Product'}
+            alt={product?.sku || 'Product'}
             width={340}
             height={240}
             className="h-full  object-cover rounded-tl-lg"
