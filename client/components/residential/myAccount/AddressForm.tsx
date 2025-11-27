@@ -4,7 +4,7 @@ import { CartEndPoint } from '@/lib/api/cartEndPoints';
 import { CommonComponentData } from '@/lib/api/commonEndPoints';
 import { useToast } from '@/components/ui/Tooltip';
 
-export default function AddressForm({ isEditId, closeModal, onSuccess }: any) {
+export default function AddressForm({ isEditId, closeModal, onSuccess, isCheckOutPage }: any) {
   const { showToast } = useToast();
   const [formData, setFormData] = useState({
     first_name: '',
@@ -209,13 +209,17 @@ export default function AddressForm({ isEditId, closeModal, onSuccess }: any) {
   return (
     <>
       <div className="w-full max-w-4xl mx-auto bg-white p-6 rounded-lg">
-        <div className="flex justify-between items-center mb-4">
-          <h2 className="text-2xl font-semibold text-gray-900">
-            {isEditId ? 'Edit address' : 'Create address'}
-          </h2>
-        </div>
+        {!isCheckOutPage && (
+          <>
+            <div className="flex justify-between items-center mb-4">
+              <h2 className="text-2xl font-semibold text-gray-900">
+                {isEditId ? 'Edit address' : 'Create address'}
+              </h2>
+            </div>
 
-        <hr className="mb-4" />
+            <hr className="mb-4" />
+          </>
+        )}
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>

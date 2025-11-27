@@ -1,14 +1,37 @@
 'use client';
-import { purchaserInfo, shippingAddress, summaryProducts } from './checkoutData';
+import { shippingAddress, summaryProducts } from './checkoutData';
 import ProductCard from './ProductCard';
 import Card from './Card';
 import Section from './Section';
 import { IoIosArrowRoundBack } from 'react-icons/io';
 import Link from 'next/link';
 import { usePathSegments } from '@/utils/segmentPath';
+import AddressForm from '@/components/residential/myAccount/AddressForm';
+import { useEffect, useState } from 'react';
+import MyProfileForm from '@/components/residential/myAccount/MyProfileForm';
+import { UserMyAccountEndpoints } from '@/lib/api/authincationEndPoints';
+import { MdOutlinePhoneEnabled } from 'react-icons/md';
+import { MdOutlineEmail } from 'react-icons/md';
 
 export default function CheckoutPage() {
   const { mainPath } = usePathSegments();
+  const [openDrawer, setOpenDrawer] = useState(false);
+  const [editPurchaserInfo, setPurchaser] = useState(false);
+  const [purchaserInfo, setPurchaserInfo] = useState<any>(null);
+  // const { first_name }: any = purchaserInfo;
+  const handleOpenDrawer = () => {
+    setOpenDrawer(!openDrawer);
+  };
+
+  const fetchCustomerDetail = async () => {
+    const resp = await UserMyAccountEndpoints.getUserDetail();
+    setPurchaserInfo(resp?.data);
+  };
+
+  useEffect(() => {
+    fetchCustomerDetail();
+  }, [openDrawer]);
+
   return (
     <div className="wrapper m-auto py-12">
       <Link
@@ -24,20 +47,45 @@ export default function CheckoutPage() {
         <div className="lg:col-span-2 space-y-8">
           {/* Purchaser Info */}
           <Card>
-            <Section title="1. Purchaser Information" action="Edit">
-              <div className="space-y-1">
-                <p className="font-medium">{purchaserInfo.name}</p>
-                <p className="text-gray-700">{purchaserInfo.email}</p>
-                <p className="text-gray-700">{purchaserInfo.phone}</p>
-              </div>
+            <Section
+              title="1. Purchaser Information"
+              action="Edit"
+              handleOpenDrawer={() => setPurchaser(!editPurchaserInfo)}
+            >
+              {!editPurchaserInfo ? (
+                <div className="space-y-1">
+                  <p className="font-medium">
+                    {purchaserInfo?.first_name}
+                    <span> {purchaserInfo?.last_name}</span>
+                  </p>
+                  <p className="text-gray-700 flex items-center gap-2">
+                    <MdOutlineEmail size={16} />
+                    {purchaserInfo?.email}
+                  </p>
+                  <p className="text-gray-700 flex items-center gap-2">
+                    <MdOutlinePhoneEnabled size={16} />
+                    {purchaserInfo?.phone}
+                  </p>
+                </div>
+              ) : (
+                <div className="py-4">
+                  <MyProfileForm isCheckOutPage={true} />
+                </div>
+              )}
             </Section>
           </Card>
           {/* Shipping Address */}
           <Card>
-            <Section title="2. Shipping Address" action="Edit">
-              <p className="font-medium">{shippingAddress.title}</p>
-              <p className="text-gray-600">{shippingAddress.full}</p>
-              <p className="text-gray-600">{shippingAddress.phone}</p>
+            <Section title="2. Shipping Address" action="Edit" handleOpenDrawer={handleOpenDrawer}>
+              {!openDrawer ? (
+                <div>
+                  <p className="font-medium">{shippingAddress.title}</p>
+                  <p className="text-gray-600">{shippingAddress.full}</p>
+                  <p className="text-gray-600">{shippingAddress.phone}</p>
+                </div>
+              ) : (
+                <AddressForm isCheckOutPage={true} />
+              )}
             </Section>
           </Card>
 

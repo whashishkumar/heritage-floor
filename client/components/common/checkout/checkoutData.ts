@@ -1,9 +1,3 @@
-export const purchaserInfo = {
-  name: 'Ashish Kumar',
-  email: 'ashish@gmail.com',
-  phone: '(821) 970-6512',
-};
-
 export const shippingAddress = {
   title: 'Vip Rd, Jacksonville',
   full: 'Ashish Kumar, Vip Rd, Jacksonville, FL 32218, United States',
