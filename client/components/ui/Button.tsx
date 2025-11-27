@@ -9,6 +9,7 @@ interface Button {
   cssButtonName?: string;
   cssChild?: string;
   onClick?: () => void;
+  disabled?: boolean;
 }
 export default function ButtonCommon({
   buttonName,
@@ -18,13 +19,20 @@ export default function ButtonCommon({
   cssButtonName,
   cssChild,
   onClick,
+  disabled = false,
 }: Button) {
   return (
     <>
-      <button className=" cursor-pointer text-white inter-font" onClick={onClick}>
+      <button
+        className=" cursor-pointer text-white inter-font"
+        onClick={onClick}
+        disabled={disabled}
+      >
         <Link
           href={link ? link : ''}
-          className={`h-[3.625rem] ${cssParent} w-[16rem] flex bg-black rounded-l-[5px] rounded-r-[5px] hover:scale-105 transition ease-in-out duration-300`}
+          className={`h-[3.625rem] ${cssParent} w-[16rem] flex bg-black rounded-l-[5px] rounded-r-[5px] hover:scale-105 transition ease-in-out duration-300 ${
+            disabled ? 'opacity-50 cursor-not-allowed' : ''
+          }`}
         >
           <div
             className={`w-[75%] ${cssButtonName} h-full  text-center font-normal text-lg  flex items-center justify-center leading-[3] align-middle`}

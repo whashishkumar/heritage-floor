@@ -1,5 +1,5 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   FaTimes as X,
   FaPlus as Plus,
@@ -13,6 +13,7 @@ import {
 } from 'react-icons/fa';
 import { TbTruckDelivery } from 'react-icons/tb';
 import { IoHeartOutline } from 'react-icons/io5';
+import { CartEndPoint } from '@/lib/api/cartEndPoints';
 
 interface Promo {
   code: string;
@@ -58,6 +59,20 @@ const CartPageComponent = () => {
 
   const [promoCode, setPromoCode] = useState('');
   const [appliedPromo, setAppliedPromo] = useState<Promo | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const fetchCartItems = async () => {
+    setIsLoading(true);
+    try {
+      const response = await CartEndPoint.getCartItems();
+      // setCartItems(response.data);
+      console.log(response, 'responseCart Items');
+    } catch (error) {
+      console.error('Error fetching cart items:', error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   const updateQuantity = (id: any, change: any) => {
     setCartItems((items) =>
@@ -104,6 +119,10 @@ const CartPageComponent = () => {
       </div>
     );
   }
+
+  useEffect(() => {
+    fetchCartItems();
+  }, []);
 
   return (
     <>

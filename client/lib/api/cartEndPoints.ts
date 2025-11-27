@@ -1,15 +1,25 @@
 import { apiDelete, apiFetch, apiPatch, apiPost, apiPut } from './fetcher';
 
 export const CartEndPoint = {
+  //Cart API EndPoints
   getCartItems: () => {
     return apiFetch({
       endpoint: '/customer/cart',
       cache: 'no-store',
     });
   },
+  addItemToCart: (productId: any, product?: any) =>
+    apiPost(`/customer/cart/add/${productId}`, product),
+  removeItemFromCart: (productId: any) => apiDelete(`/customer/cart/remove/${productId}`),
+  updateCartItemQuantity: (productId: any, quantity: any) =>
+    apiPut(`/customer/cart/update/${productId}`, { quantity }),
 
-  addItemToCart: (productId: any) => apiPost(`/customer/cart/add/${productId}`),
+  removeAllCartItems: () => apiDelete('/customer/cart/remove'),
+  moveItemToWishList: (productId: any) => apiPost(`/customer/cart/move-to-wishlist/${productId}`),
+  applyCustomeCode: (code: any) => apiPost(`/customer/cart/apply-coupon/${code}`),
+  removeAppliedCoupon: (code: any) => apiDelete(`/customer/cart/remove-coupon/${code}`),
 
+  //Wish List API EndPoints
   getWishListItems: () => {
     return apiFetch({
       endpoint: '/customer/wishlist',
@@ -26,6 +36,7 @@ export const CartEndPoint = {
       cache: 'no-store',
     });
   },
+  //Customer Address API EndPoints
   addCustomerAddress: (data: any) => apiPost('/customer/addresses', data),
   deleteCustomerAddress: (id: any) => apiDelete(`/customer/addresses/${id}`),
   matchCustomerAddressAsDefault: (id: any) => apiPatch(`/customer/addresses/make-default/${id}`),

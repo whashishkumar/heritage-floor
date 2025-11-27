@@ -5,6 +5,9 @@ import { useRouter } from 'next/navigation';
 import ButtonCommon from '../ui/Button';
 import RatingStars from '../ui/RatingStars';
 import { addToGuestCart } from '@/utils/addToGuestCart';
+import { useAuth } from '@/context/userAuthContext';
+import { useToast } from '../ui/Tooltip';
+import { useState } from 'react';
 
 export interface Product {
   id: number;
@@ -25,10 +28,30 @@ interface Props {
 
 export default function ProductCard({ product, handleGetProductDetail }: Props) {
   const router = useRouter();
+  const { isAuthenticated } = useAuth();
+  const { showToast } = useToast();
+  const [isAddingToCart, setIsAddingToCart] = useState(false);
 
   const handleAddToCartProduct = async (id: any) => {
-    // await CartEndPoint.addItemToCart(id);
-    addToGuestCart({ id: id });
+    if (isAddingToCart) return; // Prevent multiple clicks
+
+    setIsAddingToCart(true);
+    try {
+      if (isAuthenticated) {
+        await CartEndPoint.addItemToCart(id);
+        showToast('Product added to cart successfully!', 'success');
+      } else {
+        addToGuestCart({ id: id });
+        showToast('Product added to cart!', 'success');
+      }
+    } catch (error: any) {
+      console.error('Error adding to cart:', error);
+      const errorMessage =
+        error?.response?.data?.message || 'Failed to add product to cart. Please try again.';
+      showToast(errorMessage, 'error');
+    } finally {
+      setIsAddingToCart(false);
+    }
   };
 
   const path = process.env.NEXT_PUBLIC_IMAGE_PATH;
@@ -74,11 +97,12 @@ export default function ProductCard({ product, handleGetProductDetail }: Props) 
         {/* Button */}
         <div className="mt-[1.5rem]">
           <ButtonCommon
-            buttonName="Add To Cart"
+            buttonName={isAddingToCart ? 'Adding...' : 'Add To Cart'}
             image="/icon/arrowRightUp.png"
             cssParent="!rounded-[0.625rem]"
             cssChild="!rounded-r-[0.625rem]"
             onClick={() => handleAddToCartProduct(product?.id)}
+            disabled={isAddingToCart}
           />
         </div>
       </div>
