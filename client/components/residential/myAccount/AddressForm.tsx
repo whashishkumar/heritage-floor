@@ -4,7 +4,7 @@ import { CartEndPoint } from '@/lib/api/cartEndPoints';
 import { CommonComponentData } from '@/lib/api/commonEndPoints';
 import { useToast } from '@/components/ui/Tooltip';
 
-export default function AddressForm({ isEditId, closeModal, onSuccess }: any) {
+export default function AddressForm({ isEditId, closeModal, onSuccess, isCheckOutPage }: any) {
   const { showToast } = useToast();
   const [formData, setFormData] = useState({
     first_name: '',
@@ -170,7 +170,7 @@ export default function AddressForm({ isEditId, closeModal, onSuccess }: any) {
           postcode: addressData.postcode || '',
           email: addressData.email || '',
           vat_id: addressData.vat_id || '',
-          default_address: addressData.default_address || false,
+          default_address: isCheckOutPage ? true : addressData.default_address || false,
         });
       }
     } catch (error) {
@@ -187,6 +187,7 @@ export default function AddressForm({ isEditId, closeModal, onSuccess }: any) {
       getUpdateAddressData(isEditId);
     } else {
       // Reset form data when adding new address
+      // If on checkout page, automatically set as default address
       setFormData({
         first_name: '',
         last_name: '',
@@ -200,7 +201,7 @@ export default function AddressForm({ isEditId, closeModal, onSuccess }: any) {
         postcode: '',
         email: '',
         vat_id: '',
-        default_address: false,
+        default_address: isCheckOutPage ? true : false,
       });
       setErrors({});
     }
@@ -209,13 +210,17 @@ export default function AddressForm({ isEditId, closeModal, onSuccess }: any) {
   return (
     <>
       <div className="w-full max-w-4xl mx-auto bg-white p-6 rounded-lg">
-        <div className="flex justify-between items-center mb-4">
-          <h2 className="text-2xl font-semibold text-gray-900">
-            {isEditId ? 'Edit address' : 'Create address'}
-          </h2>
-        </div>
+        {!isCheckOutPage && (
+          <>
+            <div className="flex justify-between items-center mb-4">
+              <h2 className="text-2xl font-semibold text-gray-900">
+                {isEditId ? 'Edit address' : 'Create address'}
+              </h2>
+            </div>
 
-        <hr className="mb-4" />
+            <hr className="mb-4" />
+          </>
+        )}
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
@@ -431,6 +436,7 @@ export default function AddressForm({ isEditId, closeModal, onSuccess }: any) {
               name="default_address"
               checked={formData.default_address}
               onChange={handleChange}
+              disabled={isCheckOutPage}
             />
             <label className="text-sm font-medium text-gray-700">Set as default address</label>
           </div>

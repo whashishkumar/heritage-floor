@@ -6,7 +6,10 @@ export function middleware(request: NextRequest) {
 
   const protectedRoutes = [
     '/residential/my-account',
+    '/residential/cart',
+    '/residential/checkout',
     '/builder/my-account',
+    '/builder/cart',
     '/commercial/my-account',
   ];
 

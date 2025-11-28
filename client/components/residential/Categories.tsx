@@ -67,7 +67,7 @@ export default function CategoriesResidential({ data }: CategoriesResidentialPro
             Categories
           </div>
           <div className=" grid grid-cols-1 md:grid-cols-3 lg:grid-cols-6 gap-4 mt-[2.5rem]">
-            {data.map((categ: CategoriesResidential, index: number) => (
+            {data?.slice(0, 6)?.map((categ: CategoriesResidential, index: number) => (
               <div
                 className="h-[18.5rem] w-[14rem]  flex flex-col justify-between group"
                 key={categ.id}
