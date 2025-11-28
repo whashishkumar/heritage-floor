@@ -170,7 +170,7 @@ export default function AddressForm({ isEditId, closeModal, onSuccess, isCheckOu
           postcode: addressData.postcode || '',
           email: addressData.email || '',
           vat_id: addressData.vat_id || '',
-          default_address: addressData.default_address || false,
+          default_address: isCheckOutPage ? true : addressData.default_address || false,
         });
       }
     } catch (error) {
@@ -187,6 +187,7 @@ export default function AddressForm({ isEditId, closeModal, onSuccess, isCheckOu
       getUpdateAddressData(isEditId);
     } else {
       // Reset form data when adding new address
+      // If on checkout page, automatically set as default address
       setFormData({
         first_name: '',
         last_name: '',
@@ -200,7 +201,7 @@ export default function AddressForm({ isEditId, closeModal, onSuccess, isCheckOu
         postcode: '',
         email: '',
         vat_id: '',
-        default_address: false,
+        default_address: isCheckOutPage ? true : false,
       });
       setErrors({});
     }
@@ -435,6 +436,7 @@ export default function AddressForm({ isEditId, closeModal, onSuccess, isCheckOu
               name="default_address"
               checked={formData.default_address}
               onChange={handleChange}
+              disabled={isCheckOutPage}
             />
             <label className="text-sm font-medium text-gray-700">Set as default address</label>
           </div>

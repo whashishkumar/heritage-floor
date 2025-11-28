@@ -1,5 +1,5 @@
 'use client';
-import { shippingAddress, summaryProducts } from './checkoutData';
+import { summaryProducts } from './checkoutData';
 import ProductCard from './ProductCard';
 import Card from './Card';
 import Section from './Section';
@@ -32,15 +32,20 @@ export default function CheckoutPage() {
   const [purchaserInfo, setPurchaserInfo] = useState<any>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [purchaserAddress, setPurchaserAddress] = useState<any | null>(null);
+  const [editAddressId, setEditAddressId] = useState<number | null>(null);
 
   const shippingAddress = purchaserAddress?.filter((address: any) => address.is_default);
 
   const handleEditAddress = async (address: any) => {
-    const { id } = address;
-    // getCustomerAddress
-    const resp = await CartEndPoint.getCustomerAddress(id);
-    console.log(resp?.data, 'log123456789');
-    setOpenDrawer(!openDrawer);
+    if (address?.id) {
+      setEditAddressId(address.id);
+      setOpenDrawer(true);
+    }
+  };
+
+  const handleAddAddress = () => {
+    setEditAddressId(null);
+    setOpenDrawer(true);
   };
 
   const fetchCustomerDetail = async () => {
@@ -66,7 +71,7 @@ export default function CheckoutPage() {
   useEffect(() => {
     fetchCustomerDetail();
     fetchCustomerAddress();
-  }, [editPurchaserInfo]);
+  }, [editPurchaserInfo, editAddressId]);
 
   return (
     <div className="wrapper m-auto py-12">
@@ -124,39 +129,59 @@ export default function CheckoutPage() {
           <Card>
             <Section
               title="2. Shipping Address"
-              action="Edit"
-              handleOpenDrawer={() => handleEditAddress(shippingAddress?.[0])}
+              action={shippingAddress?.length > 0 ? 'Edit' : 'Add Address'}
+              handleOpenDrawer={() =>
+                shippingAddress?.length > 0
+                  ? handleEditAddress(shippingAddress?.[0])
+                  : handleAddAddress()
+              }
             >
               {!openDrawer ? (
-                <div className="space-y-2 text-gray-700">
-                  <div className="flex items-center gap-2">
-                    <MdPerson size={18} className="text-gray-600" />
-                    <p className="font-medium">{shippingAddress?.[0]?.first_name}</p>
-                    <p className="font-medium">{shippingAddress?.[0]?.last_name}</p>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <MdPhone size={18} className="text-gray-600" />
-                    <p>{shippingAddress?.[0]?.phone}</p>
-                    <MdEmail size={18} className="text-gray-600" />
-                    <p>{shippingAddress?.[0]?.email}</p>
-                  </div>
+                <>
+                  {shippingAddress && shippingAddress.length > 0 ? (
+                    <div className="space-y-2 text-gray-700">
+                      <div className="flex items-center gap-2">
+                        <MdPerson size={18} className="text-gray-600" />
+                        <p className="font-medium">{shippingAddress?.[0]?.first_name}</p>
+                        <p className="font-medium">{shippingAddress?.[0]?.last_name}</p>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <MdPhone size={18} className="text-gray-600" />
+                        <p>{shippingAddress?.[0]?.phone}</p>
+                        <MdEmail size={18} className="text-gray-600" />
+                        <p>{shippingAddress?.[0]?.email}</p>
+                      </div>
 
-                  <div className="flex items-center gap-2">
-                    <MdLocationOn size={18} className="text-gray-600" />
-                    <p>{shippingAddress?.[0]?.address}</p>
-                    <MdLocationCity size={18} className="text-gray-600" />
-                    <p>{shippingAddress?.[0]?.city}</p>
-                  </div>
+                      <div className="flex items-center gap-2">
+                        <MdLocationOn size={18} className="text-gray-600" />
+                        <p>{shippingAddress?.[0]?.address}</p>
+                        <MdLocationCity size={18} className="text-gray-600" />
+                        <p>{shippingAddress?.[0]?.city}</p>
+                      </div>
 
-                  <div className="flex items-center gap-2">
-                    <MdBusiness size={18} className="text-gray-600" />
-                    <p>{shippingAddress?.[0]?.company_name}</p>
-                    <MdPublic size={18} className="text-gray-600" />
-                    <p>{shippingAddress?.[0]?.country_name}</p>
-                  </div>
-                </div>
+                      <div className="flex items-center gap-2">
+                        <MdBusiness size={18} className="text-gray-600" />
+                        <p>{shippingAddress?.[0]?.company_name}</p>
+                        <MdPublic size={18} className="text-gray-600" />
+                        <p>{shippingAddress?.[0]?.country_name}</p>
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="text-gray-500 text-sm py-4">
+                      <p>No default address found. Please add a new address to continue.</p>
+                    </div>
+                  )}
+                </>
               ) : (
-                <AddressForm isCheckOutPage={true} />
+                <AddressForm
+                  isCheckOutPage={true}
+                  isEditId={editAddressId}
+                  onSuccess={() => {
+                    setOpenDrawer(false);
+                    setEditAddressId(null);
+                    fetchCustomerAddress();
+                  }}
+                />
               )}
             </Section>
           </Card>
