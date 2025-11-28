@@ -39,10 +39,6 @@ export default function ProductCard({ product, handleGetProductDetail }: Props |
     try {
       if (isAuthenticated) {
         await CartEndPoint.addItemToCart(id);
-        // [
-        //   { product_id: 55, quantity: 3 },
-        //   { product_id: 13, quantity: 3 },
-        // ];
         showToast('Product added to cart successfully!', 'success');
       } else {
         addToGuestCart({ id: id });

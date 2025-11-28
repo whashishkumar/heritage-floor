@@ -4,6 +4,7 @@ import SectionHeader from '../common/SectionHeader';
 import { FaStar } from 'react-icons/fa6';
 import ModalBox from '../ui/ModalBox';
 import QueryForm from '../common/QuearyForm';
+import SwipeSlider from '../ui/SwipeSlider';
 
 interface SignatureFlooringProps {
   image: string;
@@ -76,6 +77,33 @@ export default function SignatureFlooring({ data }: SignatureFlooring) {
     },
   ];
 
+  const breakpoints = {
+    340: {
+      slidesPerView: 1,
+      spaceBetween: 10,
+    },
+    440: {
+      slidesPerView: 1,
+      spaceBetween: 20,
+    },
+    640: {
+      slidesPerView: 3,
+      spaceBetween: 15,
+    },
+    1024: {
+      slidesPerView: 3,
+      spaceBetween: 20,
+    },
+    1280: {
+      slidesPerView: 4,
+      spaceBetween: 20,
+    },
+    2000: {
+      slidesPerView: 4,
+      spaceBetween: 25,
+    },
+  };
+
   return (
     <div className="w-full h-full flex items-center justify-center mb-[5rem]">
       <div className="wrapper w-full mx-auto">
@@ -86,116 +114,124 @@ export default function SignatureFlooring({ data }: SignatureFlooring) {
           headingCss="font-semibold text-base tracking-[1.4px] poppins-font"
           subHeadingCss="text-[2.5rem] font-bold leading-[1.3500] text-black align-middle poppins-font"
         />
-
-        <div className="w-full h-full min-[1100px]:block hidden">
+        <>
+          {/* <div className="w-full h-full  hidden">
           {/* <div className="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-8"> */}
-          <div className="flex flex-nowrap justify-center gap-4 lg:justify-start">
-            {/* {data?.services?.map((data:SignatureFlooringProps, index:number) => { */}
-            {data?.services?.map((data: SignatureFlooringProps, index: number) => {
-              const isActive = activeCard === index;
+          {/* <div className="flex flex-nowrap justify-center gap-4 lg:justify-start"> */}
+          {/* {data?.services?.map((data:SignatureFlooringProps, index:number) => { */}
+          {/* {flooringItems?.map((data: SignatureFlooringProps, index: number) => {
+            const isActive = activeCard === index;
 
-              return (
-                <div
-                  key={index}
-                  onMouseEnter={() => setActiveCard(index)}
-                  // onMouseLeave={() => setActiveCard(6)} // revert to default
-                  className="transition-all duration-1000 ease-out"
-                >
-                  {/* ============== INACTIVE CARD ============== */}
-                  {!isActive && (
+            return (
+              <div
+                key={index}
+                onMouseEnter={() => setActiveCard(index)}
+                // onMouseLeave={() => setActiveCard(6)} // revert to default
+                className="transition-all duration-1000 ease-out"
+              > */}
+          {/* ============== INACTIVE CARD ============== */}
+          {/* {!isActive && (
+                  <div
+                    className={`h-[26.25rem] poppins-font transition-transform duration-1000 ease-in-out ${
+                      activeCard === index
+                        ? 'w-0 opacity-0 pointer-events-none '
+                        : 'w-[10.063rem] transition-transform duration-3000 ease-in-out'
+                    } group relative`}
+                  >
                     <div
-                      className={`h-[26.25rem] poppins-font transition-transform duration-1000 ease-in-out ${
-                        activeCard === index
-                          ? 'w-0 opacity-0 pointer-events-none '
-                          : 'w-[10.063rem] transition-transform duration-3000 ease-in-out'
-                      } group relative`}
+                      className="absolute inset-0 bg-cover bg-no-repeat overflow-hidden transition-transform duration-500 group-hover:scale-[101%]"
+                      style={{
+                        backgroundImage: `url(${data.image})`,
+                      }}
                     >
-                      <div
-                        className="absolute inset-0 bg-cover bg-no-repeat overflow-hidden transition-transform duration-500 group-hover:scale-[101%]"
-                        style={{
-                          backgroundImage: `url(${data.image})`,
-                        }}
-                      >
-                        <div className="absolute inset-0 bg-black/20 group-hover:bg-black/30 transition-colors duration-300" />
+                      <div className="absolute inset-0 bg-black/20 group-hover:bg-black/30 transition-colors duration-300" />
+                    </div>
+                    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center justify-center  w-full h-full">
+                      <div className="-rotate-90 flex flex-col items-start whitespace-nowrap text-white h-fit w-fit">
+                        <div className="text-xl font-normal mb-2 uppercase tracking-[-1%]">
+                          {data.category}
+                        </div>
+                        <div className="text-[2rem] font-semibold mb-1 leading-tight">
+                          {data.title}
+                        </div>
+                        <div className="text-xl font-normal tracking-[-1%]">By {data.subtitle}</div>
                       </div>
-                      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center justify-center  w-full h-full">
-                        <div className="-rotate-90 flex flex-col items-start whitespace-nowrap text-white h-fit w-fit">
-                          <div className="text-xl font-normal mb-2 uppercase tracking-[-1%]">
+                    </div>
+                  </div>
+                )} */}
+
+          {/* ============== ACTIVE CARD ============== */}
+          {/* {isActive && (
+                  <div
+                    className={`poppins-font h-[26.25rem] border relative group transition-transform duration-1000 ease-in-out ${
+                      activeCard === index
+                        ? 'w-[21.563rem] opacity-100 z-20 transition-transform duration-3000 ease-in-out'
+                        : 'w-0 opacity-0 pointer-events-none'
+                    }`}
+                  >
+                    <div
+                      className="absolute inset-0 bg-cover bg-no-repeat overflow-hidden transition-transform duration-500 group-hover:scale-[101%]"
+                      style={{
+                        backgroundImage: `url(${data.image})`,
+                      }}
+                    >
+                      <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/60 transition-colors duration-300" />
+                    </div>
+                    <div className="absolute flex w-full h-full">
+                      <div className="absolute bottom-10 left-8 flex flex-col items-start whitespace-nowrap text-white h-fit w-fit">
+                        <div className="flex flex-col -space-y-3">
+                          <div className="text-xl font-normal uppercase tracking-[-1%]">
                             {data.category}
                           </div>
-                          <div className="text-[2rem] font-semibold mb-1 leading-tight">
+                          <div className="text-[2rem] font-semibold tracking-[1%] align-middle">
                             {data.title}
                           </div>
                           <div className="text-xl font-normal tracking-[-1%]">
                             By {data.subtitle}
                           </div>
                         </div>
-                      </div>
-                    </div>
-                  )}
 
-                  {/* ============== ACTIVE CARD ============== */}
-                  {isActive && (
-                    <div
-                      className={`poppins-font h-[26.25rem] border relative group transition-transform duration-1000 ease-in-out ${
-                        activeCard === index
-                          ? 'w-[21.563rem] opacity-100 z-20 transition-transform duration-3000 ease-in-out'
-                          : 'w-0 opacity-0 pointer-events-none'
-                      }`}
-                    >
-                      <div
-                        className="absolute inset-0 bg-cover bg-no-repeat overflow-hidden transition-transform duration-500 group-hover:scale-[101%]"
-                        style={{
-                          backgroundImage: `url(${data.image})`,
-                        }}
-                      >
-                        <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/60 transition-colors duration-300" />
-                      </div>
-                      <div className="absolute flex w-full h-full">
-                        <div className="absolute bottom-10 left-8 flex flex-col items-start whitespace-nowrap text-white h-fit w-fit">
-                          <div className="flex flex-col -space-y-3">
-                            <div className="text-xl font-normal uppercase tracking-[-1%]">
-                              {data.category}
-                            </div>
-                            <div className="text-[2rem] font-semibold tracking-[1%] align-middle">
-                              {data.title}
-                            </div>
-                            <div className="text-xl font-normal tracking-[-1%]">
-                              By {data.subtitle}
-                            </div>
-                          </div>
-
-                          {/* Rating */}
-                          <div className="flex my-[0.5rem] gap-1">
-                            {[...Array(data?.Rating || 5)].map((_, idx) => (
-                              <FaStar key={idx} size={16} className="text-rating" />
-                            ))}
-                          </div>
-
-                          {/* Quote Button */}
-                          <button
-                            onClick={() => setIsAuthModalOpen(true)}
-                            className="h-[2.25rem] w-[8.563rem] border border-[#BDBDBD] rounded-[3.125rem] bg-white flex items-center justify-center hover:bg-gray-50 transition-colors cursor-pointer"
-                          >
-                            <div className="align-middle text-black leading-[1.5] text-base font-medium">
-                              Get a Quote
-                            </div>
-                          </button>
+                        {/* Rating */}
+          {/* <div className="flex my-[0.5rem] gap-1">
+                          {[...Array(data?.Rating || 5)].map((_, idx) => (
+                            <FaStar key={idx} size={16} className="text-rating" />
+                          ))}
                         </div>
+
+                        {/* Quote Button */}
+          {/* <button
+                          onClick={() => setIsAuthModalOpen(true)}
+                          className="h-[2.25rem] w-[8.563rem] border border-[#BDBDBD] rounded-[3.125rem] bg-white flex items-center justify-center hover:bg-gray-50 transition-colors cursor-pointer"
+                        >
+                          <div className="align-middle text-black leading-[1.5] text-base font-medium">
+                            Get a Quote
+                          </div>
+                        </button>
                       </div>
                     </div>
-                  )}
-                </div>
-              );
-            })}
-          </div>
-        </div>
-
-        <div className=" min-[1100px]:hidden flex w-full overflow-x-scroll mt-[2rem]">
+                  </div>
+                )} */}
+          {/* </div> */}
+          {/* );
+          })}
+        </div>  */}
+          {/* </div> */}
+        </>
+        <SwipeSlider
+          slidesPerView={4}
+          bottomSwipeBtn={false}
+          swipebtn={false}
+          spaceBetween={10}
+          autoPlay={true}
+          loop={true}
+          delay={1000}
+          speed={3000}
+          breakpoints={breakpoints}
+        >
           {data?.services?.map((data: SignatureFlooringProps, index: number) => (
             <div
               key={index}
-              className={`flex-shrink-0 poppins-font h-[26.25rem] border relative group w-[21.563rem] opacity-100 z-20   mx-2  `}
+              className={`flex-shrink-0 poppins-font h-[26.25rem] border border-gray-300 relative group max-w-[21.563rem] opacity-100 z-20 mx-2 mt-5 rounded-md`}
             >
               <div
                 className="absolute inset-0 bg-cover bg-no-repeat overflow-hidden transition-transform duration-500 group-hover:scale-[101%]"
@@ -211,7 +247,7 @@ export default function SignatureFlooring({ data }: SignatureFlooring) {
                     <div className="text-xl font-normal uppercase tracking-[-1%]">
                       {data.category}
                     </div>
-                    <div className="text-[2rem] font-semibold tracking-[1%] align-middle">
+                    <div className="text-[1rem] md:text-[2rem] font-semibold tracking-[1%] align-middle">
                       {data.title}
                     </div>
                     <div className="text-xl font-normal tracking-[-1%]">By {data.subtitle}</div>
@@ -236,7 +272,9 @@ export default function SignatureFlooring({ data }: SignatureFlooring) {
               </div>
             </div>
           ))}
-        </div>
+        </SwipeSlider>
+
+        {/* <div className="flex w-full overflow-x-scroll mt-[2rem]"></div> */}
       </div>
 
       {/* Auth Modal */}
