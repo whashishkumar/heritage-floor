@@ -75,14 +75,17 @@ export default function MegaMenu({ isDealsOpen, megaMenu }: any) {
   };
 
   const handleRedirect = (id: any) => {
+    handleMenuClose();
     router.push(`${mainPath}/products/${id}`);
   };
 
   const handleRedirectSubMenu = (id: number) => {
+    handleMenuClose();
     router.push(`${mainPath}/products/${id}`);
   };
 
   const handleChildSubMenu = (id: number) => {
+    handleMenuClose();
     router.push(`${mainPath}/products/${id}`);
   };
 
@@ -169,8 +172,8 @@ export default function MegaMenu({ isDealsOpen, megaMenu }: any) {
                   {/* Image wrapper */}
                   <div className="relative h-[280px] w-[280px]">
                     <Image
-                      // src={activeMenuItem?.image}
-                      src="/images/residential/wood/abstract.png"
+                      src={activeMenuItem?.image}
+                      // src="/images/residential/wood/abstract.png"
                       fill
                       alt="product-image"
                       className="object-cover"
@@ -192,7 +195,8 @@ export default function MegaMenu({ isDealsOpen, megaMenu }: any) {
                   {/* Image wrapper */}
                   <div className="relative h-[280px] w-[280px]">
                     <Image
-                      src="/images/residential/wood/abstract.png"
+                      src={activeSubMenuItem?.image}
+                      // src="/images/residential/wood/abstract.png"
                       fill
                       alt="product-image"
                       className="object-cover"
