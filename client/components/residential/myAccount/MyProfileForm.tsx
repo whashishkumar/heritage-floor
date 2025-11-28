@@ -5,7 +5,7 @@ import { UserMyAccountEndpoints } from '@/lib/api/authincationEndPoints';
 import { useAuth } from '@/context/userAuthContext';
 import { useToast } from '@/components/ui/Tooltip';
 
-export default function MyProfileForm({ isCheckOutPage }: any) {
+export default function MyProfileForm({ isCheckOutPage, handleOpenDrawer }: any) {
   const { showToast } = useToast();
 
   const { isAuthenticated } = useAuth();
@@ -114,13 +114,11 @@ export default function MyProfileForm({ isCheckOutPage }: any) {
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
-
     // Validate form before submitting
     if (!validateForm()) {
       showToast('Please fill in all required fields', 'error');
       return;
     }
-
     const userData = new FormData();
     userData.append('_method', 'PUT');
     userData.append('first_name', formData.first_name);
@@ -133,9 +131,9 @@ export default function MyProfileForm({ isCheckOutPage }: any) {
     if (imageFile) {
       userData.append('image[]', imageFile);
     }
-
     const resp = await UserMyAccountEndpoints.updatePeofile(userData);
     showToast(resp.message, 'success');
+    handleOpenDrawer();
   };
 
   useEffect(() => {

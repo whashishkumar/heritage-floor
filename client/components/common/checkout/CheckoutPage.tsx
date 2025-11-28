@@ -12,25 +12,61 @@ import MyProfileForm from '@/components/residential/myAccount/MyProfileForm';
 import { UserMyAccountEndpoints } from '@/lib/api/authincationEndPoints';
 import { MdOutlinePhoneEnabled } from 'react-icons/md';
 import { MdOutlineEmail } from 'react-icons/md';
+import { Suspense } from 'react';
+import Loader from '@/components/ui/Loader';
+import { CartEndPoint } from '@/lib/api/cartEndPoints';
+import {
+  MdPerson,
+  MdLocationOn,
+  MdLocationCity,
+  MdPhone,
+  MdEmail,
+  MdBusiness,
+  MdPublic,
+} from 'react-icons/md';
 
 export default function CheckoutPage() {
   const { mainPath } = usePathSegments();
   const [openDrawer, setOpenDrawer] = useState(false);
   const [editPurchaserInfo, setPurchaser] = useState(false);
   const [purchaserInfo, setPurchaserInfo] = useState<any>(null);
-  // const { first_name }: any = purchaserInfo;
-  const handleOpenDrawer = () => {
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [purchaserAddress, setPurchaserAddress] = useState<any | null>(null);
+
+  const shippingAddress = purchaserAddress?.filter((address: any) => address.is_default);
+
+  const handleEditAddress = async (address: any) => {
+    const { id } = address;
+    // getCustomerAddress
+    const resp = await CartEndPoint.getCustomerAddress(id);
+    console.log(resp?.data, 'log123456789');
     setOpenDrawer(!openDrawer);
   };
 
   const fetchCustomerDetail = async () => {
-    const resp = await UserMyAccountEndpoints.getUserDetail();
-    setPurchaserInfo(resp?.data);
+    try {
+      setIsLoading(true);
+      const resp = await UserMyAccountEndpoints.getUserDetail();
+      setPurchaserInfo(resp?.data);
+    } catch (err) {
+      setIsLoading(false);
+      return console.error(err);
+    }
+  };
+
+  const fetchCustomerAddress = async () => {
+    try {
+      const resp = await CartEndPoint.getUserAddressList();
+      setPurchaserAddress(resp?.data);
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   useEffect(() => {
     fetchCustomerDetail();
-  }, [openDrawer]);
+    fetchCustomerAddress();
+  }, [editPurchaserInfo]);
 
   return (
     <div className="wrapper m-auto py-12">
@@ -53,35 +89,71 @@ export default function CheckoutPage() {
               handleOpenDrawer={() => setPurchaser(!editPurchaserInfo)}
             >
               {!editPurchaserInfo ? (
-                <div className="space-y-1">
-                  <p className="font-medium">
-                    {purchaserInfo?.first_name}
-                    <span> {purchaserInfo?.last_name}</span>
-                  </p>
-                  <p className="text-gray-700 flex items-center gap-2">
-                    <MdOutlineEmail size={16} />
-                    {purchaserInfo?.email}
-                  </p>
-                  <p className="text-gray-700 flex items-center gap-2">
-                    <MdOutlinePhoneEnabled size={16} />
-                    {purchaserInfo?.phone}
-                  </p>
-                </div>
+                <Suspense fallback={<Loader />}>
+                  <div className="space-y-1">
+                    <p className="font-medium">
+                      {purchaserInfo?.first_name}
+                      <span> {purchaserInfo?.last_name}</span>
+                    </p>
+                    {purchaserInfo?.email && (
+                      <p className="text-gray-700 flex items-center gap-2">
+                        <MdOutlineEmail size={16} />
+                        {purchaserInfo?.email}
+                      </p>
+                    )}
+
+                    {purchaserInfo?.phone && (
+                      <p className="text-gray-700 flex items-center gap-2">
+                        <MdOutlinePhoneEnabled size={16} />
+                        {purchaserInfo?.phone}
+                      </p>
+                    )}
+                  </div>
+                </Suspense>
               ) : (
                 <div className="py-4">
-                  <MyProfileForm isCheckOutPage={true} />
+                  <MyProfileForm
+                    isCheckOutPage={true}
+                    handleOpenDrawer={() => setPurchaser(!editPurchaserInfo)}
+                  />
                 </div>
               )}
             </Section>
           </Card>
           {/* Shipping Address */}
           <Card>
-            <Section title="2. Shipping Address" action="Edit" handleOpenDrawer={handleOpenDrawer}>
+            <Section
+              title="2. Shipping Address"
+              action="Edit"
+              handleOpenDrawer={() => handleEditAddress(shippingAddress?.[0])}
+            >
               {!openDrawer ? (
-                <div>
-                  <p className="font-medium">{shippingAddress.title}</p>
-                  <p className="text-gray-600">{shippingAddress.full}</p>
-                  <p className="text-gray-600">{shippingAddress.phone}</p>
+                <div className="space-y-2 text-gray-700">
+                  <div className="flex items-center gap-2">
+                    <MdPerson size={18} className="text-gray-600" />
+                    <p className="font-medium">{shippingAddress?.[0]?.first_name}</p>
+                    <p className="font-medium">{shippingAddress?.[0]?.last_name}</p>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <MdPhone size={18} className="text-gray-600" />
+                    <p>{shippingAddress?.[0]?.phone}</p>
+                    <MdEmail size={18} className="text-gray-600" />
+                    <p>{shippingAddress?.[0]?.email}</p>
+                  </div>
+
+                  <div className="flex items-center gap-2">
+                    <MdLocationOn size={18} className="text-gray-600" />
+                    <p>{shippingAddress?.[0]?.address}</p>
+                    <MdLocationCity size={18} className="text-gray-600" />
+                    <p>{shippingAddress?.[0]?.city}</p>
+                  </div>
+
+                  <div className="flex items-center gap-2">
+                    <MdBusiness size={18} className="text-gray-600" />
+                    <p>{shippingAddress?.[0]?.company_name}</p>
+                    <MdPublic size={18} className="text-gray-600" />
+                    <p>{shippingAddress?.[0]?.country_name}</p>
+                  </div>
                 </div>
               ) : (
                 <AddressForm isCheckOutPage={true} />
