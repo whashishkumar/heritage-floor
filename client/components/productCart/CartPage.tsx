@@ -59,18 +59,19 @@ const CartPageComponent = () => {
       thickness: '8mm',
     },
   ]);
-
+  const [cartAddedItems, setCartAddedItems] = useState<any | null>(null);
   const [promoCode, setPromoCode] = useState('');
   const [appliedPromo, setAppliedPromo] = useState<Promo | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const { mainPath } = usePathSegments();
   const router = useRouter();
+  const { items, items_count, items_qty }: any = cartAddedItems || {};
+
   const fetchCartItems = async () => {
     setIsLoading(true);
     try {
       const response = await CartEndPoint.getCartItems();
-      // setCartItems(response.data);
-      console.log(response, 'responseCart Items');
+      setCartAddedItems(response.data);
     } catch (error) {
       console.error('Error fetching cart items:', error);
     } finally {
@@ -105,6 +106,10 @@ const CartPageComponent = () => {
     // console.log(resp, 'resp');
   };
 
+  const handleAddToWishList = async (id: number) => {
+    // console.log(id, 'log the id');
+  };
+
   const subtotal = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
   const discount = appliedPromo ? subtotal * appliedPromo.discount : 0;
   const tax = (subtotal - discount) * 0.13;
@@ -135,6 +140,8 @@ const CartPageComponent = () => {
   useEffect(() => {
     fetchCartItems();
   }, []);
+
+  console.log('cartAddedItems', items);
 
   return (
     <>
@@ -177,6 +184,7 @@ const CartPageComponent = () => {
                             <div className=" flex items-center justify-center">
                               <button
                                 //   onClick={() => removeItem(item.id)}
+                                onClick={() => handleAddToWishList(item.id)}
                                 className="text-darkBlue hover:text-primaryTwo transition-colors p-2 hover:bg-primaryOne/10 rounded-full"
                               >
                                 <IoHeartOutline className="w-6 h-6" />

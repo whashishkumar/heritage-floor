@@ -2,6 +2,7 @@
 import { FiSearch } from 'react-icons/fi';
 import { FiFilter } from 'react-icons/fi';
 import SideBarNav from './SideBarNav';
+import MyOrders from './MyOrder';
 
 export default function Orders() {
   return (
@@ -34,6 +35,7 @@ export default function Orders() {
                 Filters
               </button>
             </div>
+            <MyOrders />
           </div>
         </div>
       </div>
