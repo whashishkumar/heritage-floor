@@ -43,7 +43,9 @@ export default function ButtonCommon({
             className={`w-[25%] h-full bg-[#018c99] ${cssChild} flex items-center justify-center rounded-r-[5px]`}
           >
             <div className=" relative h-[.75rem] w-[.75rem] ">
-              {image && <Image src={image} alt={buttonName} fill className=" object-center " />}
+              {image && (
+                <Image src={image} alt={buttonName || 'img'} fill className=" object-center " />
+              )}
             </div>
           </div>
         </Link>

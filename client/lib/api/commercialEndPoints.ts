@@ -16,7 +16,7 @@ export const CommercialPageData = {
   },
   getOurCustomers: () => {
     return apiFetch({
-      endpoint: '/builder/our-customers',
+      endpoint: '/commercial/our-customers',
       cache: 'dynamic',
     });
   },

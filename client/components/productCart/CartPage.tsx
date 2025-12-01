@@ -14,6 +14,9 @@ import {
 import { TbTruckDelivery } from 'react-icons/tb';
 import { IoHeartOutline } from 'react-icons/io5';
 import { CartEndPoint } from '@/lib/api/cartEndPoints';
+import { usePathSegments } from '@/utils/segmentPath';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
 interface Promo {
   code: string;
@@ -60,7 +63,8 @@ const CartPageComponent = () => {
   const [promoCode, setPromoCode] = useState('');
   const [appliedPromo, setAppliedPromo] = useState<Promo | null>(null);
   const [isLoading, setIsLoading] = useState(false);
-
+  const { mainPath } = usePathSegments();
+  const router = useRouter();
   const fetchCartItems = async () => {
     setIsLoading(true);
     try {
@@ -74,19 +78,22 @@ const CartPageComponent = () => {
     }
   };
 
-  const updateQuantity = (id: any, change: any) => {
+  const updateQuantity = async (id: any, change: any) => {
     setCartItems((items) =>
       items.map((item) =>
         item.id === id ? { ...item, quantity: Math.max(1, item.quantity + change) } : item
       )
     );
+    // await CartEndPoint.updateCartItemQuantity(id, quantity);
   };
 
-  const removeItem = (id: any) => {
+  const removeItem = async (id: any) => {
+    // await CartEndPoint.removeItemFromCart(id);
+    // fetchCartItems();
     setCartItems((items) => items.filter((item) => item.id !== id));
   };
 
-  const applyPromoCode = () => {
+  const applyPromoCode = async () => {
     if (promoCode.toUpperCase() === 'FLOOR25') {
       setAppliedPromo({ code: 'FLOOR25', discount: 0.25 });
     } else if (promoCode.toUpperCase() === 'SAVE10') {
@@ -94,6 +101,8 @@ const CartPageComponent = () => {
     } else {
       alert('Invalid promo code');
     }
+    // const resp = await CartEndPoint.applyCustomeCode(promoCode);
+    // console.log(resp, 'resp');
   };
 
   const subtotal = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
@@ -111,9 +120,12 @@ const CartPageComponent = () => {
             </div>
             <h2 className="text-3xl font-bold text-gray-800 mb-4">Your Cart is Empty</h2>
             <p className="text-gray-600 mb-8">Start adding beautiful flooring to your cart!</p>
-            <button className="bg-gradient-to-r from-yellow-600 to-yellow-700 text-white px-8 py-4 rounded-full font-semibold hover:from-yellow-700 hover:to-yellow-800 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105">
+            <Link
+              href={mainPath}
+              className="bg-gradient-to-r from-yellow-600 to-yellow-700 text-white px-8 py-4 rounded-full font-semibold hover:from-yellow-700 hover:to-yellow-800 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105"
+            >
               Continue Shopping
-            </button>
+            </Link>
           </div>
         </div>
       </div>
@@ -327,8 +339,10 @@ const CartPageComponent = () => {
                       <ArrowRight className="w-5 h-5" />
                     </span>
                   </button>
-
-                  <button className="w-full mt-3 border-2 border-gray-300 text-gray-700 py-3 rounded-xl font-semibold hover:bg-gray-50 transition-all duration-300">
+                  <button
+                    onClick={() => router.push(`${mainPath}/products`)}
+                    className="w-full mt-3 border-2 border-gray-300 text-gray-700 py-3 rounded-xl font-semibold hover:bg-gray-50 transition-all duration-300 cursor-pointer"
+                  >
                     Continue Shopping
                   </button>
                 </div>

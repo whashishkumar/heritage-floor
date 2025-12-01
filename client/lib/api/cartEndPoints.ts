@@ -30,13 +30,14 @@ export const CartEndPoint = {
   addRemoveListItems: (productId: any) => apiPost(`/customer/wishlist/${productId}`),
   moveWishListToCart: (productId: any) => apiPost(`/customer/wishlist/${productId}/move-to-cart`),
   removeAllWishList: () => apiDelete('/customer/wishlist/all'),
+
+  //Customer Address API EndPoints
   getUserAddressList: () => {
     return apiFetch({
       endpoint: '/customer/addresses',
       cache: 'no-store',
     });
   },
-  //Customer Address API EndPoints
   addCustomerAddress: (data: any) => apiPost('/customer/addresses', data),
   deleteCustomerAddress: (id: any) => apiDelete(`/customer/addresses/${id}`),
   matchCustomerAddressAsDefault: (id: any) => apiPatch(`/customer/addresses/make-default/${id}`),
