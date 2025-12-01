@@ -2,6 +2,7 @@
 
 import { useState, useMemo } from 'react';
 import OrderCard from './OrderCard';
+import OrderCardMobile from './OrderCardMobile';
 import orders from './orders.json';
 
 export default function OrderList() {
@@ -48,25 +49,26 @@ export default function OrderList() {
   ];
 
   return (
-    <div className="space-y-4 ">
-      {/* Tabs */}
-
-      <div className="flex gap-6 text-gray-700 border-b pb-3 ">
-        {tabs.map((t) => (
-          <button
-            key={t.key}
-            onClick={() => setActiveTab(t.key)}
-            className={`pb-2 cursor-pointer poppins-font font-medium ${
-              activeTab === t.key ? 'border-b-2 border-black text-black' : 'text-gray-500'
-            }`}
-          >
-            {t.label}
-          </button>
-        ))}
+    <div className="space-y-4">
+      {/* Tabs - Responsive with horizontal scroll on mobile */}
+      <div className="overflow-x-auto">
+        <div className="flex gap-4 md:gap-6 text-gray-700 border-b pb-3 min-w-max md:min-w-0">
+          {tabs.map((t) => (
+            <button
+              key={t.key}
+              onClick={() => setActiveTab(t.key)}
+              className={`pb-2 cursor-pointer poppins-font font-medium text-sm md:text-base whitespace-nowrap ${
+                activeTab === t.key ? 'border-b-2 border-black text-black' : 'text-gray-500'
+              }`}
+            >
+              {t.label}
+            </button>
+          ))}
+        </div>
       </div>
 
-      {/* Order Table */}
-      <div className="overflow-x-auto bg-white rounded-lg shadow-sm">
+      {/* Desktop Order Table - Hidden on mobile */}
+      <div className="hidden md:block overflow-x-auto bg-white rounded-lg shadow-sm">
         <table className="w-full border-collapse">
           <thead>
             <tr className="bg-gray-50 border-b font-medium poppins-font">
@@ -94,6 +96,19 @@ export default function OrderList() {
             )}
           </tbody>
         </table>
+      </div>
+
+      {/* Mobile Order Cards - Hidden on desktop */}
+      <div className="md:hidden space-y-3">
+        {filteredOrders.length > 0 ? (
+          filteredOrders.map((order, index) => (
+            <OrderCardMobile key={`${order.id}-${index}`} order={order} />
+          ))
+        ) : (
+          <div className="bg-white rounded-lg shadow-sm p-8 text-center text-gray-500 poppins-font">
+            No orders found for this status.
+          </div>
+        )}
       </div>
     </div>
   );

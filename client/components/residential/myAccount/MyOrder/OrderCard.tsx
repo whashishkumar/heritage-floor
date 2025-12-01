@@ -43,11 +43,11 @@ export default function OrderCard({ order }: any) {
       </td>
       <td className="p-4">
         <div className="flex flex-col gap-2">
-          <button className="bg-blue-600 hover:bg-blue-700 text-white py-1.5 px-3 rounded text-xs font-medium transition-colors cursor-pointer">
+          <button className="bg-[#008c99]/90 hover:bg-[#008c99] text-white py-1.5 px-3 rounded text-xs font-medium transition-colors cursor-pointer">
             Print Label
           </button>
-          {order.status === 'canceled' ? (
-            <button className="bg-[#008c99]/80 hover:bg-[#008c99] text-white py-1.5 px-3 rounded text-xs font-medium transition-colors cursor-pointer">
+          {order.status === 'Canceled' ? (
+            <button className="bg-[#BA0202]/80 hover:bg-[#BA0202] text-white py-1.5 px-3 rounded text-xs font-medium transition-colors cursor-pointer">
               ReOrder
             </button>
           ) : (

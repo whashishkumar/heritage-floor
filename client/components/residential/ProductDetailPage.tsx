@@ -139,14 +139,15 @@ const ProductDetailPage = () => {
 
   useEffect(() => {
     getProductDetails();
-  }, []);
+  }, [is_wishlist]);
 
   const handleWhshlistAdd = async (e: React.MouseEvent<HTMLButtonElement>, productId: number) => {
     e.preventDefault();
-    setIsInWishlist(!isInWishlist);
+    setIsInWishlist(is_wishlist);
     const wishLitItem = await CartEndPoint.addRemoveListItems(productId);
     const { message } = wishLitItem;
     showToast(message);
+    getProductDetails();
   };
 
   if (isLoading) {
@@ -164,6 +165,8 @@ const ProductDetailPage = () => {
       </div>
     );
   }
+
+  console.log(is_wishlist, 'is_wishlist');
 
   return (
     <div className="wrapper m-auto py-12">

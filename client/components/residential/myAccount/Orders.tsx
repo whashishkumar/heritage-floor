@@ -13,7 +13,7 @@ export default function Orders() {
             <SideBarNav />
           </div>
           <div className="w-full bg-white p-6 rounded-xl border border-gray-200  ">
-            <div className="sticky  top-12 z-10 bg-white p-6">
+            <div className=" md:sticky  top-12 z-10 bg-white md:p-6">
               {/* Title */}
               <h2 className="text-2xl font-semibold text-gray-900 poppins-font capitalize">
                 Order history &amp; status
@@ -21,7 +21,6 @@ export default function Orders() {
               <p className="text-gray-500 mt-1 roboto-font">
                 Keep track of all your orders and their status.
               </p>
-
               {/* Search + Filter */}
               <div className="mt-6 flex w-full">
                 {/* Search Box */}
@@ -33,7 +32,6 @@ export default function Orders() {
                     className="w-full text-gray-700 placeholder-gray-400 focus:outline-none"
                   />
                 </div>
-
                 {/* Filter Button */}
                 <button className="flex items-center gap-2 border border-gray-300 border-l-0 px-6 py-3 rounded-r-xl text-gray-700 font-medium hover:bg-gray-50">
                   <FiFilter className="text-xl" />
