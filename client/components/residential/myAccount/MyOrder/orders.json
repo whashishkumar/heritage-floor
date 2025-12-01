@@ -43,5 +43,20 @@
       "quantity": 2,
       "image": "https://via.placeholder.com/100"
     }
+  },
+  {
+    "id": "246522114",
+    "customer": "Danial Donald",
+    "date": "26 Jan, 2023",
+    "price": 26.35,
+    "payment": "Credit card",
+    "status": "Canceled",
+    "product": {
+      "name": "Nike Air Jordan Reflex",
+      "color": "Black",
+      "size": 23,
+      "quantity": 2,
+      "image": "https://via.placeholder.com/100"
+    }
   }
 ]
