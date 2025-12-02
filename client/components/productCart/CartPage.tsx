@@ -16,7 +16,10 @@ import { IoHeartOutline } from 'react-icons/io5';
 import { CartEndPoint } from '@/lib/api/cartEndPoints';
 import { usePathSegments } from '@/utils/segmentPath';
 import Link from 'next/link';
+import Image from 'next/image';
 import { useRouter } from 'next/navigation';
+import Loader from '../ui/Loader';
+import { useToast } from '../ui/Tooltip';
 
 interface Promo {
   code: string;
@@ -59,18 +62,22 @@ const CartPageComponent = () => {
       thickness: '8mm',
     },
   ]);
-
+  const [cartAddedItems, setCartAddedItems] = useState<any | null>(null);
   const [promoCode, setPromoCode] = useState('');
   const [appliedPromo, setAppliedPromo] = useState<Promo | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const { mainPath } = usePathSegments();
   const router = useRouter();
+  const { items }: any = cartAddedItems || {};
+  const { quantity } = items || {};
+  const { is_wishlist } = cartAddedItems || {};
+  const { showToast } = useToast();
+
   const fetchCartItems = async () => {
     setIsLoading(true);
     try {
       const response = await CartEndPoint.getCartItems();
-      // setCartItems(response.data);
-      console.log(response, 'responseCart Items');
+      setCartAddedItems(response.data);
     } catch (error) {
       console.error('Error fetching cart items:', error);
     } finally {
@@ -79,18 +86,20 @@ const CartPageComponent = () => {
   };
 
   const updateQuantity = async (id: any, change: any) => {
-    setCartItems((items) =>
-      items.map((item) =>
-        item.id === id ? { ...item, quantity: Math.max(1, item.quantity + change) } : item
-      )
-    );
+    // console.log(id, 'log the id product');
+    // setCartItems((items) =>
+    //   items.map((item) =>
+    //     item.id === id ? { ...item, quantity: Math.max(1, item.quantity + change) } : item
+    //   )
+    // );
     // await CartEndPoint.updateCartItemQuantity(id, quantity);
   };
 
   const removeItem = async (id: any) => {
-    // await CartEndPoint.removeItemFromCart(id);
-    // fetchCartItems();
-    setCartItems((items) => items.filter((item) => item.id !== id));
+    const resp = await CartEndPoint.removeItemFromCart(id);
+    showToast(resp?.message);
+    fetchCartItems();
+    // setCartItems((items) => items.filter((item) => item.id !== id));
   };
 
   const applyPromoCode = async () => {
@@ -103,6 +112,11 @@ const CartPageComponent = () => {
     }
     // const resp = await CartEndPoint.applyCustomeCode(promoCode);
     // console.log(resp, 'resp');
+  };
+
+  const handleAddToWishList = async (id: number) => {
+    const resp = await CartEndPoint.addRemoveListItems(id);
+    showToast(resp?.message);
   };
 
   const subtotal = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
@@ -147,99 +161,103 @@ const CartPageComponent = () => {
                 <div className="flex justify-between items-center mb-6 pb-4 border-b-2 border-[#e8e8e8]">
                   <h2 className="text-2xl md:text-3xl font-bold text-darkBlue">Shopping Cart</h2>
                   <span className="bg-gradient-to-r from-primaryOne to-primaryTwo text-white px-4 py-2 rounded-full text-sm font-bold">
-                    {cartItems.length} Items
+                    {items?.length} Items
                   </span>
                 </div>
 
                 {/* Cart Items */}
-                <div className="space-y-4">
-                  {cartItems.map((item) => (
-                    <div
-                      key={item.id}
-                      className="group relative bg-gradient-to-br border border-[#e8e8e8]  from-gray-50 to-white rounded-xl p-4 md:p-6 transition-all duration-300  hover:shadow-lg shadow-primaryOne/10 border-l-4 border-l-primaryOne"
-                    >
-                      <div className="flex flex-col sm:flex-row gap-4">
-                        {/* Product Image */}
-                        <div className="flex-shrink-0">
-                          <img
-                            src={item.image}
-                            alt={item.name}
-                            className="w-full sm:w-32 h-32 object-cover rounded-xl shadow-lg"
-                          />
+                {isLoading ? (
+                  <Loader />
+                ) : (
+                  <div className="space-y-4">
+                    {items?.map((item: any) => {
+                      const { tile_details } = item || {};
+                      const { box_price, price_per_sqft } = tile_details || {};
+                      const product = item?.product;
+
+                      return (
+                        <div
+                          key={item.id}
+                          className="group relative bg-gradient-to-br border border-[#e8e8e8] from-gray-50 to-white rounded-xl p-4 md:p-6 transition-all duration-300 hover:shadow-lg shadow-primaryOne/10 border-l-4 border-l-primaryOne"
+                        >
+                          <div className="flex flex-col sm:flex-row gap-4">
+                            {/* Product Image */}
+                            <div className="flex-shrink-0">
+                              {product?.images?.[0]?.src && (
+                                <Image
+                                  src={product.images[0].src}
+                                  alt={product.name}
+                                  height={120}
+                                  width={120}
+                                  className="object-cover rounded-xl shadow-lg"
+                                />
+                              )}
+                            </div>
+
+                            {/* Product Details */}
+                            <div className="flex-grow space-y-3">
+                              <div className="flex justify-between items-start">
+                                <h3 className="text-lg md:text-xl font-bold text-gray-800 pr-4">
+                                  {product?.name}
+                                </h3>
+
+                                <div className="flex items-center justify-center">
+                                  <button
+                                    onClick={() => handleAddToWishList(product?.id)}
+                                    className={`text-darkBlue hover:text-primaryTwo transition-colors p-2 hover:bg-primaryOne/10 rounded-full ${
+                                      product.is_wishlist ? 'bg-red-500' : ''
+                                    }`}
+                                  >
+                                    <IoHeartOutline className={`h-6 w-6 `} />
+                                  </button>
+
+                                  <button
+                                    onClick={() => removeItem(product?.id)}
+                                    className="text-red-500 hover:text-red-700 transition-colors p-2 hover:bg-red-50 rounded-full"
+                                  >
+                                    <Trash2 className="w-5 h-5" />
+                                  </button>
+                                </div>
+                              </div>
+
+                              {/* Price and Quantity */}
+                              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 pt-2">
+                                <div className="text-2xl font-bold text-primaryTwo">
+                                  ${box_price}
+                                  <span className="text-sm text-gray-500 ml-8">
+                                    ( ${price_per_sqft} /sq.ft )
+                                  </span>
+                                </div>
+
+                                {/* Quantity Control */}
+                                <div className="flex items-center gap-3 bg-white border rounded-[0.5rem] shadow-custom-sm border-[#e8e8e8] px-2 py-1 w-fit">
+                                  <button
+                                    onClick={() => updateQuantity(product?.id, -1)}
+                                    className="w-10 h-10 rounded-full text-primaryGray hover:bg-primaryOne hover:text-white transition-all duration-300 flex items-center justify-center font-bold"
+                                  >
+                                    <Minus className="w-4 h-4" />
+                                  </button>
+
+                                  <span className="text-lg font-bold px-4">
+                                    {/* {product?.quantity} */}
+                                    {quantity}
+                                  </span>
+
+                                  <button
+                                    onClick={() => updateQuantity(product?.id, 1)}
+                                    className="w-10 h-10 rounded-full text-primaryGray hover:bg-primaryOne hover:text-white transition-all duration-300 flex items-center justify-center font-bold"
+                                  >
+                                    <Plus className="w-4 h-4" />
+                                  </button>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
                         </div>
-
-                        {/* Product Details */}
-                        <div className="flex-grow space-y-3">
-                          <div className="flex justify-between items-start">
-                            <h3 className="text-lg md:text-xl font-bold text-gray-800 pr-4">
-                              {item.name}
-                            </h3>
-                            <div className=" flex items-center justify-center">
-                              <button
-                                //   onClick={() => removeItem(item.id)}
-                                className="text-darkBlue hover:text-primaryTwo transition-colors p-2 hover:bg-primaryOne/10 rounded-full"
-                              >
-                                <IoHeartOutline className="w-6 h-6" />
-                              </button>
-                              <button
-                                onClick={() => removeItem(item.id)}
-                                className="text-red-500 hover:text-red-700 transition-colors p-2 hover:bg-red-50 rounded-full"
-                              >
-                                <Trash2 className="w-5 h-5" />
-                              </button>
-                            </div>
-                            {/* <button
-                            onClick={() => removeItem(item.id)}
-                            className="text-red-500 hover:text-red-700 transition-colors p-2 hover:bg-red-50 rounded-full"
-                          >
-                            <Trash2 className="w-5 h-5" />
-                          </button> */}
-                          </div>
-
-                          {/* Specifications */}
-                          <div className="flex flex-wrap gap-2">
-                            <span className="bg-white px-3 py-1 rounded-full text-sm text-gray-600 border border-gray-200">
-                              {item.color}
-                            </span>
-                            <span className="bg-white px-3 py-1 rounded-full text-sm text-gray-600 border border-gray-200">
-                              {item.finish}
-                            </span>
-                            <span className="bg-white px-3 py-1 rounded-full text-sm text-gray-600 border border-gray-200">
-                              {item.thickness}
-                            </span>
-                          </div>
-
-                          {/* Price and Quantity */}
-                          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 pt-2">
-                            <div className="text-2xl font-bold text-primaryTwo">
-                              ${(item.price * item.quantity).toFixed(2)}
-                              <span className="text-sm text-gray-500 ml-2">
-                                (${item.price.toFixed(2)}/{item.unit})
-                              </span>
-                            </div>
-
-                            {/* Quantity Control */}
-                            <div className="flex items-center gap-3 bg-white border rounded-[0.5rem] shadow-custom-sm border-[#e8e8e8] px-2 py-1 w-fit">
-                              <button
-                                onClick={() => updateQuantity(item.id, -1)}
-                                className="w-10 h-10 rounded-full text-primaryGray  hover:bg-primaryOne hover:text-white transition-all duration-300 flex items-center justify-center font-bold"
-                              >
-                                <Minus className="w-4 h-4" />
-                              </button>
-                              <span className="text-lg font-bold px-4">{item.quantity}</span>
-                              <button
-                                onClick={() => updateQuantity(item.id, 1)}
-                                className="w-10 h-10 rounded-full text-primaryGray  hover:bg-primaryOne hover:text-white transition-all duration-300 flex items-center justify-center font-bold"
-                              >
-                                <Plus className="w-4 h-4" />
-                              </button>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
+                      );
+                    })}
+                  </div>
+                )}
               </div>
 
               {/* Trust Badges */}
@@ -332,7 +350,10 @@ const CartPageComponent = () => {
                     <span className="text-3xl font-bold text-primaryTwo">${total.toFixed(2)}</span>
                   </div>
 
-                  <button className=" group w-full bg-gradient-to-r from-primaryOne/90 to-primaryOne text-white py-4 rounded-xl font-bold text-lg hover:from-primaryTwo/90 hover:to-primaryTwo shadow-lg hover:shadow-xl    flex items-center justify-center gap-2">
+                  <button
+                    onClick={() => router.push(`${mainPath}/checkout`)}
+                    className=" group w-full bg-gradient-to-r from-primaryOne/90 to-primaryOne text-white py-4 rounded-xl font-bold text-lg hover:from-primaryTwo/90 hover:to-primaryTwo shadow-lg hover:shadow-xl    flex items-center justify-center gap-2"
+                  >
                     <span className=" group-hover:scale-110 transform  transition-all duration-300 flex items-center gap-2">
                       {' '}
                       Proceed to Checkout

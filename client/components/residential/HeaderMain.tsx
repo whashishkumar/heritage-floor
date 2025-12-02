@@ -184,7 +184,7 @@ export default function HeaderMainBar({ megaMenuData }: any) {
                   <LoginPage onClose={handleCloseModal} />
                 </ModalBox>
                 <Link
-                  href={`/residential/cart`}
+                  href={`${mainPath}/cart`}
                   className="relative text-gray-700 hover:text-primaryTwo h-[1.5rem] w-[1.5rem]"
                 >
                   <Image src="/icon/BagCheck.png" alt="Cart" fill className="object-center" />
@@ -201,7 +201,7 @@ export default function HeaderMainBar({ megaMenuData }: any) {
                       )}
                 </Link>
                 <Link
-                  href={`/residential/cart`}
+                  href={`${mainPath}/cart`}
                   className="relative text-gray-700 hover:text-primaryTwo h-[1.5rem] w-[1.5rem]"
                 >
                   <Image src="/icon/Heart.png" alt="Wishlist" fill className="object-center" />
@@ -315,7 +315,7 @@ export default function HeaderMainBar({ megaMenuData }: any) {
                   <LoginPage onClose={handleCloseModal} />
                 </ModalBox>
                 <Link
-                  href="/residential/cart"
+                  href={`${mainPath}/cart`}
                   className="flex items-center gap-2 text-gray-700 hover:text-teal-600 font-medium py-2"
                   onClick={() => setIsMenuOpen(false)}
                 >
