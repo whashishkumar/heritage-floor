@@ -14,7 +14,6 @@ import {
 import { TbTruckDelivery } from 'react-icons/tb';
 import { IoHeartOutline } from 'react-icons/io5';
 import { FaHeart } from 'react-icons/fa';
-
 import { CartEndPoint } from '@/lib/api/cartEndPoints';
 import { usePathSegments } from '@/utils/segmentPath';
 import Link from 'next/link';
@@ -87,34 +86,35 @@ const CartPageComponent = () => {
     }
   };
 
-  const updateQuantity = async (product: any) => {
+  const updateQuantity = async (product: any, action: 'increase' | 'decrease') => {
     const { quantity, id } = product;
+    const newQuantity = action === 'increase' ? quantity + 1 : quantity - 1;
+
+    // Prevent quantity from going below 1
+    if (newQuantity < 1) {
+      return;
+    }
+
     const data = {
       qty: {
-        [id]: quantity,
+        [id]: newQuantity,
       },
     };
 
     await CartEndPoint.updateCartItemQuantity(data);
-    fetchCartItems();
-    // console.log(product, 'product');
+    const response = await CartEndPoint.getCartItems();
+    setCartAddedItems(response.data);
   };
 
   const removeItem = async (id: any) => {
     const resp = await CartEndPoint.removeItemFromCart(id);
     showToast(resp?.message);
-    fetchCartItems();
+    const response = await CartEndPoint.getCartItems();
+    setCartAddedItems(response.data);
   };
 
   const applyPromoCode = async () => {
     console.log(promoCode, 'promoCode');
-    // if (promoCode.toUpperCase() === 'FLOOR25') {
-    //   setAppliedPromo({ code: 'FLOOR25', discount: 0.25 });
-    // } else if (promoCode.toUpperCase() === 'SAVE10') {
-    //   setAppliedPromo({ code: 'SAVE10', discount: 0.1 });
-    // } else {
-    //   alert('Invalid promo code');
-    // }
     // const resp = await CartEndPoint.applyCustomeCode(promoCode);
     // console.log(resp, 'resp');
   };
@@ -127,7 +127,8 @@ const CartPageComponent = () => {
   const handleAddToWishList = async (id: number) => {
     const resp = await CartEndPoint.addRemoveListItems(id);
     showToast(resp?.message);
-    fetchCartItems();
+    const response = await CartEndPoint.getCartItems();
+    setCartAddedItems(response.data);
   };
 
   const handleRemoveAllCartItems = async () => {
@@ -145,7 +146,17 @@ const CartPageComponent = () => {
     fetchCartItems();
   }, []);
 
-  if (cartAddedItems === null) {
+  // Show loader during initial loading
+  if (isLoading && cartAddedItems === null) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <Loader />
+      </div>
+    );
+  }
+
+  // Show empty cart message only after loading is complete and cart is empty
+  if (!isLoading && (cartAddedItems === null || items?.length === 0)) {
     return (
       <div className="bg-gradient-to-br from-gray-50 to-gray-100">
         <div className="max-w-7xl mx-auto px-4 py-16 text-center">
@@ -196,9 +207,10 @@ const CartPageComponent = () => {
                 ) : (
                   <div className="space-y-4">
                     {items?.map((item: any) => {
-                      const { tile_details } = item || {};
+                      const { tile_details, tile_calculation } = item || {};
                       const { box_price, price_per_sqft, tile_length, tile_width, tiles_per_box } =
                         tile_details || {};
+                      const { total_price } = tile_calculation || {};
                       const product = item?.product;
 
                       return (
@@ -235,9 +247,11 @@ const CartPageComponent = () => {
                                     className={`text-darkBlue hover:text-primaryTwo transition-colors p-2 hover:bg-primaryOne/10 rounded-full`}
                                   >
                                     {product.is_wishlist ? (
-                                      <IoHeartOutline className={`h-6 w-6 `} />
+                                      <IoHeartOutline className={`h-6 w-6 cursor-pointer `} />
                                     ) : (
-                                      <FaHeart className={`h-6 w-6 text-red-500`} />
+                                      <FaHeart
+                                        className={`h-6 w-6 text-[#008c99]/95 cursor-pointer`}
+                                      />
                                     )}
                                   </button>
 
@@ -245,7 +259,7 @@ const CartPageComponent = () => {
                                     onClick={() => removeItem(item?.id)}
                                     className="text-red-500 hover:text-red-700 transition-colors p-2 hover:bg-red-50 rounded-full"
                                   >
-                                    <Trash2 className="w-5 h-5" />
+                                    <Trash2 className="w-5 h-5 cursor-pointer" />
                                   </button>
                                 </div>
                               </div>
@@ -264,7 +278,7 @@ const CartPageComponent = () => {
                               {/* Price and Quantity */}
                               <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 pt-2">
                                 <div className="text-2xl font-bold text-primaryTwo">
-                                  ${box_price}
+                                  ${total_price}
                                   <span className="text-sm text-gray-500 ml-8">
                                     ( ${price_per_sqft} /sq.ft )
                                   </span>
@@ -273,10 +287,10 @@ const CartPageComponent = () => {
                                 {/* Quantity Control */}
                                 <div className="flex items-center gap-3 bg-white border rounded-[0.5rem] shadow-custom-sm border-[#e8e8e8] px-2 py-1 w-fit">
                                   <button
-                                    onClick={() => updateQuantity(item)}
-                                    className="w-10 h-10 rounded-full text-primaryGray hover:bg-primaryOne hover:text-white transition-all duration-300 flex items-center justify-center font-bold"
+                                    onClick={() => updateQuantity(item, 'decrease')}
+                                    className="cursor-pointer w-10 h-10 rounded-full text-primaryGray hover:bg-primaryOne hover:text-white transition-all duration-300 flex items-center justify-center font-bold"
                                   >
-                                    <Minus className="w-4 h-4" />
+                                    <Minus className="w-4 h-4 " />
                                   </button>
                                   <span className="text-lg font-bold px-4">
                                     {item?.quantity}
@@ -284,10 +298,10 @@ const CartPageComponent = () => {
                                   </span>
 
                                   <button
-                                    onClick={() => updateQuantity(item)}
-                                    className="w-10 h-10 rounded-full text-primaryGray hover:bg-primaryOne hover:text-white transition-all duration-300 flex items-center justify-center font-bold"
+                                    onClick={() => updateQuantity(item, 'increase')}
+                                    className="cursor-pointer w-10 h-10 rounded-full text-primaryGray hover:bg-primaryOne hover:text-white transition-all duration-300 flex items-center justify-center font-bold"
                                   >
-                                    <Plus className="w-4 h-4" />
+                                    <Plus className="w-4 h-4 " />
                                   </button>
                                 </div>
                               </div>
