@@ -14,7 +14,7 @@ const getCacheConfig = (strategy: FetchOptions['cache'], customRevalidate?: numb
     dynamic: 600,
     realtime: 10,
   };
-
+  //build
   return customRevalidate ?? revalidateMap[strategy!];
 };
 
