@@ -134,12 +134,10 @@ export default function ProductDetailPage({ productsData, sortOptionsCategory }:
 
   const handlePriceBaseFilter = (value: string | number) => {
     setPriceSort(value);
-    console.log('Price Sort Selected:', value);
   };
 
   const handleOrderChange = (value: string | number) => {
     setOrder(value);
-    console.log('Order Selected:', value);
   };
 
   const handleToggleMobileFilter = () => {

@@ -6,8 +6,6 @@ export default function WorldCount({ statsData, pageTitle, Founder }: any) {
   const founderBgImage = `${process.env.NEXT_PUBLIC_IMAGE_PATH_WITHOUT_STORAGE}${Founder?.f_bg_image}`;
   const whyBannerImage = `${process.env.NEXT_PUBLIC_IMAGE_PATH_WITHOUT_STORAGE}${Founder?.image}`;
 
-  console.log(founderBgImage, 'banerIncon');
-
   return (
     <div className="wrapper m-auto">
       <div className="w-full flex flex-col items-center justify-center py-16 poppins-font">

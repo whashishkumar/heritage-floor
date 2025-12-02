@@ -42,7 +42,6 @@ export default function LoginPage({ onClose }: any) {
       }
     } catch (error: any) {
       setStatus(error?.errors);
-      console.log(error?.errors, 'error12345');
     }
   };
 

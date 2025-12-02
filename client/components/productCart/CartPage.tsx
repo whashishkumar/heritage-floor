@@ -120,7 +120,6 @@ const CartPageComponent = () => {
   };
 
   const canclePromoCode = () => {
-    console.log('123456789');
     setPromoCode('');
   };
 
