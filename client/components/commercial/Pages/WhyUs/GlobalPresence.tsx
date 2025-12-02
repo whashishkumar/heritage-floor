@@ -94,7 +94,7 @@ export const BrandCard = (brand: any) => {
   const { data } = brand || {};
   const bgImage = process.env.NEXT_PUBLIC_IMAGE_PATH_WITHOUT_STORAGE + data?.image;
   const logoImage = process.env.NEXT_PUBLIC_IMAGE_PATH_WITHOUT_STORAGE + data?.logo;
-  console.log(bgImage, 'data123456');
+
   return (
     <div className="relative w-[340px] h-[219px] rounded-xl overflow-hidden poppins-font">
       {data?.image && (

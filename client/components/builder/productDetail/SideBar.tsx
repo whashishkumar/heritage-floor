@@ -129,25 +129,25 @@ export default function SideBar() {
   const [mobileOrder, setMobileOrder] = React.useState<any>(null);
 
   const handlePriceChange = (range: { min: number; max: number }) => {
-    console.log('Selected Price Range:', range);
+    // console.log('Selected Price Range:', range);
   };
 
   const handleSelectionChange = (filters: Record<string, string[]>) => {
-    console.log('Selected values:', filters);
+    // console.log('Selected values:', filters);
   };
 
   const handleSingleSelectionChange = (filters: Record<string, string | null>) => {
-    console.log('Single selected values:', filters);
+    // console.log('Single selected values:', filters);
   };
 
   const handleMobilePriceChange = (value: string | number) => {
     setMobilePriceSort(value);
-    console.log('Selected:', value);
+    // console.log('Selected:', value);
   };
 
   const handleMobileOrderChange = (value: string | number) => {
     setMobileOrder(value);
-    console.log('Selected:', value);
+    // console.log('Selected:', value);
   };
 
   const handleClearAllFilters = () => {
