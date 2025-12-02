@@ -87,11 +87,18 @@ const CartPageComponent = () => {
     }
   };
 
-  const updateQuantity = async (product: any) => {
+  const updateQuantity = async (product: any, action: 'increase' | 'decrease') => {
     const { quantity, id } = product;
+    const newQuantity = action === 'increase' ? quantity + 1 : quantity - 1;
+
+    // Prevent quantity from going below 1
+    if (newQuantity < 1) {
+      return;
+    }
+
     const data = {
       qty: {
-        [id]: quantity,
+        [id]: newQuantity,
       },
     };
 
@@ -107,13 +114,6 @@ const CartPageComponent = () => {
 
   const applyPromoCode = async () => {
     console.log(promoCode, 'promoCode');
-    // if (promoCode.toUpperCase() === 'FLOOR25') {
-    //   setAppliedPromo({ code: 'FLOOR25', discount: 0.25 });
-    // } else if (promoCode.toUpperCase() === 'SAVE10') {
-    //   setAppliedPromo({ code: 'SAVE10', discount: 0.1 });
-    // } else {
-    //   alert('Invalid promo code');
-    // }
     // const resp = await CartEndPoint.applyCustomeCode(promoCode);
     // console.log(resp, 'resp');
   };
@@ -195,9 +195,11 @@ const CartPageComponent = () => {
                 ) : (
                   <div className="space-y-4">
                     {items?.map((item: any) => {
-                      const { tile_details } = item || {};
+                      const { tile_details, tile_calculation } = item || {};
                       const { box_price, price_per_sqft, tile_length, tile_width, tiles_per_box } =
                         tile_details || {};
+                      const { total_price } = tile_calculation || {};
+
                       const product = item?.product;
                       console.log(item, 'product');
 
@@ -264,7 +266,7 @@ const CartPageComponent = () => {
                               {/* Price and Quantity */}
                               <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 pt-2">
                                 <div className="text-2xl font-bold text-primaryTwo">
-                                  ${box_price}
+                                  ${total_price}
                                   <span className="text-sm text-gray-500 ml-8">
                                     ( ${price_per_sqft} /sq.ft )
                                   </span>
@@ -273,7 +275,7 @@ const CartPageComponent = () => {
                                 {/* Quantity Control */}
                                 <div className="flex items-center gap-3 bg-white border rounded-[0.5rem] shadow-custom-sm border-[#e8e8e8] px-2 py-1 w-fit">
                                   <button
-                                    onClick={() => updateQuantity(item)}
+                                    onClick={() => updateQuantity(item, 'decrease')}
                                     className="w-10 h-10 rounded-full text-primaryGray hover:bg-primaryOne hover:text-white transition-all duration-300 flex items-center justify-center font-bold"
                                   >
                                     <Minus className="w-4 h-4" />
@@ -284,7 +286,7 @@ const CartPageComponent = () => {
                                   </span>
 
                                   <button
-                                    onClick={() => updateQuantity(item)}
+                                    onClick={() => updateQuantity(item, 'increase')}
                                     className="w-10 h-10 rounded-full text-primaryGray hover:bg-primaryOne hover:text-white transition-all duration-300 flex items-center justify-center font-bold"
                                   >
                                     <Plus className="w-4 h-4" />
