@@ -105,6 +105,7 @@ const ProductDetailPage = () => {
     shipping_details,
     related_products,
     is_wishlist,
+    id,
   }: any = productDetail || {};
   const {
     box_price,
@@ -137,10 +138,6 @@ const ProductDetailPage = () => {
     }
   };
 
-  useEffect(() => {
-    getProductDetails();
-  }, [is_wishlist]);
-
   const handleWhshlistAdd = async (e: React.MouseEvent<HTMLButtonElement>, productId: number) => {
     e.preventDefault();
     setIsInWishlist(is_wishlist);
@@ -149,6 +146,15 @@ const ProductDetailPage = () => {
     showToast(message);
     getProductDetails();
   };
+
+  const handleAddToCartProduct = async (id: number) => {
+    const resp = await CartEndPoint.addItemToCart(id);
+    showToast(resp?.message);
+  };
+
+  useEffect(() => {
+    getProductDetails();
+  }, []);
 
   if (isLoading) {
     return (
@@ -165,8 +171,6 @@ const ProductDetailPage = () => {
       </div>
     );
   }
-
-  console.log(is_wishlist, 'is_wishlist');
 
   return (
     <div className="wrapper m-auto py-12">
@@ -342,7 +346,10 @@ const ProductDetailPage = () => {
           <p className=" bg-[#F1F1F1] h-[1px] my-5"></p>
           {/* Buttons */}
           <div className="flex flex-col mb-4 space-y-4 ">
-            <button className="bg-[#018C99] hover:cursor-pointer text-white font-semibold py-4 px-2 rounded-2xl text-sm flex gap-2 justify-center items-center">
+            <button
+              onClick={() => handleAddToCartProduct(id)}
+              className="bg-[#018C99] hover:cursor-pointer text-white font-semibold py-4 px-2 rounded-2xl text-sm flex gap-2 justify-center items-center"
+            >
               Add To Cart
               <BsCart4 size={18} />
             </button>

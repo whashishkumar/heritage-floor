@@ -11,11 +11,12 @@ export const CartEndPoint = {
   addItemToCart: (productId: any, product?: any) =>
     apiPost(`/customer/cart/add/${productId}`, product),
   removeItemFromCart: (productId: any) => apiDelete(`/customer/cart/remove/${productId}`),
-  updateCartItemQuantity: (productId: any, quantity: any) =>
-    apiPut(`/customer/cart/update/${productId}`, { quantity }),
+  updateCartItemQuantity: (data: any) => apiPut(`/customer/cart/update`, { data }),
 
   removeAllCartItems: () => apiDelete('/customer/cart/remove'),
   moveItemToWishList: (productId: any) => apiPost(`/customer/cart/move-to-wishlist/${productId}`),
+
+  //Apply Coupne API EndPoints
   applyCustomeCode: (code: any) => apiPost(`/customer/cart/apply-coupon/${code}`),
   removeAppliedCoupon: (code: any) => apiDelete(`/customer/cart/remove-coupon/${code}`),
 
