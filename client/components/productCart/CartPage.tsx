@@ -14,7 +14,6 @@ import {
 import { TbTruckDelivery } from 'react-icons/tb';
 import { IoHeartOutline } from 'react-icons/io5';
 import { FaHeart } from 'react-icons/fa';
-
 import { CartEndPoint } from '@/lib/api/cartEndPoints';
 import { usePathSegments } from '@/utils/segmentPath';
 import Link from 'next/link';
@@ -75,8 +74,6 @@ const CartPageComponent = () => {
   const { is_wishlist } = cartAddedItems || {};
   const { showToast } = useToast();
 
-  console.log(cartAddedItems, 'product');
-
   const fetchCartItems = async () => {
     setIsLoading(true);
     try {
@@ -105,13 +102,15 @@ const CartPageComponent = () => {
     };
 
     await CartEndPoint.updateCartItemQuantity(data);
-    fetchCartItems();
+    const response = await CartEndPoint.getCartItems();
+    setCartAddedItems(response.data);
   };
 
   const removeItem = async (id: any) => {
     const resp = await CartEndPoint.removeItemFromCart(id);
     showToast(resp?.message);
-    fetchCartItems();
+    const response = await CartEndPoint.getCartItems();
+    setCartAddedItems(response.data);
   };
 
   const applyPromoCode = async () => {
@@ -128,7 +127,8 @@ const CartPageComponent = () => {
   const handleAddToWishList = async (id: number) => {
     const resp = await CartEndPoint.addRemoveListItems(id);
     showToast(resp?.message);
-    fetchCartItems();
+    const response = await CartEndPoint.getCartItems();
+    setCartAddedItems(response.data);
   };
 
   const handleRemoveAllCartItems = async () => {
