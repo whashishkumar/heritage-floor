@@ -1,9 +1,9 @@
-// components/OrderList.tsx
-
-import { useState, useMemo } from 'react';
+'use client';
+import { useState, useMemo, useEffect } from 'react';
 import OrderCard from './OrderCard';
 import OrderCardMobile from './OrderCardMobile';
 import orders from './orders.json';
+import { OrderEndPoints } from '@/lib/api/orderEndPoints';
 
 export default function OrderList() {
   const [activeTab, setActiveTab] = useState('all');
@@ -47,6 +47,15 @@ export default function OrderList() {
     { key: 'shipped', label: `Shipped (${shippedCount})` },
     { key: 'canceled', label: `Canceled (${canceledCount})` },
   ];
+
+  const fetchMyOrdersList = async () => {
+    const resp = await OrderEndPoints.getAllOrderItems();
+    console.log(resp, 'log Orders Item');
+  };
+
+  useEffect(() => {
+    fetchMyOrdersList();
+  }, []);
 
   return (
     <div className="space-y-4">
