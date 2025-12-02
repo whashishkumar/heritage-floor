@@ -97,7 +97,6 @@ const CartPageComponent = () => {
 
     await CartEndPoint.updateCartItemQuantity(data);
     fetchCartItems();
-    // console.log(product, 'product');
   };
 
   const removeItem = async (id: any) => {
@@ -200,6 +199,7 @@ const CartPageComponent = () => {
                       const { box_price, price_per_sqft, tile_length, tile_width, tiles_per_box } =
                         tile_details || {};
                       const product = item?.product;
+                      console.log(item, 'product');
 
                       return (
                         <div
