@@ -13,6 +13,8 @@ import {
 } from 'react-icons/fa';
 import { TbTruckDelivery } from 'react-icons/tb';
 import { IoHeartOutline } from 'react-icons/io5';
+import { FaHeart } from 'react-icons/fa';
+
 import { CartEndPoint } from '@/lib/api/cartEndPoints';
 import { usePathSegments } from '@/utils/segmentPath';
 import Link from 'next/link';
@@ -85,38 +87,53 @@ const CartPageComponent = () => {
     }
   };
 
-  const updateQuantity = async (id: any, change: any) => {
-    // console.log(id, 'log the id product');
-    // setCartItems((items) =>
-    //   items.map((item) =>
-    //     item.id === id ? { ...item, quantity: Math.max(1, item.quantity + change) } : item
-    //   )
-    // );
-    // await CartEndPoint.updateCartItemQuantity(id, quantity);
+  const updateQuantity = async (product: any) => {
+    const { quantity, id } = product;
+    const data = {
+      qty: {
+        [id]: quantity,
+      },
+    };
+
+    await CartEndPoint.updateCartItemQuantity(data);
+    fetchCartItems();
+    // console.log(product, 'product');
   };
 
   const removeItem = async (id: any) => {
     const resp = await CartEndPoint.removeItemFromCart(id);
     showToast(resp?.message);
     fetchCartItems();
-    // setCartItems((items) => items.filter((item) => item.id !== id));
   };
 
   const applyPromoCode = async () => {
-    if (promoCode.toUpperCase() === 'FLOOR25') {
-      setAppliedPromo({ code: 'FLOOR25', discount: 0.25 });
-    } else if (promoCode.toUpperCase() === 'SAVE10') {
-      setAppliedPromo({ code: 'SAVE10', discount: 0.1 });
-    } else {
-      alert('Invalid promo code');
-    }
+    console.log(promoCode, 'promoCode');
+    // if (promoCode.toUpperCase() === 'FLOOR25') {
+    //   setAppliedPromo({ code: 'FLOOR25', discount: 0.25 });
+    // } else if (promoCode.toUpperCase() === 'SAVE10') {
+    //   setAppliedPromo({ code: 'SAVE10', discount: 0.1 });
+    // } else {
+    //   alert('Invalid promo code');
+    // }
     // const resp = await CartEndPoint.applyCustomeCode(promoCode);
     // console.log(resp, 'resp');
+  };
+
+  const canclePromoCode = () => {
+    console.log('123456789');
+    setPromoCode('');
   };
 
   const handleAddToWishList = async (id: number) => {
     const resp = await CartEndPoint.addRemoveListItems(id);
     showToast(resp?.message);
+    fetchCartItems();
+  };
+
+  const handleRemoveAllCartItems = async () => {
+    const resp = await CartEndPoint.removeAllCartItems();
+    showToast(resp?.message);
+    fetchCartItems();
   };
 
   const subtotal = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
@@ -124,11 +141,15 @@ const CartPageComponent = () => {
   const tax = (subtotal - discount) * 0.13;
   const total = subtotal - discount + tax;
 
-  if (cartItems.length === 0) {
+  useEffect(() => {
+    fetchCartItems();
+  }, []);
+
+  if (cartAddedItems === null) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
+      <div className="bg-gradient-to-br from-gray-50 to-gray-100">
         <div className="max-w-7xl mx-auto px-4 py-16 text-center">
-          <div className="bg-white rounded-3xl shadow-2xl p-12 max-w-md mx-auto">
+          <div className="bg-white rounded-3xl shadow-sm p-12 max-w-md mx-auto">
             <div className="bg-gradient-to-br from-yellow-100 to-yellow-200 w-32 h-32 rounded-full flex items-center justify-center mx-auto mb-6">
               <ShoppingBag className="w-16 h-16 text-yellow-700" />
             </div>
@@ -136,7 +157,7 @@ const CartPageComponent = () => {
             <p className="text-gray-600 mb-8">Start adding beautiful flooring to your cart!</p>
             <Link
               href={mainPath}
-              className="bg-gradient-to-r from-yellow-600 to-yellow-700 text-white px-8 py-4 rounded-full font-semibold hover:from-yellow-700 hover:to-yellow-800 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105"
+              className="bg-gradient-to-r from-[#008c99] to-[#008c99]/70 text-white px-8 py-4 rounded-full font-semibold hover:from-[#008c99]   hover:to-[#008c99]/90 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105"
             >
               Continue Shopping
             </Link>
@@ -145,10 +166,6 @@ const CartPageComponent = () => {
       </div>
     );
   }
-
-  useEffect(() => {
-    fetchCartItems();
-  }, []);
 
   return (
     <>
@@ -160,9 +177,17 @@ const CartPageComponent = () => {
               <div className="bg-white rounded-2xl  p-6 shadow-custom-md">
                 <div className="flex justify-between items-center mb-6 pb-4 border-b-2 border-[#e8e8e8]">
                   <h2 className="text-2xl md:text-3xl font-bold text-darkBlue">Shopping Cart</h2>
-                  <span className="bg-gradient-to-r from-primaryOne to-primaryTwo text-white px-4 py-2 rounded-full text-sm font-bold">
-                    {items?.length} Items
-                  </span>
+                  <div>
+                    <span className="bg-gradient-to-r from-primaryOne to-primaryTwo text-white px-4 py-2 rounded-full text-sm font-bold">
+                      {items?.length} Items
+                    </span>
+                    <button
+                      onClick={handleRemoveAllCartItems}
+                      className="bg-gradient-to-r from-primaryOne to-primaryTwo text-white px-4 py-2 rounded-full text-sm font-bold ml-3 cursor-pointer"
+                    >
+                      Remove All
+                    </button>
+                  </div>
                 </div>
 
                 {/* Cart Items */}
@@ -172,7 +197,8 @@ const CartPageComponent = () => {
                   <div className="space-y-4">
                     {items?.map((item: any) => {
                       const { tile_details } = item || {};
-                      const { box_price, price_per_sqft } = tile_details || {};
+                      const { box_price, price_per_sqft, tile_length, tile_width, tiles_per_box } =
+                        tile_details || {};
                       const product = item?.product;
 
                       return (
@@ -182,18 +208,20 @@ const CartPageComponent = () => {
                         >
                           <div className="flex flex-col sm:flex-row gap-4">
                             {/* Product Image */}
-                            <div className="flex-shrink-0">
+                            <Link
+                              href={`${mainPath}/products/cart-item/${product.id}`}
+                              className="flex-shrink-0"
+                            >
                               {product?.images?.[0]?.src && (
                                 <Image
                                   src={product.images[0].src}
                                   alt={product.name}
                                   height={120}
                                   width={120}
-                                  className="object-cover rounded-xl shadow-lg"
+                                  className="object-cover rounded-xl "
                                 />
                               )}
-                            </div>
-
+                            </Link>
                             {/* Product Details */}
                             <div className="flex-grow space-y-3">
                               <div className="flex justify-between items-start">
@@ -204,20 +232,33 @@ const CartPageComponent = () => {
                                 <div className="flex items-center justify-center">
                                   <button
                                     onClick={() => handleAddToWishList(product?.id)}
-                                    className={`text-darkBlue hover:text-primaryTwo transition-colors p-2 hover:bg-primaryOne/10 rounded-full ${
-                                      product.is_wishlist ? 'bg-red-500' : ''
-                                    }`}
+                                    className={`text-darkBlue hover:text-primaryTwo transition-colors p-2 hover:bg-primaryOne/10 rounded-full`}
                                   >
-                                    <IoHeartOutline className={`h-6 w-6 `} />
+                                    {product.is_wishlist ? (
+                                      <IoHeartOutline className={`h-6 w-6 `} />
+                                    ) : (
+                                      <FaHeart className={`h-6 w-6 text-red-500`} />
+                                    )}
                                   </button>
 
                                   <button
-                                    onClick={() => removeItem(product?.id)}
+                                    onClick={() => removeItem(item?.id)}
                                     className="text-red-500 hover:text-red-700 transition-colors p-2 hover:bg-red-50 rounded-full"
                                   >
                                     <Trash2 className="w-5 h-5" />
                                   </button>
                                 </div>
+                              </div>
+                              <div className="flex gap-3 poppins-font capitalize">
+                                <p className="inline-block px-3 py-1 text-sm bg-gray-100 text-gray-800 rounded-full  whitespace-nowrap">
+                                  PerBox {tiles_per_box}
+                                </p>
+                                <p className="inline-block px-3 py-1 text-sm bg-gray-100 text-gray-800 rounded-full  whitespace-nowrap">
+                                  width {tile_width}
+                                </p>
+                                <p className="inline-block px-3 py-1 text-sm bg-gray-100 text-gray-800 rounded-full  whitespace-nowrap">
+                                  length {tile_length}
+                                </p>
                               </div>
 
                               {/* Price and Quantity */}
@@ -232,19 +273,18 @@ const CartPageComponent = () => {
                                 {/* Quantity Control */}
                                 <div className="flex items-center gap-3 bg-white border rounded-[0.5rem] shadow-custom-sm border-[#e8e8e8] px-2 py-1 w-fit">
                                   <button
-                                    onClick={() => updateQuantity(product?.id, -1)}
+                                    onClick={() => updateQuantity(item)}
                                     className="w-10 h-10 rounded-full text-primaryGray hover:bg-primaryOne hover:text-white transition-all duration-300 flex items-center justify-center font-bold"
                                   >
                                     <Minus className="w-4 h-4" />
                                   </button>
-
                                   <span className="text-lg font-bold px-4">
-                                    {/* {product?.quantity} */}
+                                    {item?.quantity}
                                     {quantity}
                                   </span>
 
                                   <button
-                                    onClick={() => updateQuantity(product?.id, 1)}
+                                    onClick={() => updateQuantity(item)}
                                     className="w-10 h-10 rounded-full text-primaryGray hover:bg-primaryOne hover:text-white transition-all duration-300 flex items-center justify-center font-bold"
                                   >
                                     <Plus className="w-4 h-4" />
@@ -299,12 +339,21 @@ const CartPageComponent = () => {
                       placeholder="Enter code"
                       className="flex-grow px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-primaryOne/70 focus:outline-none transition-colors"
                     />
-                    <button
-                      onClick={applyPromoCode}
-                      className="bg-gradient-to-r from-primaryOne/90 hover:scale-105 to-primaryTwo/90 text-white px-6 py-3 rounded-xl font-semibold hover:from-primaryOne hover:to-primaryTwo transition-all duration-300 shadow-lg hover:shadow-xl"
-                    >
-                      Apply
-                    </button>
+                    {promoCode ? (
+                      <button
+                        onClick={canclePromoCode}
+                        className="bg-gradient-to-r from-primaryOne/90 hover:scale-105 to-primaryTwo/90 text-white px-6 py-3 rounded-xl font-semibold hover:from-primaryOne hover:to-primaryTwo transition-all duration-300 shadow-lg hover:shadow-xl"
+                      >
+                        Cancle
+                      </button>
+                    ) : (
+                      <button
+                        onClick={applyPromoCode}
+                        className="bg-gradient-to-r from-primaryOne/90 hover:scale-105 to-primaryTwo/90 text-white px-6 py-3 rounded-xl font-semibold hover:from-primaryOne hover:to-primaryTwo transition-all duration-300 shadow-lg hover:shadow-xl"
+                      >
+                        Apply
+                      </button>
+                    )}
                   </div>
                   {appliedPromo && (
                     <div className="bg-green-50 border border-green-200 rounded-lg p-3 flex items-center justify-between">
