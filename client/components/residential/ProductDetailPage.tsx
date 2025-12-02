@@ -144,7 +144,9 @@ const ProductDetailPage = () => {
     const wishLitItem = await CartEndPoint.addRemoveListItems(productId);
     const { message } = wishLitItem;
     showToast(message);
-    getProductDetails();
+    // getProductDetails();
+    const { data } = await ResidentailPageData.getProductDetail(childSlug);
+    setProductDetail(data);
   };
 
   const handleAddToCartProduct = async (id: number) => {
@@ -360,15 +362,13 @@ const ProductDetailPage = () => {
               </button>
               <button
                 onClick={(e) => handleWhshlistAdd(e, productDetail?.id)}
-                className={`${
-                  isInWishlist ? 'bg-[#018C99]' : 'bg-[#F5F5F5]'
-                } hover:cursor-pointer py-2 px-2 rounded-2xl text-lg mb-4 border border-[#018C99] font-semibold transition-colors duration-200`}
+                className={` hover:cursor-pointer py-2 px-2 rounded-2xl text-lg mb-4 border border-[#018C99] font-semibold transition-colors duration-200`}
               >
                 {/* is_wishlist */}
-                {isInWishlist ? (
-                  <IoHeart size={26} className="text-white" />
+                {!isInWishlist ? (
+                  <IoHeart size={26} className="text-[#018C99]" />
                 ) : (
-                  <CiHeart size={26} className="text-[#018C99]" />
+                  <CiHeart size={26} />
                 )}
               </button>
             </div>

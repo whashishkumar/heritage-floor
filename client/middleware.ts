@@ -6,6 +6,11 @@ export function middleware(request: NextRequest) {
 
   const protectedRoutes = [
     '/residential/my-account',
+    // 'residential/my-account/profile',
+    // 'residential/my-account/password',
+    // 'residential/my-account/payment-methods',
+    // 'residential/my-account/addresses',
+    // 'residential/my-account/orders',
     '/residential/cart',
     '/residential/checkout',
     '/builder/my-account',

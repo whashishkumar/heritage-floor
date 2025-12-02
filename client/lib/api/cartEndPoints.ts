@@ -11,7 +11,7 @@ export const CartEndPoint = {
   addItemToCart: (productId: any, product?: any) =>
     apiPost(`/customer/cart/add/${productId}`, product),
   removeItemFromCart: (productId: any) => apiDelete(`/customer/cart/remove/${productId}`),
-  updateCartItemQuantity: (data: any) => apiPut(`/customer/cart/update`, { data }),
+  updateCartItemQuantity: (data: any) => apiPut(`/customer/cart/update`, data),
 
   removeAllCartItems: () => apiDelete('/customer/cart/remove'),
   moveItemToWishList: (productId: any) => apiPost(`/customer/cart/move-to-wishlist/${productId}`),
