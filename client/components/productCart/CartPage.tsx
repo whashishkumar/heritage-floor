@@ -75,6 +75,8 @@ const CartPageComponent = () => {
   const { is_wishlist } = cartAddedItems || {};
   const { showToast } = useToast();
 
+  console.log(cartAddedItems, 'product');
+
   const fetchCartItems = async () => {
     setIsLoading(true);
     try {
@@ -144,7 +146,17 @@ const CartPageComponent = () => {
     fetchCartItems();
   }, []);
 
-  if (cartAddedItems === null) {
+  // Show loader during initial loading
+  if (isLoading && cartAddedItems === null) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <Loader />
+      </div>
+    );
+  }
+
+  // Show empty cart message only after loading is complete and cart is empty
+  if (!isLoading && (cartAddedItems === null || items?.length === 0)) {
     return (
       <div className="bg-gradient-to-br from-gray-50 to-gray-100">
         <div className="max-w-7xl mx-auto px-4 py-16 text-center">
@@ -199,9 +211,7 @@ const CartPageComponent = () => {
                       const { box_price, price_per_sqft, tile_length, tile_width, tiles_per_box } =
                         tile_details || {};
                       const { total_price } = tile_calculation || {};
-
                       const product = item?.product;
-                      console.log(item, 'product');
 
                       return (
                         <div
@@ -237,9 +247,11 @@ const CartPageComponent = () => {
                                     className={`text-darkBlue hover:text-primaryTwo transition-colors p-2 hover:bg-primaryOne/10 rounded-full`}
                                   >
                                     {product.is_wishlist ? (
-                                      <IoHeartOutline className={`h-6 w-6 `} />
+                                      <IoHeartOutline className={`h-6 w-6 cursor-pointer `} />
                                     ) : (
-                                      <FaHeart className={`h-6 w-6 text-red-500`} />
+                                      <FaHeart
+                                        className={`h-6 w-6 text-[#008c99]/95 cursor-pointer`}
+                                      />
                                     )}
                                   </button>
 
@@ -247,7 +259,7 @@ const CartPageComponent = () => {
                                     onClick={() => removeItem(item?.id)}
                                     className="text-red-500 hover:text-red-700 transition-colors p-2 hover:bg-red-50 rounded-full"
                                   >
-                                    <Trash2 className="w-5 h-5" />
+                                    <Trash2 className="w-5 h-5 cursor-pointer" />
                                   </button>
                                 </div>
                               </div>
@@ -276,9 +288,9 @@ const CartPageComponent = () => {
                                 <div className="flex items-center gap-3 bg-white border rounded-[0.5rem] shadow-custom-sm border-[#e8e8e8] px-2 py-1 w-fit">
                                   <button
                                     onClick={() => updateQuantity(item, 'decrease')}
-                                    className="w-10 h-10 rounded-full text-primaryGray hover:bg-primaryOne hover:text-white transition-all duration-300 flex items-center justify-center font-bold"
+                                    className="cursor-pointer w-10 h-10 rounded-full text-primaryGray hover:bg-primaryOne hover:text-white transition-all duration-300 flex items-center justify-center font-bold"
                                   >
-                                    <Minus className="w-4 h-4" />
+                                    <Minus className="w-4 h-4 " />
                                   </button>
                                   <span className="text-lg font-bold px-4">
                                     {item?.quantity}
@@ -287,9 +299,9 @@ const CartPageComponent = () => {
 
                                   <button
                                     onClick={() => updateQuantity(item, 'increase')}
-                                    className="w-10 h-10 rounded-full text-primaryGray hover:bg-primaryOne hover:text-white transition-all duration-300 flex items-center justify-center font-bold"
+                                    className="cursor-pointer w-10 h-10 rounded-full text-primaryGray hover:bg-primaryOne hover:text-white transition-all duration-300 flex items-center justify-center font-bold"
                                   >
-                                    <Plus className="w-4 h-4" />
+                                    <Plus className="w-4 h-4 " />
                                   </button>
                                 </div>
                               </div>

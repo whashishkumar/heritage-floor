@@ -49,7 +49,7 @@ export default function HeaderMainBar({ megaMenuData }: any) {
 
   const getCount = async () => {
     const cardCount = await CartEndPoint.getCartItems();
-    // setItemsInCart(cardCount?.data?.items_count);
+    setItemsInCart(cardCount?.data?.items_count);
   };
 
   const getUserDetail = async () => {
@@ -70,7 +70,7 @@ export default function HeaderMainBar({ megaMenuData }: any) {
     if (isAuthenticated) {
       getUserDetail();
     }
-    // getCount();
+    getCount();
   }, [isAuthenticated]);
 
   return (
@@ -183,34 +183,38 @@ export default function HeaderMainBar({ megaMenuData }: any) {
                 <ModalBox isOpen={isModalOpen} onClose={handleCloseModal}>
                   <LoginPage onClose={handleCloseModal} />
                 </ModalBox>
-                <Link
-                  href={`${mainPath}/cart`}
-                  className="relative text-gray-700 hover:text-primaryTwo h-[1.5rem] w-[1.5rem]"
-                >
-                  <Image src="/icon/BagCheck.png" alt="Cart" fill className="object-center" />
-                  {isAuthenticated
-                    ? itemsInCart && (
-                        <span className="absolute -top-2 -right-2 bg-teal-600 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
-                          {itemsInCart}
-                        </span>
-                      )
-                    : totalItem && (
-                        <span className="absolute -top-2 -right-2 bg-teal-600 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
-                          {totalItem}
-                        </span>
-                      )}
-                </Link>
-                <Link
-                  href={`${mainPath}/cart`}
-                  className="relative text-gray-700 hover:text-primaryTwo h-[1.5rem] w-[1.5rem]"
-                >
-                  <Image src="/icon/Heart.png" alt="Wishlist" fill className="object-center" />
-                  {cartCount >= 0 && (
-                    <span className="absolute -top-2 -right-2 bg-primaryTwo text-white text-xs rounded-full w-4 h-4 flex items-center justify-center">
-                      {cartCount}
-                    </span>
-                  )}
-                </Link>
+                {/* {!isAuthenticated && ( */}
+                <>
+                  <Link
+                    href={`${mainPath}/cart`}
+                    className="relative text-gray-700 hover:text-primaryTwo h-[1.5rem] w-[1.5rem]"
+                  >
+                    <Image src="/icon/BagCheck.png" alt="Cart" fill className="object-center" />
+                    {isAuthenticated
+                      ? itemsInCart && (
+                          <span className="absolute -top-2 -right-2 bg-teal-600 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+                            {itemsInCart}
+                          </span>
+                        )
+                      : totalItem && (
+                          <span className="absolute -top-2 -right-2 bg-teal-600 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+                            {totalItem}
+                          </span>
+                        )}
+                  </Link>
+                  <Link
+                    href={`${mainPath}/my-account/lists`}
+                    className="relative text-gray-700 hover:text-primaryTwo h-[1.5rem] w-[1.5rem]"
+                  >
+                    <Image src="/icon/Heart.png" alt="Wishlist" fill className="object-center" />
+                    {cartCount >= 0 && (
+                      <span className="absolute -top-2 -right-2 bg-primaryTwo text-white text-xs rounded-full w-4 h-4 flex items-center justify-center">
+                        {cartCount}
+                      </span>
+                    )}
+                  </Link>
+                </>
+                {/* )} */}
               </div>
             </div>
 
