@@ -25,8 +25,10 @@ import {
   MdPublic,
 } from 'react-icons/md';
 import CheckoutAddressForm from './CheckoutAddressForm';
+import { useToast } from '@/components/ui/Tooltip';
 
 export default function CheckoutPage() {
+  const { showToast } = useToast();
   const { mainPath } = usePathSegments();
   const [openDrawer, setOpenDrawer] = useState(false);
   const [editPurchaserInfo, setPurchaser] = useState(false);
@@ -45,7 +47,7 @@ export default function CheckoutPage() {
   const [formData, setFormData] = useState<{
     billing: {
       id: any;
-      address: any[];
+      address: null;
       save_as_address: boolean;
       use_for_shipping: boolean;
       first_name: string;
@@ -57,10 +59,11 @@ export default function CheckoutPage() {
       country: string;
       postcode: string;
       phone: string;
+      default_address: boolean;
     };
     shipping?: {
       id: any;
-      address: any[];
+      address: null;
       save_as_address: boolean;
       first_name: string;
       last_name: string;
@@ -71,12 +74,12 @@ export default function CheckoutPage() {
       country: string;
       postcode: string;
       phone: string;
-      use_for_shipping: string;
+      use_for_shipping: boolean;
     };
   }>({
     billing: {
-      id: shippingAddress?.id,
-      address: [],
+      id: '',
+      address: null,
       save_as_address: false,
       use_for_shipping: false,
       first_name: '',
@@ -88,10 +91,9 @@ export default function CheckoutPage() {
       country: '',
       postcode: '',
       phone: '',
+      default_address: true,
     },
   });
-
-  console.log(formData, 'formData');
 
   const handleEditAddress = async (address: any) => {
     if (address?.id) {
@@ -116,7 +118,7 @@ export default function CheckoutPage() {
     setEditAddressId(null);
   };
 
-  const handleSaveBillingAddress = () => {
+  const handleSaveBillingAddress = async () => {
     setFormData((prev) => ({
       ...prev,
       billing: {
@@ -126,43 +128,47 @@ export default function CheckoutPage() {
     }));
   };
 
-  const handleUseForShipping = () => {
-    setFormData((prev: any) => {
-      const newUseForShipping = !prev.billing.use_for_shipping;
-      if (newUseForShipping) {
-        return {
-          ...prev,
-          billing: {
-            ...prev.billing,
-            use_for_shipping: newUseForShipping,
-          },
-          shipping: {
-            id: prev.billing.id,
-            address: prev.billing.address,
-            save_as_address: false,
-            first_name: prev.billing.first_name,
-            last_name: prev.billing.last_name,
-            email: prev.billing.email,
-            company_name: prev.billing.company_name,
-            city: prev.billing.city,
-            state: prev.billing.state,
-            country: prev.billing.country,
-            postcode: prev.billing.postcode,
-            phone: prev.billing.phone,
-          },
-        };
-      } else {
-        // If checkbox is being unchecked, remove shipping object
-        const { shipping, ...rest } = prev;
-        return {
-          ...rest,
-          billing: {
-            ...prev.billing,
-            use_for_shipping: newUseForShipping,
-          },
-        };
-      }
-    });
+  const handleUseForShipping = async () => {
+    const newUseForShipping = !formData.billing.use_for_shipping;
+    let updatedFormData: any;
+    if (newUseForShipping) {
+      updatedFormData = {
+        billing: {
+          ...formData.billing,
+          use_for_shipping: newUseForShipping,
+        },
+        shipping: {
+          id: formData.billing.id,
+          address: formData.billing.address,
+          save_as_address: formData.billing.save_as_address,
+          first_name: formData.billing.first_name,
+          last_name: formData.billing.last_name,
+          email: formData.billing.email,
+          company_name: formData.billing.company_name,
+          city: formData.billing.city,
+          state: formData.billing.state,
+          country: formData.billing.country,
+          postcode: formData.billing.postcode,
+          phone: formData.billing.phone,
+          use_for_shipping: true,
+        },
+      };
+    } else {
+      updatedFormData = {
+        billing: {
+          ...formData.billing,
+          use_for_shipping: newUseForShipping,
+        },
+      };
+    }
+    // Update state
+    setFormData(updatedFormData);
+    try {
+      const resp = await CartEndPoint.addCustomerCheckoutAddress(updatedFormData);
+      showToast(resp.message);
+    } catch (error) {
+      console.error('Error saving checkout address:', error);
+    }
   };
 
   const fetchCustomerDetail = async () => {
@@ -186,7 +192,6 @@ export default function CheckoutPage() {
     }
   };
 
-  // Fetch customer details and address on mount and when editPurchaserInfo changes
   useEffect(() => {
     fetchCustomerDetail();
     fetchCustomerAddress();
@@ -196,12 +201,12 @@ export default function CheckoutPage() {
   useEffect(() => {
     if (shippingAddress && shippingAddress.length > 0) {
       const defaultAddress = shippingAddress[0];
-      setFormData((prev) => ({
+      setFormData((prev: any) => ({
         ...prev,
         billing: {
           ...prev.billing,
           id: defaultAddress.id || null,
-          address: defaultAddress.address?.[0] ? [defaultAddress.address] : [],
+          address: defaultAddress.address ? defaultAddress.address : [],
           first_name: defaultAddress.first_name || '',
           last_name: defaultAddress.last_name || '',
           email: defaultAddress.email || '',
@@ -316,54 +321,7 @@ export default function CheckoutPage() {
               ) : (
                 <div className="py-4">
                   {isAddMode ? (
-                    <CheckoutAddressForm
-                      initialData={
-                        shippingAddress && shippingAddress.length > 0
-                          ? {
-                              billing: {
-                                id: shippingAddress[0].id || null,
-                                address: shippingAddress[0].address
-                                  ? [shippingAddress[0].address]
-                                  : [''],
-                                save_as_address: false,
-                                use_for_shipping: false,
-                                is_default: shippingAddress[0].is_default || false,
-                                is_shipping: false,
-                                first_name: shippingAddress[0].first_name || '',
-                                last_name: shippingAddress[0].last_name || '',
-                                email: shippingAddress[0].email || '',
-                                company_name: shippingAddress[0].company_name || '',
-                                city: shippingAddress[0].city || '',
-                                state: shippingAddress[0].state || '',
-                                country: shippingAddress[0].country || 'US',
-                                postcode: shippingAddress[0].postcode || '',
-                                phone: shippingAddress[0].phone || '',
-                              },
-                              shipping: {
-                                id: null,
-                                address: [''],
-                                save_as_address: false,
-                                is_default: false,
-                                is_shipping: true,
-                                first_name: shippingAddress[0].first_name || '',
-                                last_name: shippingAddress[0].last_name || '',
-                                email: shippingAddress[0].email || '',
-                                company_name: shippingAddress[0].company_name || '',
-                                city: shippingAddress[0].city || '',
-                                state: shippingAddress[0].state || '',
-                                country: shippingAddress[0].country || 'US',
-                                postcode: shippingAddress[0].postcode || '',
-                                phone: shippingAddress[0].phone || '',
-                              },
-                            }
-                          : undefined
-                      }
-                      onSubmit={(data) => {
-                        console.log('New address data:', data);
-                        handleCloseDrawer();
-                        fetchCustomerAddress();
-                      }}
-                    />
+                    <CheckoutAddressForm handleCloseDrawer={handleCloseDrawer} />
                   ) : (
                     <AddressForm
                       isCheckOutPage={true}

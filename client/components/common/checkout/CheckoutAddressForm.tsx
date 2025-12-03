@@ -4,6 +4,7 @@ import { CommonComponentData } from '@/lib/api/commonEndPoints';
 import { useToast } from '@/components/ui/Tooltip';
 import BillingAddress from './BillingAddress';
 import ShippingAddress from './ShippingAddress';
+import { IoClose } from 'react-icons/io5';
 
 interface AddressData {
   id?: number | null;
@@ -46,9 +47,14 @@ interface State {
 interface CheckoutAddressFormProps {
   onSubmit?: (data: CheckoutFormData) => void;
   initialData?: CheckoutFormData;
+  handleCloseDrawer?: () => void;
 }
 
-export default function CheckoutAddressForm({ onSubmit, initialData }: CheckoutAddressFormProps) {
+export default function CheckoutAddressForm({
+  onSubmit,
+  initialData,
+  handleCloseDrawer,
+}: CheckoutAddressFormProps) {
   const { showToast } = useToast();
   const [formData, setFormData] = useState<CheckoutFormData>(
     initialData || {
@@ -92,8 +98,6 @@ export default function CheckoutAddressForm({ onSubmit, initialData }: CheckoutA
   const [billingStateList, setBillingStateList] = useState<State[]>([]);
   const [shippingStateList, setShippingStateList] = useState<State[]>([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [checkbox1, setCheckbox1] = useState(false);
-  const [checkbox2, setCheckbox2] = useState(false);
 
   const handleChange = (section: 'billing' | 'shipping', field: keyof AddressData, value: any) => {
     setFormData((prev) => {
@@ -312,7 +316,6 @@ export default function CheckoutAddressForm({ onSubmit, initialData }: CheckoutA
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-
     // Validate form
     const validationErrors = validateForm();
     if (Object.keys(validationErrors).length > 0) {
@@ -338,43 +341,53 @@ export default function CheckoutAddressForm({ onSubmit, initialData }: CheckoutA
   }, []);
 
   return (
-    <form onSubmit={handleSubmit} className="p-6">
-      {/* BILLING ADDRESS */}
-      <BillingAddress
-        data={formData.billing}
-        errors={errors.billing || {}}
-        onChange={(field, value) => handleChange('billing', field, value)}
-        onAddressChange={(index, value) => handleAddressChange('billing', index, value)}
-        countryList={countryList}
-        stateList={billingStateList}
-        onCountryChange={(countryCode) => fetchStates(countryCode, 'billing')}
-      />
-
-      {/* SHIPPING ADDRESS */}
-      {!formData.billing.use_for_shipping && (
-        <>
-          <ShippingAddress
-            data={formData.shipping}
-            errors={errors.shipping || {}}
-            onChange={(field, value) => handleChange('shipping', field, value)}
-            onAddressChange={(index, value) => handleAddressChange('shipping', index, value)}
-            countryList={countryList}
-            stateList={shippingStateList}
-            onCountryChange={(countryCode) => fetchStates(countryCode, 'shipping')}
-          />
-        </>
-      )}
-
-      {/* Submit Button */}
-      <div className="flex gap-4">
+    <>
+      <form onSubmit={handleSubmit}>
         <button
-          type="submit"
-          disabled={isLoading}
-          className="bg-teal-600 text-white px-8 py-3 rounded-lg font-medium hover:bg-teal-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+          onClick={handleCloseDrawer}
+          className="flex justify-end items-center w-full text-gray-600  px-2 rounded-full cursor-pointer"
         >
-          {isLoading ? 'Processing...' : 'Continue to Payment'}
+          Close
+          <IoClose size={18} />
         </button>
-      </div>
-    </form>
+        {/* BILLING ADDRESS */}
+        <BillingAddress
+          data={formData.billing}
+          errors={errors.billing || {}}
+          onChange={(field, value) => handleChange('billing', field, value)}
+          onAddressChange={(index, value) => handleAddressChange('billing', index, value)}
+          countryList={countryList}
+          stateList={billingStateList}
+          onCountryChange={(countryCode) => fetchStates(countryCode, 'billing')}
+        />
+
+        {/* SHIPPING ADDRESS */}
+        {!formData.billing.use_for_shipping && (
+          <>
+            <ShippingAddress
+              data={formData.shipping}
+              errors={errors.shipping || {}}
+              onChange={(field, value) => handleChange('shipping', field, value)}
+              onAddressChange={(index, value) => handleAddressChange('shipping', index, value)}
+              countryList={countryList}
+              stateList={shippingStateList}
+              onCountryChange={(countryCode) => fetchStates(countryCode, 'shipping')}
+            />
+          </>
+        )}
+
+        {/* Submit Button */}
+        <div className="flex gap-4">
+          <button
+            // onClick={handleCloseDrawer}
+            type="submit"
+            disabled={isLoading}
+            className="bg-teal-600 text-white px-8 py-3 rounded-lg font-medium hover:bg-teal-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+          >
+            {isLoading ? 'Processing...' : 'Continue to Payment'}
+          </button>
+        </div>
+      </form>
+    </>
   );
 }

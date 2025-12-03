@@ -52,6 +52,6 @@ export const CartEndPoint = {
 
   //CheckOut API End Points
   addCustomerCheckoutAddress: (data: any) => {
-    apiPost('customer/checkout/save-address', data);
+    return apiPost('/customer/checkout/save-address', data);
   },
 };

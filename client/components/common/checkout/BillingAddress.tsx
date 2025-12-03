@@ -240,7 +240,6 @@ export default function BillingAddress({
           </select>
           {errors.state && <p className="text-red-500 text-sm mt-1">{errors.state[0]}</p>}
         </div>
-
         {/* Postal Code */}
         <div>
           <label className="text-sm font-medium text-gray-700 mb-1 block">
@@ -257,7 +256,6 @@ export default function BillingAddress({
           />
           {errors.postcode && <p className="text-red-500 text-sm mt-1">{errors.postcode[0]}</p>}
         </div>
-
         {/* Use same address for shipping checkbox */}
         <div className="flex items-center gap-2 md:col-span-2">
           <input
