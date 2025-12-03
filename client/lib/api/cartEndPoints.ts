@@ -49,4 +49,9 @@ export const CartEndPoint = {
       cache: 'no-store',
     });
   },
+
+  //CheckOut API End Points
+  addCustomerCheckoutAddress: (data: any) => {
+    apiPost('customer/checkout/save-address', data);
+  },
 };

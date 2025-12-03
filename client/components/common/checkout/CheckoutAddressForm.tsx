@@ -92,15 +92,55 @@ export default function CheckoutAddressForm({ onSubmit, initialData }: CheckoutA
   const [billingStateList, setBillingStateList] = useState<State[]>([]);
   const [shippingStateList, setShippingStateList] = useState<State[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [checkbox1, setCheckbox1] = useState(false);
+  const [checkbox2, setCheckbox2] = useState(false);
 
   const handleChange = (section: 'billing' | 'shipping', field: keyof AddressData, value: any) => {
-    setFormData((prev) => ({
-      ...prev,
-      [section]: {
-        ...prev[section],
-        [field]: value,
-      },
-    }));
+    setFormData((prev) => {
+      const updated = {
+        ...prev,
+        [section]: {
+          ...prev[section],
+          [field]: value,
+        },
+      };
+
+      // If checkbox is being toggled
+      if (section === 'billing' && field === 'use_for_shipping') {
+        if (value === true) {
+          // Copy billing to shipping when checked
+          const billingData = { ...updated.billing };
+          updated.shipping = {
+            ...billingData,
+            id: null,
+            save_as_address: false,
+            is_shipping: true,
+            use_for_shipping: undefined,
+          };
+          // Fetch states for shipping
+          fetchStates(billingData.country, 'shipping');
+        }
+        // When unchecked, keep current shipping data (don't reset)
+      }
+
+      // If billing address is changed and use_for_shipping is checked, sync to shipping
+      if (
+        section === 'billing' &&
+        field !== 'use_for_shipping' &&
+        field !== 'save_as_address' &&
+        prev.billing.use_for_shipping
+      ) {
+        updated.shipping = {
+          ...updated.billing,
+          id: null,
+          save_as_address: updated.shipping.save_as_address,
+          is_shipping: true,
+          use_for_shipping: undefined,
+        };
+      }
+
+      return updated;
+    });
 
     // Clear error for this field
     if (errors[section]?.[field]) {
@@ -117,6 +157,10 @@ export default function CheckoutAddressForm({ onSubmit, initialData }: CheckoutA
     if (field === 'country' && value) {
       if (section === 'billing') {
         fetchStates(value, 'billing');
+        // If use_for_shipping is checked, also fetch for shipping
+        if (formData.billing.use_for_shipping) {
+          fetchStates(value, 'shipping');
+        }
       } else {
         fetchStates(value, 'shipping');
       }
@@ -129,35 +173,33 @@ export default function CheckoutAddressForm({ onSubmit, initialData }: CheckoutA
         },
       }));
     }
-
-    // Copy billing to shipping if use_for_shipping is checked
-    if (section === 'billing' && field === 'use_for_shipping' && value === true) {
-      const billingData = { ...formData.billing };
-      delete billingData.use_for_shipping;
-      setFormData((prev) => ({
-        ...prev,
-        shipping: {
-          ...billingData,
-          id: null,
-          save_as_address: false,
-        },
-      }));
-      // Also fetch states for shipping
-      fetchStates(formData.billing.country, 'shipping');
-    }
   };
 
   const handleAddressChange = (section: 'billing' | 'shipping', index: number, value: string) => {
     setFormData((prev) => {
       const newAddress = [...prev[section].address];
       newAddress[index] = value;
-      return {
+
+      const updated = {
         ...prev,
         [section]: {
           ...prev[section],
           address: newAddress,
         },
       };
+
+      // If billing address is changed and use_for_shipping is checked, sync to shipping
+      if (section === 'billing' && prev.billing.use_for_shipping) {
+        updated.shipping = {
+          ...updated.billing,
+          id: null,
+          save_as_address: updated.shipping.save_as_address,
+          is_shipping: true,
+          use_for_shipping: undefined,
+        };
+      }
+
+      return updated;
     });
   };
 
@@ -296,7 +338,7 @@ export default function CheckoutAddressForm({ onSubmit, initialData }: CheckoutA
   }, []);
 
   return (
-    <form onSubmit={handleSubmit} className="p-6 space-y-8 ">
+    <form onSubmit={handleSubmit} className="p-6">
       {/* BILLING ADDRESS */}
       <BillingAddress
         data={formData.billing}
@@ -310,15 +352,17 @@ export default function CheckoutAddressForm({ onSubmit, initialData }: CheckoutA
 
       {/* SHIPPING ADDRESS */}
       {!formData.billing.use_for_shipping && (
-        <ShippingAddress
-          data={formData.shipping}
-          errors={errors.shipping || {}}
-          onChange={(field, value) => handleChange('shipping', field, value)}
-          onAddressChange={(index, value) => handleAddressChange('shipping', index, value)}
-          countryList={countryList}
-          stateList={shippingStateList}
-          onCountryChange={(countryCode) => fetchStates(countryCode, 'shipping')}
-        />
+        <>
+          <ShippingAddress
+            data={formData.shipping}
+            errors={errors.shipping || {}}
+            onChange={(field, value) => handleChange('shipping', field, value)}
+            onAddressChange={(index, value) => handleAddressChange('shipping', index, value)}
+            countryList={countryList}
+            stateList={shippingStateList}
+            onCountryChange={(countryCode) => fetchStates(countryCode, 'shipping')}
+          />
+        </>
       )}
 
       {/* Submit Button */}

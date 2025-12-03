@@ -34,22 +34,129 @@ export default function CheckoutPage() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [purchaserAddress, setPurchaserAddress] = useState<any | null>(null);
   const [editAddressId, setEditAddressId] = useState<number | null>(null);
-  const [checkbox1, setCheckbox1] = useState(false);
-  const [checkbox2, setCheckbox2] = useState(false);
   const [addNewAddress, setAddNewAddress] = useState(false);
+  const [isAddMode, setIsAddMode] = useState(false);
+  const [formData, setFormData] = useState<{
+    billing: {
+      id: any;
+      address: any[];
+      save_as_address: boolean;
+      use_for_shipping: boolean;
+      first_name: string;
+      last_name: string;
+      email: string;
+      company_name: string;
+      city: string;
+      state: string;
+      country: string;
+      postcode: string;
+      phone: string;
+    };
+    shipping?: {
+      id: any;
+      address: any[];
+      save_as_address: boolean;
+      first_name: string;
+      last_name: string;
+      email: string;
+      company_name: string;
+      city: string;
+      state: string;
+      country: string;
+      postcode: string;
+      phone: string;
+    };
+  }>({
+    billing: {
+      id: null,
+      address: [],
+      save_as_address: false,
+      use_for_shipping: false,
+      first_name: '',
+      last_name: '',
+      email: '',
+      company_name: '',
+      city: '',
+      state: '',
+      country: '',
+      postcode: '',
+      phone: '',
+    },
+  });
 
   const shippingAddress = purchaserAddress?.filter((address: any) => address.is_default);
 
   const handleEditAddress = async (address: any) => {
     if (address?.id) {
       setEditAddressId(address.id);
+      setIsAddMode(false);
+      setAddNewAddress(false);
       setOpenDrawer(true);
     }
   };
 
   const handleAddAddress = () => {
     setEditAddressId(null);
+    setIsAddMode(true);
+    setAddNewAddress(true);
     setOpenDrawer(true);
+  };
+
+  const handleCloseDrawer = () => {
+    setOpenDrawer(false);
+    setAddNewAddress(false);
+    setIsAddMode(false);
+    setEditAddressId(null);
+  };
+
+  const handleSaveBillingAddress = () => {
+    setFormData((prev) => ({
+      ...prev,
+      billing: {
+        ...prev.billing,
+        save_as_address: !prev.billing.save_as_address,
+      },
+    }));
+  };
+
+  const handleUseForShipping = () => {
+    setFormData((prev) => {
+      const newUseForShipping = !prev.billing.use_for_shipping;
+      // If checkbox is being checked, add shipping object with billing data
+      if (newUseForShipping) {
+        return {
+          ...prev,
+          billing: {
+            ...prev.billing,
+            use_for_shipping: newUseForShipping,
+          },
+          shipping: {
+            id: prev.billing.id,
+            address: prev.billing.address,
+            save_as_address: false,
+            first_name: prev.billing.first_name,
+            last_name: prev.billing.last_name,
+            email: prev.billing.email,
+            company_name: prev.billing.company_name,
+            city: prev.billing.city,
+            state: prev.billing.state,
+            country: prev.billing.country,
+            postcode: prev.billing.postcode,
+            phone: prev.billing.phone,
+          },
+        };
+      } else {
+        // If checkbox is being unchecked, remove shipping object
+        const { shipping, ...rest } = prev;
+        return {
+          ...rest,
+          billing: {
+            ...prev.billing,
+            use_for_shipping: newUseForShipping,
+          },
+        };
+      }
+    });
   };
 
   const fetchCustomerDetail = async () => {
@@ -57,6 +164,8 @@ export default function CheckoutPage() {
       setIsLoading(true);
       const resp = await UserMyAccountEndpoints.getUserDetail();
       setPurchaserInfo(resp?.data);
+
+      setIsLoading(false);
     } catch (err) {
       setIsLoading(false);
       return console.error(err);
@@ -72,12 +181,38 @@ export default function CheckoutPage() {
     }
   };
 
+  const fillFormData = (shippingAddress: any) => {
+    console.log(shippingAddress, 'shippingAddress');
+
+    if (shippingAddress && shippingAddress.length > 0) {
+      const defaultAddress = shippingAddress[0];
+      setFormData((prev) => ({
+        ...prev,
+        billing: {
+          ...prev.billing,
+          id: defaultAddress.id || null,
+          address: defaultAddress.address ? [defaultAddress.address] : [],
+          first_name: defaultAddress.first_name || '',
+          last_name: defaultAddress.last_name || '',
+          email: defaultAddress.email || '',
+          company_name: defaultAddress.company_name || '',
+          city: defaultAddress.city || '',
+          state: defaultAddress.state || '',
+          country: defaultAddress.country || '',
+          postcode: defaultAddress.postcode || '',
+          phone: defaultAddress.phone || '',
+        },
+      }));
+    }
+  };
+
   useEffect(() => {
     fetchCustomerDetail();
     fetchCustomerAddress();
-  }, [editPurchaserInfo, editAddressId]);
+  }, [editPurchaserInfo]);
 
-  console.log(addNewAddress, 'addNewAddress');
+  console.log(formData, 'formData');
+
   return (
     <div className="wrapper m-auto py-12">
       <Link
@@ -134,12 +269,10 @@ export default function CheckoutPage() {
           <Card>
             <Section
               title="2. Shipping Address"
-              action={shippingAddress?.length > 0 ? 'Edit' : 'Add Address'}
-              handleOpenDrawer={() =>
-                shippingAddress?.length > 0
-                  ? handleEditAddress(shippingAddress?.[0])
-                  : handleAddAddress()
-              }
+              action={'Edit'}
+              addAddress={'add Address'}
+              handleEditAddress={() => handleEditAddress(shippingAddress?.[0])}
+              handleAddAddress={() => handleAddAddress()}
             >
               {!openDrawer ? (
                 <>
@@ -170,67 +303,66 @@ export default function CheckoutPage() {
                         <MdPublic size={18} className="text-gray-600" />
                         <p>{shippingAddress?.[0]?.country_name}</p>
                       </div>
-
-                      {/* Checkbox Inputs */}
-                      <div className="space-y-3 mt-4 pt-4 border-t flex justify-between">
-                        <div className="flex items-center gap-3">
-                          <input
-                            type="checkbox"
-                            id="checkbox1"
-                            checked={checkbox1}
-                            onChange={(e) => setCheckbox1(e.target.checked)}
-                            className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500 cursor-pointer"
-                          />
-                          <label
-                            htmlFor="checkbox1"
-                            className="text-gray-700 cursor-pointer select-none"
-                          >
-                            Save this address
-                          </label>
-                        </div>
-
-                        <div className="flex items-center gap-3">
-                          <input
-                            type="checkbox"
-                            id="checkbox2"
-                            checked={checkbox2}
-                            onChange={(e) => setCheckbox2(e.target.checked)}
-                            className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500 cursor-pointer"
-                          />
-                          <label
-                            htmlFor="checkbox2"
-                            className="text-gray-700 cursor-pointer select-none"
-                          >
-                            Use as billing address
-                          </label>
-                        </div>
-                        <p
-                          className="cursor-pointer"
-                          onClick={() => setAddNewAddress(!addNewAddress)}
-                        >
-                          Add New Address
-                        </p>
-                      </div>
                     </div>
                   ) : (
                     <div className="text-gray-500 text-sm py-4">
                       <p>No default address found. Please add a new address to continue.</p>
                     </div>
                   )}
-                  {addNewAddress && <CheckoutAddressForm />}
                 </>
               ) : (
-                <AddressForm
-                  isCheckOutPage={true}
-                  isEditId={editAddressId}
-                  onSuccess={() => {
-                    setOpenDrawer(false);
-                    setEditAddressId(null);
-                    fetchCustomerAddress();
-                  }}
-                />
+                <div className="py-4">
+                  {isAddMode ? (
+                    <CheckoutAddressForm
+                      onSubmit={(data) => {
+                        console.log('New address data:', data);
+                        handleCloseDrawer();
+                        fetchCustomerAddress();
+                      }}
+                    />
+                  ) : (
+                    <AddressForm
+                      isCheckOutPage={true}
+                      isEditId={editAddressId}
+                      onSuccess={() => {
+                        handleCloseDrawer();
+                        fetchCustomerAddress();
+                      }}
+                    />
+                  )}
+                </div>
               )}
             </Section>
+            <div className="py-6 flex gap-10">
+              {/* Save as address */}
+              <div className="flex items-center gap-2 md:col-span-2">
+                {/* <button onChange={handleSaveBillingAddress}> Add Bulling address </button> */}
+                <input
+                  type="checkbox"
+                  id="save_billing"
+                  checked={formData.billing.save_as_address}
+                  onChange={handleSaveBillingAddress}
+                  className="w-4 h-4 text-teal-600 border-gray-300 rounded focus:ring-teal-500"
+                />
+                <label htmlFor="save_billing" className="text-sm font-medium text-gray-700">
+                  Save this address
+                </label>
+              </div>
+
+              {/* Use for shipping */}
+              <div className="flex items-center gap-2 md:col-span-2">
+                <input
+                  type="checkbox"
+                  id="use_for_shipping"
+                  checked={formData.billing.use_for_shipping}
+                  onChange={handleUseForShipping}
+                  className="w-4 h-4 text-teal-600 border-gray-300 rounded focus:ring-teal-500"
+                />
+                <label htmlFor="use_for_shipping" className="text-sm font-medium text-gray-700">
+                  Use billing address for shipping
+                </label>
+              </div>
+            </div>
           </Card>
 
           {/* Billing */}
