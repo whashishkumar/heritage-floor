@@ -50,6 +50,15 @@ export const CartEndPoint = {
     });
   },
 
+  //Payment Methods
+
+  getPaymentMethods: () => {
+    return apiFetch({
+      endpoint: '/shipping-methods',
+      cache: 'no-store',
+    });
+  },
+
   //CheckOut API End Points
   addCustomerCheckoutAddress: (data: any) => {
     return apiPost('/customer/checkout/save-address', data);

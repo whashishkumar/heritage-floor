@@ -26,6 +26,7 @@ import {
 } from 'react-icons/md';
 import CheckoutAddressForm from './CheckoutAddressForm';
 import { useToast } from '@/components/ui/Tooltip';
+import PaymentMethod from './PaymentMethod';
 
 export default function CheckoutPage() {
   const { showToast } = useToast();
@@ -317,6 +318,38 @@ export default function CheckoutPage() {
                       <p>No default address found. Please add a new address to continue.</p>
                     </div>
                   )}
+                  <div className="py-6 flex gap-10">
+                    {/* Save as address */}
+                    <div className="flex items-center gap-2 md:col-span-2">
+                      <input
+                        type="checkbox"
+                        id="save_billing"
+                        checked={formData.billing.save_as_address}
+                        onChange={handleSaveBillingAddress}
+                        className="w-4 h-4 text-teal-600 border-gray-300 rounded focus:ring-teal-500"
+                      />
+                      <label htmlFor="save_billing" className="text-sm font-medium text-gray-700">
+                        Save this address
+                      </label>
+                    </div>
+
+                    {/* Use for shipping */}
+                    <div className="flex items-center gap-2 md:col-span-2">
+                      <input
+                        type="checkbox"
+                        id="use_for_shipping"
+                        checked={formData.billing.use_for_shipping}
+                        onChange={handleUseForShipping}
+                        className="w-4 h-4 text-teal-600 border-gray-300 rounded focus:ring-teal-500"
+                      />
+                      <label
+                        htmlFor="use_for_shipping"
+                        className="text-sm font-medium text-gray-700"
+                      >
+                        Use billing address for shipping
+                      </label>
+                    </div>
+                  </div>
                 </>
               ) : (
                 <div className="py-4">
@@ -335,43 +368,11 @@ export default function CheckoutPage() {
                 </div>
               )}
             </Section>
-            <div className="py-6 flex gap-10">
-              {/* Save as address */}
-              <div className="flex items-center gap-2 md:col-span-2">
-                {/* <button onChange={handleSaveBillingAddress}> Add Bulling address </button> */}
-                <input
-                  type="checkbox"
-                  id="save_billing"
-                  checked={formData.billing.save_as_address}
-                  onChange={handleSaveBillingAddress}
-                  className="w-4 h-4 text-teal-600 border-gray-300 rounded focus:ring-teal-500"
-                />
-                <label htmlFor="save_billing" className="text-sm font-medium text-gray-700">
-                  Save this address
-                </label>
-              </div>
-
-              {/* Use for shipping */}
-              <div className="flex items-center gap-2 md:col-span-2">
-                <input
-                  type="checkbox"
-                  id="use_for_shipping"
-                  checked={formData.billing.use_for_shipping}
-                  onChange={handleUseForShipping}
-                  className="w-4 h-4 text-teal-600 border-gray-300 rounded focus:ring-teal-500"
-                />
-                <label htmlFor="use_for_shipping" className="text-sm font-medium text-gray-700">
-                  Use billing address for shipping
-                </label>
-              </div>
-            </div>
           </Card>
 
           {/* Billing */}
           <Card>
-            <Section title="3. Billing">
-              <p className="text-gray-700">Choose a Payment Method:</p>
-            </Section>
+            <PaymentMethod />
           </Card>
         </div>
 

@@ -1,6 +1,7 @@
 'use client';
 import { useEffect, useState } from 'react';
 import { CommonComponentData } from '@/lib/api/commonEndPoints';
+import ScrollableSelect from '@/components/ui/ScrollableSelect';
 
 interface AddressData {
   id?: number | null;
@@ -197,22 +198,17 @@ export default function ShippingAddress({
           <label className="text-sm font-medium text-gray-700 mb-1 block">
             Country <span className="text-red-500">*</span>
           </label>
-          <select
+          <ScrollableSelect
             value={data.country}
-            onChange={(e) => handleCountryChange(e.target.value)}
+            onChange={handleCountryChange}
+            options={countryList.map((country) => ({
+              value: country.code,
+              label: country.name,
+            }))}
+            placeholder="Select Country"
+            error={!!errors.country}
             required
-            className={`w-full border rounded-md px-3 py-2 bg-white focus:outline-none focus:ring-2 focus:ring-teal-500 ${
-              errors.country ? 'border-red-500' : 'border-gray-300'
-            }`}
-          >
-            <option value="">Select Country</option>
-            {countryList.length > 0 &&
-              countryList.map((country) => (
-                <option key={country.code} value={country.code}>
-                  {country.name}
-                </option>
-              ))}
-          </select>
+          />
           {errors.country && <p className="text-red-500 text-sm mt-1">{errors.country[0]}</p>}
         </div>
 
@@ -221,23 +217,18 @@ export default function ShippingAddress({
           <label className="text-sm font-medium text-gray-700 mb-1 block">
             State <span className="text-red-500">*</span>
           </label>
-          <select
+          <ScrollableSelect
             value={data.state}
-            onChange={(e) => onChange('state', e.target.value)}
-            required
+            onChange={(value) => onChange('state', value)}
+            options={stateList.map((state) => ({
+              value: state.code,
+              label: state.default_name,
+            }))}
+            placeholder="Select State"
             disabled={stateList.length === 0}
-            className={`w-full border rounded-md px-3 py-2 bg-white focus:outline-none focus:ring-2 focus:ring-teal-500 ${
-              errors.state ? 'border-red-500' : 'border-gray-300'
-            } ${stateList.length === 0 ? 'opacity-50 cursor-not-allowed' : ''}`}
-          >
-            <option value="">Select State</option>
-            {stateList.length > 0 &&
-              stateList.map((state) => (
-                <option key={state.code} value={state.code}>
-                  {state.default_name}
-                </option>
-              ))}
-          </select>
+            error={!!errors.state}
+            required
+          />
           {errors.state && <p className="text-red-500 text-sm mt-1">{errors.state[0]}</p>}
         </div>
 

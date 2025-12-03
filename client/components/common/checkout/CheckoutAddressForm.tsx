@@ -5,6 +5,7 @@ import { useToast } from '@/components/ui/Tooltip';
 import BillingAddress from './BillingAddress';
 import ShippingAddress from './ShippingAddress';
 import { IoClose } from 'react-icons/io5';
+import { CartEndPoint } from '@/lib/api/cartEndPoints';
 
 interface AddressData {
   id?: number | null;
@@ -314,7 +315,7 @@ export default function CheckoutAddressForm({
     return newErrors;
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     // Validate form
     const validationErrors = validateForm();
@@ -325,13 +326,18 @@ export default function CheckoutAddressForm({
     }
 
     setErrors({});
-    console.log('Form Data:', formData);
 
     if (onSubmit) {
       onSubmit(formData);
     } else {
-      showToast('Checkout data validated successfully!', 'success');
+      console.log('log123456789', formData);
     }
+  };
+
+  const handleSubmitForm = async () => {
+    const resp = await CartEndPoint.addCustomerCheckoutAddress(formData);
+    showToast(resp.message);
+    handleCloseDrawer?.();
   };
 
   useEffect(() => {
@@ -379,7 +385,7 @@ export default function CheckoutAddressForm({
         {/* Submit Button */}
         <div className="flex gap-4">
           <button
-            // onClick={handleCloseDrawer}
+            onClick={handleSubmitForm}
             type="submit"
             disabled={isLoading}
             className="bg-teal-600 text-white px-8 py-3 rounded-lg font-medium hover:bg-teal-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"

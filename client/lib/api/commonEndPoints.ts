@@ -52,7 +52,7 @@ export const CommonComponentData = {
   },
   getStatesList: (countryCode: string) => {
     return apiFetch({
-      endpoint: `/countries-states?country_code=${countryCode}?pagination=0`,
+      endpoint: `/countries-states?country_code=${countryCode}&pagination=0`,
       cache: 'no-store',
     });
   },
