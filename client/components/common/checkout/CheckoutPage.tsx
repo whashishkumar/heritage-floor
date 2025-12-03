@@ -7,7 +7,7 @@ import { IoIosArrowRoundBack } from 'react-icons/io';
 import Link from 'next/link';
 import { usePathSegments } from '@/utils/segmentPath';
 import AddressForm from '@/components/residential/myAccount/AddressForm';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import MyProfileForm from '@/components/residential/myAccount/MyProfileForm';
 import { UserMyAccountEndpoints } from '@/lib/api/authincationEndPoints';
 import { MdOutlinePhoneEnabled } from 'react-icons/md';
@@ -36,6 +36,12 @@ export default function CheckoutPage() {
   const [editAddressId, setEditAddressId] = useState<number | null>(null);
   const [addNewAddress, setAddNewAddress] = useState(false);
   const [isAddMode, setIsAddMode] = useState(false);
+
+  // Memoize shippingAddress to prevent infinite loop
+  const shippingAddress = useMemo(() => {
+    return purchaserAddress?.filter((address: any) => address.is_default);
+  }, [purchaserAddress]);
+
   const [formData, setFormData] = useState<{
     billing: {
       id: any;
@@ -65,10 +71,11 @@ export default function CheckoutPage() {
       country: string;
       postcode: string;
       phone: string;
+      use_for_shipping: string;
     };
   }>({
     billing: {
-      id: null,
+      id: shippingAddress?.id,
       address: [],
       save_as_address: false,
       use_for_shipping: false,
@@ -84,7 +91,7 @@ export default function CheckoutPage() {
     },
   });
 
-  const shippingAddress = purchaserAddress?.filter((address: any) => address.is_default);
+  console.log(formData, 'formData');
 
   const handleEditAddress = async (address: any) => {
     if (address?.id) {
@@ -120,9 +127,8 @@ export default function CheckoutPage() {
   };
 
   const handleUseForShipping = () => {
-    setFormData((prev) => {
+    setFormData((prev: any) => {
       const newUseForShipping = !prev.billing.use_for_shipping;
-      // If checkbox is being checked, add shipping object with billing data
       if (newUseForShipping) {
         return {
           ...prev,
@@ -164,7 +170,6 @@ export default function CheckoutPage() {
       setIsLoading(true);
       const resp = await UserMyAccountEndpoints.getUserDetail();
       setPurchaserInfo(resp?.data);
-
       setIsLoading(false);
     } catch (err) {
       setIsLoading(false);
@@ -181,9 +186,14 @@ export default function CheckoutPage() {
     }
   };
 
-  const fillFormData = (shippingAddress: any) => {
-    console.log(shippingAddress, 'shippingAddress');
+  // Fetch customer details and address on mount and when editPurchaserInfo changes
+  useEffect(() => {
+    fetchCustomerDetail();
+    fetchCustomerAddress();
+  }, [editPurchaserInfo]);
 
+  // Update formData when shippingAddress is available
+  useEffect(() => {
     if (shippingAddress && shippingAddress.length > 0) {
       const defaultAddress = shippingAddress[0];
       setFormData((prev) => ({
@@ -191,7 +201,7 @@ export default function CheckoutPage() {
         billing: {
           ...prev.billing,
           id: defaultAddress.id || null,
-          address: defaultAddress.address ? [defaultAddress.address] : [],
+          address: defaultAddress.address?.[0] ? [defaultAddress.address] : [],
           first_name: defaultAddress.first_name || '',
           last_name: defaultAddress.last_name || '',
           email: defaultAddress.email || '',
@@ -204,14 +214,7 @@ export default function CheckoutPage() {
         },
       }));
     }
-  };
-
-  useEffect(() => {
-    fetchCustomerDetail();
-    fetchCustomerAddress();
-  }, [editPurchaserInfo]);
-
-  console.log(formData, 'formData');
+  }, [shippingAddress]);
 
   return (
     <div className="wrapper m-auto py-12">
@@ -314,6 +317,47 @@ export default function CheckoutPage() {
                 <div className="py-4">
                   {isAddMode ? (
                     <CheckoutAddressForm
+                      initialData={
+                        shippingAddress && shippingAddress.length > 0
+                          ? {
+                              billing: {
+                                id: shippingAddress[0].id || null,
+                                address: shippingAddress[0].address
+                                  ? [shippingAddress[0].address]
+                                  : [''],
+                                save_as_address: false,
+                                use_for_shipping: false,
+                                is_default: shippingAddress[0].is_default || false,
+                                is_shipping: false,
+                                first_name: shippingAddress[0].first_name || '',
+                                last_name: shippingAddress[0].last_name || '',
+                                email: shippingAddress[0].email || '',
+                                company_name: shippingAddress[0].company_name || '',
+                                city: shippingAddress[0].city || '',
+                                state: shippingAddress[0].state || '',
+                                country: shippingAddress[0].country || 'US',
+                                postcode: shippingAddress[0].postcode || '',
+                                phone: shippingAddress[0].phone || '',
+                              },
+                              shipping: {
+                                id: null,
+                                address: [''],
+                                save_as_address: false,
+                                is_default: false,
+                                is_shipping: true,
+                                first_name: shippingAddress[0].first_name || '',
+                                last_name: shippingAddress[0].last_name || '',
+                                email: shippingAddress[0].email || '',
+                                company_name: shippingAddress[0].company_name || '',
+                                city: shippingAddress[0].city || '',
+                                state: shippingAddress[0].state || '',
+                                country: shippingAddress[0].country || 'US',
+                                postcode: shippingAddress[0].postcode || '',
+                                phone: shippingAddress[0].phone || '',
+                              },
+                            }
+                          : undefined
+                      }
                       onSubmit={(data) => {
                         console.log('New address data:', data);
                         handleCloseDrawer();
