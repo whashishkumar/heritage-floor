@@ -24,6 +24,7 @@ import {
   MdBusiness,
   MdPublic,
 } from 'react-icons/md';
+import CheckoutAddressForm from './CheckoutAddressForm';
 
 export default function CheckoutPage() {
   const { mainPath } = usePathSegments();
@@ -33,6 +34,9 @@ export default function CheckoutPage() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [purchaserAddress, setPurchaserAddress] = useState<any | null>(null);
   const [editAddressId, setEditAddressId] = useState<number | null>(null);
+  const [checkbox1, setCheckbox1] = useState(false);
+  const [checkbox2, setCheckbox2] = useState(false);
+  const [addNewAddress, setAddNewAddress] = useState(false);
 
   const shippingAddress = purchaserAddress?.filter((address: any) => address.is_default);
 
@@ -73,6 +77,7 @@ export default function CheckoutPage() {
     fetchCustomerAddress();
   }, [editPurchaserInfo, editAddressId]);
 
+  console.log(addNewAddress, 'addNewAddress');
   return (
     <div className="wrapper m-auto py-12">
       <Link
@@ -165,12 +170,54 @@ export default function CheckoutPage() {
                         <MdPublic size={18} className="text-gray-600" />
                         <p>{shippingAddress?.[0]?.country_name}</p>
                       </div>
+
+                      {/* Checkbox Inputs */}
+                      <div className="space-y-3 mt-4 pt-4 border-t flex justify-between">
+                        <div className="flex items-center gap-3">
+                          <input
+                            type="checkbox"
+                            id="checkbox1"
+                            checked={checkbox1}
+                            onChange={(e) => setCheckbox1(e.target.checked)}
+                            className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500 cursor-pointer"
+                          />
+                          <label
+                            htmlFor="checkbox1"
+                            className="text-gray-700 cursor-pointer select-none"
+                          >
+                            Save this address
+                          </label>
+                        </div>
+
+                        <div className="flex items-center gap-3">
+                          <input
+                            type="checkbox"
+                            id="checkbox2"
+                            checked={checkbox2}
+                            onChange={(e) => setCheckbox2(e.target.checked)}
+                            className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500 cursor-pointer"
+                          />
+                          <label
+                            htmlFor="checkbox2"
+                            className="text-gray-700 cursor-pointer select-none"
+                          >
+                            Use as billing address
+                          </label>
+                        </div>
+                        <p
+                          className="cursor-pointer"
+                          onClick={() => setAddNewAddress(!addNewAddress)}
+                        >
+                          Add New Address
+                        </p>
+                      </div>
                     </div>
                   ) : (
                     <div className="text-gray-500 text-sm py-4">
                       <p>No default address found. Please add a new address to continue.</p>
                     </div>
                   )}
+                  {addNewAddress && <CheckoutAddressForm />}
                 </>
               ) : (
                 <AddressForm
