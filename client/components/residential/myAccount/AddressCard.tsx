@@ -8,6 +8,7 @@ import Loader from '@/components/ui/Loader';
 import { CartEndPoint } from '@/lib/api/cartEndPoints';
 import { useAuth } from '@/context/userAuthContext';
 import ConfirmationPopup from '@/components/ui/ConfirmationPopUp';
+import Pagination from '@/components/ui/Pagnation';
 
 interface Address {
   id: number;
@@ -29,12 +30,15 @@ interface Address {
 export default function AddressList() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { isAuthenticated } = useAuth();
-  const [addresses, setAddresses] = useState<Address[]>([]);
+  const [addresses, setAddresses] = useState<any | null>(null);
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
   const [deleteAddressId, setDeleteAddressId] = useState<number | null>(null);
   const [isEditId, setIsEditId] = useState<number | null>(null);
+  const { meta } = addresses || {};
+  const [currentPage, setCurrentPage] = useState<number>(1);
 
+  const { current_page, last_page, per_page } = meta || {};
   const handleConfirm = async () => {
     if (deleteAddressId !== null) {
       try {
@@ -86,7 +90,7 @@ export default function AddressList() {
     try {
       setLoading(true);
       const resp = await CartEndPoint.getUserAddressList();
-      setAddresses(resp.data || []);
+      setAddresses(resp);
     } catch (error) {
       console.error('Error fetching user addresses:', error);
     } finally {
@@ -94,10 +98,15 @@ export default function AddressList() {
     }
   };
 
+  const handleAddAddressPagination = (current_page: number) => {
+    console.log(current_page, 'current_page');
+    setCurrentPage(current_page);
+  };
+
   useEffect(() => {
-    // if (!isAuthenticated) {
-    fetchUserAddresses();
-    // }
+    if (!isAuthenticated) {
+      fetchUserAddresses();
+    }
   }, []);
 
   return (
@@ -129,7 +138,7 @@ export default function AddressList() {
                   <Loader />
                 </div>
               ) : (
-                addresses?.map((item) => (
+                addresses?.data?.map((item: any) => (
                   <div
                     key={item.id}
                     className="shadow-sm rounded-xl p-4 shadow-sm bg-white relative border-1 border-gray-200"
@@ -184,6 +193,11 @@ export default function AddressList() {
                 ))
               )}
             </div>
+            <Pagination
+              currentPage={currentPage}
+              totalPages={last_page}
+              onPageChange={handleAddAddressPagination}
+            />
           </div>
         </div>
       </div>

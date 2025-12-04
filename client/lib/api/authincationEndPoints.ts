@@ -24,5 +24,5 @@ export const UserMyAccountEndpoints = {
       },
     }),
 
-  getSubscriptionStatus: (email: string) => apiPost('/customer/subscription', { email: email }),
+  getSubscriptionStatus: (data: any) => apiPost('/customer/subscription', data),
 };

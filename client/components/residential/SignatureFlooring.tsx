@@ -220,7 +220,7 @@ export default function SignatureFlooring({ data }: SignatureFlooring) {
         <SwipeSlider
           slidesPerView={4}
           bottomSwipeBtn={false}
-          swipebtn={false}
+          swipebtn={true}
           spaceBetween={10}
           autoPlay={true}
           loop={true}

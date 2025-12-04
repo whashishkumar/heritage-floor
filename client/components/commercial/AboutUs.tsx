@@ -1,14 +1,19 @@
 import Image from 'next/image';
 import ButtonCommon from '../ui/Button';
 import SectionHeader from '../common/SectionHeader';
-export default async function AboutUsCommercial() {
+export default async function AboutUsCommercial({ aboutUs }: any) {
+  const { background, button, description, heading, images, subHeading } = aboutUs?.section || {};
+  const bgImage = `${process.env.NEXT_PUBLIC_IMAGE_PATH_WITHOUT_STORAGE}${background}`;
+  const classic = `${process.env.NEXT_PUBLIC_IMAGE_PATH_WITHOUT_STORAGE}${images?.[0]?.src}`;
+  const luxary = `${process.env.NEXT_PUBLIC_IMAGE_PATH_WITHOUT_STORAGE}${images?.[1]?.src}`;
+  const modern = `${process.env.NEXT_PUBLIC_IMAGE_PATH_WITHOUT_STORAGE}${images?.[1]?.src}`;
   return (
     <>
       <div className="relative  py-16 lg:py-28  overflow-hidden  ">
         <div
           className="absolute inset-0 bg-cover opacity-10  bg-no-repeat overflow-hidden z-0"
           style={{
-            backgroundImage: "url('/images/commercial/aboutUs/bg.png')",
+            backgroundImage: `url(${bgImage})`,
           }}
         />
         <div className="absolute top-0 bg-gradient-to-b from-white  to-transparent min-h-[6.938rem]  w-full  z-10"></div>
@@ -18,16 +23,9 @@ export default async function AboutUsCommercial() {
             {/* Left Content */}
             <div className="  ">
               <SectionHeader
-                heading="About Us"
-                subHeading=" Elegant Flooring. Enduring Quality"
-                description="At Heritage Floor & Home, we believe your home deserves flooring
-                that's as unique as your story. From classic hardwood to modern
-                vinyl and tile, we offer a wide range of stylish, durable, and
-                affordable solutions. Our expert team ensures seamless
-                installation and personalized service, helping you create spaces
-                that truly feel like home. With a commitment to quality and
-                timeless design, Heritage Floor & Home is where tradition and 
-                innovation come together"
+                heading={heading}
+                subHeading={subHeading}
+                description={description}
                 mainCss="space-y-6 lg:pr-8 inter-font "
                 descriptionCss="leading-[1.8889] mb-[2rem]  sm:mb-[1rem] lg:mb-[4rem]"
               />
@@ -35,12 +33,14 @@ export default async function AboutUsCommercial() {
                 {/* Image 1 - Left (Wooden Flooring) */}
                 <div className="  absolute w-[32%] left-0 top-[6rem]">
                   <div className="relative   overflow-hidden h-[25.938rem] rounded-[23.75rem]  ">
-                    <Image
-                      src="/images/commercial/aboutUs/1.png"
-                      alt="Classic hardwood flooring"
-                      fill
-                      className="object-center"
-                    />
+                    {images && (
+                      <Image
+                        src={classic}
+                        alt="Classic hardwood flooring"
+                        fill
+                        className="object-center"
+                      />
+                    )}
                   </div>
                 </div>
 
@@ -48,12 +48,14 @@ export default async function AboutUsCommercial() {
                 {/* <div className="absolute   w-[33%]"> */}
                 <div className="  absolute w-[32%] left-1/2 top-[2rem]  -translate-x-1/2 ">
                   <div className="relative   overflow-hidden h-[25.938rem]  rounded-[23.75rem] z-50">
-                    <Image
-                      src="/images/commercial/aboutUs/2.png"
-                      alt="Luxury marble flooring"
-                      fill
-                      className="object-center"
-                    />
+                    {images && (
+                      <Image
+                        src={luxary}
+                        alt="Luxury marble flooring"
+                        fill
+                        className="object-center"
+                      />
+                    )}
                   </div>
                 </div>
 
@@ -61,19 +63,21 @@ export default async function AboutUsCommercial() {
                 {/* <div className=" absolute right-0  w-[33%]"> */}
                 <div className=" absolute w-[32%] right-0 top-0">
                   <div className="relative overflow-hidden h-[25.938rem]  rounded-[23.75rem]">
-                    <Image
-                      src="/images/commercial/aboutUs/3.png"
-                      alt="Modern bathroom flooring"
-                      fill
-                      className=" object-center"
-                    />
+                    {images && (
+                      <Image
+                        src={modern}
+                        alt="Modern bathroom flooring"
+                        fill
+                        className=" object-center"
+                      />
+                    )}
                   </div>
                 </div>
               </div>
 
               <ButtonCommon
-                link="/commercial/about-us"
-                buttonName="Explore more"
+                link={button.link}
+                buttonName={button.text}
                 image="/icon/arrowRightUp.png"
               />
             </div>
