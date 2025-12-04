@@ -9,7 +9,14 @@ const statusStyles: any = {
   cancelled: 'bg-red-100 text-red-600',
 };
 
-export default function OrderCard({ order, getOrderDetail }: any) {
+export default function OrderCard({
+  order,
+  getOrderDetail,
+  handleCancleOrder,
+  generateInvocie,
+  handleReOrder,
+}: any) {
+  console.log(order, 'order');
   return (
     <tr className="border-b hover:bg-gray-50 transition-colors poppins-font">
       <td
@@ -32,15 +39,24 @@ export default function OrderCard({ order, getOrderDetail }: any) {
       </td>
       <td className="p-4">
         <div className="flex flex-col gap-2">
-          <button className="bg-[#008c99]/90 hover:bg-[#008c99] text-white py-1.5 px-3 rounded text-xs font-medium transition-colors cursor-pointer">
+          <button
+            onClick={() => generateInvocie(order?.id)}
+            className="bg-[#008c99]/90 hover:bg-[#008c99] text-white py-1.5 px-3 rounded text-xs font-medium transition-colors cursor-pointer"
+          >
             Print Label
           </button>
-          {order.status === 'Canceled' ? (
-            <button className="bg-[#BA0202]/80 hover:bg-[#BA0202] text-white py-1.5 px-3 rounded text-xs font-medium transition-colors cursor-pointer">
+          {order.status?.toLowerCase() === 'Canceled'.toLowerCase() ? (
+            <button
+              onClick={() => handleReOrder(order?.id)}
+              className="bg-[#BA0202]/80 hover:bg-[#BA0202] text-white py-1.5 px-3 rounded text-xs font-medium transition-colors cursor-pointer"
+            >
               ReOrder
             </button>
           ) : (
-            <button className="bg-red-500 hover:bg-red-600 text-white py-1.5 px-3 rounded text-xs font-medium transition-colors">
+            <button
+              onClick={() => handleCancleOrder(order?.id)}
+              className="bg-red-500 hover:bg-red-600 text-white py-1.5 px-3 rounded text-xs font-medium transition-colors"
+            >
               Cancel
             </button>
           )}

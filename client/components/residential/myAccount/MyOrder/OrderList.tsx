@@ -5,6 +5,8 @@ import OrderCardMobile from './OrderCardMobile';
 import orders from './orders.json';
 import { OrderEndPoints } from '@/lib/api/orderEndPoints';
 import Pagination from '@/components/ui/Pagnation';
+import Loader from '@/components/ui/Loader';
+import { useToast } from '@/components/ui/Tooltip';
 
 interface OrderListProps {
   filteredOrders?: any;
@@ -13,6 +15,7 @@ interface OrderListProps {
 }
 
 export default function OrderList({ filteredOrders, isSearching, onOrderSelect }: OrderListProps) {
+  const { showToast } = useToast();
   const [activeTab, setActiveTab] = useState('all');
   const [myOrdersList, setMyOrderList] = useState<any | null>(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -57,12 +60,6 @@ export default function OrderList({ filteredOrders, isSearching, onOrderSelect }
     };
   }, [activeTab]);
 
-  const tabs = [
-    { key: 'all', label: `All Orders (${orders.length})` },
-    { key: 'processing', label: `Processing (${processingCount})` },
-    { key: 'shipped', label: `Shipped (${shippedCount})` },
-    { key: 'canceled', label: `Canceled (${canceledCount})` },
-  ];
   const fetchMyOrdersList = async () => {
     setIsLoading(true);
     try {
@@ -92,6 +89,25 @@ export default function OrderList({ filteredOrders, isSearching, onOrderSelect }
     setActiveTab(code);
   };
 
+  const handleCancleOrder = async (id: number) => {
+    const respCancel = await OrderEndPoints.cancleOrder(id);
+    showToast(respCancel?.message);
+    const resp = await OrderEndPoints.getAllOrderItems();
+    setMyOrderList(resp);
+  };
+  const handleReOrder = async (id: number) => {
+    const respOrder = await OrderEndPoints.reOrderItem(id);
+    if (respOrder.status === 200) {
+      showToast('ReOrder Item sucess');
+    }
+    const resp = await OrderEndPoints.getAllOrderItems();
+    setMyOrderList(resp);
+  };
+
+  const generateInvocie = (id: number) => {
+    console.log(id, 'invoice Id');
+  };
+
   useEffect(() => {
     fetchMyOrdersList();
     fetchOrderStaus();
@@ -106,7 +122,6 @@ export default function OrderList({ filteredOrders, isSearching, onOrderSelect }
             <button
               key={t.code}
               onClick={() => handleActiveTab(t.code)}
-              // onClick={() => setActiveTab(t.code)}
               className={`pb-2 cursor-pointer poppins-font font-medium text-sm md:text-base whitespace-nowrap ${
                 activeTab === t.code ? 'border-b-2 border-black text-black' : 'text-gray-500'
               }`}
@@ -135,7 +150,7 @@ export default function OrderList({ filteredOrders, isSearching, onOrderSelect }
             {isSearching || isLoading ? (
               <tr>
                 <td colSpan={7} className="p-8 text-center text-gray-500">
-                  Loading...
+                  <Loader />
                 </td>
               </tr>
             ) : data?.length > 0 ? (
@@ -144,6 +159,9 @@ export default function OrderList({ filteredOrders, isSearching, onOrderSelect }
                   key={`${order.id}-${index}`}
                   order={order}
                   getOrderDetail={getOrderDetail}
+                  handleCancleOrder={handleCancleOrder}
+                  generateInvocie={generateInvocie}
+                  handleReOrder={handleReOrder}
                 />
               ))
             ) : (
@@ -163,7 +181,7 @@ export default function OrderList({ filteredOrders, isSearching, onOrderSelect }
       <div className="md:hidden space-y-3">
         {isSearching || isLoading ? (
           <div className="bg-white rounded-lg shadow-sm p-8 text-center text-gray-500 poppins-font">
-            Loading...
+            <Loader />
           </div>
         ) : data?.length > 0 ? (
           data?.map((order: any, index: any) => (

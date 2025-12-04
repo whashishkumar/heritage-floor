@@ -16,7 +16,7 @@ export const OrderEndPoints = {
   },
 
   cancleOrder: (id: any) => {
-    return apiPost(`/customer/orders/${id}cancle`);
+    return apiPost(`/customer/orders/${id}/cancel`);
   },
 
   reOrderItem: (id: any) => {

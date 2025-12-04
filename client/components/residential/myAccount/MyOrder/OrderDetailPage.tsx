@@ -56,49 +56,9 @@ export default function OrderDetailsPage({ orderId, onBack }: OrderDetailsPagePr
     );
   }
 
-  // Fallback data for testing
-  const orderData = order || {
-    id: 5,
-    increment_id: '5',
-    date: '04 Dec, 2025',
-    customer_name: 'Nandita Sharma',
-    price: '710.0000',
-    status: 'PENDING',
-    payment: 'Cash On Delivery',
-    items: [
-      {
-        id: 8,
-        quantity: 1,
-        sku: 'HF-04',
-        name: 'Bluenoae Lake 7',
-        price: '345.0000',
-        tile_details: {
-          tile_length: '27.0000',
-          tile_width: '27.0000',
-          sqft_per_tile: 5.06,
-          tiles_per_box: 9,
-          sqft_per_box: 45.54,
-          price_per_sqft: '345.0000',
-          box_price: 15711.3,
-        },
-        product: {
-          images: [
-            {
-              id: 1,
-              src: 'https://heritagefloorandhome.ca/admin/cache/large/product/55/bEfLrdZWwrBkI472WMvyCkbpqcgd9NrCbUdylxrD.webp',
-              alt: 'Product Thumbnail 1',
-            },
-          ],
-          name: 'Bluenoae Lake 7',
-        },
-      },
-    ],
-  };
-
-  const { increment_id, date, customer_name, price, status, payment, items } = orderData;
-
+  const { increment_id, date, customer_name, price, status, payment, items } = order?.data;
   return (
-    <div className="max-w-5xl mx-auto p-5">
+    <div className="max-w-5xl mx-auto p-5 poppins-font">
       {/* Back Button */}
       <div className="mb-4 flex items-center gap-4">
         <button
@@ -108,20 +68,20 @@ export default function OrderDetailsPage({ orderId, onBack }: OrderDetailsPagePr
           <FiArrowLeft className="w-5 h-5" />
           <span>Back to Orders</span>
         </button>
-        <button
+        {/* <button
           onClick={onBack}
           className="ml-auto flex items-center justify-center w-10 h-10 bg-gray-100 hover:bg-gray-200 rounded-full transition-colors"
           aria-label="Close"
         >
           <FiX className="w-6 h-6 text-gray-700" />
-        </button>
+        </button> */}
       </div>
 
       {/* Order Header */}
       <div className="bg-white shadow-sm rounded-xl p-6 mb-6 border border-gray-200">
         <h1 className="text-2xl font-semibold text-gray-900 mb-2">Order #{increment_id}</h1>
 
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 text-sm">
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 text-sm ">
           <div>
             <p className="font-medium text-gray-500">Date</p>
             <p>{date}</p>
@@ -136,7 +96,6 @@ export default function OrderDetailsPage({ orderId, onBack }: OrderDetailsPagePr
           </div>
           <div>
             <p className="font-medium text-gray-500">Status</p>
-
             <span
               className={`px-3 py-1 rounded-full text-xs ${
                 status === 'PENDING'

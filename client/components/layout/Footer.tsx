@@ -8,6 +8,7 @@ import { usePathSegments } from '@/utils/segmentPath';
 import { UserMyAccountEndpoints } from '@/lib/api/authincationEndPoints';
 import { useToast } from '../ui/Tooltip';
 import Loader from '../ui/Loader';
+import Link from 'next/link';
 
 // Type Definitions
 interface FormField {
@@ -242,7 +243,9 @@ const Footer: React.FC = () => {
       <div className="flex-1">
         <div className="wrapper mx-auto py-16 lg:px-0 px-10">
           <div className="flex  flex-col lg:flex-row gap-[3%] ">
-            <div className="lg:w-[32%] pl-2   mb-4">
+            <div
+              className={`${mainPath === '/commercial' ? 'lg:w-[31%]' : 'lg:w-[32%]'} pl-2   mb-4`}
+            >
               <h2 className="text-[2.5rem] font-normal mb-8  leading-[1.3750] roboto-font letter-spacing-[-0.88px]">
                 {formSection?.title}
               </h2>
@@ -334,7 +337,11 @@ const Footer: React.FC = () => {
               </div>
             </div>
 
-            <div className="lg:max-w-[25%]  px-2 lg:mb-0 mb-[1.5rem]">
+            <div
+              className={`${
+                mainPath === '/commercial' ? 'lg:w-[31%]' : 'lg:w-[25%]'
+              }  px-2 lg:mb-0 mb-[1.5rem]`}
+            >
               <div className="text-xl font-semibold mb-[2.5rem] tracking-wider roboto-font w-[12rem] h-[3.438rem] relative ">
                 <Image
                   src="/logo/heritageLogoWhite.svg"
@@ -368,7 +375,11 @@ const Footer: React.FC = () => {
               </div>
             </div>
 
-            <div className="lg:max-w-[20%] pl-4 hidden lg:block">
+            <div
+              className={`${
+                mainPath === '/commercial' ? 'lg:w-[31%]' : 'lg:w-[20%]'
+              } pl-4 hidden lg:block`}
+            >
               <h4 className="text-base font-semibold mb-4 tracking-[1.78px]">OTTAWA</h4>
               {locations?.map((location: Location, idx: number) => (
                 <div key={idx} className="text-base text-[#FAFCFF] space-y-2 ">
@@ -395,33 +406,41 @@ const Footer: React.FC = () => {
               </div>
             </div>
 
-            <div className="lg:max-w-[20%]   pl-4 hidden lg:block">
-              <h4 className="text-base font-semibold mb-4 tracking-[1.78px]">HARDWOOD</h4>
-              <ul className="space-y-2 mb-8">
-                {categories?.hardwood?.map((item: CategoryItem) => (
-                  <li
-                    key={item.id}
-                    className="text-base text-[#FAFCFF] hover:text-white transition-colors cursor-pointer leading-[1.7500]"
-                  >
-                    {item.name}
-                  </li>
-                ))}
-              </ul>
+            {mainPath !== '/commercial' && (
+              <div className="lg:max-w-[20%]   pl-4 hidden lg:block">
+                <h4 className="text-base font-semibold mb-4 tracking-[1.78px]">HARDWOOD</h4>
+                <ul className="space-y-2 mb-8">
+                  {categories?.hardwood?.map((item: CategoryItem) => (
+                    <Link
+                      href={`${mainPath}/products/${item.id}`}
+                      key={item.id}
+                      className="text-base text-[#FAFCFF] hover:text-white transition-colors cursor-pointer leading-[1.7500]"
+                    >
+                      {item.name}
+                    </Link>
+                  ))}
+                </ul>
 
-              <h4 className="text-base font-semibold mb-4 tracking-[1.78px]">FLOORING</h4>
-              <ul className="space-y-2">
-                {categories?.flooring?.map((item: CategoryItem) => (
-                  <li
-                    key={item.id}
-                    className="text-base text-[#FAFCFF] hover:text-white transition-colors cursor-pointer leading-[1.7500]"
-                  >
-                    {item.name}
-                  </li>
-                ))}
-              </ul>
-            </div>
+                <h4 className="text-base font-semibold mb-4 tracking-[1.78px]">FLOORING</h4>
+                <ul className="space-y-2">
+                  {categories?.flooring?.map((item: CategoryItem) => (
+                    <Link
+                      href={`${mainPath}/products/${item.id}`}
+                      key={item.id}
+                      className="text-base text-[#FAFCFF] hover:text-white transition-colors cursor-pointer leading-[1.7500]"
+                    >
+                      {item.name}
+                    </Link>
+                  ))}
+                </ul>
+              </div>
+            )}
 
-            <div className=" grid grid-cols-2 sm:grid-cols-4 w-full lg:hidden gap-[5%]  sm:gap-[3%] mt-[1.5rem] ">
+            <div
+              className={`grid ${
+                mainPath !== '/commercial' ? 'grid-cols-2 sm:grid-cols-4' : 'grid-cols-2'
+              } w-full lg:hidden gap-[5%]  sm:gap-[3%] mt-[1.5rem] `}
+            >
               <div className=" pl-4">
                 {' '}
                 <h4 className="text-base font-semibold mb-4 tracking-[1.78px]">OTTAWA</h4>
@@ -448,33 +467,37 @@ const Footer: React.FC = () => {
                   ))}
                 </ul>
               </div>
-              <div className="  pl-4">
-                {' '}
-                <h4 className="text-base font-semibold mb-4 tracking-[1.78px]">HARDWOOD</h4>
-                <ul className="space-y-2 mb-8">
-                  {categories?.hardwood?.map((item: CategoryItem) => (
-                    <li
-                      key={item.id}
-                      className="text-base text-[#FAFCFF] hover:text-white transition-colors cursor-pointer leading-[1.7500]"
-                    >
-                      {item.name}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-              <div className="  pl-4">
-                <h4 className="text-base font-semibold mb-4 tracking-[1.78px]">FLOORING</h4>
-                <ul className="space-y-2">
-                  {categories?.flooring?.map((item: CategoryItem) => (
-                    <li
-                      key={item.id}
-                      className="text-base text-[#FAFCFF] hover:text-white transition-colors cursor-pointer leading-[1.7500]"
-                    >
-                      {item.name}
-                    </li>
-                  ))}
-                </ul>
-              </div>
+              {mainPath !== '/commercial' && (
+                <>
+                  <div className="  pl-4">
+                    {' '}
+                    <h4 className="text-base font-semibold mb-4 tracking-[1.78px]">HARDWOOD</h4>
+                    <ul className="space-y-2 mb-8">
+                      {categories?.hardwood?.map((item: CategoryItem) => (
+                        <li
+                          key={item.id}
+                          className="text-base text-[#FAFCFF] hover:text-white transition-colors cursor-pointer leading-[1.7500]"
+                        >
+                          {item.name}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                  <div className="  pl-4">
+                    <h4 className="text-base font-semibold mb-4 tracking-[1.78px]">FLOORING</h4>
+                    <ul className="space-y-2">
+                      {categories?.flooring?.map((item: CategoryItem) => (
+                        <li
+                          key={item.id}
+                          className="text-base text-[#FAFCFF] hover:text-white transition-colors cursor-pointer leading-[1.7500]"
+                        >
+                          {item.name}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </>
+              )}
             </div>
           </div>
         </div>
