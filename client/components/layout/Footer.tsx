@@ -1,8 +1,10 @@
 'use client';
 import OnlyButton from '../common/ArrowButton';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import { FaLinkedinIn, FaFacebookF, FaWhatsapp, FaChevronDown } from 'react-icons/fa';
+import { CommonComponentData } from '@/lib/api/commonEndPoints';
+import { usePathSegments } from '@/utils/segmentPath';
 
 // Type Definitions
 interface FormField {
@@ -76,72 +78,72 @@ interface FormData {
 }
 
 // Footer Data
-const footerData: FooterData = {
-  formSection: {
-    title: 'Unlock your actionable insight today',
-    fields: [
-      { label: 'Email *', type: 'email', name: 'email' },
-      { label: 'Name *', type: 'text', name: 'name' },
-      {
-        label: 'Areas of interest (Please select)',
-        type: 'select',
-        name: 'interest',
-        options: [],
-      },
-    ],
-    privacyConsent: {
-      text: 'I hereby agree to and accept Privacy Policy and give permission to access my personal data.',
-      privacyLink: '/privacy-policy',
-    },
-    submitButton: {
-      text: '→',
-      color: '#2b6b75',
-    },
-  },
-  companyInfo: {
-    name: 'Heritage Floor & Home',
-    description:
-      'As a family-owned business with showrooms in Ottawa, Vaughan, Hamilton, and Windsor, we provide high-quality flooring, expert advice, and personalized service to help you find stylish, durable, and affordable solutions for every space.',
-    socialLinks: [
-      { platform: 'LinkedIn', icon: 'linkedin', url: '#' },
-      { platform: 'Facebook', icon: 'facebook', url: '#' },
-      { platform: 'WhatsApp', icon: 'whatsapp', url: '#' },
-    ],
-  },
-  locations: [
-    {
-      city: 'Ottawa',
-      address: '207 Colonnade Rd, S. Nepean, ON K2E 7K3',
-      phone: '613-224-0300',
-      note: 'Call us if you need any help',
-    },
-  ],
-  quickLinks: [
-    { label: 'About Us', url: '/about-us' },
-    { label: 'Products', url: '/products' },
-    { label: 'Contact Us', url: '/contact-us' },
-    { label: 'Terms & Conditions', url: '/terms' },
-    { label: 'Privacy Policy', url: '/privacy-policy' },
-  ],
-  categories: {
-    hardwood: [
-      'Affinity Hardwood',
-      'African Plains',
-      'Antico',
-      'Baffin Island',
-      'Bluenoae Lake 7',
-      'Antico',
-    ],
-    flooring: [
-      'Tile Flooring',
-      'Hardwood Flooring',
-      'Laminate Flooring',
-      'Carpet',
-      'Luxury Vinyl Flooring',
-    ],
-  },
-  copyright: 'Copyright 2025 - Heritage Floor & Home',
-};
+// const footerData: FooterData = {
+//   formSection: {
+//     title: 'Unlock your actionable insight today',
+//     fields: [
+//       { label: 'Email *', type: 'email', name: 'email' },
+//       { label: 'Name *', type: 'text', name: 'name' },
+//       {
+//         label: 'Areas of interest (Please select)',
+//         type: 'select',
+//         name: 'interest',
+//         options: [],
+//       },
+//     ],
+//     privacyConsent: {
+//       text: 'I hereby agree to and accept Privacy Policy and give permission to access my personal data.',
+//       privacyLink: '/privacy-policy',
+//     },
+//     submitButton: {
+//       text: '→',
+//       color: '#2b6b75',
+//     },
+//   },
+//   companyInfo: {
+//     name: 'Heritage Floor & Home',
+//     description:
+//       'As a family-owned business with showrooms in Ottawa, Vaughan, Hamilton, and Windsor, we provide high-quality flooring, expert advice, and personalized service to help you find stylish, durable, and affordable solutions for every space.',
+//     socialLinks: [
+//       { platform: 'LinkedIn', icon: 'linkedin', url: '#' },
+//       { platform: 'Facebook', icon: 'facebook', url: '#' },
+//       { platform: 'WhatsApp', icon: 'whatsapp', url: '#' },
+//     ],
+//   },
+//   locations: [
+//     {
+//       city: 'Ottawa',
+//       address: '207 Colonnade Rd, S. Nepean, ON K2E 7K3',
+//       phone: '613-224-0300',
+//       note: 'Call us if you need any help',
+//     },
+//   ],
+//   quickLinks: [
+//     { label: 'About Us', url: '/about-us' },
+//     { label: 'Products', url: '/products' },
+//     { label: 'Contact Us', url: '/contact-us' },
+//     { label: 'Terms & Conditions', url: '/terms' },
+//     { label: 'Privacy Policy', url: '/privacy-policy' },
+//   ],
+//   categories: {
+//     hardwood: [
+//       'Affinity Hardwood',
+//       'African Plains',
+//       'Antico',
+//       'Baffin Island',
+//       'Bluenoae Lake 7',
+//       'Antico',
+//     ],
+//     flooring: [
+//       'Tile Flooring',
+//       'Hardwood Flooring',
+//       'Laminate Flooring',
+//       'Carpet',
+//       'Luxury Vinyl Flooring',
+//     ],
+//   },
+//   copyright: 'Copyright 2025 - Heritage Floor & Home',
+// };
 
 const Footer: React.FC = () => {
   const [formData, setFormData] = useState<FormData>({
@@ -150,10 +152,12 @@ const Footer: React.FC = () => {
     interest: '',
     consent: false,
   });
+  const { mainPath } = usePathSegments();
+  const [footerData, setFooterData] = useState<any | null>(null);
 
   const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>): void => {
     e.preventDefault();
-    console.log('Form submitted:', formData);
+    console.log('formData', formData);
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>): void => {
@@ -178,6 +182,15 @@ const Footer: React.FC = () => {
     }
   };
 
+  const getFooterList = async () => {
+    const resp = await CommonComponentData.getFooterList();
+    setFooterData(resp);
+  };
+
+  useEffect(() => {
+    getFooterList();
+  }, []);
+
   return (
     <footer className="w-full bg-black  justify-center flex items-center rounded-tl-[1.688rem] rounded-tr-[1.688rem] flex-col text-white bottom-0 -mt-[1.5rem]">
       <div className="flex-1">
@@ -185,12 +198,12 @@ const Footer: React.FC = () => {
           <div className="flex  flex-col lg:flex-row gap-[3%] ">
             <div className="lg:w-[32%] pl-2   mb-4">
               <h2 className="text-[2.5rem] font-normal mb-8  leading-[1.3750] roboto-font letter-spacing-[-0.88px]">
-                {footerData.formSection.title}
+                {footerData?.formSection?.title}
               </h2>
               <div className="space-y-6">
-                {footerData.formSection.fields.map((field: FormField) => (
+                {footerData?.formSection?.fields.map((field: FormField) => (
                   <div key={field.name}>
-                    {field.type === 'select' ? (
+                    {field?.type === 'select' ? (
                       <div className="relative">
                         <select
                           name={field.name}
@@ -230,14 +243,14 @@ const Footer: React.FC = () => {
                       className="mt-1 w-4  bg-transparent border border-gray-700 rounded cursor-pointer"
                     />
                     <label className="text-sm text-gray-400 leading-relaxed">
-                      {footerData.formSection.privacyConsent.text.split('Privacy Policy')[0]}
+                      {footerData?.formSection?.privacyConsent.text.split('Privacy Policy')[0]}
                       <a
-                        href={footerData.formSection.privacyConsent.privacyLink}
+                        href={footerData?.formSection.privacyConsent.privacyLink}
                         className="underline hover:text-white transition-colors"
                       >
                         Privacy Policy
                       </a>
-                      {footerData.formSection.privacyConsent.text.split('Privacy Policy')[1]}
+                      {footerData?.formSection?.privacyConsent.text.split('Privacy Policy')[1]}
                     </label>
                   </div>
                   <div className="">
@@ -261,7 +274,7 @@ const Footer: React.FC = () => {
                 />
               </div>
               <p className="text-[#FAFCFF] text-base leading-[1.7500]">
-                {footerData.companyInfo.description}
+                {footerData?.companyInfo?.description}
               </p>
 
               <div className="mt-[2rem]">
@@ -269,14 +282,14 @@ const Footer: React.FC = () => {
                   FOLLOW US
                 </h4>
                 <div className="flex gap-3">
-                  {footerData.companyInfo.socialLinks.map((social: SocialLink) => (
+                  {footerData?.companyInfo?.socialLinks.map((social: SocialLink) => (
                     <a
-                      key={social.platform}
-                      href={social.url}
+                      key={social?.platform}
+                      href={social?.url}
                       className="w-[4rem] h-[4rem] border border-gray-700 flex items-center justify-center hover:border-teal-500 hover:text-teal-500 transition-colors"
-                      aria-label={social.platform}
+                      aria-label={social?.platform}
                     >
-                      {getSocialIcon(social.icon)}
+                      {getSocialIcon(social?.icon)}
                     </a>
                   ))}
                 </div>
@@ -285,21 +298,21 @@ const Footer: React.FC = () => {
 
             <div className="lg:max-w-[20%] pl-4 hidden lg:block">
               <h4 className="text-base font-semibold mb-4 tracking-[1.78px]">OTTAWA</h4>
-              {footerData.locations.map((location: Location, idx: number) => (
+              {footerData?.locations.map((location: Location, idx: number) => (
                 <div key={idx} className="text-base text-[#FAFCFF] space-y-2 ">
-                  <p>{location.address}</p>
-                  <p className="text-white mt-[1.5rem]">{location.note}</p>
-                  <p className="text-white ">{location.phone}</p>
+                  <p>{location?.address}</p>
+                  <p className="text-white mt-[1.5rem]">{location?.note}</p>
+                  <p className="text-white ">{location?.phone}</p>
                 </div>
               ))}
 
               <div className="mt-8">
                 <h4 className="text-base font-semibold mb-4 tracking-[1.78px]">QUICK LINKS</h4>
                 <ul className="space-y-2 lg:mb-0 mb-[1.5rem]">
-                  {footerData.quickLinks.map((link: QuickLink) => (
+                  {footerData?.quickLinks?.map((link: QuickLink) => (
                     <li key={link.label}>
                       <a
-                        href={link.url}
+                        href={`${mainPath}${link.url}`}
                         className="text-base text-[#FAFCFF] hover:text-white transition-colors leading-[1.7500]"
                       >
                         {link.label}
@@ -313,7 +326,7 @@ const Footer: React.FC = () => {
             <div className="lg:max-w-[20%]   pl-4 hidden lg:block">
               <h4 className="text-base font-semibold mb-4 tracking-[1.78px]">HARDWOOD</h4>
               <ul className="space-y-2 mb-8">
-                {footerData.categories.hardwood.map((item: string, idx: number) => (
+                {footerData?.categories?.hardwood.map((item: string, idx: number) => (
                   <li
                     key={idx}
                     className="text-base text-[#FAFCFF] hover:text-white transition-colors cursor-pointer leading-[1.7500]"
@@ -325,7 +338,7 @@ const Footer: React.FC = () => {
 
               <h4 className="text-base font-semibold mb-4 tracking-[1.78px]">FLOORING</h4>
               <ul className="space-y-2">
-                {footerData.categories.flooring.map((item: string, idx: number) => (
+                {footerData?.categories?.flooring.map((item: string, idx: number) => (
                   <li
                     key={idx}
                     className="text-base text-[#FAFCFF] hover:text-white transition-colors cursor-pointer leading-[1.7500]"
@@ -340,24 +353,24 @@ const Footer: React.FC = () => {
               <div className=" pl-4">
                 {' '}
                 <h4 className="text-base font-semibold mb-4 tracking-[1.78px]">OTTAWA</h4>
-                {footerData.locations.map((location: Location, idx: number) => (
+                {footerData?.locations?.map((location: Location, idx: number) => (
                   <div key={idx} className="text-base text-[#FAFCFF] space-y-2 ">
-                    <p>{location.address}</p>
-                    <p className="text-white mt-[1.5rem]">{location.note}</p>
-                    <p className="text-white ">{location.phone}</p>
+                    <p>{location?.address}</p>
+                    <p className="text-white mt-[1.5rem]">{location?.note}</p>
+                    <p className="text-white ">{location?.phone}</p>
                   </div>
                 ))}
               </div>
               <div className="  pl-4">
                 <h4 className="text-base font-semibold mb-4 tracking-[1.78px]">QUICK LINKS</h4>
                 <ul className="space-y-2 lg:mb-0 mb-[1.5rem]">
-                  {footerData.quickLinks.map((link: QuickLink) => (
-                    <li key={link.label}>
+                  {footerData?.quickLinks.map((link: QuickLink) => (
+                    <li key={link?.label}>
                       <a
-                        href={link.url}
+                        href={link?.url}
                         className="text-base text-[#FAFCFF] hover:text-white transition-colors leading-[1.7500]"
                       >
-                        {link.label}
+                        {link?.label}
                       </a>
                     </li>
                   ))}
@@ -367,7 +380,7 @@ const Footer: React.FC = () => {
                 {' '}
                 <h4 className="text-base font-semibold mb-4 tracking-[1.78px]">HARDWOOD</h4>
                 <ul className="space-y-2 mb-8">
-                  {footerData.categories.hardwood.map((item: string, idx: number) => (
+                  {footerData?.categories?.hardwood?.map((item: string, idx: number) => (
                     <li
                       key={idx}
                       className="text-base text-[#FAFCFF] hover:text-white transition-colors cursor-pointer leading-[1.7500]"
@@ -380,7 +393,7 @@ const Footer: React.FC = () => {
               <div className="  pl-4">
                 <h4 className="text-base font-semibold mb-4 tracking-[1.78px]">FLOORING</h4>
                 <ul className="space-y-2">
-                  {footerData.categories.flooring.map((item: string, idx: number) => (
+                  {footerData?.categories?.flooring?.map((item: string, idx: number) => (
                     <li
                       key={idx}
                       className="text-base text-[#FAFCFF] hover:text-white transition-colors cursor-pointer leading-[1.7500]"
@@ -399,7 +412,7 @@ const Footer: React.FC = () => {
       <div className=" w-full  px-10">
         <div className="mx-auto px-6 py-6 border-t border-[#FAFCFF]/10">
           <p className="text-base text-[#FAFCFF] lg:text-right text-center">
-            {footerData.copyright}
+            {footerData?.copyright}
           </p>
         </div>
       </div>

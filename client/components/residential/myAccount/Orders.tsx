@@ -13,7 +13,6 @@ export default function Orders() {
 
   const handleSearch = async (searchValue?: string) => {
     const searchTerm = searchValue !== undefined ? searchValue : searchKey;
-    console.log(searchTerm, 'searchTerm');
     setIsSearching(true);
     try {
       const resp = await OrderEndPoints.filterOrderListItems(searchTerm, '');

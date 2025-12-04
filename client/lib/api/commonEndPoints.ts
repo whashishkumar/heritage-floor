@@ -62,4 +62,11 @@ export const CommonComponentData = {
       cache: 'dynamic',
     });
   },
+
+  getFooterList: () => {
+    return apiFetch({
+      endpoint: 'residential/footer-menus',
+      cache: 'no-store',
+    });
+  },
 };

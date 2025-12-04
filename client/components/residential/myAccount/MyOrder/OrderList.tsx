@@ -77,6 +77,10 @@ export default function OrderList({ filteredOrders, isSearching }: OrderListProp
     setCurrentPage(page);
   };
 
+  const getOrderDetail = (id: number) => {
+    console.log(id, 'get id');
+  };
+
   useEffect(() => {
     fetchMyOrdersList();
   }, []);
@@ -123,7 +127,11 @@ export default function OrderList({ filteredOrders, isSearching }: OrderListProp
               </tr>
             ) : data?.length > 0 ? (
               data?.map((order: any, index: any) => (
-                <OrderCard key={`${order.id}-${index}`} order={order} />
+                <OrderCard
+                  key={`${order.id}-${index}`}
+                  order={order}
+                  getOrderDetail={getOrderDetail}
+                />
               ))
             ) : (
               <tr>

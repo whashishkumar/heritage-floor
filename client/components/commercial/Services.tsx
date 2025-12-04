@@ -1,5 +1,7 @@
 import SectionHeader from '../common/SectionHeader';
-export default async function ServicesCommercial() {
+export default async function ServicesCommercial({ services }: any) {
+  const { heading, subheading, description, data } = services;
+  const baseUrl = process.env.NEXT_PUBLIC_IMAGE_PATH_WITHOUT_STORAGE;
   const flooringTypes = [
     {
       id: 1,
@@ -40,25 +42,28 @@ export default async function ServicesCommercial() {
         <div className=" wrapper  mx-auto relative z-10 ">
           <div className=" w-full flex flex-col items-center justify-center">
             <SectionHeader
-              heading="Services"
-              subHeading="Flooring Types Available for Commercial Needs"
-              description="If you’re in the Vaughan, Windsor, Hamilton, or Ottawa area and seeking timeless flooring solutions that combine elegance, durability, and expert installation, Heritage Floor & Home stands out as a trusted choice."
+              heading={heading}
+              subHeading={subheading}
+              description={description}
               mainCss="flex flex-col items-center justify-center mt-[4rem] md:mt-[6rem]"
               subHeadingCss=" text-white text-center"
               descriptionCss="leading-[1.5]  mt-[0.5rem] sm:w-[65%] w-[85%] text-center align-middle text-white leading-[1.5000]"
             />
             <div className="mt-[4rem] md:mt-[5.625rem] pb-[4rem]">
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-16 lg:gap-[4.125rem] ">
-                {flooringTypes.map((type) => (
+                {data?.map((type: any) => (
                   <div key={type.id} className="flex flex-col items-center group cursor-pointer  ">
                     {/* Circular Image */}
                     {/* <div className="relative w-48 h-48 md:w-[15.25rem] md:h-[15.25rem] mb-6 overflow-hidden rounded-full"> */}
                     <div className="relative w-[15.25rem] h-[15.25rem]  overflow-hidden rounded-full">
-                      <img
-                        src={type.image}
-                        alt={type.title}
-                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                      />
+                      {type.image && (
+                        <img
+                          // src={type.image}
+                          src={`${baseUrl}${type.image}`}
+                          alt={type.title}
+                          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                        />
+                      )}
                       {/* Hover overlay */}
                       <div className="absolute inset-0 bg-primaryTwo opacity-0 group-hover:opacity-20 transition-opacity duration-300"></div>
                     </div>

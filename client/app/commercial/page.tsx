@@ -52,16 +52,22 @@ export default async function Home({ params }: any) {
   const { data } = await CommonComponentData?.getTestinomials();
   const WhyChooseUs = await CommercialPageData.getWhyToChooseUsDetails();
   const { banner } = await CommercialPageData.getHeroBannerData();
+  const aboutUs = await CommercialPageData.getAboutUsLandingPage();
+  const majorProjects = await CommercialPageData.getOurProjets();
+  const services = await CommercialPageData.getOurServices();
+  const commercialProject = await CommercialPageData.getMajorProductsVedio();
+
+  console.log(commercialProject, 'commercialProject');
 
   return (
     <>
       <HeroSectionCommercial heroBannerData={banner} />
-      <AboutUsCommercial />
+      <AboutUsCommercial aboutUs={aboutUs} />
       <OurCustomers coustumerData={ourCustomers} />
-      <OurMajorProjectsCommercial />
+      <OurMajorProjectsCommercial majorProjects={majorProjects} />
       <WhyChooseUsCommercial WhyChooseUsProps={WhyChooseUs?.data} />
-      <ServicesCommercial />
-      <CommercialProjects />
+      <ServicesCommercial services={services} />
+      <CommercialProjects commercialProject={commercialProject} />
       <FlooringOptionsCommercial />
       <TestimonialsCommercial testinomialsData={data} />
       <BlogCommercial blogs={blogs} pagePath={'commercial'} />

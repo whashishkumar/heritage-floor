@@ -9,10 +9,15 @@ const statusStyles: any = {
   cancelled: 'bg-red-100 text-red-600',
 };
 
-export default function OrderCard({ order }: any) {
+export default function OrderCard({ order, getOrderDetail }: any) {
   return (
     <tr className="border-b hover:bg-gray-50 transition-colors poppins-font">
-      <td className="p-4 text-sm text-gray-900 font-medium ">{order.id}</td>
+      <td
+        className="p-4 text-sm text-gray-900 font-medium"
+        onClick={() => getOrderDetail(order.id)}
+      >
+        {order.id}
+      </td>
       <td className="p-4 text-sm text-gray-700">{order.customer_name}</td>
       <td className="p-4 text-sm text-gray-600">{order.date}</td>
       <td className="p-4 text-sm font-semibold text-gray-900">€{order.price}</td>
