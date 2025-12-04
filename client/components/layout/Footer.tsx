@@ -59,9 +59,20 @@ interface QuickLink {
   url: string;
 }
 
+interface QuickLinks {
+  commercial: QuickLink[];
+  residential: QuickLink[];
+  builder: QuickLink[];
+}
+
+interface CategoryItem {
+  id: number;
+  name: string;
+}
+
 interface Categories {
-  hardwood: string[];
-  flooring: string[];
+  hardwood: CategoryItem[];
+  flooring: CategoryItem[];
 }
 
 interface FooterData {
@@ -89,7 +100,7 @@ const Footer: React.FC = () => {
     consent: false,
   });
   const { mainPath } = usePathSegments();
-  const [footerData, setFooterData] = useState<any | null>(null);
+  const [footer, setFooterData] = useState<any | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errors, setErrors] = useState<{
     email?: string;
@@ -97,6 +108,29 @@ const Footer: React.FC = () => {
     consent?: string;
   }>({});
   const [isLoading, setIsLoading] = useState(false);
+
+  const { categories, companyInfo, copyright, formSection, locations, quickLinks } = footer || {};
+
+  // Determine which quick links to display based on mainPath
+  const getQuickLinksForPath = (): QuickLink[] => {
+    if (!quickLinks) return [];
+
+    const path = mainPath?.toLowerCase() || '';
+
+    if (path.includes('commercial')) {
+      return quickLinks.commercial || [];
+    } else if (path.includes('residential')) {
+      return quickLinks.residential || [];
+    } else if (path.includes('builder')) {
+      return quickLinks.builder || [];
+    }
+
+    // Default to commercial if no match
+    return quickLinks.commercial || [];
+  };
+
+  const currentQuickLinks = getQuickLinksForPath();
+  console.log(footer, 'footer');
 
   const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement>): Promise<void> => {
     e.preventDefault();
@@ -210,10 +244,10 @@ const Footer: React.FC = () => {
           <div className="flex  flex-col lg:flex-row gap-[3%] ">
             <div className="lg:w-[32%] pl-2   mb-4">
               <h2 className="text-[2.5rem] font-normal mb-8  leading-[1.3750] roboto-font letter-spacing-[-0.88px]">
-                {footerData?.formSection?.title}
+                {formSection?.title}
               </h2>
               <div className="space-y-6">
-                {footerData?.formSection?.fields.map((field: FormField) => (
+                {formSection?.fields.map((field: FormField) => (
                   <div key={field.name}>
                     {field?.type === 'select' ? (
                       <div className="relative">
@@ -279,14 +313,14 @@ const Footer: React.FC = () => {
                         } rounded cursor-pointer accent-teal-500`}
                       />
                       <label className="text-sm text-gray-400 leading-relaxed">
-                        {footerData?.formSection?.privacyConsent.text.split('Privacy Policy')[0]}
+                        {formSection?.privacyConsent.text.split('Privacy Policy')[0]}
                         <a
-                          href={footerData?.formSection.privacyConsent.privacyLink}
+                          href={formSection?.privacyConsent.privacyLink}
                           className="underline hover:text-white transition-colors"
                         >
                           Privacy Policy
                         </a>
-                        {footerData?.formSection?.privacyConsent.text.split('Privacy Policy')[1]}
+                        {formSection?.privacyConsent.text.split('Privacy Policy')[1]}
                       </label>
                     </div>
                     <div className="">
@@ -312,7 +346,7 @@ const Footer: React.FC = () => {
                 />
               </div>
               <p className="text-[#FAFCFF] text-base leading-[1.7500]">
-                {footerData?.companyInfo?.description}
+                {companyInfo?.description}
               </p>
 
               <div className="mt-[2rem]">
@@ -320,7 +354,7 @@ const Footer: React.FC = () => {
                   FOLLOW US
                 </h4>
                 <div className="flex gap-3">
-                  {footerData?.companyInfo?.socialLinks.map((social: SocialLink) => (
+                  {companyInfo?.socialLinks.map((social: SocialLink) => (
                     <a
                       key={social?.platform}
                       href={social?.url}
@@ -336,7 +370,7 @@ const Footer: React.FC = () => {
 
             <div className="lg:max-w-[20%] pl-4 hidden lg:block">
               <h4 className="text-base font-semibold mb-4 tracking-[1.78px]">OTTAWA</h4>
-              {footerData?.locations.map((location: Location, idx: number) => (
+              {locations?.map((location: Location, idx: number) => (
                 <div key={idx} className="text-base text-[#FAFCFF] space-y-2 ">
                   <p>{location?.address}</p>
                   <p className="text-white mt-[1.5rem]">{location?.note}</p>
@@ -347,10 +381,10 @@ const Footer: React.FC = () => {
               <div className="mt-8">
                 <h4 className="text-base font-semibold mb-4 tracking-[1.78px]">QUICK LINKS</h4>
                 <ul className="space-y-2 lg:mb-0 mb-[1.5rem]">
-                  {footerData?.quickLinks?.map((link: QuickLink) => (
-                    <li key={link.label}>
+                  {currentQuickLinks?.map((link: QuickLink, idx: number) => (
+                    <li key={idx}>
                       <a
-                        href={`${mainPath}${link.url}`}
+                        href={`${mainPath}${link.url || ''}`}
                         className="text-base text-[#FAFCFF] hover:text-white transition-colors leading-[1.7500]"
                       >
                         {link.label}
@@ -364,24 +398,24 @@ const Footer: React.FC = () => {
             <div className="lg:max-w-[20%]   pl-4 hidden lg:block">
               <h4 className="text-base font-semibold mb-4 tracking-[1.78px]">HARDWOOD</h4>
               <ul className="space-y-2 mb-8">
-                {footerData?.categories?.hardwood.map((item: string, idx: number) => (
+                {categories?.hardwood?.map((item: CategoryItem) => (
                   <li
-                    key={idx}
+                    key={item.id}
                     className="text-base text-[#FAFCFF] hover:text-white transition-colors cursor-pointer leading-[1.7500]"
                   >
-                    {item}
+                    {item.name}
                   </li>
                 ))}
               </ul>
 
               <h4 className="text-base font-semibold mb-4 tracking-[1.78px]">FLOORING</h4>
               <ul className="space-y-2">
-                {footerData?.categories?.flooring.map((item: string, idx: number) => (
+                {categories?.flooring?.map((item: CategoryItem) => (
                   <li
-                    key={idx}
+                    key={item.id}
                     className="text-base text-[#FAFCFF] hover:text-white transition-colors cursor-pointer leading-[1.7500]"
                   >
-                    {item}
+                    {item.name}
                   </li>
                 ))}
               </ul>
@@ -391,7 +425,7 @@ const Footer: React.FC = () => {
               <div className=" pl-4">
                 {' '}
                 <h4 className="text-base font-semibold mb-4 tracking-[1.78px]">OTTAWA</h4>
-                {footerData?.locations?.map((location: Location, idx: number) => (
+                {locations?.map((location: Location, idx: number) => (
                   <div key={idx} className="text-base text-[#FAFCFF] space-y-2 ">
                     <p>{location?.address}</p>
                     <p className="text-white mt-[1.5rem]">{location?.note}</p>
@@ -402,13 +436,13 @@ const Footer: React.FC = () => {
               <div className="  pl-4">
                 <h4 className="text-base font-semibold mb-4 tracking-[1.78px]">QUICK LINKS</h4>
                 <ul className="space-y-2 lg:mb-0 mb-[1.5rem]">
-                  {footerData?.quickLinks.map((link: QuickLink) => (
-                    <li key={link?.label}>
+                  {currentQuickLinks?.map((link: QuickLink, idx: number) => (
+                    <li key={idx}>
                       <a
-                        href={link?.url}
+                        href={`${mainPath}${link.url || ''}`}
                         className="text-base text-[#FAFCFF] hover:text-white transition-colors leading-[1.7500]"
                       >
-                        {link?.label}
+                        {link.label}
                       </a>
                     </li>
                   ))}
@@ -418,12 +452,12 @@ const Footer: React.FC = () => {
                 {' '}
                 <h4 className="text-base font-semibold mb-4 tracking-[1.78px]">HARDWOOD</h4>
                 <ul className="space-y-2 mb-8">
-                  {footerData?.categories?.hardwood?.map((item: string, idx: number) => (
+                  {categories?.hardwood?.map((item: CategoryItem) => (
                     <li
-                      key={idx}
+                      key={item.id}
                       className="text-base text-[#FAFCFF] hover:text-white transition-colors cursor-pointer leading-[1.7500]"
                     >
-                      {item}
+                      {item.name}
                     </li>
                   ))}
                 </ul>
@@ -431,12 +465,12 @@ const Footer: React.FC = () => {
               <div className="  pl-4">
                 <h4 className="text-base font-semibold mb-4 tracking-[1.78px]">FLOORING</h4>
                 <ul className="space-y-2">
-                  {footerData?.categories?.flooring?.map((item: string, idx: number) => (
+                  {categories?.flooring?.map((item: CategoryItem) => (
                     <li
-                      key={idx}
+                      key={item.id}
                       className="text-base text-[#FAFCFF] hover:text-white transition-colors cursor-pointer leading-[1.7500]"
                     >
-                      {item}
+                      {item.name}
                     </li>
                   ))}
                 </ul>
@@ -449,9 +483,7 @@ const Footer: React.FC = () => {
       {/* Copyright */}
       <div className=" w-full  px-10">
         <div className="mx-auto px-6 py-6 border-t border-[#FAFCFF]/10">
-          <p className="text-base text-[#FAFCFF] lg:text-right text-center">
-            {footerData?.copyright}
-          </p>
+          <p className="text-base text-[#FAFCFF] lg:text-right text-center">{copyright}</p>
         </div>
       </div>
     </footer>

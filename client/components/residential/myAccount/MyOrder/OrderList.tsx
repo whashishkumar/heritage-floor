@@ -9,9 +9,10 @@ import Pagination from '@/components/ui/Pagnation';
 interface OrderListProps {
   filteredOrders?: any;
   isSearching?: boolean;
+  onOrderSelect: (orderId: number) => void;
 }
 
-export default function OrderList({ filteredOrders, isSearching }: OrderListProps) {
+export default function OrderList({ filteredOrders, isSearching, onOrderSelect }: OrderListProps) {
   const [activeTab, setActiveTab] = useState('all');
   const [myOrdersList, setMyOrderList] = useState<any | null>(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -84,8 +85,7 @@ export default function OrderList({ filteredOrders, isSearching }: OrderListProp
   };
 
   const getOrderDetail = async (id: number) => {
-    const resp = await OrderEndPoints.getOrderByid(id);
-    console.log(resp, 'log id resp');
+    onOrderSelect(id);
   };
 
   const handleActiveTab = (code: any) => {
@@ -111,7 +111,7 @@ export default function OrderList({ filteredOrders, isSearching }: OrderListProp
                 activeTab === t.code ? 'border-b-2 border-black text-black' : 'text-gray-500'
               }`}
             >
-              {`${t.label} (${t.count})`}
+              {`${typeof t.label === 'object' ? t.label.name : t.label} (${t.count})`}
             </button>
           ))}
         </div>

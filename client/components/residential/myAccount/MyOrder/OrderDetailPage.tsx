@@ -1,12 +1,63 @@
 'use client';
 
 import Image from 'next/image';
+import { FiArrowLeft, FiX } from 'react-icons/fi';
+import { useEffect, useState } from 'react';
+import { OrderEndPoints } from '@/lib/api/orderEndPoints';
 
-export default function OrderDetailsPage() {
-  // -------------------------------
-  //  YOUR JSON DATA DIRECTLY USED
-  // -------------------------------
-  const order = {
+interface OrderDetailsPageProps {
+  orderId: number;
+  onBack: () => void;
+}
+
+export default function OrderDetailsPage({ orderId, onBack }: OrderDetailsPageProps) {
+  const [order, setOrder] = useState<any>(null);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchOrderDetails = async () => {
+      setIsLoading(true);
+      try {
+        const resp = await OrderEndPoints.getOrderByid(orderId);
+        setOrder(resp);
+      } catch (err) {
+        console.error('Error fetching order details:', err);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchOrderDetails();
+  }, [orderId]);
+
+  if (isLoading) {
+    return (
+      <div className="max-w-5xl mx-auto p-5">
+        <div className="bg-white shadow-sm rounded-xl p-6 text-center">
+          <p className="text-gray-500">Loading order details...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (!order) {
+    return (
+      <div className="max-w-5xl mx-auto p-5">
+        <div className="bg-white shadow-sm rounded-xl p-6 text-center">
+          <p className="text-red-500">Order not found</p>
+          <button
+            onClick={onBack}
+            className="mt-4 px-4 py-2 bg-gray-900 text-white rounded-lg hover:bg-gray-800"
+          >
+            Back to Orders
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  // Fallback data for testing
+  const orderData = order || {
     id: 5,
     increment_id: '5',
     date: '04 Dec, 2025',
@@ -44,10 +95,28 @@ export default function OrderDetailsPage() {
     ],
   };
 
-  const { increment_id, date, customer_name, price, status, payment, items } = order;
+  const { increment_id, date, customer_name, price, status, payment, items } = orderData;
 
   return (
     <div className="max-w-5xl mx-auto p-5">
+      {/* Back Button */}
+      <div className="mb-4 flex items-center gap-4">
+        <button
+          onClick={onBack}
+          className="flex items-center gap-2 px-4 py-2 bg-gray-900 text-white rounded-lg hover:bg-gray-800 transition-colors"
+        >
+          <FiArrowLeft className="w-5 h-5" />
+          <span>Back to Orders</span>
+        </button>
+        <button
+          onClick={onBack}
+          className="ml-auto flex items-center justify-center w-10 h-10 bg-gray-100 hover:bg-gray-200 rounded-full transition-colors"
+          aria-label="Close"
+        >
+          <FiX className="w-6 h-6 text-gray-700" />
+        </button>
+      </div>
+
       {/* Order Header */}
       <div className="bg-white shadow-sm rounded-xl p-6 mb-6 border border-gray-200">
         <h1 className="text-2xl font-semibold text-gray-900 mb-2">Order #{increment_id}</h1>
@@ -86,7 +155,7 @@ export default function OrderDetailsPage() {
         <h2 className="text-xl font-semibold mb-4 text-gray-900">Order Items</h2>
 
         <div className="space-y-6">
-          {items.map((item) => (
+          {items?.map((item: any) => (
             <div key={item.id} className="flex flex-col sm:flex-row gap-4 border-b pb-5">
               {/* Product Image */}
               <div className="w-28 h-28 bg-gray-100 rounded-lg overflow-hidden">
