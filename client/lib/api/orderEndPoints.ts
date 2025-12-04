@@ -25,4 +25,11 @@ export const OrderEndPoints = {
       cache: 'no-store',
     });
   },
+
+  filterOrderListItems: (serchKey?: any, status?: any) => {
+    return apiFetch({
+      endpoint: `/customer/order-filter?search=${serchKey}&status=${status}`,
+      cache: 'no-store',
+    });
+  },
 };

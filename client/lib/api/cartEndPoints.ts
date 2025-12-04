@@ -59,6 +59,18 @@ export const CartEndPoint = {
     });
   },
 
+  saveShippingAddress: (method: any) => {
+    return apiPost('/customer/checkout/save-shipping', method);
+  },
+
+  savePayment: (payment: any) => {
+    return apiPost('/customer/checkout/save-payment', payment);
+  },
+
+  checkMiniumOrder: () => {
+    return apiPost('');
+  },
+
   //CheckOut API End Points
   addCustomerCheckoutAddress: (data: any) => {
     return apiPost('/customer/checkout/save-address', data);

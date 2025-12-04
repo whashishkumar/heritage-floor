@@ -3,8 +3,13 @@ import { FiSearch } from 'react-icons/fi';
 import { FiFilter } from 'react-icons/fi';
 import SideBarNav from './SideBarNav';
 import MyOrders from './MyOrder';
+import { OrderEndPoints } from '@/lib/api/orderEndPoints';
 
 export default function Orders() {
+  const handleSearch = async () => {
+    const resp = await OrderEndPoints.filterOrderListItems();
+  };
+
   return (
     <div className="bg-[#f3f4f6]">
       <div className="wrapper m-auto py-10 md:py-16">

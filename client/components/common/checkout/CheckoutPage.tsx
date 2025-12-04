@@ -166,6 +166,7 @@ export default function CheckoutPage() {
     setFormData(updatedFormData);
     try {
       const resp = await CartEndPoint.addCustomerCheckoutAddress(updatedFormData);
+      console.log(resp, 'after saving address');
       showToast(resp.message);
     } catch (error) {
       console.error('Error saving checkout address:', error);

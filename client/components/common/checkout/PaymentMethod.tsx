@@ -1,5 +1,4 @@
 'use client';
-
 import React, { useEffect, useState } from 'react';
 import Section from './Section';
 import { CartEndPoint } from '@/lib/api/cartEndPoints';
@@ -17,8 +16,13 @@ export default function PaymentMethod() {
 
   const getPaymentMethods = async () => {
     const resp = await CartEndPoint.getPaymentMethods();
-    // resp.data should contain your payment methods (adjust if different)
     setPaymentMethods(resp?.data || []);
+  };
+
+  const handleAddCheckoutMethod = async () => {
+    const payload = { shipping_method: selectedMethod?.method };
+    const resp = await CartEndPoint.saveShippingAddress(payload);
+    console.log(resp, 'log payment method');
   };
 
   useEffect(() => {
@@ -31,11 +35,11 @@ export default function PaymentMethod() {
         <p className="text-gray-700 mb-3">Choose a Payment Method:</p>
 
         {/* Payment Method List */}
-        <div className="space-y-3">
+        <div className="space-y-3 ">
           {paymentMethods.map((method) => (
             <label
               key={method.method}
-              className={`flex items-center justify-between p-4 border rounded-lg cursor-pointer hover:bg-gray-50 transition
+              className={`flex items-center justify-between p-4 shadow-sm rounded-lg cursor-pointer hover:bg-gray-50 transition
                 ${selectedMethod?.method === method.method ? 'border-blue-500 bg-blue-50' : ''}
               `}
             >
@@ -45,6 +49,7 @@ export default function PaymentMethod() {
                 checked={selectedMethod?.method === method.method}
                 onChange={() => setSelectedMethod(method)}
                 className="w-4 h-4"
+                onClick={handleAddCheckoutMethod}
               />
 
               <div className="flex-1 ml-3">
@@ -63,11 +68,11 @@ export default function PaymentMethod() {
         </div>
 
         {/* Selected Method (Debug) */}
-        {selectedMethod && (
+        {/* {selectedMethod && (
           <p className="mt-4 text-sm text-green-700">
             Selected: <strong>{selectedMethod.method_title}</strong>
           </p>
-        )}
+        )} */}
       </Section>
     </div>
   );

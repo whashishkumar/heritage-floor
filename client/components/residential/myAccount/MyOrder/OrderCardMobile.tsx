@@ -27,7 +27,7 @@ export default function OrderCardMobile({ order }: any) {
       </div>
 
       {/* Product Info */}
-      <div className="flex gap-3 pb-3 border-b border-gray-100">
+      {/* <div className="flex gap-3 pb-3 border-b border-gray-100">
         <img
           src={order.product.image}
           className="w-16 h-16 object-cover rounded"
@@ -40,13 +40,13 @@ export default function OrderCardMobile({ order }: any) {
           </p>
           <p className="text-xs text-gray-500 poppins-font">Qty: {order.product.quantity}</p>
         </div>
-      </div>
+      </div> */}
 
       {/* Order Details */}
       <div className="grid grid-cols-2 gap-3 text-sm">
         <div>
           <p className="text-xs text-gray-500 poppins-font">Customer</p>
-          <p className="text-sm text-gray-900 poppins-font">{order.customer}</p>
+          <p className="text-sm text-gray-900 poppins-font">{order.customer_name}</p>
         </div>
         <div>
           <p className="text-xs text-gray-500 poppins-font">Date</p>
