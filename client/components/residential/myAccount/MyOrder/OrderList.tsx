@@ -21,6 +21,7 @@ export default function OrderList({ filteredOrders, isSearching }: OrderListProp
   const { data, meta } = displayOrders || {};
   const { current_page, last_page } = meta || [];
   const [currentPage, setCurrentPage] = useState(1);
+  const [orderTabs, setOrderTabs] = useState<any | null>(null);
 
   // Calculate counts and filter orders based on status
   const { tabFilteredOrders, processingCount, shippedCount, canceledCount } = useMemo(() => {
@@ -73,16 +74,27 @@ export default function OrderList({ filteredOrders, isSearching }: OrderListProp
     }
   };
 
+  const fetchOrderStaus = async () => {
+    const resp = await OrderEndPoints.getOrderStatus();
+    setOrderTabs(resp?.data);
+  };
+
   const handlePagination = (page: number) => {
     setCurrentPage(page);
   };
 
-  const getOrderDetail = (id: number) => {
-    console.log(id, 'get id');
+  const getOrderDetail = async (id: number) => {
+    const resp = await OrderEndPoints.getOrderByid(id);
+    console.log(resp, 'log id resp');
+  };
+
+  const handleActiveTab = (code: any) => {
+    setActiveTab(code);
   };
 
   useEffect(() => {
     fetchMyOrdersList();
+    fetchOrderStaus();
   }, []);
 
   return (
@@ -90,15 +102,16 @@ export default function OrderList({ filteredOrders, isSearching }: OrderListProp
       {/* Tabs - Responsive with horizontal scroll on mobile */}
       <div className="overflow-x-auto">
         <div className="flex gap-4 md:gap-6 text-gray-700 border-b pb-3 min-w-max md:min-w-0">
-          {tabs.map((t) => (
+          {orderTabs?.map((t: any) => (
             <button
-              key={t.key}
-              onClick={() => setActiveTab(t.key)}
+              key={t.code}
+              onClick={() => handleActiveTab(t.code)}
+              // onClick={() => setActiveTab(t.code)}
               className={`pb-2 cursor-pointer poppins-font font-medium text-sm md:text-base whitespace-nowrap ${
-                activeTab === t.key ? 'border-b-2 border-black text-black' : 'text-gray-500'
+                activeTab === t.code ? 'border-b-2 border-black text-black' : 'text-gray-500'
               }`}
             >
-              {t.label}
+              {`${t.label} (${t.count})`}
             </button>
           ))}
         </div>
@@ -154,7 +167,11 @@ export default function OrderList({ filteredOrders, isSearching }: OrderListProp
           </div>
         ) : data?.length > 0 ? (
           data?.map((order: any, index: any) => (
-            <OrderCardMobile key={`${order.id}-${index}`} order={order} />
+            <OrderCardMobile
+              key={`${order.id}-${index}`}
+              order={order}
+              getOrderDetail={getOrderDetail}
+            />
           ))
         ) : (
           <div className="bg-white rounded-lg shadow-sm p-8 text-center text-gray-500 poppins-font">

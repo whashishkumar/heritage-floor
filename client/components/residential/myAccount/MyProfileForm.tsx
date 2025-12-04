@@ -116,7 +116,6 @@ export default function MyProfileForm({ isCheckOutPage, handleOpenDrawer }: any)
     e.preventDefault();
     // Validate form before submitting
     if (!validateForm()) {
-      showToast('Please fill in all required fields', 'error');
       return;
     }
     const userData = new FormData();

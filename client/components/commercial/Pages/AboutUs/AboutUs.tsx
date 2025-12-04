@@ -38,7 +38,8 @@ export default async function AboutUsPage(bgColor: any) {
   const { about_us_intro, second_section, pageTitle, statsData, Founder, team } = data;
   const bgImage = `${process.env.NEXT_PUBLIC_IMAGE_PATH_WITHOUT_STORAGE}${second_section?.[0]?.profile_image}`;
 
-  
+  console.log(bgImage, 'bgImage');
+
   return (
     <>
       <div className="wrapper m-auto">

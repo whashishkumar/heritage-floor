@@ -57,8 +57,6 @@ export default async function Home({ params }: any) {
   const services = await CommercialPageData.getOurServices();
   const commercialProject = await CommercialPageData.getMajorProductsVedio();
 
-  console.log(commercialProject, 'commercialProject');
-
   return (
     <>
       <HeroSectionCommercial heroBannerData={banner} />

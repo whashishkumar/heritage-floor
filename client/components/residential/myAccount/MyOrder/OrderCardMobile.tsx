@@ -1,4 +1,4 @@
-export default function OrderCardMobile({ order }: any) {
+export default function OrderCardMobile({ order, getOrderDetail }: any) {
   const statusStyles: any = {
     pending: 'bg-yellow-100 text-yellow-600',
     'in process': 'bg-blue-100 text-blue-600',
@@ -13,7 +13,7 @@ export default function OrderCardMobile({ order }: any) {
   return (
     <div className="bg-white rounded-lg shadow-sm p-4 space-y-3 border border-gray-200">
       {/* Order Header */}
-      <div className="flex justify-between items-start">
+      <div className="flex justify-between items-start " onClick={() => getOrderDetail(order.id)}>
         <div>
           <p className="text-xs text-gray-500 poppins-font">Order ID</p>
           <p className="text-sm font-semibold text-gray-900 poppins-font">{order.id}</p>

@@ -13,7 +13,7 @@ export default function OrderCard({ order, getOrderDetail }: any) {
   return (
     <tr className="border-b hover:bg-gray-50 transition-colors poppins-font">
       <td
-        className="p-4 text-sm text-gray-900 font-medium"
+        className="p-4 text-sm text-gray-900 font-medium cursor-pointer"
         onClick={() => getOrderDetail(order.id)}
       >
         {order.id}
