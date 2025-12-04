@@ -7,7 +7,7 @@ import { IoIosArrowRoundBack } from 'react-icons/io';
 import Link from 'next/link';
 import { usePathSegments } from '@/utils/segmentPath';
 import AddressForm from '@/components/residential/myAccount/AddressForm';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import MyProfileForm from '@/components/residential/myAccount/MyProfileForm';
 import { UserMyAccountEndpoints } from '@/lib/api/authincationEndPoints';
 import { MdOutlinePhoneEnabled } from 'react-icons/md';
@@ -24,8 +24,12 @@ import {
   MdBusiness,
   MdPublic,
 } from 'react-icons/md';
+import CheckoutAddressForm from './CheckoutAddressForm';
+import { useToast } from '@/components/ui/Tooltip';
+import PaymentMethod from './PaymentMethod';
 
 export default function CheckoutPage() {
+  const { showToast } = useToast();
   const { mainPath } = usePathSegments();
   const [openDrawer, setOpenDrawer] = useState(false);
   const [editPurchaserInfo, setPurchaser] = useState(false);
@@ -33,19 +37,140 @@ export default function CheckoutPage() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [purchaserAddress, setPurchaserAddress] = useState<any | null>(null);
   const [editAddressId, setEditAddressId] = useState<number | null>(null);
+  const [addNewAddress, setAddNewAddress] = useState(false);
+  const [isAddMode, setIsAddMode] = useState(false);
 
-  const shippingAddress = purchaserAddress?.filter((address: any) => address.is_default);
+  // Memoize shippingAddress to prevent infinite loop
+  const shippingAddress = useMemo(() => {
+    return purchaserAddress?.filter((address: any) => address.is_default);
+  }, [purchaserAddress]);
+
+  const [formData, setFormData] = useState<{
+    billing: {
+      id: any;
+      address: null;
+      save_as_address: boolean;
+      use_for_shipping: boolean;
+      first_name: string;
+      last_name: string;
+      email: string;
+      company_name: string;
+      city: string;
+      state: string;
+      country: string;
+      postcode: string;
+      phone: string;
+      default_address: boolean;
+    };
+    shipping?: {
+      id: any;
+      address: null;
+      save_as_address: boolean;
+      first_name: string;
+      last_name: string;
+      email: string;
+      company_name: string;
+      city: string;
+      state: string;
+      country: string;
+      postcode: string;
+      phone: string;
+      use_for_shipping: boolean;
+    };
+  }>({
+    billing: {
+      id: '',
+      address: null,
+      save_as_address: false,
+      use_for_shipping: false,
+      first_name: '',
+      last_name: '',
+      email: '',
+      company_name: '',
+      city: '',
+      state: '',
+      country: '',
+      postcode: '',
+      phone: '',
+      default_address: true,
+    },
+  });
 
   const handleEditAddress = async (address: any) => {
     if (address?.id) {
       setEditAddressId(address.id);
+      setIsAddMode(false);
+      setAddNewAddress(false);
       setOpenDrawer(true);
     }
   };
 
   const handleAddAddress = () => {
     setEditAddressId(null);
+    setIsAddMode(true);
+    setAddNewAddress(true);
     setOpenDrawer(true);
+  };
+
+  const handleCloseDrawer = () => {
+    setOpenDrawer(false);
+    setAddNewAddress(false);
+    setIsAddMode(false);
+    setEditAddressId(null);
+  };
+
+  const handleSaveBillingAddress = async () => {
+    setFormData((prev) => ({
+      ...prev,
+      billing: {
+        ...prev.billing,
+        save_as_address: !prev.billing.save_as_address,
+      },
+    }));
+  };
+
+  const handleUseForShipping = async () => {
+    const newUseForShipping = !formData.billing.use_for_shipping;
+    let updatedFormData: any;
+    if (newUseForShipping) {
+      updatedFormData = {
+        billing: {
+          ...formData.billing,
+          use_for_shipping: newUseForShipping,
+        },
+        shipping: {
+          id: formData.billing.id,
+          address: formData.billing.address,
+          save_as_address: formData.billing.save_as_address,
+          first_name: formData.billing.first_name,
+          last_name: formData.billing.last_name,
+          email: formData.billing.email,
+          company_name: formData.billing.company_name,
+          city: formData.billing.city,
+          state: formData.billing.state,
+          country: formData.billing.country,
+          postcode: formData.billing.postcode,
+          phone: formData.billing.phone,
+          use_for_shipping: true,
+        },
+      };
+    } else {
+      updatedFormData = {
+        billing: {
+          ...formData.billing,
+          use_for_shipping: newUseForShipping,
+        },
+      };
+    }
+    // Update state
+    setFormData(updatedFormData);
+    try {
+      const resp = await CartEndPoint.addCustomerCheckoutAddress(updatedFormData);
+      console.log(resp, 'after saving address');
+      showToast(resp.message);
+    } catch (error) {
+      console.error('Error saving checkout address:', error);
+    }
   };
 
   const fetchCustomerDetail = async () => {
@@ -53,6 +178,7 @@ export default function CheckoutPage() {
       setIsLoading(true);
       const resp = await UserMyAccountEndpoints.getUserDetail();
       setPurchaserInfo(resp?.data);
+      setIsLoading(false);
     } catch (err) {
       setIsLoading(false);
       return console.error(err);
@@ -71,7 +197,31 @@ export default function CheckoutPage() {
   useEffect(() => {
     fetchCustomerDetail();
     fetchCustomerAddress();
-  }, [editPurchaserInfo, editAddressId]);
+  }, [editPurchaserInfo]);
+
+  // Update formData when shippingAddress is available
+  useEffect(() => {
+    if (shippingAddress && shippingAddress.length > 0) {
+      const defaultAddress = shippingAddress[0];
+      setFormData((prev: any) => ({
+        ...prev,
+        billing: {
+          ...prev.billing,
+          id: defaultAddress.id || null,
+          address: defaultAddress.address ? defaultAddress.address : [],
+          first_name: defaultAddress.first_name || '',
+          last_name: defaultAddress.last_name || '',
+          email: defaultAddress.email || '',
+          company_name: defaultAddress.company_name || '',
+          city: defaultAddress.city || '',
+          state: defaultAddress.state || '',
+          country: defaultAddress.country || '',
+          postcode: defaultAddress.postcode || '',
+          phone: defaultAddress.phone || '',
+        },
+      }));
+    }
+  }, [shippingAddress]);
 
   return (
     <div className="wrapper m-auto py-12">
@@ -129,12 +279,10 @@ export default function CheckoutPage() {
           <Card>
             <Section
               title="2. Shipping Address"
-              action={shippingAddress?.length > 0 ? 'Edit' : 'Add Address'}
-              handleOpenDrawer={() =>
-                shippingAddress?.length > 0
-                  ? handleEditAddress(shippingAddress?.[0])
-                  : handleAddAddress()
-              }
+              action={'Edit'}
+              addAddress={'add Address'}
+              handleEditAddress={() => handleEditAddress(shippingAddress?.[0])}
+              handleAddAddress={() => handleAddAddress()}
             >
               {!openDrawer ? (
                 <>
@@ -171,26 +319,61 @@ export default function CheckoutPage() {
                       <p>No default address found. Please add a new address to continue.</p>
                     </div>
                   )}
+                  <div className="py-6 flex gap-10">
+                    {/* Save as address */}
+                    <div className="flex items-center gap-2 md:col-span-2">
+                      <input
+                        type="checkbox"
+                        id="save_billing"
+                        checked={formData.billing.save_as_address}
+                        onChange={handleSaveBillingAddress}
+                        className="w-4 h-4 text-teal-600 border-gray-300 rounded focus:ring-teal-500"
+                      />
+                      <label htmlFor="save_billing" className="text-sm font-medium text-gray-700">
+                        Save this address
+                      </label>
+                    </div>
+
+                    {/* Use for shipping */}
+                    <div className="flex items-center gap-2 md:col-span-2">
+                      <input
+                        type="checkbox"
+                        id="use_for_shipping"
+                        checked={formData.billing.use_for_shipping}
+                        onChange={handleUseForShipping}
+                        className="w-4 h-4 text-teal-600 border-gray-300 rounded focus:ring-teal-500"
+                      />
+                      <label
+                        htmlFor="use_for_shipping"
+                        className="text-sm font-medium text-gray-700"
+                      >
+                        Use billing address for shipping
+                      </label>
+                    </div>
+                  </div>
                 </>
               ) : (
-                <AddressForm
-                  isCheckOutPage={true}
-                  isEditId={editAddressId}
-                  onSuccess={() => {
-                    setOpenDrawer(false);
-                    setEditAddressId(null);
-                    fetchCustomerAddress();
-                  }}
-                />
+                <div className="py-4">
+                  {isAddMode ? (
+                    <CheckoutAddressForm handleCloseDrawer={handleCloseDrawer} />
+                  ) : (
+                    <AddressForm
+                      isCheckOutPage={true}
+                      isEditId={editAddressId}
+                      onSuccess={() => {
+                        handleCloseDrawer();
+                        fetchCustomerAddress();
+                      }}
+                    />
+                  )}
+                </div>
               )}
             </Section>
           </Card>
 
           {/* Billing */}
           <Card>
-            <Section title="3. Billing">
-              <p className="text-gray-700">Choose a Payment Method:</p>
-            </Section>
+            <PaymentMethod />
           </Card>
         </div>
 

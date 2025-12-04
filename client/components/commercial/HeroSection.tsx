@@ -4,12 +4,13 @@ import ButtonCommon from '../ui/Button';
 export default function HeroSectionCommercial({ heroBannerData }: any) {
   const { title, description, video, button } = heroBannerData || {};
   const { text, link } = button || {};
-
+  const basePath = process.env.NEXT_PUBLIC_IMAGE_PATH_WITHOUT_STORAGE;
   return (
     <>
       <div className="sm:h-[59.75rem] h-[45.75rem] w-full relative -mt-[4.563rem] md:px-0 px-[1.75rem] ">
         <video
-          src={video || '/videos/hertiage.mp4'}
+          src={`${basePath}${video}`}
+          // src={video || '/videos/hertiage.mp4'}
           autoPlay
           loop
           muted

@@ -49,4 +49,30 @@ export const CartEndPoint = {
       cache: 'no-store',
     });
   },
+
+  //Payment Methods
+
+  getPaymentMethods: () => {
+    return apiFetch({
+      endpoint: '/shipping-methods',
+      cache: 'no-store',
+    });
+  },
+
+  saveShippingAddress: (method: any) => {
+    return apiPost('/customer/checkout/save-shipping', method);
+  },
+
+  savePayment: (payment: any) => {
+    return apiPost('/customer/checkout/save-payment', payment);
+  },
+
+  checkMiniumOrder: () => {
+    return apiPost('');
+  },
+
+  //CheckOut API End Points
+  addCustomerCheckoutAddress: (data: any) => {
+    return apiPost('/customer/checkout/save-address', data);
+  },
 };

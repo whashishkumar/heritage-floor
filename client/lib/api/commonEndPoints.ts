@@ -46,13 +46,13 @@ export const CommonComponentData = {
 
   getCountriesList: () => {
     return apiFetch({
-      endpoint: '/countries',
+      endpoint: '/countries/?pagination=0',
       cache: 'no-store',
     });
   },
   getStatesList: (countryCode: string) => {
     return apiFetch({
-      endpoint: `/countries-states?country_code=${countryCode}`,
+      endpoint: `/countries-states?country_code=${countryCode}&pagination=0`,
       cache: 'no-store',
     });
   },
@@ -60,6 +60,13 @@ export const CommonComponentData = {
     return apiFetch({
       endpoint: '/residential/menus',
       cache: 'dynamic',
+    });
+  },
+
+  getFooterList: () => {
+    return apiFetch({
+      endpoint: 'residential/footer-menus',
+      cache: 'no-store',
     });
   },
 };

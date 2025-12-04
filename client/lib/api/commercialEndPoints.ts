@@ -68,4 +68,31 @@ export const CommercialPageData = {
       cache: 'dynamic',
     });
   },
+
+  getAboutUsLandingPage: () => {
+    return apiFetch({
+      endpoint: '/commercial/about-section',
+      cache: 'dynamic',
+    });
+  },
+
+  getOurServices: () => {
+    return apiFetch({
+      endpoint: '/commercial/our-services',
+      cache: 'dynamic',
+    });
+  },
+  getOurProjets: () => {
+    return apiFetch({
+      endpoint: '/commercial/our-projects',
+      cache: 'dynamic',
+    });
+  },
+
+  getMajorProductsVedio: () => {
+    return apiFetch({
+      endpoint: '/commercial/our-vedios',
+      cache: 'dynamic',
+    });
+  },
 };
