@@ -1,4 +1,5 @@
 'use client';
+import { useState } from 'react';
 import { FiSearch } from 'react-icons/fi';
 import { FiFilter } from 'react-icons/fi';
 import SideBarNav from './SideBarNav';
@@ -6,8 +7,38 @@ import MyOrders from './MyOrder';
 import { OrderEndPoints } from '@/lib/api/orderEndPoints';
 
 export default function Orders() {
-  const handleSearch = async () => {
-    const resp = await OrderEndPoints.filterOrderListItems();
+  const [searchKey, setSearchKey] = useState('');
+  const [filteredOrders, setFilteredOrders] = useState<any>(null);
+  const [isSearching, setIsSearching] = useState(false);
+
+  const handleSearch = async (searchValue?: string) => {
+    const searchTerm = searchValue !== undefined ? searchValue : searchKey;
+    console.log(searchTerm, 'searchTerm');
+    setIsSearching(true);
+    try {
+      const resp = await OrderEndPoints.filterOrderListItems(searchTerm, '');
+      setFilteredOrders(resp);
+    } catch (error) {
+      console.error('Error searching orders:', error);
+    } finally {
+      setIsSearching(false);
+    }
+  };
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setSearchKey(value);
+
+    // If search is cleared, reset filtered orders
+    if (value === '') {
+      setFilteredOrders(null);
+    }
+  };
+
+  const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      handleSearch();
+    }
   };
 
   return (
@@ -29,22 +60,22 @@ export default function Orders() {
               {/* Search + Filter */}
               <div className="mt-6 flex w-full">
                 {/* Search Box */}
-                <div className="flex items-center flex-grow border border-gray-300 rounded-l-xl px-4 py-3 gap-3">
-                  <FiSearch className="text-gray-400 text-xl" />
+                <div className="flex items-center flex-grow border border-gray-300 rounded-xl px-4 py-3 gap-3">
+                  <button onClick={() => handleSearch()} disabled={isSearching}>
+                    <FiSearch className="text-gray-400 text-xl cursor-pointer hover:text-gray-600" />
+                  </button>
                   <input
                     type="text"
                     placeholder="Search all orders"
+                    value={searchKey}
+                    onChange={handleInputChange}
+                    onKeyPress={handleKeyPress}
                     className="w-full text-gray-700 placeholder-gray-400 focus:outline-none"
                   />
                 </div>
-                {/* Filter Button */}
-                <button className="flex items-center gap-2 border border-gray-300 border-l-0 px-6 py-3 rounded-r-xl text-gray-700 font-medium hover:bg-gray-50">
-                  <FiFilter className="text-xl" />
-                  Filters
-                </button>
               </div>
             </div>
-            <MyOrders />
+            <MyOrders filteredOrders={filteredOrders} isSearching={isSearching} />
           </div>
         </div>
       </div>

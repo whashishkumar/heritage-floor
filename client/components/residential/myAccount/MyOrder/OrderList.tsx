@@ -6,16 +6,24 @@ import orders from './orders.json';
 import { OrderEndPoints } from '@/lib/api/orderEndPoints';
 import Pagination from '@/components/ui/Pagnation';
 
-export default function OrderList() {
+interface OrderListProps {
+  filteredOrders?: any;
+  isSearching?: boolean;
+}
+
+export default function OrderList({ filteredOrders, isSearching }: OrderListProps) {
   const [activeTab, setActiveTab] = useState('all');
   const [myOrdersList, setMyOrderList] = useState<any | null>(null);
   const [isLoading, setIsLoading] = useState(false);
-  const { data, meta } = myOrdersList || {};
+
+  // Use filtered orders from search if available, otherwise use fetched orders
+  const displayOrders = filteredOrders || myOrdersList;
+  const { data, meta } = displayOrders || {};
   const { current_page, last_page } = meta || [];
   const [currentPage, setCurrentPage] = useState(1);
 
   // Calculate counts and filter orders based on status
-  const { filteredOrders, processingCount, shippedCount, canceledCount } = useMemo(() => {
+  const { tabFilteredOrders, processingCount, shippedCount, canceledCount } = useMemo(() => {
     const processingStatuses = ['Pending', 'In Process', 'Processing'];
     const shippedStatuses = ['Deliverde', 'Delivered', 'Shipped'];
     const canceledStatuses = ['Canceled', 'Cancelled'];
@@ -40,7 +48,7 @@ export default function OrderList() {
     }
 
     return {
-      filteredOrders: filtered,
+      tabFilteredOrders: filtered,
       processingCount: processing.length,
       shippedCount: shipped.length,
       canceledCount: canceled.length,
@@ -107,14 +115,22 @@ export default function OrderList() {
             </tr>
           </thead>
           <tbody>
-            {data?.length > 0 ? (
+            {isSearching || isLoading ? (
+              <tr>
+                <td colSpan={7} className="p-8 text-center text-gray-500">
+                  Loading...
+                </td>
+              </tr>
+            ) : data?.length > 0 ? (
               data?.map((order: any, index: any) => (
                 <OrderCard key={`${order.id}-${index}`} order={order} />
               ))
             ) : (
               <tr>
-                <td colSpan={8} className="p-8 text-center text-gray-500">
-                  No orders found for this status.
+                <td colSpan={7} className="p-8 text-center text-gray-500">
+                  {filteredOrders
+                    ? 'No orders found matching your search.'
+                    : 'No orders found for this status.'}
                 </td>
               </tr>
             )}
@@ -124,13 +140,19 @@ export default function OrderList() {
 
       {/* Mobile Order Cards - Hidden on desktop */}
       <div className="md:hidden space-y-3">
-        {data?.length > 0 ? (
+        {isSearching || isLoading ? (
+          <div className="bg-white rounded-lg shadow-sm p-8 text-center text-gray-500 poppins-font">
+            Loading...
+          </div>
+        ) : data?.length > 0 ? (
           data?.map((order: any, index: any) => (
             <OrderCardMobile key={`${order.id}-${index}`} order={order} />
           ))
         ) : (
           <div className="bg-white rounded-lg shadow-sm p-8 text-center text-gray-500 poppins-font">
-            No orders found for this status.
+            {filteredOrders
+              ? 'No orders found matching your search.'
+              : 'No orders found for this status.'}
           </div>
         )}
       </div>

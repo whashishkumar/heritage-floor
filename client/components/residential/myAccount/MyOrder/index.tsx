@@ -1,10 +1,15 @@
 import React from 'react';
 import OrderList from './OrderList';
 
-export default function MyOrders() {
+interface MyOrdersProps {
+  filteredOrders?: any;
+  isSearching?: boolean;
+}
+
+export default function MyOrders({ filteredOrders, isSearching }: MyOrdersProps) {
   return (
     <div className="py-4">
-      <OrderList />
+      <OrderList filteredOrders={filteredOrders} isSearching={isSearching} />
     </div>
   );
 }
