@@ -49,12 +49,16 @@ interface CheckoutAddressFormProps {
   onSubmit?: (data: CheckoutFormData) => void;
   initialData?: CheckoutFormData;
   handleCloseDrawer?: () => void;
+  fetchCustomerAddress?: () => void;
+  setBillingScreen?: (value: boolean) => void;
 }
 
 export default function CheckoutAddressForm({
   onSubmit,
   initialData,
   handleCloseDrawer,
+  fetchCustomerAddress,
+  setBillingScreen,
 }: CheckoutAddressFormProps) {
   const { showToast } = useToast();
   const [formData, setFormData] = useState<CheckoutFormData>(
@@ -341,8 +345,11 @@ export default function CheckoutAddressForm({
   const handleSubmitForm = async () => {
     const resp = await CartEndPoint.addCustomerCheckoutAddress(formData);
     showToast(resp.message);
+    if (resp.status === 200 && setBillingScreen) {
+      setBillingScreen(true);
+    }
     handleCloseDrawer?.();
-    // fetchCustomerAddress();
+    fetchCustomerAddress?.();
   };
 
   useEffect(() => {
