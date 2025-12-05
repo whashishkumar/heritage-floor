@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import Section from './Section';
 import { CartEndPoint } from '@/lib/api/cartEndPoints';
+import PaymentMethodTypes from './PaymentMethodTypes';
 
 interface PaymentMethodType {
   method: string;
@@ -13,24 +14,29 @@ interface PaymentMethodType {
 export default function PaymentMethod() {
   const [paymentMethods, setPaymentMethods] = useState<PaymentMethodType[]>([]);
   const [selectedMethod, setSelectedMethod] = useState<PaymentMethodType | null>(null);
+  const [showPaymentMethodsTypes, setPaymentMethodTypes] = useState(false);
 
-  const getPaymentMethods = async () => {
-    const resp = await CartEndPoint.getPaymentMethods();
+  const getShippingMethods = async () => {
+    const resp = await CartEndPoint.getShippingMethods();
     setPaymentMethods(resp?.data || []);
   };
 
-  const handleAddCheckoutMethod = async () => {
-    const payload = { shipping_method: selectedMethod?.method };
+  const handleAddCheckoutMethod = async (method: PaymentMethodType) => {
+    setSelectedMethod(method);
+    const payload = { shipping_method: method.method };
     const resp = await CartEndPoint.saveShippingAddress(payload);
-    console.log(resp, 'log payment method');
+
+    if (resp.status === 200) {
+      setPaymentMethodTypes(true);
+    }
   };
 
   useEffect(() => {
-    getPaymentMethods();
+    getShippingMethods();
   }, []);
 
   return (
-    <div>
+    <>
       <Section title="3. Billing">
         <p className="text-gray-700 mb-3">Choose a Payment Method:</p>
 
@@ -47,9 +53,8 @@ export default function PaymentMethod() {
                 type="radio"
                 name="paymentMethod"
                 checked={selectedMethod?.method === method.method}
-                onChange={() => setSelectedMethod(method)}
+                onChange={() => handleAddCheckoutMethod(method)}
                 className="w-4 h-4"
-                onClick={handleAddCheckoutMethod}
               />
 
               <div className="flex-1 ml-3">
@@ -66,14 +71,8 @@ export default function PaymentMethod() {
             </label>
           ))}
         </div>
-
-        {/* Selected Method (Debug) */}
-        {/* {selectedMethod && (
-          <p className="mt-4 text-sm text-green-700">
-            Selected: <strong>{selectedMethod.method_title}</strong>
-          </p>
-        )} */}
       </Section>
-    </div>
+      {showPaymentMethodsTypes && <PaymentMethodTypes />}
+    </>
   );
 }

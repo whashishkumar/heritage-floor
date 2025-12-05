@@ -215,7 +215,7 @@ export default function BillingAddress({
         {/* State */}
         <div>
           <label className="text-sm font-medium text-gray-700 mb-1 block">
-            State <span className="text-red-500">*</span>
+            Province <span className="text-red-500">*</span>
           </label>
           <ScrollableSelect
             value={data.state}

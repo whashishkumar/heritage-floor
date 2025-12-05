@@ -185,6 +185,8 @@ const ProductDetailPage = () => {
     );
   }
 
+  console.log(tile_details, 'tile_details');
+
   return (
     <div className="wrapper m-auto py-12">
       <div className="p-6 grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-15">
@@ -267,14 +269,18 @@ const ProductDetailPage = () => {
                 <span className="ml-2 text-[#018C99] font-medium">By Hertiage</span>
               </p>
             )}
-            {name && <h2 className="font-medium mb-2 text-[1.688rem] text-black">{name}</h2>}
+            {name && (
+              <h2 className="font-medium mb-2 text-[1.688rem] text-black">
+                {` ${name} - ${sqft_per_tile} `}
+              </h2>
+            )}
             {tile_width && tile_length && (
               <p className="text-base mb-2 text-black">
                 {tile_width}" x {tile_length}" | PEI of {tiles_per_box} - Heavy Traffic | Matte
               </p>
             )}
-            {sqft_per_tile && (
-              <p className="text-[1.688rem] font-bold">$ {sqft_per_tile} / sq. ft</p>
+            {price_per_sqft && (
+              <p className="text-[1.688rem] font-bold">$ {price_per_sqft} / sq. ft</p>
             )}
             {box_price && sqft_per_box && (
               <p className="text-sm mt-2 text-black">
@@ -307,7 +313,7 @@ const ProductDetailPage = () => {
                 className="inline-block mr-2 object-contain"
               />
               <span className="text-black font-semibold text-[1rem]">
-                Scheduled Delivery: $80.00
+                Scheduled Delivery: $180.00
               </span>
               <div className="mt-2 text-sm">
                 Get it in 2 - 4 business days or on your preferred date

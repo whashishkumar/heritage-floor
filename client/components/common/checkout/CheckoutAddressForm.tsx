@@ -402,7 +402,7 @@ export default function CheckoutAddressForm({
             disabled={isLoading}
             className="bg-teal-600 text-white px-8 py-3 rounded-lg font-medium hover:bg-teal-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
           >
-            {isLoading ? 'Processing...' : 'Continue to Payment'}
+            {isLoading ? 'Processing...' : 'Save'}
           </button>
         </div>
       </form>

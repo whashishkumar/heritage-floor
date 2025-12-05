@@ -391,7 +391,7 @@ export default function AddressForm({ isEditId, closeModal, onSuccess, isCheckOu
           </div>
           <div>
             <label className="text-sm font-medium text-gray-700 mb-1 block">
-              State <span className="text-red-500">*</span>
+              Province <span className="text-red-500">*</span>
             </label>
             <select
               name="state"
