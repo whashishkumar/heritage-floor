@@ -75,7 +75,6 @@ export default function OrderList({ filteredOrders, isSearching, onOrderSelect }
   const fetchOrderStaus = async () => {
     const resp = await OrderEndPoints.getOrderStatus();
     setOrderTabs(resp?.data);
-    console.log(resp, 'resp123456');
   };
 
   const handlePagination = (page: number) => {
@@ -117,7 +116,7 @@ export default function OrderList({ filteredOrders, isSearching, onOrderSelect }
   };
 
   const generateInvocie = (id: number) => {
-    console.log(id, 'invoice Id');
+    // console.log(id, 'invoice Id');
   };
 
   useEffect(() => {

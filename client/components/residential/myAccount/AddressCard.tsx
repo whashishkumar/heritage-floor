@@ -99,7 +99,6 @@ export default function AddressList() {
   };
 
   const handleAddAddressPagination = (current_page: number) => {
-    console.log(current_page, 'current_page');
     setCurrentPage(current_page);
   };
 
