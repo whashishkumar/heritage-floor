@@ -162,6 +162,7 @@ export default function CheckoutPage() {
           use_for_shipping: newUseForShipping,
         },
       };
+      setBillingScreen(!showBillingScreen);
     }
     // Update state
     setFormData(updatedFormData);
@@ -359,7 +360,11 @@ export default function CheckoutPage() {
               ) : (
                 <div className="py-4">
                   {isAddMode ? (
-                    <CheckoutAddressForm handleCloseDrawer={handleCloseDrawer} />
+                    <CheckoutAddressForm
+                      handleCloseDrawer={handleCloseDrawer}
+                      fetchCustomerAddress={fetchCustomerAddress}
+                      setBillingScreen={setBillingScreen}
+                    />
                   ) : (
                     <AddressForm
                       isCheckOutPage={true}

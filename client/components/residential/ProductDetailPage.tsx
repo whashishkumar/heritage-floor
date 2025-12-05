@@ -15,6 +15,8 @@ import { useParams } from 'next/navigation';
 import Loader from '../ui/Loader';
 import { CartEndPoint } from '@/lib/api/cartEndPoints';
 import { useToast } from '../ui/Tooltip';
+import ModalBox from '../ui/ModalBox';
+import QueryForm from '../common/QuearyForm';
 
 const socialLinks = [
   {
@@ -118,6 +120,7 @@ const ProductDetailPage = () => {
   } = tile_details || {};
   const [selectedImage, setSelectedImage] = useState<any>(null);
   const [isInWishlist, setIsInWishlist] = useState(false);
+  const [isQueryModalOpen, setIsQueryModalOpen] = useState(false);
 
   const handleSelectProductImage = (image: { id: number; src: string; alt: string }) => {
     setSelectedImage(image);
@@ -154,6 +157,14 @@ const ProductDetailPage = () => {
     showToast(resp?.message);
   };
 
+  const handleOpenQueryModal = () => {
+    setIsQueryModalOpen(true);
+  };
+
+  const handleCloseQueryModal = () => {
+    setIsQueryModalOpen(false);
+  };
+
   useEffect(() => {
     getProductDetails();
   }, []);
@@ -173,6 +184,8 @@ const ProductDetailPage = () => {
       </div>
     );
   }
+
+  console.log(tile_details, 'tile_details');
 
   return (
     <div className="wrapper m-auto py-12">
@@ -256,14 +269,18 @@ const ProductDetailPage = () => {
                 <span className="ml-2 text-[#018C99] font-medium">By Hertiage</span>
               </p>
             )}
-            {name && <h2 className="font-medium mb-2 text-[1.688rem] text-black">{name}</h2>}
+            {name && (
+              <h2 className="font-medium mb-2 text-[1.688rem] text-black">
+                {` ${name} - ${sqft_per_tile} `}
+              </h2>
+            )}
             {tile_width && tile_length && (
               <p className="text-base mb-2 text-black">
                 {tile_width}" x {tile_length}" | PEI of {tiles_per_box} - Heavy Traffic | Matte
               </p>
             )}
-            {sqft_per_tile && (
-              <p className="text-[1.688rem] font-bold">$ {sqft_per_tile} / sq. ft</p>
+            {price_per_sqft && (
+              <p className="text-[1.688rem] font-bold">$ {price_per_sqft} / sq. ft</p>
             )}
             {box_price && sqft_per_box && (
               <p className="text-sm mt-2 text-black">
@@ -296,7 +313,7 @@ const ProductDetailPage = () => {
                 className="inline-block mr-2 object-contain"
               />
               <span className="text-black font-semibold text-[1rem]">
-                Scheduled Delivery: $80.00
+                Scheduled Delivery: $180.00
               </span>
               <div className="mt-2 text-sm">
                 Get it in 2 - 4 business days or on your preferred date
@@ -356,7 +373,10 @@ const ProductDetailPage = () => {
               <BsCart4 size={18} />
             </button>
             <div className="flex gap-4">
-              <button className="bg-[#F5F5F5] hover:cursor-pointer   py-2 px-2 rounded-2xl text-lg mb-4 border border-[#018C99] font-semibold w-[540px] md:w-full">
+              <button
+                onClick={handleOpenQueryModal}
+                className="bg-[#F5F5F5] hover:cursor-pointer   py-2 px-2 rounded-2xl text-lg mb-4 border border-[#018C99] font-semibold w-[540px] md:w-full"
+              >
                 Ask For Quote
                 <p className="mt-1 text-xs">Get custom pricing for your project</p>
               </button>
@@ -484,6 +504,11 @@ const ProductDetailPage = () => {
           </div>
         </div>
       </div>
+
+      {/* Query Modal */}
+      <ModalBox isOpen={isQueryModalOpen} onClose={handleCloseQueryModal}>
+        <QueryForm onClose={handleCloseQueryModal} />
+      </ModalBox>
     </div>
   );
 };

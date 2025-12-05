@@ -8,7 +8,7 @@ interface AddressData {
   address: string[];
   save_as_address: boolean;
   use_for_shipping?: boolean;
-  is_default: boolean;
+  default_address?: boolean;
   is_shipping: boolean;
   first_name: string;
   last_name: string;
@@ -215,7 +215,7 @@ export default function ShippingAddress({
         {/* State */}
         <div>
           <label className="text-sm font-medium text-gray-700 mb-1 block">
-            State <span className="text-red-500">*</span>
+            Province <span className="text-red-500">*</span>
           </label>
           <ScrollableSelect
             value={data.state}
@@ -247,20 +247,6 @@ export default function ShippingAddress({
             }`}
           />
           {errors.postcode && <p className="text-red-500 text-sm mt-1">{errors.postcode[0]}</p>}
-        </div>
-
-        {/* Save as address */}
-        <div className="flex items-center gap-2 md:col-span-2">
-          <input
-            type="checkbox"
-            id="save_shipping"
-            checked={data.save_as_address}
-            onChange={(e) => onChange('save_as_address', e.target.checked)}
-            className="w-4 h-4 text-teal-600 border-gray-300 rounded focus:ring-teal-500"
-          />
-          <label htmlFor="save_shipping" className="text-sm font-medium text-gray-700">
-            Save this address
-          </label>
         </div>
       </div>
     </div>
