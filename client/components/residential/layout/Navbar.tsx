@@ -1,3 +1,4 @@
+import { Suspense } from 'react';
 import HeaderTopBar from '../HeaderTopBar';
 import HeaderMainBar from '../HeaderMain';
 import ThinBanner from '../ThinBanner';
@@ -11,7 +12,9 @@ export default async function Navbar() {
     <>
       <div className="flex items-center justify-center flex-col">
         <HeaderTopBar data={shop_info} />
-        <HeaderMainBar megaMenuData={data} />
+        <Suspense fallback={<div className="h-[4.688rem] bg-white" />}>
+          <HeaderMainBar megaMenuData={data} />
+        </Suspense>
         <ThinBanner />
       </div>
     </>

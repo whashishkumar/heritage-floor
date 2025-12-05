@@ -381,18 +381,17 @@ export default function AddressForm({ isEditId, closeModal, onSuccess, isCheckOu
               }`}
             >
               {countryList.length > 0 &&
-                countryList.map((country) => (
-                  <option key={country.code} value={country.code} className="">
+                countryList.map((country: any, id: any) => (
+                  <option key={id} value={country.code} className="">
                     {country.name}
                   </option>
                 ))}
             </select>
             {errors.country && <p className="text-red-500 text-sm mt-1">{errors.country[0]}</p>}
           </div>
-
           <div>
             <label className="text-sm font-medium text-gray-700 mb-1 block">
-              State <span className="text-red-500">*</span>
+              Province <span className="text-red-500">*</span>
             </label>
             <select
               name="state"
@@ -404,8 +403,8 @@ export default function AddressForm({ isEditId, closeModal, onSuccess, isCheckOu
               }`}
             >
               {stateList.length > 0 &&
-                stateList?.map((country) => (
-                  <option key={country.code} value={country.code}>
+                stateList?.map((country: any, id: number) => (
+                  <option key={id} value={country.code}>
                     {country.default_name}
                   </option>
                 ))}

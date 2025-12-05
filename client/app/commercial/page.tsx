@@ -66,7 +66,7 @@ export default async function Home({ params }: any) {
       <WhyChooseUsCommercial WhyChooseUsProps={WhyChooseUs?.data} />
       <ServicesCommercial services={services} />
       <CommercialProjects commercialProject={commercialProject} />
-      <FlooringOptionsCommercial />
+      {/* <FlooringOptionsCommercial /> */}
       <TestimonialsCommercial testinomialsData={data} />
       <BlogCommercial blogs={blogs} pagePath={'commercial'} />
       <GetInTouch />

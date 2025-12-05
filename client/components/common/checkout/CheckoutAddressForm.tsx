@@ -12,7 +12,7 @@ interface AddressData {
   address: string[];
   save_as_address: boolean;
   use_for_shipping?: boolean;
-  is_default: boolean;
+  default_address?: boolean;
   is_shipping: boolean;
   first_name: string;
   last_name: string;
@@ -49,12 +49,16 @@ interface CheckoutAddressFormProps {
   onSubmit?: (data: CheckoutFormData) => void;
   initialData?: CheckoutFormData;
   handleCloseDrawer?: () => void;
+  fetchCustomerAddress?: () => void;
+  setBillingScreen?: (value: boolean) => void;
 }
 
 export default function CheckoutAddressForm({
   onSubmit,
   initialData,
   handleCloseDrawer,
+  fetchCustomerAddress,
+  setBillingScreen,
 }: CheckoutAddressFormProps) {
   const { showToast } = useToast();
   const [formData, setFormData] = useState<CheckoutFormData>(
@@ -64,7 +68,7 @@ export default function CheckoutAddressForm({
         address: [''],
         save_as_address: false,
         use_for_shipping: false,
-        is_default: false,
+        default_address: false,
         is_shipping: false,
         first_name: '',
         last_name: '',
@@ -80,7 +84,7 @@ export default function CheckoutAddressForm({
         id: null,
         address: [''],
         save_as_address: false,
-        is_default: false,
+        default_address: false,
         is_shipping: true,
         first_name: '',
         last_name: '',
@@ -119,6 +123,7 @@ export default function CheckoutAddressForm({
             ...billingData,
             id: null,
             save_as_address: false,
+            default_address: false,
             is_shipping: true,
             use_for_shipping: undefined,
           };
@@ -133,12 +138,14 @@ export default function CheckoutAddressForm({
         section === 'billing' &&
         field !== 'use_for_shipping' &&
         field !== 'save_as_address' &&
+        field !== 'default_address' &&
         prev.billing.use_for_shipping
       ) {
         updated.shipping = {
           ...updated.billing,
           id: null,
           save_as_address: updated.shipping.save_as_address,
+          default_address: updated.shipping.default_address,
           is_shipping: true,
           use_for_shipping: undefined,
         };
@@ -199,6 +206,7 @@ export default function CheckoutAddressForm({
           ...updated.billing,
           id: null,
           save_as_address: updated.shipping.save_as_address,
+          default_address: updated.shipping.default_address,
           is_shipping: true,
           use_for_shipping: undefined,
         };
@@ -337,7 +345,11 @@ export default function CheckoutAddressForm({
   const handleSubmitForm = async () => {
     const resp = await CartEndPoint.addCustomerCheckoutAddress(formData);
     showToast(resp.message);
+    if (resp.status === 200 && setBillingScreen) {
+      setBillingScreen(true);
+    }
     handleCloseDrawer?.();
+    fetchCustomerAddress?.();
   };
 
   useEffect(() => {
@@ -390,7 +402,7 @@ export default function CheckoutAddressForm({
             disabled={isLoading}
             className="bg-teal-600 text-white px-8 py-3 rounded-lg font-medium hover:bg-teal-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
           >
-            {isLoading ? 'Processing...' : 'Continue to Payment'}
+            {isLoading ? 'Processing...' : 'Save'}
           </button>
         </div>
       </form>

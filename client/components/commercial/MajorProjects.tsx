@@ -79,18 +79,13 @@ export default async function OurMajorProjectsCommercial({ majorProjects }: any)
                 {project.image && (
                   <Image
                     src={`${baseUrl}${project.image}`}
+                    // src={''}
                     alt={project.title || 'hyatt'}
                     fill
                     className="object-center rounded-[1.25rem]"
                   />
                 )}
-                <div
-                  className="absolute inset-0 mix-blend-multiply"
-                  style={{
-                    background:
-                      'linear-gradient(180deg, rgba(0, 0, 0, 0) 30.09%, rgba(0, 0, 0, 0.76) 84.69%)',
-                  }}
-                />
+                <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/50 mix-blend-multiply" />
                 <div
                   className={`absolute bottom-5 flex items-center  w-full  ${
                     index % 2 !== 0 ? 'justify-between flex-row-reverse' : 'justify-between'

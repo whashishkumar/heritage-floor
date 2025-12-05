@@ -52,7 +52,7 @@ export const CartEndPoint = {
 
   //Payment Methods
 
-  getPaymentMethods: () => {
+  getShippingMethods: () => {
     return apiFetch({
       endpoint: '/shipping-methods',
       cache: 'no-store',
@@ -67,12 +67,19 @@ export const CartEndPoint = {
     return apiPost('/customer/checkout/save-payment', payment);
   },
 
-  checkMiniumOrder: () => {
-    return apiPost('');
+  saveOrder: () => {
+    return apiPost('/customer/checkout/save-order');
   },
 
   //CheckOut API End Points
   addCustomerCheckoutAddress: (data: any) => {
     return apiPost('/customer/checkout/save-address', data);
+  },
+
+  getPaymentMethods: () => {
+    return apiFetch({
+      endpoint: '/payment-methods',
+      cache: 'no-store',
+    });
   },
 };

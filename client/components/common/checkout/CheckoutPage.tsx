@@ -39,6 +39,7 @@ export default function CheckoutPage() {
   const [editAddressId, setEditAddressId] = useState<number | null>(null);
   const [addNewAddress, setAddNewAddress] = useState(false);
   const [isAddMode, setIsAddMode] = useState(false);
+  const [showBillingScreen, setBillingScreen] = useState(false);
 
   // Memoize shippingAddress to prevent infinite loop
   const shippingAddress = useMemo(() => {
@@ -161,6 +162,7 @@ export default function CheckoutPage() {
           use_for_shipping: newUseForShipping,
         },
       };
+      setBillingScreen(!showBillingScreen);
     }
     // Update state
     setFormData(updatedFormData);
@@ -168,6 +170,9 @@ export default function CheckoutPage() {
       const resp = await CartEndPoint.addCustomerCheckoutAddress(updatedFormData);
       console.log(resp, 'after saving address');
       showToast(resp.message);
+      if (resp.status === 200) {
+        setBillingScreen(true);
+      }
     } catch (error) {
       console.error('Error saving checkout address:', error);
     }
@@ -355,7 +360,11 @@ export default function CheckoutPage() {
               ) : (
                 <div className="py-4">
                   {isAddMode ? (
-                    <CheckoutAddressForm handleCloseDrawer={handleCloseDrawer} />
+                    <CheckoutAddressForm
+                      handleCloseDrawer={handleCloseDrawer}
+                      fetchCustomerAddress={fetchCustomerAddress}
+                      setBillingScreen={setBillingScreen}
+                    />
                   ) : (
                     <AddressForm
                       isCheckOutPage={true}
@@ -369,12 +378,13 @@ export default function CheckoutPage() {
                 </div>
               )}
             </Section>
+            {/* Billing */}
           </Card>
-
-          {/* Billing */}
-          <Card>
-            <PaymentMethod />
-          </Card>
+          {showBillingScreen && (
+            <Card>
+              <PaymentMethod />
+            </Card>
+          )}
         </div>
 
         {/* RIGHT SIDE SUMMARY */}
