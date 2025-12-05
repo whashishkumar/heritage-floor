@@ -15,7 +15,7 @@ import { getGuestCartCount } from '@/utils/addToGuestCart';
 import { UserMyAccountEndpoints } from '@/lib/api/authincationEndPoints';
 import QueryForm from '../common/QuearyForm';
 import { usePathSegments } from '@/utils/segmentPath';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 
 export default function HeaderMainBar({ megaMenuData }: any) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -26,6 +26,7 @@ export default function HeaderMainBar({ megaMenuData }: any) {
   const { isAuthenticated, logout } = useAuth();
   const pathname = usePathname();
   const router = useRouter();
+  const searchParams = useSearchParams();
   const totalItem = getGuestCartCount();
   const [userDetail, setUserDetail] = useState<any>(null);
   const [isQuoteModel, setIsQuoteModel] = useState(false);
