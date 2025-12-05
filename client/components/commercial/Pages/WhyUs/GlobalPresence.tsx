@@ -139,13 +139,13 @@ export default function GlobalPresence({ countries }: any) {
           responsive={responsiveSettings}
         />
       </div>
-      {/* <AutoPlay
-        data={brandData}
+      <AutoPlay
+        data={global_presenceLocations}
         CardComponent={BrandCard}
         slideToShow={4}
         rtl={true}
         responsive={responsiveSettings}
-      /> */}
+      />
     </div>
   );
 }
