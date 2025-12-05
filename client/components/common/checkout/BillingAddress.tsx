@@ -8,7 +8,7 @@ interface AddressData {
   address: string[];
   save_as_address: boolean;
   use_for_shipping?: boolean;
-  is_default: boolean;
+  default_address?: boolean;
   is_shipping: boolean;
   first_name: string;
   last_name: string;
@@ -247,18 +247,49 @@ export default function BillingAddress({
           />
           {errors.postcode && <p className="text-red-500 text-sm mt-1">{errors.postcode[0]}</p>}
         </div>
-        {/* Use same address for shipping checkbox */}
-        <div className="flex items-center gap-2 md:col-span-2">
-          <input
-            type="checkbox"
-            id="use_for_shipping"
-            checked={data.use_for_shipping || false}
-            onChange={(e) => onChange('use_for_shipping', e.target.checked)}
-            className="w-4 h-4 text-teal-600 border-gray-300 rounded focus:ring-teal-500"
-          />
-          <label htmlFor="use_for_shipping" className="text-sm font-medium text-gray-700">
-            Use same address for shipping
-          </label>
+        {/* Checkboxes */}
+        <div className="md:col-span-2 space-y-3">
+          {/* Save this address */}
+          <div className="flex items-center gap-2">
+            <input
+              type="checkbox"
+              id="save_as_address"
+              checked={data.save_as_address || false}
+              onChange={(e) => onChange('save_as_address', e.target.checked)}
+              className="w-4 h-4 text-teal-600 border-gray-300 rounded focus:ring-teal-500"
+            />
+            <label htmlFor="save_as_address" className="text-sm font-medium text-gray-700">
+              Save this address
+            </label>
+          </div>
+
+          {/* Use same address for shipping */}
+          <div className="flex items-center gap-2">
+            <input
+              type="checkbox"
+              id="use_for_shipping"
+              checked={data.use_for_shipping || false}
+              onChange={(e) => onChange('use_for_shipping', e.target.checked)}
+              className="w-4 h-4 text-teal-600 border-gray-300 rounded focus:ring-teal-500"
+            />
+            <label htmlFor="use_for_shipping" className="text-sm font-medium text-gray-700">
+              Use same address for shipping
+            </label>
+          </div>
+
+          {/* Use as default address */}
+          <div className="flex items-center gap-2">
+            <input
+              type="checkbox"
+              id="default_address"
+              checked={data.default_address || false}
+              onChange={(e) => onChange('default_address', e.target.checked)}
+              className="w-4 h-4 text-teal-600 border-gray-300 rounded focus:ring-teal-500"
+            />
+            <label htmlFor="default_address" className="text-sm font-medium text-gray-700">
+              Use as default address
+            </label>
+          </div>
         </div>
       </div>
     </div>

@@ -12,7 +12,7 @@ interface AddressData {
   address: string[];
   save_as_address: boolean;
   use_for_shipping?: boolean;
-  is_default: boolean;
+  default_address?: boolean;
   is_shipping: boolean;
   first_name: string;
   last_name: string;
@@ -64,7 +64,7 @@ export default function CheckoutAddressForm({
         address: [''],
         save_as_address: false,
         use_for_shipping: false,
-        is_default: false,
+        default_address: false,
         is_shipping: false,
         first_name: '',
         last_name: '',
@@ -80,7 +80,7 @@ export default function CheckoutAddressForm({
         id: null,
         address: [''],
         save_as_address: false,
-        is_default: false,
+        default_address: false,
         is_shipping: true,
         first_name: '',
         last_name: '',
@@ -119,6 +119,7 @@ export default function CheckoutAddressForm({
             ...billingData,
             id: null,
             save_as_address: false,
+            default_address: false,
             is_shipping: true,
             use_for_shipping: undefined,
           };
@@ -133,12 +134,14 @@ export default function CheckoutAddressForm({
         section === 'billing' &&
         field !== 'use_for_shipping' &&
         field !== 'save_as_address' &&
+        field !== 'default_address' &&
         prev.billing.use_for_shipping
       ) {
         updated.shipping = {
           ...updated.billing,
           id: null,
           save_as_address: updated.shipping.save_as_address,
+          default_address: updated.shipping.default_address,
           is_shipping: true,
           use_for_shipping: undefined,
         };
@@ -199,6 +202,7 @@ export default function CheckoutAddressForm({
           ...updated.billing,
           id: null,
           save_as_address: updated.shipping.save_as_address,
+          default_address: updated.shipping.default_address,
           is_shipping: true,
           use_for_shipping: undefined,
         };
@@ -338,6 +342,7 @@ export default function CheckoutAddressForm({
     const resp = await CartEndPoint.addCustomerCheckoutAddress(formData);
     showToast(resp.message);
     handleCloseDrawer?.();
+    // fetchCustomerAddress();
   };
 
   useEffect(() => {
