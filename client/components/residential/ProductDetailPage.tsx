@@ -185,8 +185,6 @@ const ProductDetailPage = () => {
     );
   }
 
-  console.log(tile_details, 'tile_details');
-
   return (
     <div className="wrapper m-auto py-12">
       <div className="p-6 grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-15">

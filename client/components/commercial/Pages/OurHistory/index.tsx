@@ -1,9 +1,9 @@
 import SectionHeader from '@/components/common/SectionHeader';
 import TimelineSection from './TimelineSection';
 
-export default function OurHistory({ourHistoryData}: any) {
-  const {our_legacy,timelineData} = ourHistoryData || {};
-  const { heading_legacy, description_one, description_two,description_three } = our_legacy || {};
+export default function OurHistory({ ourHistoryData }: any) {
+  const { our_legacy, timelineData } = ourHistoryData || {};
+  const { heading_legacy, description_one, description_two, description_three } = our_legacy || {};
 
   return (
     <>

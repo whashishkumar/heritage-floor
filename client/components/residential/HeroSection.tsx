@@ -52,7 +52,7 @@ export default function HeroSection({ bannerData }: any) {
                 unoptimized
                 quality={100}
               />
-              <div className="absolute inset-0 bg-black/10"></div>
+              <div className="absolute inset-0 bg-black/20"></div>
               <div className="absolute bottom-6 left-6 right-6 sm:bottom-10 sm:left-10 sm:right-10 md:bottom-14 md:left-14 md:right-14">
                 <p className="text-white text-sm sm:text-base md:text-xl lg:text-[1.625rem] font-medium leading-[1.4231] mb-2">
                   25% off on Flooring

@@ -3,12 +3,19 @@ import { useEffect, useRef, useState } from 'react';
 
 export default function TimelineSection({ timelineData }: any) {
   const { t_data } = timelineData || {};
-  const [activeBg, setActiveBg] = useState(t_data[0]?.image);
+  const [activeBg, setActiveBg] = useState(t_data?.[0]?.image || '');
   const [activeIndex, setActiveIndex] = useState(0);
   const sectionRefs = useRef<(HTMLDivElement | null)[]>([]);
   const scrollContainerRef = useRef<HTMLDivElement | null>(null);
   const isManualScroll = useRef(false);
   const imagePath = process.env.NEXT_PUBLIC_IMAGE_PATH_WITHOUT_STORAGE;
+
+  // Initialize background when data loads
+  useEffect(() => {
+    if (t_data && t_data.length > 0 && !activeBg) {
+      setActiveBg(t_data[0]?.image || '');
+    }
+  }, [t_data]);
 
   // Scroll listener to auto-select cards based on scroll position (using window scroll)
   useEffect(() => {
@@ -36,7 +43,7 @@ export default function TimelineSection({ timelineData }: any) {
 
       if (closestIndex !== activeIndex) {
         setActiveIndex(closestIndex);
-        setActiveBg(timelineData[closestIndex]?.image);
+        setActiveBg(t_data?.[closestIndex]?.image || '');
       }
     };
 

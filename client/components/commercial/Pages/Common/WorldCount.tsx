@@ -10,7 +10,7 @@ export default function WorldCount({ statsData, pageTitle, Founder }: any) {
     <div className="wrapper m-auto">
       <div className="w-full flex flex-col items-center justify-center py-16 poppins-font">
         <div className="mb-8 lg:mb-16">
-          {banerIncon && <Image src={banerIncon} height={110} width={110} alt="tag" />}
+          {/* {banerIncon && <Image src={banerIncon} height={110} width={110} alt="tag" />} */}
         </div>
         <div>
           <SectionHeader

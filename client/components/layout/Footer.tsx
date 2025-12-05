@@ -131,7 +131,6 @@ const Footer: React.FC = () => {
   };
 
   const currentQuickLinks = getQuickLinksForPath();
-  console.log(footer, 'footer');
 
   const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement>): Promise<void> => {
     e.preventDefault();

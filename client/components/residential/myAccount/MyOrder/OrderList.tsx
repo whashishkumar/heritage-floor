@@ -85,8 +85,19 @@ export default function OrderList({ filteredOrders, isSearching, onOrderSelect }
     onOrderSelect(id);
   };
 
-  const handleActiveTab = (code: any) => {
+  const handleActiveTab = async (status: any, code: any) => {
     setActiveTab(code);
+    setCurrentPage(1); // Reset to first page when changing tabs
+    setIsLoading(true);
+    try {
+      const resp = await OrderEndPoints.filterOrderListItems('', status);
+      setMyOrderList(resp);
+    } catch (err) {
+      console.error('Error filtering orders:', err);
+      showToast('Failed to load orders');
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleCancleOrder = async (id: number) => {
@@ -105,7 +116,7 @@ export default function OrderList({ filteredOrders, isSearching, onOrderSelect }
   };
 
   const generateInvocie = (id: number) => {
-    console.log(id, 'invoice Id');
+    // console.log(id, 'invoice Id');
   };
 
   useEffect(() => {
@@ -121,7 +132,7 @@ export default function OrderList({ filteredOrders, isSearching, onOrderSelect }
           {orderTabs?.map((t: any) => (
             <button
               key={t.code}
-              onClick={() => handleActiveTab(t.code)}
+              onClick={() => handleActiveTab(t.status, t.code)}
               className={`pb-2 cursor-pointer poppins-font font-medium text-sm md:text-base whitespace-nowrap ${
                 activeTab === t.code ? 'border-b-2 border-black text-black' : 'text-gray-500'
               }`}
