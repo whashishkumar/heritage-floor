@@ -31,6 +31,7 @@ export default function RegisterPage() {
     e.preventDefault();
     try {
       const resp = await AuthValidation.regesterUser(formData);
+
       if (resp.message !== '') {
         setFormData({
           first_name: '',
@@ -40,6 +41,8 @@ export default function RegisterPage() {
           password_confirmation: '',
         });
         setStatus(null);
+      }
+      if (resp.status) {
         router.push('/residential');
       }
     } catch (error: any) {
