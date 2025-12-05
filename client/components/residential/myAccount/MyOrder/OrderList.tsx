@@ -75,6 +75,7 @@ export default function OrderList({ filteredOrders, isSearching, onOrderSelect }
   const fetchOrderStaus = async () => {
     const resp = await OrderEndPoints.getOrderStatus();
     setOrderTabs(resp?.data);
+    console.log(resp, 'resp123456');
   };
 
   const handlePagination = (page: number) => {
@@ -85,8 +86,10 @@ export default function OrderList({ filteredOrders, isSearching, onOrderSelect }
     onOrderSelect(id);
   };
 
-  const handleActiveTab = (code: any) => {
+  const handleActiveTab = async (code: any) => {
     setActiveTab(code);
+    const resp = await OrderEndPoints.filterOrderListItems(code);
+    console.log(resp, '1234567890');
   };
 
   const handleCancleOrder = async (id: number) => {
@@ -121,7 +124,7 @@ export default function OrderList({ filteredOrders, isSearching, onOrderSelect }
           {orderTabs?.map((t: any) => (
             <button
               key={t.code}
-              onClick={() => handleActiveTab(t.code)}
+              onClick={() => handleActiveTab(t.status)}
               className={`pb-2 cursor-pointer poppins-font font-medium text-sm md:text-base whitespace-nowrap ${
                 activeTab === t.code ? 'border-b-2 border-black text-black' : 'text-gray-500'
               }`}

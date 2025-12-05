@@ -106,7 +106,11 @@ export default function ProductDetailPage({ sortOptionsCategory }: any) {
   };
 
   const handleGetProductDetail = (id: string) => {
-    router.push(`/residential/products/${slug}/${id}`);
+    if (!slug) {
+      router.push(`/residential/products/${'get-product-detial'}/${id}`);
+    } else {
+      router.push(`/residential/products/${slug}/${id}`);
+    }
   };
 
   const handlePageChage = async (page: any) => {
