@@ -4,6 +4,8 @@ import SectionHeader from '../common/SectionHeader';
 import ProductCard from '../common/Product';
 import { useRouter } from 'next/navigation';
 import SwipeSlider from '../ui/SwipeSlider';
+import { usePathSegments } from '@/utils/segmentPath';
+
 export interface Product {
   id: number;
   name: string;
@@ -85,6 +87,7 @@ const breakpoints = {
 };
 
 export default function BestsellerProducts({ bestSellerProducts, productHeader }: any) {
+  const { mainPath } = usePathSegments();
   const router = useRouter();
   const { data } = bestSellerProducts || [];
   const { heading, subHeading } = productHeader || {};
@@ -93,7 +96,7 @@ export default function BestsellerProducts({ bestSellerProducts, productHeader }
   };
 
   const handleGetProductDetail = (id: string) => {
-    router.push(`/builder/products/${id}`);
+    router.push(`${mainPath}/products/get-product-detial/${id}`);
   };
 
   return (

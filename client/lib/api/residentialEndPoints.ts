@@ -79,4 +79,11 @@ export const ResidentailPageData = {
       cache: 'no-store',
     });
   },
+
+  getAllMajorProjects: (perPage?: any, page?: any) => {
+    return apiFetch({
+      endpoint: `/residential/major-projects?per_page=${10}&page=${page}`,
+      cache: 'no-store',
+    });
+  },
 };

@@ -50,6 +50,7 @@ export const CommonComponentData = {
       cache: 'no-store',
     });
   },
+
   getStatesList: (countryCode: string) => {
     return apiFetch({
       endpoint: `/countries-states?country_code=${countryCode}&pagination=0`,
@@ -66,6 +67,27 @@ export const CommonComponentData = {
   getFooterList: () => {
     return apiFetch({
       endpoint: 'residential/footer-menus',
+      cache: 'no-store',
+    });
+  },
+
+  getTermAndCondesion: () => {
+    return apiFetch({
+      endpoint: '/cms/4',
+      cache: 'dynamic',
+    });
+  },
+
+  getPrivacyPolicy: () => {
+    return apiFetch({
+      endpoint: '/cms/10',
+      cache: 'dynamic',
+    });
+  },
+
+  getFeaturesProducts: () => {
+    return apiFetch({
+      endpoint: '/products?featured=1',
       cache: 'no-store',
     });
   },

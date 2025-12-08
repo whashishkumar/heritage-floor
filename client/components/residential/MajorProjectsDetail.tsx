@@ -1,8 +1,10 @@
 'use client';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import ModalBox from '@/components/ui/ModalBox';
 import SectionHeader from '@/components/common/SectionHeader';
+import { ResidentailPageData } from '@/lib/api/residentialEndPoints';
+import Pagination from '../ui/Pagnation';
 
 type Project = {
   id: number;
@@ -15,71 +17,90 @@ type Project = {
 
 export default function MajorProjectsList() {
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
+  const [majorProjectsList, setMajorProjectsList] = useState<any | null>(null);
+  const { description, heading, pagination, projects, subheading } = majorProjectsList || {};
+  const { last_page, per_page } = pagination || {};
+  const [pageNumber, setPageNumber] = useState<number>(1); // const projects: Project[] = [
+  //   {
+  //     id: 1,
+  //     title: 'Heritage Greens',
+  //     location: 'Pune, Maharashtra',
+  //     description:
+  //       'A luxurious residential project offering modern amenities and green landscapes designed for comfort and sustainability.',
+  //     image: '/images/residential/category/Eco.jpg',
+  //     video: '/videos/glimps1.mp4',
+  //   },
+  //   {
+  //     id: 2,
+  //     title: 'Urban Heights',
+  //     location: 'Mumbai, Maharashtra',
+  //     description:
+  //       'A premium high-rise residential tower that blends urban sophistication with serene living spaces.',
+  //     image: '/images/residential/category/Eco.jpg',
+  //     video: '/videos/glimps2.mp4',
+  //   },
+  //   {
+  //     id: 3,
+  //     title: 'Riverside Villas',
+  //     location: 'Nashik, Maharashtra',
+  //     description:
+  //       'Exclusive riverfront villas crafted with elegance, ensuring privacy, comfort, and stunning natural views.',
+  //     image: '/images/residential/category/Eco.jpg',
+  //     video: '/videos/glimps3.mp4',
+  //   },
+  //   {
+  //     id: 4,
+  //     title: 'Heritage Greens',
+  //     location: 'Pune, Maharashtra',
+  //     description:
+  //       'A luxurious residential project offering modern amenities and green landscapes designed for comfort and sustainability.',
+  //     image: '/images/residential/category/Eco.jpg',
+  //     video: '/videos/glimps1.mp4',
+  //   },
+  //   {
+  //     id: 5,
+  //     title: 'Urban Heights',
+  //     location: 'Mumbai, Maharashtra',
+  //     description:
+  //       'A premium high-rise residential tower that blends urban sophistication with serene living spaces.',
+  //     image: '/images/residential/category/Eco.jpg',
+  //     video: '/videos/glimps2.mp4',
+  //   },
+  //   {
+  //     id: 6,
+  //     title: 'Riverside Villas',
+  //     location: 'Nashik, Maharashtra',
+  //     description:
+  //       'Exclusive riverfront villas crafted with elegance, ensuring privacy, comfort, and stunning natural views.',
+  //     image: '/images/residential/category/Eco.jpg',
+  //     video: '/videos/glimps3.mp4',
+  //   },
+  // ];
 
-  const projects: Project[] = [
-    {
-      id: 1,
-      title: 'Heritage Greens',
-      location: 'Pune, Maharashtra',
-      description:
-        'A luxurious residential project offering modern amenities and green landscapes designed for comfort and sustainability.',
-      image: '/images/residential/category/Eco.jpg',
-      video: '/videos/glimps1.mp4',
-    },
-    {
-      id: 2,
-      title: 'Urban Heights',
-      location: 'Mumbai, Maharashtra',
-      description:
-        'A premium high-rise residential tower that blends urban sophistication with serene living spaces.',
-      image: '/images/residential/category/Eco.jpg',
-      video: '/videos/glimps2.mp4',
-    },
-    {
-      id: 3,
-      title: 'Riverside Villas',
-      location: 'Nashik, Maharashtra',
-      description:
-        'Exclusive riverfront villas crafted with elegance, ensuring privacy, comfort, and stunning natural views.',
-      image: '/images/residential/category/Eco.jpg',
-      video: '/videos/glimps3.mp4',
-    },
-    {
-      id: 4,
-      title: 'Heritage Greens',
-      location: 'Pune, Maharashtra',
-      description:
-        'A luxurious residential project offering modern amenities and green landscapes designed for comfort and sustainability.',
-      image: '/images/residential/category/Eco.jpg',
-      video: '/videos/glimps1.mp4',
-    },
-    {
-      id: 5,
-      title: 'Urban Heights',
-      location: 'Mumbai, Maharashtra',
-      description:
-        'A premium high-rise residential tower that blends urban sophistication with serene living spaces.',
-      image: '/images/residential/category/Eco.jpg',
-      video: '/videos/glimps2.mp4',
-    },
-    {
-      id: 6,
-      title: 'Riverside Villas',
-      location: 'Nashik, Maharashtra',
-      description:
-        'Exclusive riverfront villas crafted with elegance, ensuring privacy, comfort, and stunning natural views.',
-      image: '/images/residential/category/Eco.jpg',
-      video: '/videos/glimps3.mp4',
-    },
-  ];
+  const getmajorProjectList = async () => {
+    const resp = await ResidentailPageData.getAllMajorProjects(per_page, pageNumber);
+    setMajorProjectsList(resp);
+  };
+
+  const handlePagination = async (page: any) => {
+    setPageNumber(page);
+    const resp = await ResidentailPageData.getAllMajorProjects(per_page, pageNumber);
+    setMajorProjectsList(resp);
+  };
+
+  useEffect(() => {
+    getmajorProjectList();
+  }, []);
+
+  console.log(pagination, 'pagination');
 
   return (
     <div className="w-full min-h-screen bg-white py-16">
       <div className="wrapper mx-auto px-4">
         <SectionHeader
-          heading="oUr major Projects"
-          subHeading="Explore Our Completed & Ongoing Residential Projects"
-          description="Our portfolio showcases years of trust, innovation, and architectural excellence. Each project is a testament to our commitment to quality and design."
+          heading={heading}
+          subHeading={subheading}
+          description={description}
           mainCss="text-center"
           headingCss="font-semibold text-base tracking-[1.4px] uppercase"
           subHeadingCss="text-[2.5rem] font-bold leading-[1.35] text-black"
@@ -87,7 +108,7 @@ export default function MajorProjectsList() {
         />
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-12">
-          {projects.map((project) => (
+          {projects?.map((project: any) => (
             <div
               key={project.id}
               className="rounded-[1rem] overflow-hidden shadow-lg border border-gray-100 hover:shadow-xl transition-all bg-white"
@@ -117,6 +138,11 @@ export default function MajorProjectsList() {
             </div>
           ))}
         </div>
+        <Pagination
+          currentPage={pageNumber}
+          totalPages={last_page}
+          onPageChange={handlePagination}
+        />
       </div>
 
       {/* Modal for video preview */}

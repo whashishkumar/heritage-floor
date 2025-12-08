@@ -1,30 +1,34 @@
-export default function PrivacyPolicyPage() {
-  const pageData = {
-    status: 200,
-    data: {
-      id: 10,
-      layout: null,
-      content: null,
-      url_key: 'privacy-policy',
-      html_content: 'Privacy Policy Page Content',
-      meta_description: '',
-      meta_title: 'Privacy Policy',
-      page_title: 'Privacy Policy',
-      meta_keywords: 'privacy, policy',
-      created_at: '2025-10-19T03:28:19.000000Z',
-      updated_at: '2025-10-19T03:28:19.000000Z',
-    },
-  };
+'use client';
+import { IoArrowBack } from 'react-icons/io5';
+import { useRouter } from 'next/navigation';
+import { usePathSegments } from '@/utils/segmentPath';
 
-  const { page_title, html_content } = pageData.data;
+export default function PrivacyPolicyPage({ privacyPolicy }: any) {
+  const router = useRouter();
+  const { mainPath } = usePathSegments();
+  const { page_title, html_content } = privacyPolicy || {};
+
+  console.log(privacyPolicy, 'privacyPolicy');
 
   return (
-    <div className="max-w-4xl mx-auto px-4 py-12">
+    <div className="wrapper mx-auto px-4 py-12 ">
+      <button
+        onClick={() => router.push(mainPath)}
+        className="flex items-center gap-2 text-gray-700 hover:text-gray-900 
+                 border border-gray-200 
+                 px-4 py-2 rounded-lg 
+                 bg-white hover:bg-gray-50 cursor-pointer"
+      >
+        <IoArrowBack className="text-xl " />
+        <span className="font-medium poppins-font">Back</span>
+      </button>
       {/* Title */}
-      <h1 className="text-3xl font-semibold text-gray-900 mb-6">{page_title}</h1>
+      <h1 className="text-2xl lg:text-3xl font-medium text-gray-900 mb-6 text-center inter-font">
+        {page_title}
+      </h1>
 
       {/* Content */}
-      <div className="bg-white shadow-md border border-gray-200 rounded-xl p-8 leading-relaxed">
+      <div className="bg-white shadow-md border border-gray-100 rounded-xl p-8 leading-relaxed poppins-font">
         <div
           className="prose prose-gray max-w-none"
           dangerouslySetInnerHTML={{ __html: html_content }}
