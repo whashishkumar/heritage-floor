@@ -2,9 +2,11 @@
 import SectionHeader from '../common/SectionHeader';
 import ProductCard from './ProductCard';
 import SwipeSlider from '../ui/SwipeSlider';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import ModalBox from '../ui/ModalBox';
 import QueryForm from '../common/QuearyForm';
+import { CommonComponentData } from '@/lib/api/commonEndPoints';
+
 export default function FeaturedProducts() {
   const products = [
     {
@@ -75,9 +77,19 @@ export default function FeaturedProducts() {
     },
   };
   const [quearyModalOpen, setQuearyModalOpen] = useState(false);
+  const [getFeatureproducts, setFeatureProducts] = useState<any | null>(null);
+  const { data } = getFeatureproducts || {};
 
+  const getFeaturesProducts = async () => {
+    const resp = await CommonComponentData.getFeaturesProducts();
+    setFeatureProducts(resp);
+  };
   const handleOpenModal = () => setQuearyModalOpen(true);
   const handleCloseModal = () => setQuearyModalOpen(false);
+
+  useEffect(() => {
+    getFeaturesProducts();
+  }, []);
 
   return (
     <>
@@ -99,10 +111,10 @@ export default function FeaturedProducts() {
               autoPlay={true}
               loop={true}
               delay={1000}
-              speed={1000}
+              speed={1500}
               breakpoints={breakpoints}
             >
-              {products.map((data, index) => (
+              {data?.map((data: any, index: any) => (
                 <div className=" w-full" key={index}>
                   <ProductCard data={data} handleOpenModal={handleOpenModal} />
                 </div>

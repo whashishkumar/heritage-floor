@@ -22,7 +22,6 @@ export default function PaymentMethodTypes() {
   const getPaymentTypes = async () => {
     const resp = await CartEndPoint.getPaymentMethods();
     setPaymentTypes(resp?.data || []);
-    console.log(resp, 'resp12');
   };
 
   const handleSelectMethod = async (code: string) => {
@@ -40,7 +39,7 @@ export default function PaymentMethodTypes() {
 
   const handleSaveOrder = async () => {
     const orderSaved = await CartEndPoint.saveOrder();
-    console.log(orderSaved, 'orderSaved');
+
     if (orderSaved.status === 200) {
       router.push(`${mainPath}/my-account/orders`);
     }
