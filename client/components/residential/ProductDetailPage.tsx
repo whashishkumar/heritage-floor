@@ -125,8 +125,41 @@ const ProductDetailPage = () => {
   const [tileInsqFeet, setTileInswFeet] = useState('');
   const debouncedQuery = useDebounce(tileInsqFeet, 500);
   const [tileCalculations, setTileCalculations] = useState<any | null>(null);
+  const { display_pricing } = tileCalculations?.data || {};
+  const { boxes, product_price, required, total_price, discount_price } = display_pricing || {};
 
-  // Ref to store the debounce timer
+  const RollCalculatorUI = () => {
+    return (
+      <div className="rounded-xl p-4 bg-white shadow-sm space-y-4 w-full my-4 poppins-font">
+        <div className="flex justify-between text-gray-700">
+          <span className="font-medium">{boxes?.title}</span>
+          <span>{boxes?.value}</span>
+        </div>
+
+        <div className="border-t" />
+        <div className="flex justify-between text-gray-700">
+          <span className="font-medium">{product_price?.title}</span>
+          <span>{product_price?.value}</span>
+        </div>
+
+        <div className="flex justify-between text-gray-700">
+          <span className="font-medium">{discount_price?.title}</span>
+          <span>{discount_price?.value}</span>
+        </div>
+
+        <div className="text-gray-700 flex justify-between ">
+          <span className="font-medium">{required?.title}</span>
+          <span>{required?.value}</span>
+        </div>
+
+        <div className="flex justify-between font-semibold text-black">
+          <span className="font-medium">{total_price?.title}</span>
+          <span>{total_price?.value}</span>
+        </div>
+      </div>
+    );
+  };
+
   const handleChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const required_sqft = e.target.value;
     setTileInswFeet(required_sqft);
@@ -137,8 +170,7 @@ const ProductDetailPage = () => {
           required_sqft: required_sqft,
         };
         const resp = await CartEndPoint.getTilesCalculations(payload);
-        // setTileCalculations(resp)
-        console.log(resp, 'log calculation response');
+        setTileCalculations(resp);
       } catch (error) {
         console.error('Error calculating tiles:', error);
       }
@@ -198,8 +230,6 @@ const ProductDetailPage = () => {
       </div>
     );
   }
-
-  console.log(tileCalculations, 'tileCalculations');
 
   return (
     <div className="wrapper m-auto py-12">
@@ -371,10 +401,12 @@ const ProductDetailPage = () => {
                 </div>
               </form>
             </div>
-            <p className="mt-2 text-sm">
+            {display_pricing && <RollCalculatorUI />}
+
+            {/* <p className="mt-2 text-sm">
               Shipping fees based on minimum of 138 sq. ft.. We will contact you if additional fees
               apply.
-            </p>
+            </p> */}
           </div>
           <p className=" bg-[#F1F1F1] h-[1px] my-5"></p>
           {/* Buttons */}
