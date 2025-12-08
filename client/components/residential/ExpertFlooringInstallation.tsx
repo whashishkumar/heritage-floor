@@ -17,8 +17,6 @@ interface ExpertFlooringInstallation {
 }
 
 export default async function ExpertFlooringInstallation({ data }: ExpertFlooringInstallation) {
-  // console.log("Residential page flooringInstallation Section Data:", data);
-
   const featureData = [
     {
       icon: '/icon/skill.svg',

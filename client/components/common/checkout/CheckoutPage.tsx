@@ -168,7 +168,7 @@ export default function CheckoutPage() {
     setFormData(updatedFormData);
     try {
       const resp = await CartEndPoint.addCustomerCheckoutAddress(updatedFormData);
-      console.log(resp, 'after saving address');
+
       showToast(resp.message);
       if (resp.status === 200) {
         setBillingScreen(true);
