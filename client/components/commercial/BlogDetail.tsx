@@ -23,97 +23,97 @@ const BlogDetail = ({ blogsDetail, slugPath }: any) => {
     { id: string; title: string; level: number }[]
   >([]);
   const { related, data } = blogsDetail;
-  const { author, category, date, excerpt, image, readTime, title, tags } = data || {};
+  const { author, category, date, excerpt, image, readTime, title, tags, content } = data || {};
 
-  const content = `<article class="blog-article">
-  <h2>Introduction to Tile Textures</h2>
-  <p>
-    When it comes to selecting tiles for commercial spaces, texture plays a crucial role that goes far beyond mere aesthetics. The surface texture of a tile affects everything from slip resistance and maintenance requirements to the overall ambiance of a space. Understanding the science behind tile textures can help you make informed decisions that balance beauty, safety, and functionality.
-  </p>
-  <p>
-    In recent years, advances in manufacturing technology have revolutionized the tile industry, allowing designers to create increasingly sophisticated textures that mimic natural materials while offering superior performance characteristics. From subtle matte finishes to deeply embossed patterns, today's textured tiles offer unprecedented versatility for commercial applications.
-  </p>
+  //   const content = `<article class="blog-article">
+  //   <h2>Introduction to Tile Textures</h2>
+  //   <p>
+  //     When it comes to selecting tiles for commercial spaces, texture plays a crucial role that goes far beyond mere aesthetics. The surface texture of a tile affects everything from slip resistance and maintenance requirements to the overall ambiance of a space. Understanding the science behind tile textures can help you make informed decisions that balance beauty, safety, and functionality.
+  //   </p>
+  //   <p>
+  //     In recent years, advances in manufacturing technology have revolutionized the tile industry, allowing designers to create increasingly sophisticated textures that mimic natural materials while offering superior performance characteristics. From subtle matte finishes to deeply embossed patterns, today's textured tiles offer unprecedented versatility for commercial applications.
+  //   </p>
 
-  <div class="quote-box">
-    <p class="quote">
-      "The right tile texture can transform a space from ordinary to extraordinary, while providing essential safety features that protect your investment and your customers."
-    </p>
-    <p class="quote-author">— Heritage Indol Design Team</p>
-  </div>
+  //   <div class="quote-box">
+  //     <p class="quote">
+  //       "The right tile texture can transform a space from ordinary to extraordinary, while providing essential safety features that protect your investment and your customers."
+  //     </p>
+  //     <p class="quote-author">— Heritage Indol Design Team</p>
+  //   </div>
 
-  <h2>The Science Behind Textures</h2>
-  <p>
-    Tile texture is created through various manufacturing processes, each producing distinct surface characteristics. The most common methods include pressing, embossing, and digital printing techniques. These processes manipulate the clay body or surface coating to create raised or recessed patterns that affect both the visual and tactile qualities of the finished tile.
-  </p>
+  //   <h2>The Science Behind Textures</h2>
+  //   <p>
+  //     Tile texture is created through various manufacturing processes, each producing distinct surface characteristics. The most common methods include pressing, embossing, and digital printing techniques. These processes manipulate the clay body or surface coating to create raised or recessed patterns that affect both the visual and tactile qualities of the finished tile.
+  //   </p>
 
-  <div class="image-grid">
-    <div class="image-item">
-      <img src="/fallback.jpg" alt="Tile texture close-up" />
-      <p class="caption">Microscopic view of embossed texture</p>
-    </div>
-    <div class="image-item">
-      <img src="/fallback.jpg" alt="Manufacturing process" />
-      <p class="caption">Digital printing technology</p>
-    </div>
-  </div>
+  //   <div class="image-grid">
+  //     <div class="image-item">
+  //       <img src="/fallback.jpg" alt="Tile texture close-up" />
+  //       <p class="caption">Microscopic view of embossed texture</p>
+  //     </div>
+  //     <div class="image-item">
+  //       <img src="/fallback.jpg" alt="Manufacturing process" />
+  //       <p class="caption">Digital printing technology</p>
+  //     </div>
+  //   </div>
 
-  <h2>Types of Tile Textures</h2>
-  <p>
-    Understanding the different types of tile textures available helps you select the best option for your specific application. Each texture type offers unique benefits and considerations.
-  </p>
+  //   <h2>Types of Tile Textures</h2>
+  //   <p>
+  //     Understanding the different types of tile textures available helps you select the best option for your specific application. Each texture type offers unique benefits and considerations.
+  //   </p>
 
-  <div class="texture-types">
-    <div class="texture-card">
-      <h3>Matte Finish</h3>
-      <p>
-        Matte textures provide a sophisticated, non-reflective surface that hides wear and fingerprints effectively. Ideal for high-traffic commercial areas where maintenance is a priority.
-      </p>
-    </div>
+  //   <div class="texture-types">
+  //     <div class="texture-card">
+  //       <h3>Matte Finish</h3>
+  //       <p>
+  //         Matte textures provide a sophisticated, non-reflective surface that hides wear and fingerprints effectively. Ideal for high-traffic commercial areas where maintenance is a priority.
+  //       </p>
+  //     </div>
 
-    <div class="texture-card">
-      <h3>Polished Finish</h3>
-      <p>
-        Highly reflective surfaces that create an elegant, upscale appearance. Best suited for lobbies and showrooms where visual impact is paramount.
-      </p>
-    </div>
+  //     <div class="texture-card">
+  //       <h3>Polished Finish</h3>
+  //       <p>
+  //         Highly reflective surfaces that create an elegant, upscale appearance. Best suited for lobbies and showrooms where visual impact is paramount.
+  //       </p>
+  //     </div>
 
-    <div class="texture-card">
-      <h3>Textured / Structured</h3>
-      <p>
-        Deeply embossed patterns that provide excellent slip resistance and visual interest. Perfect for outdoor areas and spaces requiring enhanced safety features.
-      </p>
-    </div>
-  </div>
+  //     <div class="texture-card">
+  //       <h3>Textured / Structured</h3>
+  //       <p>
+  //         Deeply embossed patterns that provide excellent slip resistance and visual interest. Perfect for outdoor areas and spaces requiring enhanced safety features.
+  //       </p>
+  //     </div>
+  //   </div>
 
-  <h2>Commercial Applications</h2>
-  <p>
-    Different commercial environments require specific texture considerations. Retail spaces benefit from polished or semi-polished finishes that create a premium feel, while restaurants and hospitality venues need textured surfaces for safety in wet areas. Office buildings often utilize matte finishes that maintain a professional appearance with minimal maintenance.
-  </p>
+  //   <h2>Commercial Applications</h2>
+  //   <p>
+  //     Different commercial environments require specific texture considerations. Retail spaces benefit from polished or semi-polished finishes that create a premium feel, while restaurants and hospitality venues need textured surfaces for safety in wet areas. Office buildings often utilize matte finishes that maintain a professional appearance with minimal maintenance.
+  //   </p>
 
-  <div class="full-image">
-    <img src="/fallback.jpg" alt="Commercial space with textured tiles" />
-  </div>
+  //   <div class="full-image">
+  //     <img src="/fallback.jpg" alt="Commercial space with textured tiles" />
+  //   </div>
 
-  <h2>Selection Guide</h2>
-  <p>
-    Choosing the right tile texture involves evaluating multiple factors including foot traffic patterns, maintenance capabilities, aesthetic goals, and budget constraints. Start by assessing your space's specific requirements, then narrow down options based on performance ratings and design preferences.
-  </p>
+  //   <h2>Selection Guide</h2>
+  //   <p>
+  //     Choosing the right tile texture involves evaluating multiple factors including foot traffic patterns, maintenance capabilities, aesthetic goals, and budget constraints. Start by assessing your space's specific requirements, then narrow down options based on performance ratings and design preferences.
+  //   </p>
 
-  <div class="key-considerations">
-    <h3>Key Considerations</h3>
-    <ul>
-      <li>Slip resistance ratings (R9-R13) for safety compliance</li>
-      <li>Maintenance requirements and cleaning protocols</li>
-      <li>Durability ratings for expected traffic levels</li>
-      <li>Visual impact and design cohesion</li>
-    </ul>
-  </div>
+  //   <div class="key-considerations">
+  //     <h3>Key Considerations</h3>
+  //     <ul>
+  //       <li>Slip resistance ratings (R9-R13) for safety compliance</li>
+  //       <li>Maintenance requirements and cleaning protocols</li>
+  //       <li>Durability ratings for expected traffic levels</li>
+  //       <li>Visual impact and design cohesion</li>
+  //     </ul>
+  //   </div>
 
-  <h2>Maintenance Tips</h2>
-  <p>
-    Proper maintenance preserves the appearance and performance of textured tiles. Regular cleaning with pH-neutral products prevents buildup in textured surfaces. For deeply textured tiles, periodic deep cleaning with appropriate equipment ensures longevity. Always follow manufacturer guidelines for specific products and avoid harsh chemicals that can damage surface treatments.
-  </p>
-</article>`;
+  //   <h2>Maintenance Tips</h2>
+  //   <p>
+  //     Proper maintenance preserves the appearance and performance of textured tiles. Regular cleaning with pH-neutral products prevents buildup in textured surfaces. For deeply textured tiles, periodic deep cleaning with appropriate equipment ensures longevity. Always follow manufacturer guidelines for specific products and avoid harsh chemicals that can damage surface treatments.
+  //   </p>
+  // </article>`;
 
   const [generatedContent, setGeneratedContent] = useState(content);
 
