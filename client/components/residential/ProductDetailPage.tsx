@@ -121,6 +121,14 @@ const ProductDetailPage = () => {
   const [selectedImage, setSelectedImage] = useState<any>(null);
   const [isInWishlist, setIsInWishlist] = useState(false);
   const [isQueryModalOpen, setIsQueryModalOpen] = useState(false);
+  const [tileInsqFeet, setTileInswFeet] = useState('');
+
+  console.log(tileInsqFeet, 'val1234');
+
+  const handleChange = (e: any) => {
+    const val = e.target.value;
+    setTileInswFeet(val);
+  };
 
   const handleSelectProductImage = (image: { id: number; src: string; alt: string }) => {
     setSelectedImage(image);
@@ -343,6 +351,8 @@ const ProductDetailPage = () => {
               <form>
                 <div className="relative w-[312px] h-[56px]">
                   <input
+                    value={tileInsqFeet}
+                    onChange={handleChange}
                     type="number"
                     id="quantity"
                     className="w-full h-full border rounded text-sm border-[#018C99] outline-none p-4 pr-12 "

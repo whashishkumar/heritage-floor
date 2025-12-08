@@ -15,6 +15,7 @@ export const CartEndPoint = {
 
   removeAllCartItems: () => apiDelete('/customer/cart/remove'),
   moveItemToWishList: (productId: any) => apiPost(`/customer/cart/move-to-wishlist/${productId}`),
+  getTilesCalculations: (area: any) => apiPost(``),
 
   //Apply Coupne API EndPoints
   applyCustomeCode: (code: any) => apiPost(`/customer/cart/apply-coupon/${code}`),
