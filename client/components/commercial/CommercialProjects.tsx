@@ -39,8 +39,6 @@ export default function MajorProjectsResidential({ commercialProject }: any) {
     setSelectedVideo(null);
   };
 
-  console.log(selectedVideo, 'selectedVideo');
-
   return (
     <>
       <div className="w-full h-full  flex items-center justify-center mb-[5rem] sm:overflow-x-auto scrollbar-hide scroll-smooth">
