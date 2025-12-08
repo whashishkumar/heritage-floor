@@ -123,15 +123,13 @@ const ProductDetailPage = () => {
   const [isInWishlist, setIsInWishlist] = useState(false);
   const [isQueryModalOpen, setIsQueryModalOpen] = useState(false);
   const [tileInsqFeet, setTileInswFeet] = useState('');
-
   const debouncedQuery = useDebounce(tileInsqFeet, 500);
+  const [tileCalculations, setTileCalculations] = useState<any | null>(null);
 
   // Ref to store the debounce timer
-
   const handleChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const required_sqft = e.target.value;
     setTileInswFeet(required_sqft);
-
     if (debouncedQuery) {
       try {
         const payload = {
@@ -139,6 +137,7 @@ const ProductDetailPage = () => {
           required_sqft: required_sqft,
         };
         const resp = await CartEndPoint.getTilesCalculations(payload);
+        // setTileCalculations(resp)
         console.log(resp, 'log calculation response');
       } catch (error) {
         console.error('Error calculating tiles:', error);
@@ -171,7 +170,6 @@ const ProductDetailPage = () => {
     const wishLitItem = await CartEndPoint.addRemoveListItems(productId);
     const { message } = wishLitItem;
     showToast(message);
-    // getProductDetails();
     const { data } = await ResidentailPageData.getProductDetail(childSlug);
     setProductDetail(data);
   };
@@ -201,7 +199,7 @@ const ProductDetailPage = () => {
     );
   }
 
-  console.log(tileInsqFeet, 'tileInsqFeet');
+  console.log(tileCalculations, 'tileCalculations');
 
   return (
     <div className="wrapper m-auto py-12">
@@ -240,7 +238,6 @@ const ProductDetailPage = () => {
               </div>
             ))}
           </div>
-
           <div className="border  border-[#DDDDDD] p-6 rounded-2xl bg-[#F6F6F6]">
             {shipping_details?.map((benefit: any) => (
               <div key={benefit.id} className="flex gap-4 mb-6 poppins-font">
@@ -351,7 +348,7 @@ const ProductDetailPage = () => {
               />
               <span className="text-black font-semibold text-[1rem]">How many do you need ?</span>
               <p className="underline ml-2 text-sm  font-medium">
-                <p className="mt-2 text-sm">Use our flooring area calculator</p>
+                <span className="mt-2 text-sm">Use our flooring area calculator</span>
               </p>
             </div>
           </div>
@@ -366,7 +363,6 @@ const ProductDetailPage = () => {
                     type="number"
                     id="quantity"
                     className="w-full h-full border rounded text-sm border-[#018C99] outline-none p-4 pr-12 "
-                    defaultValue="1"
                     placeholder="Enter the quantity"
                   />
                   <span className="absolute right-4 top-1/2 -translate-y-1/2 text-sm text-gray-600">
