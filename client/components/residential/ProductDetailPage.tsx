@@ -1,7 +1,7 @@
 'use client';
 import Image from 'next/image';
 import Link from 'next/link';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { BsCart4 } from 'react-icons/bs';
 import { CiHeart } from 'react-icons/ci';
 import { IoHeart } from 'react-icons/io5';
@@ -17,6 +17,7 @@ import { CartEndPoint } from '@/lib/api/cartEndPoints';
 import { useToast } from '../ui/Tooltip';
 import ModalBox from '../ui/ModalBox';
 import QueryForm from '../common/QuearyForm';
+import { useDebounce } from '@/hook/debounce';
 
 const socialLinks = [
   {
@@ -123,9 +124,26 @@ const ProductDetailPage = () => {
   const [isQueryModalOpen, setIsQueryModalOpen] = useState(false);
   const [tileInsqFeet, setTileInswFeet] = useState('');
 
-  const handleChange = (e: any) => {
-    const val = e.target.value;
-    setTileInswFeet(val);
+  const debouncedQuery = useDebounce(tileInsqFeet, 500);
+
+  // Ref to store the debounce timer
+
+  const handleChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const required_sqft = e.target.value;
+    setTileInswFeet(required_sqft);
+
+    if (debouncedQuery) {
+      try {
+        const payload = {
+          product_id: childSlug,
+          required_sqft: required_sqft,
+        };
+        const resp = await CartEndPoint.getTilesCalculations(payload);
+        console.log(resp, 'log calculation response');
+      } catch (error) {
+        console.error('Error calculating tiles:', error);
+      }
+    }
   };
 
   const handleSelectProductImage = (image: { id: number; src: string; alt: string }) => {
@@ -183,13 +201,7 @@ const ProductDetailPage = () => {
     );
   }
 
-  if (!productDetail) {
-    return (
-      <div className="wrapper m-auto py-12 text-center">
-        <p className="text-gray-500 text-lg">Product not found</p>
-      </div>
-    );
-  }
+  console.log(tileInsqFeet, 'tileInsqFeet');
 
   return (
     <div className="wrapper m-auto py-12">
@@ -275,7 +287,7 @@ const ProductDetailPage = () => {
             )}
             {name && (
               <h2 className="font-medium mb-2 text-[1.688rem] text-black">
-                {` ${name} - ${sqft_per_tile} `}
+                {` ${name} - ${sqft_per_tile}`}
               </h2>
             )}
             {tile_width && tile_length && (
@@ -338,9 +350,9 @@ const ProductDetailPage = () => {
                 className="inline-block mr-2 object-contain"
               />
               <span className="text-black font-semibold text-[1rem]">How many do you need ?</span>
-              <Link href="#" className="underline ml-2 text-sm  font-medium">
+              <p className="underline ml-2 text-sm  font-medium">
                 <p className="mt-2 text-sm">Use our flooring area calculator</p>
-              </Link>
+              </p>
             </div>
           </div>
           {/* Quantity and Add to Cart */}
