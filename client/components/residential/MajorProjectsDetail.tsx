@@ -92,8 +92,6 @@ export default function MajorProjectsList() {
     getmajorProjectList();
   }, []);
 
-  console.log(pagination, 'pagination');
-
   return (
     <div className="w-full min-h-screen bg-white py-16">
       <div className="wrapper mx-auto px-4">

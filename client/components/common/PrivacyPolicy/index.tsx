@@ -8,8 +8,6 @@ export default function PrivacyPolicyPage({ privacyPolicy }: any) {
   const { mainPath } = usePathSegments();
   const { page_title, html_content } = privacyPolicy || {};
 
-  console.log(privacyPolicy, 'privacyPolicy');
-
   return (
     <div className="wrapper mx-auto px-4 py-12 ">
       <button

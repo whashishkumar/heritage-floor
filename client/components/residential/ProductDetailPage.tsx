@@ -123,8 +123,6 @@ const ProductDetailPage = () => {
   const [isQueryModalOpen, setIsQueryModalOpen] = useState(false);
   const [tileInsqFeet, setTileInswFeet] = useState('');
 
-  console.log(tileInsqFeet, 'val1234');
-
   const handleChange = (e: any) => {
     const val = e.target.value;
     setTileInswFeet(val);

@@ -114,7 +114,6 @@ const CartPageComponent = () => {
   };
 
   const applyPromoCode = async () => {
-    console.log(promoCode, 'promoCode');
     // const resp = await CartEndPoint.applyCustomeCode(promoCode);
     // console.log(resp, 'resp');
   };

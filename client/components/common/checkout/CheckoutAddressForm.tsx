@@ -338,7 +338,6 @@ export default function CheckoutAddressForm({
     if (onSubmit) {
       onSubmit(formData);
     } else {
-      console.log('log123456789', formData);
     }
   };
 
