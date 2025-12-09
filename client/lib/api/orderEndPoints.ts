@@ -39,4 +39,15 @@ export const OrderEndPoints = {
       cache: 'no-store',
     });
   },
+
+  trackingOrder: (OrderId: any) => {
+    return apiPost('/order/track', OrderId);
+  },
+
+  getPlaceOrderSummary: () => {
+    return apiFetch({
+      endpoint: '',
+      cache: 'no-store',
+    });
+  },
 };

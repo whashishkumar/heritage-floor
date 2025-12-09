@@ -84,7 +84,7 @@ export default function PaymentMethodTypes() {
                 {/* Status Badge */}
                 {item.status && (
                   <span
-                    className={`px-3 py-1 text-xs font-medium rounded-full
+                    className={`px-3 py-1 text-xs font-medium rounded-full capitalize
                   ${
                     item.status === 'enabled'
                       ? 'bg-green-100 text-green-700'
@@ -102,12 +102,9 @@ export default function PaymentMethodTypes() {
 
         {/* Show selected method */}
         {selectedMethod && (
-          <div className="mt-4 p-3 bg-green-50 border border-green-200 rounded-lg">
+          <div className="mt-4 p-3 bg-green-50 border border-green-200 rounded-lg flex justify-center capitalize">
             <p className="text-sm text-green-800">
-              ✓ Selected:{' '}
-              <span className="font-semibold">
-                {paymentTypes.find((p) => p.code === selectedMethod)?.label}
-              </span>
+              <span className="font-semibold">{selectedMethod}</span>
             </p>
           </div>
         )}

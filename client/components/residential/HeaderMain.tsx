@@ -199,7 +199,7 @@ export default function HeaderMainBar({ megaMenuData }: any) {
                         )
                       : totalItem && (
                           <p className="absolute -top-2 -right-2 bg-teal-600 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
-                            {totalItem || 0}
+                            {totalItem}
                           </p>
                         )}
                   </Link>

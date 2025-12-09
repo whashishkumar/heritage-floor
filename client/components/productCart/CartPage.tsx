@@ -69,10 +69,11 @@ const CartPageComponent = () => {
   const [isLoading, setIsLoading] = useState(false);
   const { mainPath } = usePathSegments();
   const router = useRouter();
-  const { items }: any = cartAddedItems || {};
+  const { items, cart_subtotal, discount_amount, cart_total_price }: any = cartAddedItems || {};
   const { quantity } = items || {};
   const { is_wishlist } = cartAddedItems || {};
   const { showToast } = useToast();
+  const [showCoupenBtn, setShowCoupenBtn] = useState(false);
 
   const fetchCartItems = async () => {
     setIsLoading(true);
@@ -114,11 +115,18 @@ const CartPageComponent = () => {
   };
 
   const applyPromoCode = async () => {
-    // const resp = await CartEndPoint.applyCustomeCode(promoCode);
-    // console.log(resp, 'resp');
+    const resp = await CartEndPoint.applyCustomeCode(promoCode);
+    console.log(resp, 'respCode');
+    if (resp.status == 200) {
+      setShowCoupenBtn(true);
+    } else {
+      setShowCoupenBtn(false);
+    }
   };
 
-  const canclePromoCode = () => {
+  const canclePromoCode = async () => {
+    const resp = await CartEndPoint.removeAppliedCoupon(promoCode);
+    console.log(resp, 'respcancle code');
     setPromoCode('');
   };
 
@@ -238,13 +246,12 @@ const CartPageComponent = () => {
                                 <h3 className="text-lg md:text-xl font-bold text-gray-800 pr-4">
                                   {product?.name}
                                 </h3>
-
                                 <div className="flex items-center justify-center">
                                   <button
                                     onClick={() => handleAddToWishList(product?.id)}
                                     className={`text-darkBlue hover:text-primaryTwo transition-colors p-2 hover:bg-primaryOne/10 rounded-full`}
                                   >
-                                    {product.is_wishlist ? (
+                                    {!product.is_wishlist ? (
                                       <IoHeartOutline className={`h-6 w-6 cursor-pointer `} />
                                     ) : (
                                       <FaHeart
@@ -252,7 +259,6 @@ const CartPageComponent = () => {
                                       />
                                     )}
                                   </button>
-
                                   <button
                                     onClick={() => removeItem(item?.id)}
                                     className="text-red-500 hover:text-red-700 transition-colors p-2 hover:bg-red-50 rounded-full"
@@ -331,12 +337,10 @@ const CartPageComponent = () => {
                 </div>
               </div>
             </div>
-
             {/* Order Summary */}
             <div className="lg:col-span-1">
               <div className="bg-white rounded-xl shadow-custom-md p-6 lg:sticky lg:top-24 space-y-6">
                 <h3 className="text-2xl font-bold text-gray-800 mb-6">Order Summary</h3>
-
                 {/* Promo Code */}
                 <div className="space-y-3">
                   <label className="text-sm font-semibold text-gray-700 flex items-center gap-2">
@@ -351,19 +355,19 @@ const CartPageComponent = () => {
                       placeholder="Enter code"
                       className="flex-grow px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-primaryOne/70 focus:outline-none transition-colors"
                     />
-                    {promoCode ? (
-                      <button
-                        onClick={canclePromoCode}
-                        className="bg-gradient-to-r from-primaryOne/90 hover:scale-105 to-primaryTwo/90 text-white px-6 py-3 rounded-xl font-semibold hover:from-primaryOne hover:to-primaryTwo transition-all duration-300 shadow-lg hover:shadow-xl"
-                      >
-                        Cancle
-                      </button>
-                    ) : (
+                    {!showCoupenBtn ? (
                       <button
                         onClick={applyPromoCode}
                         className="bg-gradient-to-r from-primaryOne/90 hover:scale-105 to-primaryTwo/90 text-white px-6 py-3 rounded-xl font-semibold hover:from-primaryOne hover:to-primaryTwo transition-all duration-300 shadow-lg hover:shadow-xl"
                       >
                         Apply
+                      </button>
+                    ) : (
+                      <button
+                        onClick={canclePromoCode}
+                        className="bg-gradient-to-r from-primaryOne/90 hover:scale-105 to-primaryTwo/90 text-white px-6 py-3 rounded-xl font-semibold hover:from-primaryOne hover:to-primaryTwo transition-all duration-300 shadow-lg hover:shadow-xl"
+                      >
+                        Cancle
                       </button>
                     )}
                   </div>
@@ -386,21 +390,17 @@ const CartPageComponent = () => {
                 <div className="space-y-4 pt-4 border-t-2 border-gray-100">
                   <div className="flex justify-between text-gray-700">
                     <span>Subtotal</span>
-                    <span className="font-semibold">${subtotal.toFixed(2)}</span>
+                    <span className="font-semibold">$ {cart_subtotal.toFixed(2)}</span>
                   </div>
-                  {appliedPromo && (
+                  {/* {appliedPromo && (
                     <div className="flex justify-between text-green-600">
                       <span>Discount ({appliedPromo.discount * 100}%)</span>
-                      <span className="font-semibold">-${discount.toFixed(2)}</span>
+                      <span className="font-semibold">-$ {discount.toFixed(2)}</span>
                     </div>
-                  )}
+                  )} */}
                   <div className="flex justify-between text-gray-700">
-                    <span>Tax (13%)</span>
-                    <span className="font-semibold">${tax.toFixed(2)}</span>
-                  </div>
-                  <div className="flex justify-between text-gray-700">
-                    <span>Shipping</span>
-                    <span className="font-semibold text-green-600">FREE</span>
+                    <span>Discount</span>
+                    <span className="font-semibold text-green-600">$ {discount_amount}</span>
                   </div>
                 </div>
 
@@ -408,29 +408,32 @@ const CartPageComponent = () => {
                 <div className="pt-4 border-t-2 border-gray-200">
                   <div className="flex justify-between items-center mb-6">
                     <span className="text-xl font-bold text-gray-800">Total</span>
-                    <span className="text-3xl font-bold text-primaryTwo">${total.toFixed(2)}</span>
+                    <span className="text-3xl font-bold text-primaryTwo">
+                      $ {cart_total_price.toFixed(2)}
+                    </span>
                   </div>
 
                   <button
                     onClick={() => router.push(`${mainPath}/checkout`)}
                     className=" group w-full bg-gradient-to-r from-primaryOne/90 to-primaryOne text-white py-4 rounded-xl font-bold text-lg hover:from-primaryTwo/90 hover:to-primaryTwo shadow-lg hover:shadow-xl    flex items-center justify-center gap-2"
                   >
-                    <span className=" group-hover:scale-110 transform  transition-all duration-300 flex items-center gap-2">
+                    <span className="cursor-pointer group-hover:scale-110 transform  transition-all duration-300 flex items-center gap-2">
                       {' '}
                       Proceed to Checkout
                       <ArrowRight className="w-5 h-5" />
                     </span>
                   </button>
-                  <button
-                    onClick={() => router.push(`${mainPath}/products`)}
-                    className="w-full mt-3 border-2 border-gray-300 text-gray-700 py-3 rounded-xl font-semibold hover:bg-gray-50 transition-all duration-300 cursor-pointer"
-                  >
-                    Continue Shopping
-                  </button>
+                  {cart_total_price && (
+                    <button
+                      onClick={() => router.push(`${mainPath}/products`)}
+                      className="w-full mt-3 border-2 border-gray-300 text-gray-700 py-3 rounded-xl font-semibold hover:bg-gray-50 transition-all duration-300 cursor-pointer"
+                    >
+                      Continue Shopping
+                    </button>
+                  )}
                 </div>
-
                 {/* Estimated Delivery */}
-                <div className="bg-gradient-to-br from-primaryOne/10 to-primaryTwo/10 rounded-xl p-4">
+                {/* <div className="bg-gradient-to-br from-primaryOne/10 to-primaryTwo/10 rounded-xl p-4">
                   <div className="flex items-center  gap-3">
                     <TbTruckDelivery className="w-[5rem] h-[4rem] text-primaryTwo flex-shrink-0" />
                     <div>
@@ -438,7 +441,7 @@ const CartPageComponent = () => {
                       <p className="text-sm text-gray-600">3-5 business days</p>
                     </div>
                   </div>
-                </div>
+                </div> */}
               </div>
             </div>
           </div>
