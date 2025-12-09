@@ -11,13 +11,14 @@ import InnerImageZoom from 'react-inner-image-zoom';
 import 'react-inner-image-zoom/lib/styles.min.css';
 import { FaExclamationCircle } from 'react-icons/fa';
 import { ResidentailPageData } from '@/lib/api/residentialEndPoints';
-import { useParams } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import Loader from '../ui/Loader';
 import { CartEndPoint } from '@/lib/api/cartEndPoints';
 import { useToast } from '../ui/Tooltip';
 import ModalBox from '../ui/ModalBox';
 import QueryForm from '../common/QuearyForm';
 import { useDebounce } from '@/hook/debounce';
+import { usePathSegments } from '@/utils/segmentPath';
 
 const socialLinks = [
   {
@@ -94,11 +95,13 @@ const breakpoints = {
 };
 
 const ProductDetailPage = () => {
+  const router = useRouter();
   const { showToast } = useToast();
   const params = useParams();
+  const { sectionPath } = usePathSegments();
   const [productDetail, setProductDetail] = useState<any>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const { childSlug } = params;
+  const { slug, childSlug } = params;
   const {
     images,
     sku,
@@ -127,6 +130,7 @@ const ProductDetailPage = () => {
   const [tileCalculations, setTileCalculations] = useState<any | null>(null);
   const { display_pricing } = tileCalculations?.data || {};
   const { boxes, product_price, required, total_price, discount_price } = display_pricing || {};
+  const [reqMessage, setReqMessage] = useState<any | null>(null);
 
   const RollCalculatorUI = () => {
     return (
@@ -160,25 +164,16 @@ const ProductDetailPage = () => {
     );
   };
 
-  const handleChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const required_sqft = e.target.value;
-    setTileInswFeet(required_sqft);
-    if (debouncedQuery) {
-      try {
-        const payload = {
-          product_id: childSlug,
-          required_sqft: required_sqft,
-        };
-        const resp = await CartEndPoint.getTilesCalculations(payload);
-        setTileCalculations(resp);
-      } catch (error) {
-        console.error('Error calculating tiles:', error);
-      }
-    }
+  const handleChange = (e: any) => {
+    setTileInswFeet(e.target.value);
   };
-
   const handleSelectProductImage = (image: { id: number; src: string; alt: string }) => {
     setSelectedImage(image);
+  };
+
+  const handleSelectRelatedProduct = (product: any) => {
+    const { id } = product || {};
+    router.push(`${sectionPath}/${slug}/${id}`);
   };
 
   const getProductDetails = async () => {
@@ -198,7 +193,7 @@ const ProductDetailPage = () => {
 
   const handleWhshlistAdd = async (e: React.MouseEvent<HTMLButtonElement>, productId: number) => {
     e.preventDefault();
-    setIsInWishlist(is_wishlist);
+    setIsInWishlist(!isInWishlist);
     const wishLitItem = await CartEndPoint.addRemoveListItems(productId);
     const { message } = wishLitItem;
     showToast(message);
@@ -222,6 +217,30 @@ const ProductDetailPage = () => {
   useEffect(() => {
     getProductDetails();
   }, []);
+
+  useEffect(() => {
+    if (!debouncedQuery) {
+      setTileCalculations(null);
+      return;
+    }
+
+    const fetchCalculation = async () => {
+      try {
+        const payload = {
+          product_id: childSlug,
+          required_sqft: debouncedQuery,
+        };
+        const resp = await CartEndPoint.getTilesCalculations(payload);
+        setTileCalculations(resp);
+        setReqMessage(null);
+      } catch (error) {
+        setReqMessage(error);
+        // console.log(error);
+      }
+    };
+
+    fetchCalculation();
+  }, [debouncedQuery]);
 
   if (isLoading) {
     return (
@@ -401,12 +420,11 @@ const ProductDetailPage = () => {
                 </div>
               </form>
             </div>
-            {display_pricing && <RollCalculatorUI />}
-
-            {/* <p className="mt-2 text-sm">
-              Shipping fees based on minimum of 138 sq. ft.. We will contact you if additional fees
-              apply.
-            </p> */}
+            {reqMessage === null ? (
+              <>{display_pricing && <RollCalculatorUI />}</>
+            ) : (
+              <p className="mt-2 text-sm">{reqMessage?.message}</p>
+            )}
           </div>
           <p className=" bg-[#F1F1F1] h-[1px] my-5"></p>
           {/* Buttons */}
@@ -430,11 +448,16 @@ const ProductDetailPage = () => {
                 onClick={(e) => handleWhshlistAdd(e, productDetail?.id)}
                 className={` hover:cursor-pointer py-2 px-2 rounded-2xl text-lg mb-4 border border-[#018C99] font-semibold transition-colors duration-200`}
               >
-                {/* is_wishlist */}
-                {!isInWishlist ? (
-                  <IoHeart size={26} className="text-[#018C99]" />
+                {!is_wishlist ? (
+                  <>
+                    {!isInWishlist ? (
+                      <CiHeart size={26} />
+                    ) : (
+                      <IoHeart size={26} className="text-[#018C99]" />
+                    )}
+                  </>
                 ) : (
-                  <CiHeart size={26} />
+                  <IoHeart size={26} className="text-[#018C99]" />
                 )}
               </button>
             </div>
@@ -455,9 +478,9 @@ const ProductDetailPage = () => {
             <div className="py-2">
               <div className=" text-xs">
                 Delivery to : 
-                <Link href={'#'}>
+                <p>
                   <span className="underline cursor-pointer  font-medium">Toronto - Mos18BW</span>
-                </Link>
+                </p>
               </div>
             </div>
 
@@ -526,7 +549,7 @@ const ProductDetailPage = () => {
                     <div
                       key={product.id}
                       className="cursor-pointer w-[78px] h-[78px] overflow-hidden rounded-lg"
-                      onClick={() => handleSelectProductImage(product)}
+                      onClick={() => handleSelectRelatedProduct(product)}
                     >
                       {product?.image && (
                         <Image

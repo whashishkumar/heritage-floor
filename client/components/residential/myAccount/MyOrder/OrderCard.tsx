@@ -13,9 +13,11 @@ export default function OrderCard({
   order,
   getOrderDetail,
   handleCancleOrder,
-  generateInvocie,
+  handleTrackingOrder,
   handleReOrder,
 }: any) {
+  console.log(order, 'order');
+
   return (
     <tr className="border-b hover:bg-gray-50 transition-colors poppins-font">
       <td
@@ -26,7 +28,7 @@ export default function OrderCard({
       </td>
       <td className="p-4 text-sm text-gray-700">{order.customer_name}</td>
       <td className="p-4 text-sm text-gray-600">{order.date}</td>
-      <td className="p-4 text-sm font-semibold text-gray-900">€{order.price}</td>
+      {order.price && <td className="p-4 text-sm font-semibold text-gray-900">€{order.price}</td>}
       <td className="p-4 text-sm text-gray-600">{order.payment}</td>
       <td className="p-4">
         <span
@@ -39,10 +41,10 @@ export default function OrderCard({
       <td className="p-4">
         <div className="flex flex-col gap-2">
           <button
-            onClick={() => generateInvocie(order?.id)}
+            onClick={() => handleTrackingOrder(order?.id)}
             className="bg-[#008c99]/90 hover:bg-[#008c99] text-white py-1.5 px-3 rounded text-xs font-medium transition-colors cursor-pointer"
           >
-            Print Label
+            Track Order
           </button>
           {order.status?.toLowerCase() === 'Canceled'.toLowerCase() ? (
             <button

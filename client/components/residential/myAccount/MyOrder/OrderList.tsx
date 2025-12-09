@@ -115,8 +115,12 @@ export default function OrderList({ filteredOrders, isSearching, onOrderSelect }
     setMyOrderList(resp);
   };
 
-  const generateInvocie = (id: number) => {
-    // console.log(id, 'invoice Id');
+  const handleTrackingOrder = async (id: number) => {
+    const payload = {
+      tracking_number: id,
+    };
+    const resp = await OrderEndPoints.trackingOrder(payload);
+    console.log(resp, 'tracking');
   };
 
   useEffect(() => {
@@ -171,7 +175,7 @@ export default function OrderList({ filteredOrders, isSearching, onOrderSelect }
                   order={order}
                   getOrderDetail={getOrderDetail}
                   handleCancleOrder={handleCancleOrder}
-                  generateInvocie={generateInvocie}
+                  handleTrackingOrder={handleTrackingOrder}
                   handleReOrder={handleReOrder}
                 />
               ))

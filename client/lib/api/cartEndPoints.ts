@@ -83,4 +83,13 @@ export const CartEndPoint = {
       cache: 'no-store',
     });
   },
+
+  //Billing API End Points
+
+  getBillingSummary: () => {
+    return apiFetch({
+      endpoint: '',
+      cache: 'no-store',
+    });
+  },
 };
