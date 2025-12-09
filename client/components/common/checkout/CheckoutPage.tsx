@@ -27,6 +27,7 @@ import {
 import CheckoutAddressForm from './CheckoutAddressForm';
 import { useToast } from '@/components/ui/Tooltip';
 import PaymentMethod from './PaymentMethod';
+import { OrderEndPoints } from '@/lib/api/orderEndPoints';
 
 export default function CheckoutPage() {
   const { showToast } = useToast();
@@ -40,7 +41,7 @@ export default function CheckoutPage() {
   const [addNewAddress, setAddNewAddress] = useState(false);
   const [isAddMode, setIsAddMode] = useState(false);
   const [showBillingScreen, setBillingScreen] = useState(false);
-
+  const [orderSummaryList, seOrderSummarylist] = useState<any | null>(null);
   // Memoize shippingAddress to prevent infinite loop
   const shippingAddress = useMemo(() => {
     return purchaserAddress?.filter((address: any) => address.is_default);
@@ -197,6 +198,12 @@ export default function CheckoutPage() {
     } catch (err) {
       console.error(err);
     }
+  };
+
+  const fetchOrderSummary = async () => {
+    const orderSummary = await OrderEndPoints.getPlaceOrderSummary();
+    seOrderSummarylist(orderSummary);
+    console.log(orderSummary, 'orderSummary');
   };
 
   useEffect(() => {
@@ -396,12 +403,10 @@ export default function CheckoutPage() {
                   <span>Delivery</span>
                   <span>$249.00</span>
                 </div>
-
                 <div className="flex justify-between">
                   <span>Taxes</span>
                   <span>$4.32</span>
                 </div>
-
                 <div className="flex justify-between font-semibold text-lg pt-2 border-t">
                   <span>Order Total</span>
                   <span>$310.83</span>
@@ -411,7 +416,6 @@ export default function CheckoutPage() {
           </Card>
           <Card>
             <h2 className="text-lg font-semibold mb-4">Order Summary</h2>
-
             <div className="space-y-4">
               {summaryProducts?.map((item) => (
                 <ProductCard key={item?.id} item={item} />

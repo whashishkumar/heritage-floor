@@ -103,9 +103,7 @@ export default function AddressList() {
   };
 
   useEffect(() => {
-    if (!isAuthenticated) {
-      fetchUserAddresses();
-    }
+    fetchUserAddresses();
   }, []);
 
   return (
