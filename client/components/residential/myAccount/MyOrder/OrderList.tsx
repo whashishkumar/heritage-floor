@@ -12,9 +12,15 @@ interface OrderListProps {
   filteredOrders?: any;
   isSearching?: boolean;
   onOrderSelect: (orderId: number) => void;
+  onTrackingOrder: (orderNumber: number) => void;
 }
 
-export default function OrderList({ filteredOrders, isSearching, onOrderSelect }: OrderListProps) {
+export default function OrderList({
+  filteredOrders,
+  isSearching,
+  onOrderSelect,
+  onTrackingOrder,
+}: OrderListProps) {
   const { showToast } = useToast();
   const [activeTab, setActiveTab] = useState('all');
   const [myOrdersList, setMyOrderList] = useState<any | null>(null);
@@ -115,8 +121,8 @@ export default function OrderList({ filteredOrders, isSearching, onOrderSelect }
     setMyOrderList(resp);
   };
 
-  const generateInvocie = (id: number) => {
-    // console.log(id, 'invoice Id');
+  const handleTrackingOrder = async (increment_id: number) => {
+    onTrackingOrder(increment_id);
   };
 
   useEffect(() => {
@@ -171,7 +177,7 @@ export default function OrderList({ filteredOrders, isSearching, onOrderSelect }
                   order={order}
                   getOrderDetail={getOrderDetail}
                   handleCancleOrder={handleCancleOrder}
-                  generateInvocie={generateInvocie}
+                  handleTrackingOrder={handleTrackingOrder}
                   handleReOrder={handleReOrder}
                 />
               ))

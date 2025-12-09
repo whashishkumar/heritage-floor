@@ -19,7 +19,7 @@ const menu = [
   { name: 'My Orders', href: '/orders', icon: AiOutlineClockCircle },
   { name: 'My Lists', href: '/lists', icon: AiOutlineHeart },
   { name: 'My Addresses', href: '/addresses', icon: MdLocationOn },
-  // { name: 'Payment Methods', href: '/payment-methods', icon: MdPayment },
+  // { name: 'Order Tracking', href: '/order-tracking', icon: MdPayment },
   { name: 'My Profile', href: '/profile', icon: AiOutlineUser },
   { name: 'Password', href: '/password', icon: RiLockPasswordLine },
 ];
