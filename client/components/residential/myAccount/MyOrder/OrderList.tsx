@@ -12,9 +12,15 @@ interface OrderListProps {
   filteredOrders?: any;
   isSearching?: boolean;
   onOrderSelect: (orderId: number) => void;
+  onTrackingOrder: (orderNumber: number) => void;
 }
 
-export default function OrderList({ filteredOrders, isSearching, onOrderSelect }: OrderListProps) {
+export default function OrderList({
+  filteredOrders,
+  isSearching,
+  onOrderSelect,
+  onTrackingOrder,
+}: OrderListProps) {
   const { showToast } = useToast();
   const [activeTab, setActiveTab] = useState('all');
   const [myOrdersList, setMyOrderList] = useState<any | null>(null);
@@ -115,12 +121,8 @@ export default function OrderList({ filteredOrders, isSearching, onOrderSelect }
     setMyOrderList(resp);
   };
 
-  const handleTrackingOrder = async (id: number) => {
-    const payload = {
-      tracking_number: id,
-    };
-    const resp = await OrderEndPoints.trackingOrder(payload);
-    console.log(resp, 'tracking');
+  const handleTrackingOrder = async (increment_id: number) => {
+    onTrackingOrder(increment_id);
   };
 
   useEffect(() => {

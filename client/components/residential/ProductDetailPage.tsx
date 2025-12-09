@@ -112,6 +112,8 @@ const ProductDetailPage = () => {
     related_products,
     is_wishlist,
     id,
+    warehouse_pickup,
+    scheduled_delivery,
   }: any = productDetail || {};
   const {
     box_price,
@@ -202,7 +204,11 @@ const ProductDetailPage = () => {
   };
 
   const handleAddToCartProduct = async (id: number) => {
-    const resp = await CartEndPoint.addItemToCart(id);
+    const calculation = {
+      product_id: id,
+      required_sqft: tileInsqFeet,
+    };
+    const resp = await CartEndPoint.addItemToCart(id, calculation);
     showToast(resp?.message);
   };
 
@@ -498,9 +504,7 @@ const ProductDetailPage = () => {
                 <h2 className="text-base font-semibold text-black mb-2 text-center">
                   Warehouse Pickup
                 </h2>
-                <p className="mb-2 text-center font-normal text-sm">Vaughan, ON</p>
-                <p className=" mb-2 text-center font-normal text-sm">2 - 4 Business Days</p>
-                <p className="text-center font-normal font-normal text-sm">Free</p>
+                <p className="break-all text-center font-normal text-sm">{warehouse_pickup}</p>
               </div>
               <div className="bg-white p-6 rounded-lg border border-[#DDDDDD]">
                 <div className="flex items-center justify-center mb-4">
@@ -515,8 +519,7 @@ const ProductDetailPage = () => {
                 <h2 className="text-base font-semibold text-black mb-2 text-center">
                   Scheduled Delivery
                 </h2>
-                <p className="mb-2 text-center font-normal text-sm">2 - 4 business days </p>
-                <p className="mb-2 text-center font-normal text-sm">$80.00</p>
+                <p className="text-center font-normal text-sm">{scheduled_delivery}</p>
               </div>
             </div>
           </div>

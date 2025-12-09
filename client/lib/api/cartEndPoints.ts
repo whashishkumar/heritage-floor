@@ -8,8 +8,9 @@ export const CartEndPoint = {
       cache: 'no-store',
     });
   },
-  addItemToCart: (productId: any, product?: any) =>
-    apiPost(`/customer/cart/add/${productId}`, product),
+  addItemToCart: (productId: any, product?: any, calculation?: any) =>
+    apiPost(`/customer/cart/add/${productId}`, product, calculation),
+
   removeItemFromCart: (productId: any) => apiDelete(`/customer/cart/remove/${productId}`),
   updateCartItemQuantity: (data: any) => apiPut(`/customer/cart/update`, data),
 
@@ -52,7 +53,6 @@ export const CartEndPoint = {
   },
 
   //Payment Methods
-
   getShippingMethods: () => {
     return apiFetch({
       endpoint: '/shipping-methods',
@@ -85,7 +85,6 @@ export const CartEndPoint = {
   },
 
   //Billing API End Points
-
   getBillingSummary: () => {
     return apiFetch({
       endpoint: '',
