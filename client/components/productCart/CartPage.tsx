@@ -188,19 +188,19 @@ const CartPageComponent = () => {
     <>
       <div className="min-h-screen bg-white my-[4rem]">
         <div className=" wrapper mx-auto ">
-          <div className="grid lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             {/* Cart Items Section */}
             <div className="lg:col-span-2 space-y-6">
-              <div className="bg-white rounded-2xl  p-6 shadow-custom-md">
-                <div className="flex justify-between items-center mb-6 pb-4 border-b-2 border-[#e8e8e8]">
-                  <h2 className="text-2xl md:text-3xl font-bold text-darkBlue">Shopping Cart</h2>
-                  <div>
-                    <span className="bg-gradient-to-r from-primaryOne to-primaryTwo text-white px-4 py-2 rounded-full text-sm font-bold">
+              <div className="bg-white rounded-2xl  p-4 md:p-6 shadow-custom-md">
+                <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-6 pb-4 border-b-2 border-[#e8e8e8] gap-3">
+                  <h2 className="text-xl md:text-3xl font-bold text-darkBlue">Shopping Cart</h2>
+                  <div className="flex flex-row   gap-2 sm:gap-3">
+                    <span className="bg-gradient-to-r from-primaryOne to-primaryTwo text-white px-3 md:px-4 py-2 rounded-full text-xs md:text-sm font-bold">
                       {items?.length} Items
                     </span>
                     <button
                       onClick={handleRemoveAllCartItems}
-                      className="bg-gradient-to-r from-primaryOne to-primaryTwo text-white px-4 py-2 rounded-full text-sm font-bold ml-3 cursor-pointer"
+                      className="bg-gradient-to-r from-primaryOne to-primaryTwo text-white px-3 md:px-4 py-2 rounded-full text-xs md:text-sm font-bold cursor-pointer"
                     >
                       Remove All
                     </button>
@@ -241,71 +241,73 @@ const CartPageComponent = () => {
                               )}
                             </Link>
                             {/* Product Details */}
-                            <div className="flex-grow space-y-3">
-                              <div className="flex justify-between items-start">
-                                <h3 className="text-lg md:text-xl font-bold text-gray-800 pr-4">
+                            <div className="flex-grow space-y-3 min-w-0">
+                              <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-2">
+                                <h3 className="text-base md:text-lg font-bold text-gray-800 flex-grow">
                                   {product?.name}
                                 </h3>
-                                <div className="flex items-center justify-center">
+                                <div className="flex items-center justify-start gap-1 flex-shrink-0">
                                   <button
                                     onClick={() => handleAddToWishList(product?.id)}
-                                    className={`text-darkBlue hover:text-primaryTwo transition-colors p-2 hover:bg-primaryOne/10 rounded-full`}
+                                    className={`text-darkBlue hover:text-primaryTwo transition-colors p-1 md:p-2 hover:bg-primaryOne/10 rounded-full`}
                                   >
                                     {!product.is_wishlist ? (
-                                      <IoHeartOutline className={`h-6 w-6 cursor-pointer `} />
+                                      <IoHeartOutline
+                                        className={`h-5 md:h-6 w-5 md:w-6 cursor-pointer `}
+                                      />
                                     ) : (
                                       <FaHeart
-                                        className={`h-6 w-6 text-[#008c99]/95 cursor-pointer`}
+                                        className={`h-5 md:h-6 w-5 md:w-6 text-[#008c99]/95 cursor-pointer`}
                                       />
                                     )}
                                   </button>
                                   <button
                                     onClick={() => removeItem(item?.id)}
-                                    className="text-red-500 hover:text-red-700 transition-colors p-2 hover:bg-red-50 rounded-full"
+                                    className="text-red-500 hover:text-red-700 transition-colors p-1 md:p-2 hover:bg-red-50 rounded-full"
                                   >
-                                    <Trash2 className="w-5 h-5 cursor-pointer" />
+                                    <Trash2 className="w-4 md:w-5 h-4 md:h-5 cursor-pointer" />
                                   </button>
                                 </div>
                               </div>
-                              <div className="flex gap-3 poppins-font capitalize">
-                                <p className="inline-block px-3 py-1 text-sm bg-gray-100 text-gray-800 rounded-full  whitespace-nowrap">
+                              <div className="flex flex-wrap gap-2">
+                                <p className="inline-block px-2 md:px-3 py-1 text-xs md:text-sm bg-gray-100 text-gray-800 rounded-full  whitespace-nowrap">
                                   PerBox {tiles_per_box}
                                 </p>
-                                <p className="inline-block px-3 py-1 text-sm bg-gray-100 text-gray-800 rounded-full  whitespace-nowrap">
+                                <p className="inline-block px-2 md:px-3 py-1 text-xs md:text-sm bg-gray-100 text-gray-800 rounded-full  whitespace-nowrap">
                                   width {tile_width}
                                 </p>
-                                <p className="inline-block px-3 py-1 text-sm bg-gray-100 text-gray-800 rounded-full  whitespace-nowrap">
+                                <p className="inline-block px-2 md:px-3 py-1 text-xs md:text-sm bg-gray-100 text-gray-800 rounded-full  whitespace-nowrap">
                                   length {tile_length}
                                 </p>
                               </div>
 
                               {/* Price and Quantity */}
-                              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 pt-2">
-                                <div className="text-2xl font-bold text-primaryTwo">
+                              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 pt-2">
+                                <div className="text-xl md:text-2xl font-bold text-primaryTwo">
                                   ${total_price}
-                                  <span className="text-sm text-gray-500 ml-8">
+                                  <span className="text-xs md:text-sm text-gray-500 ml-2 md:ml-4 block md:inline-block">
                                     ( ${price_per_sqft} /sq.ft )
                                   </span>
                                 </div>
 
                                 {/* Quantity Control */}
-                                <div className="flex items-center gap-3 bg-white border rounded-[0.5rem] shadow-custom-sm border-[#e8e8e8] px-2 py-1 w-fit">
+                                <div className="flex items-center gap-2 bg-white border rounded-[0.5rem] shadow-custom-sm border-[#e8e8e8] px-2 py-1 w-fit">
                                   <button
                                     onClick={() => updateQuantity(item, 'decrease')}
-                                    className="cursor-pointer w-10 h-10 rounded-full text-primaryGray hover:bg-primaryOne hover:text-white transition-all duration-300 flex items-center justify-center font-bold"
+                                    className="cursor-pointer w-8 md:w-10 h-8 md:h-10 rounded-full text-primaryGray hover:bg-primaryOne hover:text-white transition-all duration-300 flex items-center justify-center font-bold"
                                   >
-                                    <Minus className="w-4 h-4 " />
+                                    <Minus className="w-3 md:w-4 h-3 md:h-4 " />
                                   </button>
-                                  <span className="text-lg font-bold px-4">
+                                  <span className="text-base md:text-lg font-bold px-2 md:px-4">
                                     {item?.quantity}
                                     {quantity}
                                   </span>
 
                                   <button
                                     onClick={() => updateQuantity(item, 'increase')}
-                                    className="cursor-pointer w-10 h-10 rounded-full text-primaryGray hover:bg-primaryOne hover:text-white transition-all duration-300 flex items-center justify-center font-bold"
+                                    className="cursor-pointer w-8 md:w-10 h-8 md:h-10 rounded-full text-primaryGray hover:bg-primaryOne hover:text-white transition-all duration-300 flex items-center justify-center font-bold"
                                   >
-                                    <Plus className="w-4 h-4 " />
+                                    <Plus className="w-3 md:w-4 h-3 md:h-4 " />
                                   </button>
                                 </div>
                               </div>
@@ -339,33 +341,33 @@ const CartPageComponent = () => {
             </div>
             {/* Order Summary */}
             <div className="lg:col-span-1">
-              <div className="bg-white rounded-xl shadow-custom-md p-6 lg:sticky lg:top-24 space-y-6">
-                <h3 className="text-2xl font-bold text-gray-800 mb-6">Order Summary</h3>
+              <div className="bg-white rounded-xl shadow-custom-md p-4 md:p-6 lg:sticky lg:top-24 space-y-6">
+                <h3 className="text-lg md:text-2xl font-bold text-gray-800 mb-6">Order Summary</h3>
                 {/* Promo Code */}
                 <div className="space-y-3">
                   <label className="text-sm font-semibold text-gray-700 flex items-center gap-2">
                     <Tag className="w-4 h-4" />
                     Promo Code
                   </label>
-                  <div className="flex gap-2">
+                  <div className="flex flex-col sm:flex-row gap-2">
                     <input
                       type="text"
                       value={promoCode}
                       onChange={(e) => setPromoCode(e.target.value)}
                       placeholder="Enter code"
-                      className="flex-grow px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-primaryOne/70 focus:outline-none transition-colors"
+                      className="flex-grow px-3 md:px-4 py-2 md:py-3 text-sm md:text-base border-2 border-gray-200 rounded-xl focus:border-primaryOne/70 focus:outline-none transition-colors"
                     />
                     {!showCoupenBtn ? (
                       <button
                         onClick={applyPromoCode}
-                        className="bg-gradient-to-r from-primaryOne/90 hover:scale-105 to-primaryTwo/90 text-white px-6 py-3 rounded-xl font-semibold hover:from-primaryOne hover:to-primaryTwo transition-all duration-300 shadow-lg hover:shadow-xl"
+                        className="bg-gradient-to-r from-primaryOne/90 hover:scale-105 to-primaryTwo/90 text-white px-4 md:px-6 py-2 md:py-3 rounded-xl font-semibold hover:from-primaryOne hover:to-primaryTwo transition-all duration-300 shadow-lg hover:shadow-xl whitespace-nowrap text-sm md:text-base"
                       >
                         Apply
                       </button>
                     ) : (
                       <button
                         onClick={canclePromoCode}
-                        className="bg-gradient-to-r from-primaryOne/90 hover:scale-105 to-primaryTwo/90 text-white px-6 py-3 rounded-xl font-semibold hover:from-primaryOne hover:to-primaryTwo transition-all duration-300 shadow-lg hover:shadow-xl"
+                        className="bg-gradient-to-r from-primaryOne/90 hover:scale-105 to-primaryTwo/90 text-white px-4 md:px-6 py-2 md:py-3 rounded-xl font-semibold hover:from-primaryOne hover:to-primaryTwo transition-all duration-300 shadow-lg hover:shadow-xl whitespace-nowrap text-sm md:text-base"
                       >
                         Cancle
                       </button>
@@ -388,7 +390,7 @@ const CartPageComponent = () => {
 
                 {/* Price Breakdown */}
                 <div className="space-y-4 pt-4 border-t-2 border-gray-100">
-                  <div className="flex justify-between text-gray-700">
+                  <div className="flex justify-between text-sm md:text-base text-gray-700">
                     <span>Subtotal</span>
                     <span className="font-semibold">$ {cart_subtotal.toFixed(2)}</span>
                   </div>
@@ -398,7 +400,7 @@ const CartPageComponent = () => {
                       <span className="font-semibold">-$ {discount.toFixed(2)}</span>
                     </div>
                   )} */}
-                  <div className="flex justify-between text-gray-700">
+                  <div className="flex justify-between text-sm md:text-base text-gray-700">
                     <span>Discount</span>
                     <span className="font-semibold text-green-600">$ {discount_amount}</span>
                   </div>
@@ -407,26 +409,26 @@ const CartPageComponent = () => {
                 {/* Total */}
                 <div className="pt-4 border-t-2 border-gray-200">
                   <div className="flex justify-between items-center mb-6">
-                    <span className="text-xl font-bold text-gray-800">Total</span>
-                    <span className="text-3xl font-bold text-primaryTwo">
+                    <span className="text-lg md:text-xl font-bold text-gray-800">Total</span>
+                    <span className="text-2xl md:text-3xl font-bold text-primaryTwo">
                       $ {cart_total_price.toFixed(2)}
                     </span>
                   </div>
 
                   <button
                     onClick={() => router.push(`${mainPath}/checkout`)}
-                    className=" group w-full bg-gradient-to-r from-primaryOne/90 to-primaryOne text-white py-4 rounded-xl font-bold text-lg hover:from-primaryTwo/90 hover:to-primaryTwo shadow-lg hover:shadow-xl    flex items-center justify-center gap-2"
+                    className=" group w-full bg-gradient-to-r from-primaryOne/90 to-primaryOne text-white py-3 md:py-4 rounded-xl font-bold text-base md:text-lg hover:from-primaryTwo/90 hover:to-primaryTwo shadow-lg hover:shadow-xl    flex items-center justify-center gap-2"
                   >
                     <span className="cursor-pointer group-hover:scale-110 transform  transition-all duration-300 flex items-center gap-2">
                       {' '}
                       Proceed to Checkout
-                      <ArrowRight className="w-5 h-5" />
+                      <ArrowRight className="w-4 md:w-5 h-4 md:h-5" />
                     </span>
                   </button>
                   {cart_total_price && (
                     <button
                       onClick={() => router.push(`${mainPath}/products`)}
-                      className="w-full mt-3 border-2 border-gray-300 text-gray-700 py-3 rounded-xl font-semibold hover:bg-gray-50 transition-all duration-300 cursor-pointer"
+                      className="w-full mt-3 border-2 border-gray-300 text-gray-700 py-2 md:py-3 rounded-xl font-semibold text-sm md:text-base hover:bg-gray-50 transition-all duration-300 cursor-pointer"
                     >
                       Continue Shopping
                     </button>

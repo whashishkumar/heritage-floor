@@ -46,7 +46,7 @@ export const OrderEndPoints = {
 
   getPlaceOrderSummary: () => {
     return apiFetch({
-      endpoint: '',
+      endpoint: '/customer/cart/detail',
       cache: 'no-store',
     });
   },

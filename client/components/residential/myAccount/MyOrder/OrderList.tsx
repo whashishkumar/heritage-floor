@@ -206,6 +206,9 @@ export default function OrderList({
               key={`${order.id}-${index}`}
               order={order}
               getOrderDetail={getOrderDetail}
+              handleCancleOrder={handleCancleOrder}
+              handleTrackingOrder={handleTrackingOrder}
+              handleReOrder={handleReOrder}
             />
           ))
         ) : (
