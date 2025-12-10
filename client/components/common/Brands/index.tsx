@@ -36,9 +36,12 @@ const brands = [
   },
 ];
 
-function BrandCard({ brandList }: any) {
+function BrandCard({ brandList, onClick }: any) {
   return (
-    <div className="border border-gray-200 rounded-xl py-6 shadow-sm flex flex-col items-center justify-center gap-14 bg-white hover:shadow-md transition cursor-pointer min-h-[5rem] h-[12rem] ">
+    <div
+      onClick={() => onClick(brandList.id)}
+      className="border border-gray-200 rounded-xl py-6 shadow-sm flex flex-col items-center justify-center gap-14 bg-white hover:shadow-md transition cursor-pointer min-h-[5rem] h-[12rem] "
+    >
       <div className="text-4xl font-light tracking-wide">{brandList.logoText}</div>
       <p className="text-lg font-semibold text-gray-800">{brandList.name}</p>
     </div>
@@ -50,6 +53,10 @@ export default function Brands() {
   const [lodaing, setLoading] = useState(false);
 
   const { heading, subheading, featured, allBrands } = brandList || {};
+
+  const handleClick = (brandId: number) => {
+    console.log('Clicked brand ID:', brandId);
+  };
 
   const fetchBrands = async () => {
     try {
@@ -81,7 +88,7 @@ export default function Brands() {
         <h2 className="flex justify-center font-semibold text-[1.5rem] py-6">Featured Brands</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 ">
           {featured?.map((brand: any) => (
-            <BrandCard key={brand.id} brandList={brand} />
+            <BrandCard key={brand.id} brandList={brand} onClick={handleClick} />
           ))}
         </div>
       </div>
@@ -89,7 +96,7 @@ export default function Brands() {
         <h2 className="flex justify-center font-semibold text-[1.5rem] py-8">All Brands Canada</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 ">
           {allBrands?.map((brand: any) => (
-            <BrandCard key={brand.id} brandList={brand} />
+            <BrandCard key={brand.id} brandList={brand} onClick={handleClick} />
           ))}
         </div>
       </div>
