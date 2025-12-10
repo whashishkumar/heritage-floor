@@ -96,12 +96,6 @@ export default function MegaMenu({ isDealsOpen, megaMenu }: any) {
     <div className="relative w-full" onMouseLeave={handleMenuClose}>
       {/* 🔹 Desktop Navigation Bar */}
       <div className="flex items-center justify-between wrapper mx-auto lg:h-[3.125rem] px-4 ">
-        <Link
-          href={`${mainPath}/brands`}
-          className="hidden md:block text-menu text-lg font-normal hover:text-primary transition-colors flex items-center leading-[1.4222] relative cursor-pointer"
-        >
-          Brands
-        </Link>
         <div className="hidden lg:flex items-center justify-center gap-[3.5rem] w-full">
           {megaMenuDataList?.map((item: any, index: any) => (
             <button

@@ -23,12 +23,12 @@ const brands = [
     logoText: 'brandtwo',
   },
   {
-    id: 30,
+    id: 5,
     name: 'Anatolia',
     logoText: 'anatolia',
   },
   {
-    id: 40,
+    id: 6,
     name: 'Brand Two',
     logoText: 'brandtwo',
   },

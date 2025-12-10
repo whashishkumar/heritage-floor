@@ -121,12 +121,26 @@ export default function HeaderMainBar({ megaMenuData }: any) {
               </div>
               {/* Navigation Links */}
               <nav className="flex items-center gap-6">
-                <button
+                <Link
+                  onClick={() => setIsDealsOpen(true)}
+                  href={`${mainPath}/brands`}
+                  className="hidden lg:block text-textGray hover:text-primaryTwo font-normal text-base leading-[1.6] cursor-pointer"
+                >
+                  Brands
+                </Link>
+                {/* <button
                   onClick={() => setIsDealsOpen(true)}
                   className="text-textGray hover:text-primaryTwo font-normal text-base leading-[1.6]"
                 >
                   Special Deals
-                </button>
+                </button> */}
+                <Link
+                  onClick={() => setIsDealsOpen(true)}
+                  href={`${mainPath}/special-deals`}
+                  className="text-textGray hover:text-primaryTwo font-normal text-base leading-[1.6]"
+                >
+                  Special Deals
+                </Link>
                 <Link
                   href={`${mainPath}/products`}
                   className="text-textGray hover:text-primaryTwo font-normal text-base leading-[1.6]"
@@ -259,17 +273,22 @@ export default function HeaderMainBar({ megaMenuData }: any) {
               {/* Mobile Navigation */}
               <nav className="flex flex-col gap-3">
                 <Link
+                  onClick={() => setIsMenuOpen(false)}
                   href={`${mainPath}/brands`}
                   className="text-textGray hover:text-primaryTwo font-normal text-base leading-[1.6]"
                 >
                   Brands
                 </Link>
-                <p
+                {/* <p className="text-textGray hover:text-primaryTwo font-normal text-base leading-[1.6]">
+                  Special Deals
+                </p> */}
+                <Link
                   onClick={() => setIsMenuOpen(false)}
+                  href={`${mainPath}/special-deals`}
                   className="text-textGray hover:text-primaryTwo font-normal text-base leading-[1.6]"
                 >
                   Special Deals
-                </p>
+                </Link>
                 <p
                   // href={`${mainPath}/products`}
                   onClick={handleProductPageRedirection}

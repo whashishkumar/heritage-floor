@@ -26,22 +26,6 @@ export default function OrderCardMobile({ order, getOrderDetail }: any) {
         </span>
       </div>
 
-      {/* Product Info */}
-      {/* <div className="flex gap-3 pb-3 border-b border-gray-100">
-        <img
-          src={order.product.image}
-          className="w-16 h-16 object-cover rounded"
-          alt={order.product.name}
-        />
-        <div className="flex-1">
-          <p className="text-sm font-semibold text-gray-900 poppins-font">{order.product.name}</p>
-          <p className="text-xs text-gray-500 poppins-font mt-1">
-            Color: {order.product.color} | Size: {order.product.size}
-          </p>
-          <p className="text-xs text-gray-500 poppins-font">Qty: {order.product.quantity}</p>
-        </div>
-      </div> */}
-
       {/* Order Details */}
       <div className="grid grid-cols-2 gap-3 text-sm">
         <div>
