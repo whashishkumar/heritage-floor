@@ -1,5 +1,5 @@
 import ProductDetailPage from '@/components/residential/productDetail';
-import React from 'react';
+import React, { Suspense } from 'react';
 
 export interface Product {
   id: number;
@@ -15,7 +15,11 @@ export interface Product {
 export default async function Page({ params }: any) {
   return (
     <div>
-      <ProductDetailPage />
+      <Suspense
+        fallback={<div className="min-h-[8rem] flex items-center justify-center">Loading...</div>}
+      >
+        <ProductDetailPage />
+      </Suspense>
     </div>
   );
 }

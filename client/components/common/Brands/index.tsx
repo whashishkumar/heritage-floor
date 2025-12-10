@@ -1,61 +1,40 @@
 'use client';
 import React, { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
 import SectionHeader from '../SectionHeader';
 import { CommonComponentData } from '@/lib/api/commonEndPoints';
-
-const brands = [
-  {
-    id: 1,
-    name: 'Anatolia',
-    logoText: 'anatolia',
-  },
-  {
-    id: 2,
-    name: 'Brand Two',
-    logoText: 'brandtwo',
-  },
-  {
-    id: 3,
-    name: 'Anatolia',
-    logoText: 'anatolia',
-  },
-  {
-    id: 4,
-    name: 'Brand Two',
-    logoText: 'brandtwo',
-  },
-  {
-    id: 5,
-    name: 'Anatolia',
-    logoText: 'anatolia',
-  },
-  {
-    id: 6,
-    name: 'Brand Two',
-    logoText: 'brandtwo',
-  },
-];
+import { usePathSegments } from '@/utils/segmentPath';
+import Loader from '@/components/ui/Loader';
+import Image from 'next/image';
 
 function BrandCard({ brandList, onClick }: any) {
+  const baseUrl = process.env.NEXT_PUBLIC_IMAGE_PATH;
   return (
     <div
       onClick={() => onClick(brandList.id)}
-      className="border border-gray-200 rounded-xl py-6 shadow-sm flex flex-col items-center justify-center gap-14 bg-white hover:shadow-md transition cursor-pointer min-h-[5rem] h-[12rem] "
+      className="border border-gray-200 rounded-xl py-6 shadow-sm flex flex-col items-center justify-center gap-7 bg-white hover:shadow-md transition cursor-pointer min-h-[5rem] h-[12rem] "
     >
-      <div className="text-4xl font-light tracking-wide">{brandList.logoText}</div>
-      <p className="text-lg font-semibold text-gray-800">{brandList.name}</p>
+      <Image
+        src={`${baseUrl}${brandList?.logoIcon}`}
+        height={60}
+        width={120}
+        alt="logo"
+        className="object-contain"
+      />
+      <p className="text-lg font-semibold text-gray-800 mb-6">{brandList.name}</p>
     </div>
   );
 }
 
 export default function Brands() {
+  const router = useRouter();
   const [brandList, seBrandsList] = useState<any | null>(null);
   const [lodaing, setLoading] = useState(false);
-
+  const { mainPath } = usePathSegments();
   const { heading, subheading, featured, allBrands } = brandList || {};
 
   const handleClick = (brandId: number) => {
-    console.log('Clicked brand ID:', brandId);
+    router.push(`${mainPath}/products?brand=${brandId}`);
   };
 
   const fetchBrands = async () => {
@@ -74,6 +53,14 @@ export default function Brands() {
     fetchBrands();
   }, []);
 
+  if (lodaing) {
+    return (
+      <div className="py-16">
+        <Loader />;
+      </div>
+    );
+  }
+
   return (
     <div className="wrapper m-auto py-16 poppins-font">
       <SectionHeader
@@ -85,7 +72,10 @@ export default function Brands() {
       />
       {/* Brands Grid */}
       <div>
-        <h2 className="flex justify-center font-semibold text-[1.5rem] py-6">Featured Brands</h2>
+        {featured && (
+          <h2 className="flex justify-center font-semibold text-[1.5rem] py-6">Featured Brands</h2>
+        )}
+
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 ">
           {featured?.map((brand: any) => (
             <BrandCard key={brand.id} brandList={brand} onClick={handleClick} />
@@ -93,7 +83,12 @@ export default function Brands() {
         </div>
       </div>
       <div>
-        <h2 className="flex justify-center font-semibold text-[1.5rem] py-8">All Brands Canada</h2>
+        {allBrands && (
+          <h2 className="flex justify-center font-semibold text-[1.5rem] py-8">
+            All Brands Canada
+          </h2>
+        )}
+
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 ">
           {allBrands?.map((brand: any) => (
             <BrandCard key={brand.id} brandList={brand} onClick={handleClick} />
