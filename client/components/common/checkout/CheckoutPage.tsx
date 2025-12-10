@@ -28,6 +28,7 @@ import CheckoutAddressForm from './CheckoutAddressForm';
 import { useToast } from '@/components/ui/Tooltip';
 import PaymentMethod from './PaymentMethod';
 import { OrderEndPoints } from '@/lib/api/orderEndPoints';
+import Image from 'next/image';
 
 export default function CheckoutPage() {
   const { showToast } = useToast();
@@ -41,13 +42,18 @@ export default function CheckoutPage() {
   const [addNewAddress, setAddNewAddress] = useState(false);
   const [isAddMode, setIsAddMode] = useState(false);
   const [showBillingScreen, setBillingScreen] = useState(false);
+  const [paymentMethodSelected, setPaymentMethodSelected] = useState(false);
   const [orderSummaryList, seOrderSummarylist] = useState<any | null>(null);
-  const { billing_address, customer, items, payment, shipping, totals } = orderSummaryList?.data;
+  const { billing_address, customer, items, payment, shipping, totals } =
+    orderSummaryList?.data || {};
 
   // Memoize shippingAddress to prevent infinite loop
   const shippingAddress = useMemo(() => {
     return purchaserAddress?.filter((address: any) => address.is_default);
   }, [purchaserAddress]);
+
+  // Check if all required steps are completed
+  const isCheckoutComplete = purchaserInfo && shippingAddress?.length > 0 && paymentMethodSelected;
 
   const [formData, setFormData] = useState<{
     billing: {
@@ -205,10 +211,7 @@ export default function CheckoutPage() {
   const fetchOrderSummary = async () => {
     const orderSummary = await OrderEndPoints.getPlaceOrderSummary();
     seOrderSummarylist(orderSummary);
-    console.log(orderSummary, 'orderSummary');
   };
-
-  console.log(orderSummaryList, 'orderSummaryList');
 
   useEffect(() => {
     fetchCustomerDetail();
@@ -394,37 +397,224 @@ export default function CheckoutPage() {
           </Card>
           {showBillingScreen && (
             <Card>
-              <PaymentMethod />
+              <PaymentMethod onPaymentMethodSelect={() => setPaymentMethodSelected(true)} />
             </Card>
           )}
         </div>
 
         {/* RIGHT SIDE SUMMARY */}
-        <div className="space-y-6">
+        <div className="space-y-6 lg:sticky lg:top-20">
+          {/* Checkout Progress Indicator */}
           <Card>
-            <Section title="Subtotal" amountValue={'$310.83'}>
-              <div className="mt-4 border-t pt-4 space-y-2 text-sm">
-                <div className="flex justify-between">
-                  <span>Delivery</span>
-                  <span>$249.00</span>
+            <div className="space-y-3">
+              <h3 className="font-bold text-lg text-gray-900">Checkout Progress</h3>
+              <div className="space-y-2">
+                <div className="flex items-center gap-3">
+                  <div
+                    className={`w-6 h-6 rounded-full flex items-center justify-center text-sm font-bold ${
+                      purchaserInfo ? 'bg-[#008c99] text-white' : 'bg-gray-300 text-gray-600'
+                    }`}
+                  >
+                    {purchaserInfo ? '✓' : '1'}
+                  </div>
+                  <span className={purchaserInfo ? 'text-[#008c99] font-medium' : 'text-gray-600'}>
+                    Purchaser Information {purchaserInfo ? '✓' : ''}
+                  </span>
                 </div>
-                <div className="flex justify-between">
-                  <span>Taxes</span>
-                  <span>$4.32</span>
+
+                <div className="flex items-center gap-3">
+                  <div
+                    className={`w-6 h-6 rounded-full flex items-center justify-center text-sm font-bold ${
+                      shippingAddress?.length > 0
+                        ? 'bg-[#008c99] text-white'
+                        : 'bg-gray-300 text-gray-600'
+                    }`}
+                  >
+                    {shippingAddress?.length > 0 ? '✓' : '2'}
+                  </div>
+                  <span
+                    className={
+                      shippingAddress?.length > 0 ? 'text-[#008c99] font-medium' : 'text-gray-600'
+                    }
+                  >
+                    Shipping Address {shippingAddress?.length > 0 ? '✓' : ''}
+                  </span>
                 </div>
-                <div className="flex justify-between font-semibold text-lg pt-2 border-t">
+
+                <div className="flex items-center gap-3">
+                  <div
+                    className={`w-6 h-6 rounded-full flex items-center justify-center text-sm font-bold ${
+                      paymentMethodSelected
+                        ? 'bg-[#008c99] text-white'
+                        : 'bg-gray-300 text-gray-600'
+                    }`}
+                  >
+                    {paymentMethodSelected ? '✓' : '3'}
+                  </div>
+                  <span
+                    className={
+                      paymentMethodSelected ? 'text-[#008c99] font-medium' : 'text-gray-600'
+                    }
+                  >
+                    Payment Method {paymentMethodSelected ? '✓' : ''}
+                  </span>
+                </div>
+              </div>
+
+              {isCheckoutComplete && (
+                <div className="mt-4 p-3 bg-green-50 border border-[#008c99] rounded-lg">
+                  <p className="text-[#008c99] text-sm font-medium">✓ All steps completed!</p>
+                </div>
+              )}
+            </div>
+          </Card>
+          <Card>
+            <Section
+              title="Order Summary"
+              amountValue={`${totals?.currency || '$'} ${totals?.grand_total || '0.00'}`}
+            >
+              <div className="mt-4 border-t pt-4 space-y-3 text-sm">
+                <div className="flex justify-between">
+                  <span className="text-gray-600">Subtotal</span>
+                  <span className="font-medium">
+                    {totals?.currency || '$'} {totals?.subtotal}
+                  </span>
+                </div>
+
+                {totals?.tax && (
+                  <div className="flex justify-between">
+                    <span className="text-gray-600">Taxes</span>
+                    <span className="font-medium">
+                      {totals?.currency || '$'} {totals?.tax || '0.00'}
+                    </span>
+                  </div>
+                )}
+
+                {totals?.shipping && totals.shipping > 0 && (
+                  <div className="flex justify-between">
+                    <span className="text-gray-600">Shipping ({shipping?.title})</span>
+                    <span className="font-medium">
+                      {totals?.currency || '$'} {totals?.shipping || '0.00'}
+                    </span>
+                  </div>
+                )}
+
+                {totals?.discount && totals.discount > 0 && (
+                  <div className="flex justify-between text-green-600">
+                    <span>Discount</span>
+                    <span className="font-medium">
+                      -{totals?.currency || '$'} {totals?.discount || '0.00'}
+                    </span>
+                  </div>
+                )}
+
+                <div className="flex justify-between font-semibold text-lg pt-3 border-t">
                   <span>Order Total</span>
-                  <span>$310.83</span>
+                  <span className="text-[#008c99]">
+                    {totals?.currency || '$'} {totals?.grand_total || '0.00'}
+                  </span>
                 </div>
+
+                {payment?.title && (
+                  <div className="flex justify-between pt-3 border-t text-gray-700">
+                    <span className="text-gray-600">Payment Method</span>
+                    <span className="font-medium">{payment.title}</span>
+                  </div>
+                )}
+
+                {payment?.status && (
+                  <div className="flex justify-between pt-2 text-gray-700">
+                    <span className="text-gray-600">Payment Status</span>
+                    <span
+                      className={`px-2 py-1 rounded text-xs font-medium ${
+                        payment.status === 'completed'
+                          ? 'bg-green-100 text-green-700'
+                          : payment.status === 'processing'
+                          ? 'bg-blue-100 text-blue-700'
+                          : 'bg-yellow-100 text-yellow-700'
+                      }`}
+                    >
+                      {payment.status}
+                    </span>
+                  </div>
+                )}
               </div>
             </Section>
           </Card>
+
           <Card>
-            <h2 className="text-lg font-semibold mb-4">Order Summary</h2>
-            <div className="space-y-4">
-              {summaryProducts?.map((item) => (
-                <ProductCard key={item?.id} item={item} />
-              ))}
+            <h2 className="text-lg font-semibold mb-4">Items ({items?.length || 0})</h2>
+            <div className="space-y-4 max-h-96 overflow-y-auto">
+              {items && Array.isArray(items) && items.length > 0 ? (
+                items.map((item: any) => (
+                  <div key={item?.item_id} className="flex gap-4 pb-4 border-b last:border-b-0">
+                    {/* Product Image Placeholder */}
+                    {/* <div className="w-16 h-16 bg-gradient-to-br from-gray-100 to-gray-200 rounded-lg flex-shrink-0 flex items-center justify-center"> */}
+                    {/* <svg
+                        className="w-8 h-8 text-gray-400"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
+                        />
+                      </svg> */}
+                    {/* <Image src={} height={20} width={20} alt="img" /> */}
+                    {/* </div> */}
+
+                    {/* Product Details */}
+                    <div className="flex-1 min-w-0">
+                      <h3 className="font-semibold text-gray-900 text-sm line-clamp-2">
+                        {item?.name}
+                      </h3>
+                      <p className="text-gray-500 text-xs mt-1">SKU: {item?.sku}</p>
+
+                      <div className="flex items-center gap-3 mt-2 text-xs">
+                        <span className="text-gray-600">
+                          Qty: <span className="font-medium">{item?.qty}</span>
+                        </span>
+                        <span className="text-gray-600">
+                          Price:{' '}
+                          <span className="font-medium">
+                            {totals?.currency}
+                            {item?.price}
+                          </span>
+                        </span>
+                      </div>
+
+                      {item?.tax > 0 && (
+                        <p className="text-gray-500 text-xs mt-1">
+                          Tax:{' '}
+                          <span className="font-medium">
+                            {totals?.currency}
+                            {item?.tax}
+                          </span>
+                        </p>
+                      )}
+                    </div>
+
+                    {/* Price and Total */}
+                    <div className="text-right flex-shrink-0">
+                      <p className="text-[#008c99] font-bold text-sm">
+                        {totals?.currency}
+                        {item?.total}
+                      </p>
+                      <p className="text-gray-500 text-xs mt-1">
+                        Subtotal: {totals?.currency}
+                        {item?.subtotal}
+                      </p>
+                    </div>
+                  </div>
+                ))
+              ) : (
+                <div className="text-center py-8">
+                  <p className="text-gray-500 text-sm">No items in order</p>
+                </div>
+              )}
             </div>
           </Card>
         </div>
