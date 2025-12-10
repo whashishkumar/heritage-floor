@@ -95,7 +95,7 @@ export const CommonComponentData = {
 
   getAllBrands: () => {
     return apiFetch({
-      endpoint: '',
+      endpoint: '/brands',
       cache: 'no-store',
     });
   },

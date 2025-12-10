@@ -1,5 +1,7 @@
-import React from 'react';
+'use client';
+import React, { useEffect, useState } from 'react';
 import SectionHeader from '../SectionHeader';
+import { CommonComponentData } from '@/lib/api/commonEndPoints';
 
 const brands = [
   {
@@ -44,14 +46,33 @@ function BrandCard({ brandList }: any) {
 }
 
 export default function Brands() {
+  const [brandList, seBrandsList] = useState<any | null>(null);
+  const [lodaing, setLoading] = useState(false);
+
+  const { heading, subheading, featured, allBrands } = brandList || {};
+
+  const fetchBrands = async () => {
+    try {
+      setLoading(true);
+      const resp = await CommonComponentData.getAllBrands();
+      seBrandsList(resp);
+      setLoading(false);
+    } catch (err) {
+      console.error(err);
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchBrands();
+  }, []);
+
   return (
     <div className="wrapper m-auto py-16 poppins-font">
       <SectionHeader
-        heading={'Best brands, best prices'}
+        heading={heading}
         headingCss="text-xl md:text-4xl font-bold !text-[#000] !capitalize !poppins-font"
-        subHeading={
-          'We offer you a carefully picked selection of on-trend high quality products from top brands in Canada'
-        }
+        subHeading={subheading}
         subHeadingCss="sm:!text-[1rem] !text-sm md:!text-xl font-normal text-black !capitalize !poppins-font"
         mainCss="flex  flex-col items-center gap-3 text-center"
       />
@@ -59,7 +80,7 @@ export default function Brands() {
       <div>
         <h2 className="flex justify-center font-semibold text-[1.5rem] py-6">Featured Brands</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 ">
-          {brands.map((brand) => (
+          {featured?.map((brand: any) => (
             <BrandCard key={brand.id} brandList={brand} />
           ))}
         </div>
@@ -67,7 +88,7 @@ export default function Brands() {
       <div>
         <h2 className="flex justify-center font-semibold text-[1.5rem] py-8">All Brands Canada</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 ">
-          {brands.map((brand) => (
+          {allBrands?.map((brand: any) => (
             <BrandCard key={brand.id} brandList={brand} />
           ))}
         </div>

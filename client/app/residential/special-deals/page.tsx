@@ -12,8 +12,8 @@ export default async function page() {
 
   return (
     <div>
-      <CategoriesResidential data={categories.data} />
       <SpecialDeals />
+      <CategoriesResidential data={categories.data} />
       <SignatureFlooring data={flooringSelections.data} />
       <FeaturedProducts />
       <GetInTouch />
