@@ -60,8 +60,26 @@ export const ResidentailPageData = {
     } = {}
   ) => {
     const { categoryid, id, sky, sortId, order, page, limit, brand, color, size } = params;
+
+    // Build query string only with defined values
+    const queryParams = new URLSearchParams();
+    if (categoryid !== undefined && categoryid !== null)
+      queryParams.append('category_id', String(categoryid));
+    if (id !== undefined && id !== null) queryParams.append('id', String(id));
+    if (sky !== undefined && sky !== null) queryParams.append('sku', String(sky));
+    if (sortId !== undefined && sortId !== null) queryParams.append('sort', String(sortId));
+    if (order !== undefined && order !== null) queryParams.append('order', String(order));
+    if (page !== undefined && page !== null) queryParams.append('page', String(page));
+    if (limit !== undefined && limit !== null) queryParams.append('limit', String(limit));
+    if (brand !== undefined && brand !== null) queryParams.append('brand', String(brand));
+    if (color !== undefined && color !== null) queryParams.append('color', String(color));
+    if (size !== undefined && size !== null) queryParams.append('size', String(size));
+
+    const queryString = queryParams.toString();
+    const endpoint = queryString ? `/products?${queryString}` : '/products';
+
     return apiFetch({
-      endpoint: `/products?category_id=${categoryid}&id=${id}&sku=${sky}&sort=${sortId}&order=${order}&brand=${brand}&color=${color}&size=${size}&page=${page}&limit=${limit}`,
+      endpoint,
       cache: 'no-store',
     });
   },
