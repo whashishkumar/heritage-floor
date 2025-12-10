@@ -28,7 +28,7 @@ const solutions = [
 export default function Solutions() {
   return (
     <div className="wrapper m-auto py-12 ">
-      <div className=" flex gap-6 flex-wrap md:flex-nowrap justify-center items-center">
+      <div className=" flex gap-6 flex-wrap md:flex-nowrap justify-center ">
         {solutions?.map((solution) => (
           <div key={solution.id} className="flex gap-4">
             <div className="">

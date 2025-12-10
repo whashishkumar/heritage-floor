@@ -42,6 +42,8 @@ export default function CheckoutPage() {
   const [isAddMode, setIsAddMode] = useState(false);
   const [showBillingScreen, setBillingScreen] = useState(false);
   const [orderSummaryList, seOrderSummarylist] = useState<any | null>(null);
+  const { billing_address, customer, items, payment, shipping, totals } = orderSummaryList?.data;
+
   // Memoize shippingAddress to prevent infinite loop
   const shippingAddress = useMemo(() => {
     return purchaserAddress?.filter((address: any) => address.is_default);
@@ -206,9 +208,12 @@ export default function CheckoutPage() {
     console.log(orderSummary, 'orderSummary');
   };
 
+  console.log(orderSummaryList, 'orderSummaryList');
+
   useEffect(() => {
     fetchCustomerDetail();
     fetchCustomerAddress();
+    fetchOrderSummary();
   }, [editPurchaserInfo]);
 
   // Update formData when shippingAddress is available

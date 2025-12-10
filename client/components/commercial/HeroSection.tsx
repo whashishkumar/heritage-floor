@@ -20,7 +20,7 @@ export default function HeroSectionCommercial({ heroBannerData }: any) {
         {/* Bottom-left content box with gradient */}
         <div className=" relative h-full w-full flex items-center justify-center  ">
           <div className="absolute lg:bottom-24 lg:left-56   md:h-[27.375rem]  md:w-[55.25rem] w-fit  rounded-[0.75rem] flex flex-col px-[1.5rem] sm:px-[4rem] bg-black/40 py-[2rem]">
-            <h1 className=" roboto-font lg:text-[4.938rem] text-[2.75rem] leading-[1.2025] font-medium text-white mb-2 align-middle ">
+            <h1 className=" roboto-font lg:text-[4rem] text-[2.75rem] leading-[1.2025] font-medium text-white mb-2 align-middle ">
               {title}
             </h1>
             <p className="inter-font text-white font-medium sm:text-[1.625rem] text-[1.25rem] align-middle ">

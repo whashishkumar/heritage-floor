@@ -258,6 +258,12 @@ export default function HeaderMainBar({ megaMenuData }: any) {
 
               {/* Mobile Navigation */}
               <nav className="flex flex-col gap-3">
+                <Link
+                  href={`${mainPath}/brands`}
+                  className="text-textGray hover:text-primaryTwo font-normal text-base leading-[1.6]"
+                >
+                  Brands
+                </Link>
                 <p
                   onClick={() => setIsMenuOpen(false)}
                   className="text-textGray hover:text-primaryTwo font-normal text-base leading-[1.6]"
