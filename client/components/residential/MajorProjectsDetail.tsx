@@ -93,7 +93,7 @@ export default function MajorProjectsList() {
   }, []);
 
   return (
-    <div className="w-full min-h-screen bg-white py-16">
+    <div className="w-full bg-white py-16">
       <div className="wrapper mx-auto px-4">
         <SectionHeader
           heading={heading}
