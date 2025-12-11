@@ -1,5 +1,5 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { RxArrowLeft, RxArrowRight } from 'react-icons/rx';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick-theme.css';
@@ -51,14 +51,35 @@ export default function AutoPlay({
   responsive,
 }: SlickSliderProps) {
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [isClient, setIsClient] = useState(false);
+  const sliderRef = useRef<any>(null);
+
+  // Only render slider on client side to avoid hydration mismatch
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
+  // Reinitialize slider on mount and window resize for mobile
+  useEffect(() => {
+    if (!isClient || !sliderRef.current) return;
+
+    const handleResize = () => {
+      if (sliderRef.current) {
+        sliderRef.current.slickGoTo(0);
+      }
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, [isClient]);
 
   const settings = {
     dots: false,
     infinite: true,
     speed: 5000,
-    slidesToShow: slideToShow,
+    slidesToShow: slideToShow || 1,
     slidesToScroll: 1,
-    autoplay: true,
+    autoplay: isClient,
     autoplaySpeed: 0,
     cssEase: 'linear',
     swipeToSlide: true,
@@ -67,15 +88,31 @@ export default function AutoPlay({
     variableWidth: false,
     adaptiveHeight: true,
     rtl,
-    responsive,
+    responsive: responsive || [
+      {
+        breakpoint: 768,
+        settings: {
+          slidesToShow: slideToShow || 1,
+          autoplaySpeed: 0,
+          speed: 3000,
+        },
+      },
+    ],
+    onSwipe: () => {
+      setCurrentSlide((prev) => (prev + 1) % data.length);
+    },
   };
 
+  if (!isClient) {
+    return <div className="h-24 bg-gray-100 rounded animate-pulse" />;
+  }
+
   return (
-    <div className=" ">
-      <Slider {...settings}>
+    <div className="w-full">
+      <Slider ref={sliderRef} {...settings}>
         {data?.map((item, index) => (
-          <div key={index} className="px-2 ">
-            <div className="flex items-center justify-center ">
+          <div key={index} className="px-2">
+            <div className="flex items-center justify-center">
               <CardComponent data={item} />
             </div>
           </div>
