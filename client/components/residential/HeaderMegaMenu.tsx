@@ -1,6 +1,7 @@
 'use client';
 import { usePathSegments } from '@/utils/segmentPath';
 import Image from 'next/image';
+import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useState, useRef } from 'react';
 import { BiChevronDown } from 'react-icons/bi';

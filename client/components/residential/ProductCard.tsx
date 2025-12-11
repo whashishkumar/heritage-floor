@@ -49,7 +49,7 @@ export default function ProductCard({ data, handleOpenModal }: ProductData) {
         </div>
 
         {/* Product Details */}
-        <div className=" flex flex-col mt-[1rem] h-[12rem]">
+        <div className=" flex flex-col mt-[1rem] ">
           {/* Category */}
           <div className=" flex flex-col -space-y-1.5 ">
             <div className="text-base font-medium text-black capitalize">{data.type || ''}</div>
@@ -59,7 +59,7 @@ export default function ProductCard({ data, handleOpenModal }: ProductData) {
                 {data?.name || ''}
               </h3>
               <span className="text-lg  text-black  text-[1.1rem] font-semibold  ">
-                ${data?.price_per_sqft || ''} /sq.ft
+                ${Number(data?.price_per_sqft)?.toFixed(2) || ''} /sq.ft
               </span>
             </div>
 

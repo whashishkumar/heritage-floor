@@ -6,7 +6,7 @@ import Selector from '@/components/ui/Selector';
 import Pagination from '@/components/ui/Pagnation';
 import { LuFilter } from 'react-icons/lu';
 import { MdClose } from 'react-icons/md';
-import { useParams, useRouter } from 'next/navigation';
+import { useParams, useRouter, useSearchParams } from 'next/navigation';
 import Loader from '@/components/ui/Loader';
 import { ResidentailPageData } from '@/lib/api/residentialEndPoints';
 import { useToast } from '@/components/ui/Tooltip';
@@ -34,6 +34,7 @@ const accOptions = [
 
 export default function ProductDetailPage({ sortOptionsCategory }: any) {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const { showToast } = useToast();
   const [isMobileFilterOpen, setIsMobileFilterOpen] = useState(false);
   const [categoryProducts, setCategoryProducts] = useState<any | null>(null);
@@ -45,7 +46,10 @@ export default function ProductDetailPage({ sortOptionsCategory }: any) {
   const { slug } = params;
   const [order, setOrder] = useState<any>(null);
   const [priceSort, setPriceSort] = useState<any>(null);
-  const [brandSort, setBrandSort] = useState<any>(null);
+  const [brandSort, setBrandSort] = useState<any>(() => {
+    const brandFromQuery = searchParams.get('brand');
+    return brandFromQuery ? Number(brandFromQuery) : null;
+  });
   const [colorSort, setColorSort] = useState<any>(null);
   const [sizeSort, setSizeSort] = useState<any>(null);
   const [selectedCategory, setSelectedCategory] = useState<any>(null);
@@ -89,6 +93,7 @@ export default function ProductDetailPage({ sortOptionsCategory }: any) {
       setIsLoading(true);
       const resp = await ResidentailPageData.getCategoryBasedProducts({
         categoryid: slug ? Number(slug) : undefined,
+        brand: brandSort || undefined,
         page: currentPage,
         limit: 12,
       });

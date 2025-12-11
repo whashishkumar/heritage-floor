@@ -11,7 +11,11 @@ interface PaymentMethodType {
   formatted_price?: string;
 }
 
-export default function PaymentMethod() {
+export default function PaymentMethod({
+  onPaymentMethodSelect,
+}: {
+  onPaymentMethodSelect?: () => void;
+}) {
   const [paymentMethods, setPaymentMethods] = useState<PaymentMethodType[]>([]);
   const [selectedMethod, setSelectedMethod] = useState<PaymentMethodType | null>(null);
   const [showPaymentMethodsTypes, setPaymentMethodTypes] = useState(false);
@@ -28,6 +32,8 @@ export default function PaymentMethod() {
 
     if (resp.status === 200) {
       setPaymentMethodTypes(true);
+      // Call the callback to notify parent that payment method is selected
+      onPaymentMethodSelect?.();
     }
   };
 

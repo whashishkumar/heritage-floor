@@ -1,10 +1,14 @@
 import ProductDetailPage from '@/components/residential/ProductDetailPage';
-import React from 'react';
+import React, { Suspense } from 'react';
 
 export default function page() {
   return (
     <div>
-      <ProductDetailPage />
+      <Suspense
+        fallback={<div className="min-h-[8rem] flex items-center justify-center">Loading...</div>}
+      >
+        <ProductDetailPage />
+      </Suspense>
     </div>
   );
 }

@@ -57,6 +57,7 @@ export const CommonComponentData = {
       cache: 'no-store',
     });
   },
+
   getMenuItemsList: () => {
     return apiFetch({
       endpoint: '/residential/menus',
@@ -88,6 +89,13 @@ export const CommonComponentData = {
   getFeaturesProducts: () => {
     return apiFetch({
       endpoint: '/products?featured=1',
+      cache: 'no-store',
+    });
+  },
+
+  getAllBrands: () => {
+    return apiFetch({
+      endpoint: '/brands',
       cache: 'no-store',
     });
   },
