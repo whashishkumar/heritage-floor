@@ -1,5 +1,5 @@
 'use client';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { FiSearch, FiUser, FiShoppingCart, FiX } from 'react-icons/fi';
 import { IoIosArrowForward } from 'react-icons/io';
 import Image from 'next/image';
@@ -37,10 +37,10 @@ export default function HeaderMainBar({ megaMenuData }: any) {
     setIsMenuOpen(!isMenuOpen);
   };
 
-  const getwishListCount = async () => {
+  const getwishListCount = useCallback(async () => {
     const Wishlist = await CartEndPoint.getWishListItems();
     seCartCount(Wishlist?.data?.length);
-  };
+  }, []);
 
   const handleCloseMegaMenu = () => {
     setIsDealsOpen(false);
@@ -53,10 +53,10 @@ export default function HeaderMainBar({ megaMenuData }: any) {
   const handleOpenQuoteModal = () => setIsQuoteModel(true);
   const handleCloseQuoteModal = () => setIsQuoteModel(false);
 
-  const getCount = async () => {
+  const getCount = useCallback(async () => {
     const cardCount = await CartEndPoint.getCartItems();
     setItemsInCart(cardCount?.data?.items_count);
-  };
+  }, []);
 
   const getUserDetail = async () => {
     const resp = await UserMyAccountEndpoints.getUserDetail();
