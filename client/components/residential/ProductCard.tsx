@@ -16,7 +16,7 @@ interface ProductData {
 }
 
 export default function ProductCard({ data, handleOpenModal }: ProductData) {
-  const baseUrl = process.env.NEXT_PUBLIC_IMAGE_PATH;
+  const baseUrl = process.env.NEXT_PUBLIC_IMAGE_PATH_WITHOUT_STORAGE;
   const { mainPath } = usePathSegments();
   const param = useParams();
   const { slug } = param;
