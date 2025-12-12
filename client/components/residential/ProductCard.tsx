@@ -30,8 +30,6 @@ export default function ProductCard({ data, handleOpenModal }: ProductData) {
     }
   };
 
-  console.log(data, 'data123456');
-
   return (
     <>
       <div className="flex-shrink-0 w-full max-w-[27.5rem] h-[41.75rem] bg-white overflow-hidden rounded-[0.75rem] flex flex-col justify-between">

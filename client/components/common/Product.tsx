@@ -63,9 +63,9 @@ export default function ProductCard({ product, handleGetProductDetail }: Props |
         className="relative bg-white rounded-[0.625rem] flex justify-center items-center border border-[#E8E8E8] h-[341px] w-[296px] cursor-pointer rounded-tl-lg"
         onClick={() => handleGetProductDetail(product.id)}
       >
-        {product?.discount_percent && (
+        {product?.discount_percent > 0 && (
           <span className="absolute top-0 left-0 bg-[#BA0202] text-white text-sm px-2 py-1 rounded-tl-lg font-bold poppins-font">
-            {product?.discount_percent?.toFixed(2)}% OFF
+            {product?.discount_percent}% OFF
           </span>
         )}
         <span className="absolute right-0 top-0 font-semibold px-2 py-1 flex  items-center ">

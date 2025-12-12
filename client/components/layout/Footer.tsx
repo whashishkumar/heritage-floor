@@ -317,7 +317,7 @@ const Footer: React.FC = () => {
                       <label className="text-sm text-gray-400 leading-relaxed">
                         {formSection?.privacyConsent.text.split('Privacy Policy')[0]}
                         <a
-                          href={formSection?.privacyConsent.privacyLink}
+                          href={`${mainPath}${formSection?.privacyConsent.privacyLink || ''}`}
                           className="underline hover:text-white transition-colors"
                         >
                           Privacy Policy
