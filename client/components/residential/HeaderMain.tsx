@@ -78,7 +78,7 @@ export default function HeaderMainBar({ megaMenuData }: any) {
     }
     getwishListCount();
     getCount();
-  }, [isAuthenticated]);
+  }, [isAuthenticated, getwishListCount, getCount]);
 
   return (
     <>
