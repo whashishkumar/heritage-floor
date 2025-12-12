@@ -22,30 +22,6 @@ const BlogPage = ({ blogs, featuredBlogs, slugPath }: any) => {
   const router = useRouter();
   const [page, setPage] = useState(1);
 
-  // const categories = [
-  //   "All",
-  //   "Design Trends",
-  //   "Installation Tips",
-  //   "Product Guides",
-  //   "Industry News",
-  //   "Case Studies",
-  // ];
-
-  // const filteredPosts = blogData?.filter((post: any) => {
-  //   const matchesCategory =
-  //     selectedCategory === "All" || post.category.slug === selectedCategory;
-  //   const matchesSearch =
-  //     post.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-  //     post.excerpt.toLowerCase().includes(searchQuery.toLowerCase());
-  //   return matchesCategory && matchesSearch;
-  // });
-
-  // const featuredPost =
-  //   filteredPosts.find((post: any) => post.featured) || filteredPosts[0];
-  // const regularPosts = filteredPosts.filter(
-  //   (post: any) => post.id !== featuredPost?.id
-  // );
-
   const fetchBlogs = async () => {
     const blogs = await CommonComponentData.getOurBlogs(page);
     setBlogData(blogs?.data);
@@ -114,7 +90,7 @@ const BlogPage = ({ blogs, featuredBlogs, slugPath }: any) => {
             </div>
 
             {/* Search Bar */}
-            <SearchBarBlog searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
+            {/* <SearchBarBlog searchQuery={searchQuery} setSearchQuery={setSearchQuery} /> */}
           </div>
         </div>
 

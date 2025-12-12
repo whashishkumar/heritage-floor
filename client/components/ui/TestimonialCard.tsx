@@ -8,15 +8,15 @@ export default function TestimonialCard({ data }: { data: any }) {
       <div className="w-[21.563rem] p-[1.5rem] h-auto  rounded-[1rem] bg-black  border-[0.5px] border-[#3686F7]  flex flex-col custom-shadow">
         {/* user */}
         <div className="h-[4rem]  w-full flex items-center  justify-center">
-          <div className="w-[20%] h-full   flex items-center">
-            <div className="h-[2.5rem] w-[2.5rem] relative overflow-hidden rounded-full border-white border-[0.5px]">
+          <div className="w-[20%] h-full flex items-center mr-3 md:mr-0">
+            <div className="h-[2.5rem] w-[2.5rem] relative overflow-hidden rounded-full border-white border-[0.5px] ">
               {data?.profile_image && (
                 <Image
                   // src="/images/commercial/user1.jpg"
                   src={data?.profile_image}
                   fill
                   alt="Name"
-                  className=" object-center"
+                  className="object-center"
                 />
               )}
             </div>
@@ -25,7 +25,7 @@ export default function TestimonialCard({ data }: { data: any }) {
             <div className=" text-white text-base font-bold leading-[1.2500] line-clamp-1">
               {data.title || 'Name'}
             </div>
-            <div className=" text-xs  font-normal text-white/50 leading-[1.2500]">
+            <div className="text-xs  font-normal text-white/50 leading-[1.2500]">
               {data.role || 'IT Consultant, Reynolds Systems'}
             </div>
             {/* <div className=" text-[#FFC107] flex  space-x-1">
@@ -35,7 +35,7 @@ export default function TestimonialCard({ data }: { data: any }) {
           </div>
         </div>
         {/* review */}
-        <div className="w-full h-auto  mt-[0.5rem] ">
+        <div className="w-full h-auto mt-[1rem] md:mt-[0.5rem] ">
           <p className="text-white leading-[1.25] text-base font-normal line-clamp-4">
             {data.feedback ||
               'This widget has made our workflow incredibly efficient! The interface is user-friendly, and the performance is seamless. Customer support was quick to respond to our queries. Highly recommend!'}

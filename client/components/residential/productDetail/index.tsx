@@ -265,7 +265,6 @@ export default function ProductDetailPage({ sortOptionsCategory }: any) {
               <LuFilter size={24} />
             </div>
           </div>
-
           {/* Product Grid */}
           <Suspense fallback={<Loader />}>
             <div>
