@@ -64,20 +64,20 @@ const FeaturedBlogArticle: React.FC<FeaturedArticleProps> = ({ featuredPost, han
             </h2>
 
             <p className="text-primaryGray text-lg mb-6 line-clamp-3">{featuredPost.excerpt}</p>
-
-            <div className="flex items-center justify-start group-hover:justify-between pb-4 border-b border-[#e8e8e8] transition-all duration-[1800ms] ease-[cubic-bezier(0.33,1,0.68,1)]">
+            <button
+              onClick={() => handleReadMore?.(featuredPost.slug)}
+              className="flex items-center gap-2 text-primaryTwo font-semibold group-hover:gap-4 transition-all duration-[700ms] ease-[cubic-bezier(0.4,0,0.2,1)] cursor-pointer"
+            >
+              Read More
+              <GoArrowRight className="w-5 h-5" />
+            </button>
+            {/* <div className="flex items-center justify-start group-hover:justify-between pb-4 border-b border-[#e8e8e8] transition-all duration-[1800ms] ease-[cubic-bezier(0.33,1,0.68,1)]">
               <div className="opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-[700ms] ease-[cubic-bezier(0.4,0,0.2,1)]">
                 <span className="text-sm text-gray-500"></span>
               </div>
 
-              <button
-                onClick={() => handleReadMore?.(featuredPost.slug)}
-                className="flex items-center gap-2 text-primaryTwo font-semibold group-hover:gap-4 transition-all duration-[700ms] ease-[cubic-bezier(0.4,0,0.2,1)] cursor-pointer"
-              >
-                Read More
-                <GoArrowRight className="w-5 h-5" />
-              </button>
-            </div>
+        
+            </div> */}
           </div>
         </div>
       </div>

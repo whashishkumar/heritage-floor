@@ -65,7 +65,7 @@ export default function ProductCard({ product, handleGetProductDetail }: Props |
       >
         {product?.discount_percent && (
           <span className="absolute top-0 left-0 bg-[#BA0202] text-white text-sm px-2 py-1 rounded-tl-lg font-bold poppins-font">
-            {product?.discount_percent}% OFF
+            {product?.discount_percent?.toFixed(2)}% OFF
           </span>
         )}
         <span className="absolute right-0 top-0 font-semibold px-2 py-1 flex  items-center ">
@@ -91,7 +91,7 @@ export default function ProductCard({ product, handleGetProductDetail }: Props |
           {product.name}
         </h3>
         <p className="mt-2 text-black poppins-font font-extrabold leading-[1.875rem] text-[1.875rem] ">
-          {product.price ? '$' + `${product.price}` : '_'}
+          {product?.price ? `$${Number(product.price).toFixed(2)}` : '_'}
         </p>
         {/* Button */}
         <div className="mt-[1.5rem]">
