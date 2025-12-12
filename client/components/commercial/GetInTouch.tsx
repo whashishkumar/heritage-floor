@@ -14,12 +14,15 @@ export default function GetInTouch() {
 
   const handleLetterSubscribe = async (e: React.FormEvent) => {
     e.preventDefault();
+
     if (!inputValue) return;
     try {
-      const resp = await UserMyAccountEndpoints.getSubscriptionStatus(inputValue);
+      const payload = {
+        email: inputValue,
+      };
+      const resp = await UserMyAccountEndpoints.getSubscriptionStatus(payload);
       if (resp && resp.message) {
-        // showToast(resp.message, 'success');
-        alert(resp.message);
+        showToast(resp.message, 'success');
       }
       setInputValue('');
     } catch (error) {
