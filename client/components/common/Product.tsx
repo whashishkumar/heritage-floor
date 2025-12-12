@@ -54,7 +54,7 @@ export default function ProductCard({ product, handleGetProductDetail }: Props |
     }
   };
 
-  const path = process.env.NEXT_PUBLIC_IMAGE_PATH;
+  const path = process.env.NEXT_PUBLIC_IMAGE_PATH_WITHOUT_STORAGE;
   const ProductImage = `${path}${product?.image}`;
 
   return (
