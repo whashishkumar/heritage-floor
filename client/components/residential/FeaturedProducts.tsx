@@ -109,7 +109,7 @@ export default function FeaturedProducts() {
               swipebtn={false}
               spaceBetween={10}
               autoPlay={true}
-              loop={true}
+              loop={false}
               delay={1000}
               speed={1500}
               breakpoints={breakpoints}

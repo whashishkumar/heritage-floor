@@ -20,7 +20,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 export default function HeaderMainBar({ megaMenuData }: any) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isDealsOpen, setIsDealsOpen] = useState(false);
-  const [cartCount] = useState(0);
+  const [cartCount, seCartCount] = useState(0);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [itemsInCart, setItemsInCart] = useState(null);
   const { isAuthenticated, logout } = useAuth();
@@ -35,6 +35,11 @@ export default function HeaderMainBar({ megaMenuData }: any) {
   const handleOpenMegaMenu = () => {
     setIsDealsOpen(true);
     setIsMenuOpen(!isMenuOpen);
+  };
+
+  const getwishListCount = async () => {
+    const Wishlist = await CartEndPoint.getWishListItems();
+    seCartCount(Wishlist?.data?.length);
   };
 
   const handleCloseMegaMenu = () => {
@@ -71,6 +76,7 @@ export default function HeaderMainBar({ megaMenuData }: any) {
     if (isAuthenticated) {
       getUserDetail();
     }
+    getwishListCount();
     getCount();
   }, [isAuthenticated]);
 
@@ -128,12 +134,6 @@ export default function HeaderMainBar({ megaMenuData }: any) {
                 >
                   Brands
                 </Link>
-                {/* <button
-                  onClick={() => setIsDealsOpen(true)}
-                  className="text-textGray hover:text-primaryTwo font-normal text-base leading-[1.6]"
-                >
-                  Special Deals
-                </button> */}
                 <Link
                   onClick={() => setIsDealsOpen(true)}
                   href={`${mainPath}/special-deals`}
@@ -198,7 +198,7 @@ export default function HeaderMainBar({ megaMenuData }: any) {
                 <ModalBox isOpen={isModalOpen} onClose={handleCloseModal}>
                   <LoginPage onClose={handleCloseModal} />
                 </ModalBox>
-                {/* {!isAuthenticated && ( */}
+
                 <>
                   <Link
                     href={`${mainPath}/cart`}
@@ -217,19 +217,20 @@ export default function HeaderMainBar({ megaMenuData }: any) {
                           </p>
                         )}
                   </Link>
-                  <Link
-                    href={`${mainPath}/my-account/lists`}
-                    className="relative text-gray-700 hover:text-primaryTwo h-[1.5rem] w-[1.5rem]"
-                  >
-                    <Image src="/icon/Heart.png" alt="Wishlist" fill className="object-center" />
-                    {cartCount >= 0 && (
-                      <span className="absolute -top-2 -right-2 bg-primaryTwo text-white text-xs rounded-full w-4 h-4 flex items-center justify-center">
-                        {cartCount}
-                      </span>
-                    )}
-                  </Link>
+                  {isAuthenticated && (
+                    <Link
+                      href={`${mainPath}/my-account/lists`}
+                      className="relative text-gray-700 hover:text-primaryTwo h-[1.5rem] w-[1.5rem]"
+                    >
+                      <Image src="/icon/Heart.png" alt="Wishlist" fill className="object-center" />
+                      {cartCount > 0 && (
+                        <span className="absolute -top-2 -right-2 bg-primaryTwo text-white text-xs rounded-full w-4 h-4 flex items-center justify-center">
+                          {cartCount}
+                        </span>
+                      )}
+                    </Link>
+                  )}
                 </>
-                {/* )} */}
               </div>
             </div>
 
