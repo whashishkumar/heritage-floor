@@ -20,7 +20,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 export default function HeaderMainBar({ megaMenuData }: any) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isDealsOpen, setIsDealsOpen] = useState(false);
-  const [cartCount, seCartCount] = useState(0);
+  const [cartCount, setCartCount] = useState(0);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [itemsInCart, setItemsInCart] = useState(null);
   const { isAuthenticated, logout } = useAuth();
@@ -37,9 +37,23 @@ export default function HeaderMainBar({ megaMenuData }: any) {
     setIsMenuOpen(!isMenuOpen);
   };
 
+  // const getwishListCount = useCallback(async () => {
+  //   const Wishlist = await CartEndPoint.getWishListItems();
+  //   seCartCount(Wishlist?.data?.length);
+  // }, []);
+  // const getCount = useCallback(async () => {
+  //   const cardCount = await CartEndPoint.getCartItems();
+  //   setItemsInCart(cardCount?.data?.items_count);
+  // }, []);
+
+  const getCount = useCallback(async () => {
+    const cardCount = await CartEndPoint.getCartItems();
+    setItemsInCart(cardCount?.data?.items_count || 0);
+  }, []);
+
   const getwishListCount = useCallback(async () => {
-    const Wishlist = await CartEndPoint.getWishListItems();
-    seCartCount(Wishlist?.data?.length);
+    const res = await CartEndPoint.getWishListItems();
+    setCartCount(res?.data?.length || 0);
   }, []);
 
   const handleCloseMegaMenu = () => {
@@ -52,11 +66,6 @@ export default function HeaderMainBar({ megaMenuData }: any) {
 
   const handleOpenQuoteModal = () => setIsQuoteModel(true);
   const handleCloseQuoteModal = () => setIsQuoteModel(false);
-
-  const getCount = useCallback(async () => {
-    const cardCount = await CartEndPoint.getCartItems();
-    setItemsInCart(cardCount?.data?.items_count);
-  }, []);
 
   const getUserDetail = async () => {
     const resp = await UserMyAccountEndpoints.getUserDetail();
@@ -72,13 +81,33 @@ export default function HeaderMainBar({ megaMenuData }: any) {
     setIsQuoteModel(true);
   };
 
+  // useEffect(() => {
+  //   if (isAuthenticated) {
+  //     getUserDetail();
+  //   }
+  //   getwishListCount();
+  //   getCount();
+  //   window.addEventListener('cart-updated', getCount);
+
+  //   return () => {
+  //     window.removeEventListener('cart-updated', getCount);
+  //   };
+  // }, [isAuthenticated]);
+
   useEffect(() => {
-    if (isAuthenticated) {
-      getUserDetail();
-    }
+    if (!isAuthenticated) return;
+    getUserDetail();
     getwishListCount();
     getCount();
-  }, [isAuthenticated, getwishListCount, getCount]);
+
+    window.addEventListener('cart-updated', getCount);
+    window.addEventListener('wishList-update', getwishListCount);
+
+    return () => {
+      window.removeEventListener('cart-updated', getCount);
+      window.removeEventListener('wishList-update', getwishListCount);
+    };
+  }, [isAuthenticated, getCount, getwishListCount]);
 
   return (
     <>

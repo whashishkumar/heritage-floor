@@ -34,12 +34,13 @@ export default function ProductCard({ product, handleGetProductDetail }: Props |
 
   const handleAddToCartProduct = async (id: any) => {
     if (isAddingToCart) return; // Prevent multiple clicks
-
     setIsAddingToCart(true);
     try {
       if (isAuthenticated) {
         await CartEndPoint.addItemToCart(id);
         showToast('Product added to cart successfully!', 'success');
+        // 🔥 notify all components
+        window.dispatchEvent(new Event('cart-updated'));
       } else {
         addToGuestCart({ id: id });
         showToast('Product added to cart!', 'success');
