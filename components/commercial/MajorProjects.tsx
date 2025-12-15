@@ -54,6 +54,7 @@ const MajorProjectData = [
 export default async function OurMajorProjectsCommercial({ majorProjects }: any) {
   const { heading, description, subheading, data } = majorProjects || {};
   const baseUrl = process.env.NEXT_PUBLIC_IMAGE_PATH_WITHOUT_STORAGE;
+
   return (
     <>
       <div className="w-full h-full ">

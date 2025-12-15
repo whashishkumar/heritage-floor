@@ -112,6 +112,8 @@ const CartPageComponent = () => {
     showToast(resp?.message);
     const response = await CartEndPoint.getCartItems();
     setCartAddedItems(response.data);
+    // 🔥 notify all components
+    window.dispatchEvent(new Event('cart-updated'));
   };
 
   const applyPromoCode = async () => {
@@ -135,6 +137,8 @@ const CartPageComponent = () => {
     showToast(resp?.message);
     const response = await CartEndPoint.getCartItems();
     setCartAddedItems(response.data);
+    // 🔥 notify all components
+    window.dispatchEvent(new Event('wishList-update'));
   };
 
   const handleRemoveAllCartItems = async () => {

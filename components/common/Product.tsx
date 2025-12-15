@@ -34,12 +34,13 @@ export default function ProductCard({ product, handleGetProductDetail }: Props |
 
   const handleAddToCartProduct = async (id: any) => {
     if (isAddingToCart) return; // Prevent multiple clicks
-
     setIsAddingToCart(true);
     try {
       if (isAuthenticated) {
         await CartEndPoint.addItemToCart(id);
         showToast('Product added to cart successfully!', 'success');
+        // 🔥 notify all components
+        window.dispatchEvent(new Event('cart-updated'));
       } else {
         addToGuestCart({ id: id });
         showToast('Product added to cart!', 'success');
@@ -60,7 +61,7 @@ export default function ProductCard({ product, handleGetProductDetail }: Props |
   return (
     <div className="flex flex-col">
       <div
-        className="relative bg-white rounded-[0.625rem] flex justify-center items-center border border-[#E8E8E8] h-[341px] w-[296px] cursor-pointer rounded-tl-lg"
+        className="relative bg-white rounded-[0.625rem] flex justify-center items-center border border-[#E8E8E8] w-full h-[341px]  cursor-pointer rounded-tl-lg"
         onClick={() => handleGetProductDetail(product.id)}
       >
         {product?.discount_percent > 0 && (

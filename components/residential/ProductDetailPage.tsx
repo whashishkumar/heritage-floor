@@ -199,6 +199,8 @@ const ProductDetailPage = () => {
     const wishLitItem = await CartEndPoint.addRemoveListItems(productId);
     const { message } = wishLitItem;
     showToast(message);
+    // 🔥 notify all components
+    window.dispatchEvent(new Event('wishList-update'));
     const { data } = await ResidentailPageData.getProductDetail(childSlug);
     setProductDetail(data);
   };
@@ -210,6 +212,8 @@ const ProductDetailPage = () => {
     };
     const resp = await CartEndPoint.addItemToCart(id, calculation);
     showToast(resp?.message);
+    // 🔥 notify all components
+    window.dispatchEvent(new Event('cart-updated'));
   };
 
   const handleOpenQueryModal = () => {

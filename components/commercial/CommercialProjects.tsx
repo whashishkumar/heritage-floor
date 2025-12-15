@@ -30,6 +30,7 @@ export default function MajorProjectsResidential({ commercialProject }: any) {
   ];
 
   const handleViewClick = (videoPath: string) => {
+    console.log(videoPath, 'selectedVideo');
     setSelectedVideo(videoPath);
     setIsModalOpen(true);
   };
@@ -122,7 +123,7 @@ export default function MajorProjectsResidential({ commercialProject }: any) {
       </div> */}
       {/* Video Modal */}
       <ModalBox isOpen={isModalOpen} onClose={handleCloseModal}>
-        <div className="w-full">
+        <div className="w-full ">
           <h2 className="text-2xl font-bold mb-4 text-black">Project Video</h2>
           {selectedVideo && (
             <video
@@ -130,7 +131,7 @@ export default function MajorProjectsResidential({ commercialProject }: any) {
               controls
               autoPlay
               // src={selectedVideo}
-              src={`${baseUrl}${selectedVideo}`}
+              src={`${selectedVideo}`}
             >
               Your browser does not support the video tag.
             </video>
