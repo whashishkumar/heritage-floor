@@ -46,12 +46,12 @@ export default function GetInTouch() {
               placeholder="Get in touch with us today!"
               value={inputValue}
               onChange={handleChange}
-              className="bg-transparent outline-none text-white ml-4 w-[60%]
+              className="bg-transparent outline-none text-white ml-4 w-[100%] md:w-[60%]
               placeholder:text-white
               placeholder:font-normal
-              placeholder:text-xl
+              placeholder:text-lg
               lg:placeholder:text-2xl
-              placeholder:leading-[1.75]
+               placeholder:leading-[1.75]
               placeholder:align-middle
               placeholder:tracking-[0.5px]
               text-lg"
@@ -61,7 +61,7 @@ export default function GetInTouch() {
             onClick={handleLetterSubscribe}
             className="w-[10%] bg-primaryTwo flex items-center cursor-pointer justify-center hover:opacity-90 transition-opacity"
           >
-            <div className="h-[1.875rem] w-[1.875rem] relative ">
+            <div className="h-[1rem] w-[1rem] relative md:h-[1.875rem] md:w-[1.875rem]">
               <Image src="/icon/share.png" alt="submit" fill className="object-cover" />
             </div>
           </button>

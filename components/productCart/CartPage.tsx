@@ -284,7 +284,7 @@ const CartPageComponent = () => {
                               {/* Price and Quantity */}
                               <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 pt-2">
                                 <div className="text-xl md:text-2xl font-bold text-primaryTwo">
-                                  ${total_price}
+                                  ${box_price}
                                   <span className="text-xs md:text-sm text-gray-500 ml-2 md:ml-4 block md:inline-block">
                                     ( ${price_per_sqft} /sq.ft )
                                   </span>
