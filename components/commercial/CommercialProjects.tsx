@@ -30,7 +30,6 @@ export default function MajorProjectsResidential({ commercialProject }: any) {
   ];
 
   const handleViewClick = (videoPath: string) => {
-    console.log(videoPath, 'selectedVideo');
     setSelectedVideo(videoPath);
     setIsModalOpen(true);
   };
@@ -124,7 +123,7 @@ export default function MajorProjectsResidential({ commercialProject }: any) {
       {/* Video Modal */}
       <ModalBox isOpen={isModalOpen} onClose={handleCloseModal}>
         <div className="w-full ">
-          <h2 className="text-2xl font-bold mb-4 text-black">Project Video</h2>
+          {/* <h2 className="text-2xl font-bold mb-4 text-black">Project Video</h2> */}
           {selectedVideo && (
             <video
               className="w-full max-h-[30rem] rounded-lg"
