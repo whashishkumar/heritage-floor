@@ -1,4 +1,5 @@
 'use client';
+import { usePathSegments } from '@/utils/segmentPath';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';
@@ -9,19 +10,19 @@ import { RxHamburgerMenu } from 'react-icons/rx';
 
 const productsSubMenuItems = [
   {
-    key: 'Over View',
+    key: 'About Us',
     dest: '/commercial/about-us',
   },
 
-  {
-    key: 'Our History',
-    dest: '/commercial/our-history',
-  },
+  // {
+  //   key: 'Our History',
+  //   dest: '/commercial/our-history',
+  // },
 ];
 export default function PhoneMenuCommercial() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState(null);
-
+  const { mainPath } = usePathSegments();
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
 
   const toggleDropdown = (menu: any) => {
@@ -116,7 +117,10 @@ export default function PhoneMenuCommercial() {
               {/* Sidebar Content */}
               <div className="flex py-4 ">
                 <div className="px-2 space-y-1">
-                  <a href="#" className="block px-3 py-2 rounded-md hover:bg-gray-700 transition">
+                  <a
+                    href={mainPath}
+                    className="block px-3 py-2 rounded-md hover:bg-gray-700 transition"
+                  >
                     Home
                   </a>
 
@@ -126,8 +130,13 @@ export default function PhoneMenuCommercial() {
                       onClick={() => toggleDropdown('about')}
                       className="w-full flex items-center justify-between px-3 py-2 rounded-md hover:bg-gray-700 transition"
                     >
-                      <span>About us</span>
-                      <div
+                      {productsSubMenuItems?.map((menuList, idx) => (
+                        <Link key={idx} href={menuList.dest} onClick={toggleMenu}>
+                          {menuList.key}
+                        </Link>
+                      ))}
+                      {/* <Link href={data.dest}>About us</Link> */}
+                      {/* <div
                         className={`w-4 h-4 transition-transform   ${
                           activeDropdown === 'about'
                             ? '-rotate-180 duration-500 ease-in-out pr-2'
@@ -135,34 +144,14 @@ export default function PhoneMenuCommercial() {
                         }`}
                       >
                         <FiChevronDown size={16} />
-                      </div>
+                      </div> */}
                     </button>
-                    <div
+                    {/* <div
                       className={`overflow-hidden transition-all duration-300 mr-2 ${
                         activeDropdown === 'about' ? 'max-h-48' : 'max-h-0'
                       }`}
-                    >
-                      {/* <div className="pl-6 space-y-1 py-1">
-                        <a
-                          href="#"
-                          className="block px-3 py-2 text-sm hover:bg-gray-700 rounded-md transition"
-                        >
-                          Our Story
-                        </a>
-                        <a
-                          href="#"
-                          className="block px-3 py-2 text-sm hover:bg-gray-700 rounded-md transition"
-                        >
-                          Team
-                        </a>
-                        <a
-                          href="#"
-                          className="block px-3 py-2 text-sm hover:bg-gray-700 rounded-md transition"
-                        >
-                          Careers
-                        </a>
-                      </div> */}
-                      {productsSubMenuItems?.map((menuList, idx) => {
+                    > */}
+                    {/* {productsSubMenuItems?.map((menuList, idx) => {
                         return (
                           <Link href={menuList.dest} key={idx}>
                             <p onClick={toggleMenu} className="pl-6 space-y-1 py-1">
@@ -170,8 +159,8 @@ export default function PhoneMenuCommercial() {
                             </p>
                           </Link>
                         );
-                      })}
-                    </div>
+                      })} */}
+                    {/* </div> */}
                   </div>
 
                   {/* Products Mobile Dropdown */}
