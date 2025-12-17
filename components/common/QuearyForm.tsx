@@ -256,8 +256,8 @@ export default function QueryForm({ onClose }: any) {
       : 'border-gray-300 focus:ring-[#018C99]';
 
   return (
-    <div className="w-full mx-auto p-4">
-      <form onSubmit={handleSubmit} className="rounded-[.75rem] lg:p-6 flex flex-col gap-5">
+    <div className="w-full mx-auto px-6">
+      <form onSubmit={handleSubmit} className="rounded-[.75rem]  flex flex-col gap-5">
         <div className="flex items-center gap-4 mb-2 ">
           <h2 className="font-semibold text-xl lg:text-3xl text-gray-800 md:text-center w-full md:py-3 capitalize">
             Send us a query

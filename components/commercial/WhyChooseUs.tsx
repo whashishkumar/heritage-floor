@@ -121,18 +121,18 @@ export default async function WhyChooseUsCommercial({
                       )}
                     </div>
 
-                    {/* Title */}
                     <h3
-                      className={` text-[1.625rem] font-normal text-darkBlue mb-4  leading-[1.2615] align-middle max-h-[4rem]  line-clamp-2 ${
+                      className={`text-[1.625rem] font-normal leading-[1.3] h-[4.2rem] line-clamp-2 mb-2 ${
                         bgColor ? 'text-white' : 'text-darkBlue'
-                      }`}
+                      }
+  `}
                     >
                       {feature.title}
                     </h3>
 
                     {/* Description */}
                     <p
-                      className={`text-[#555555] text-base leading-[1.5000] font-medium align-middle ${
+                      className={`text-base font-medium leading-[1.5] ${
                         bgColor ? 'text-white' : 'text-darkBlue'
                       }`}
                     >

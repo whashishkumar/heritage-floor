@@ -199,10 +199,11 @@ const ProductDetailPage = () => {
     const wishLitItem = await CartEndPoint.addRemoveListItems(productId);
     const { message } = wishLitItem;
     showToast(message);
-    // 🔥 notify all components
-    window.dispatchEvent(new Event('wishList-update'));
+
     const { data } = await ResidentailPageData.getProductDetail(childSlug);
     setProductDetail(data);
+    // 🔥 notify all components
+    window.dispatchEvent(new Event('wishList-update'));
   };
 
   const handleAddToCartProduct = async (id: number) => {

@@ -238,7 +238,7 @@ const Footer: React.FC = () => {
   }
 
   return (
-    <footer className="w-full bg-black  justify-center flex items-center rounded-tl-[1.688rem] rounded-tr-[1.688rem] flex-col text-white bottom-0 -mt-[1.5rem]">
+    <footer className="w-full bg-black  justify-center flex items-center rounded-tl-[1.688rem] rounded-tr-[1.688rem] flex-col text-white bottom-0 -mt-[1.5rem] !-z-20 ">
       <div className="flex-1">
         <div className="wrapper mx-auto py-16 lg:px-0 px-10">
           <div className="flex  flex-col lg:flex-row gap-[3%] ">

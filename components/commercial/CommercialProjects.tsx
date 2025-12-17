@@ -82,51 +82,13 @@ export default function MajorProjectsResidential({ commercialProject }: any) {
           </div>
         </div>
       </div>
-
-      {/* <div className="w-full h-full  flex items-center justify-center mb-[5rem] sm:overflow-x-auto scrollbar-hide scroll-smooth">
-        <div className=" wrapper  mx-auto w-full">
-          <div className=" w-full flex flex-col items-center justify-center ">
-            <SectionHeader
-              heading="Explore our Wide Range of "
-              subHeading="Some glimpses of our commercial projects"
-              description="We’re proud to serve businesses who rely on us for timeless flooring, expert installation, and personalized care."
-              mainCss="flex flex-col items-center justify-center  mt-[2rem]"
-              subHeadingCss="text-center"
-              descriptionCss="leading-[1.5] mb-[2rem] sm:mb-[4rem] mt-[1rem] sm:w-[80%] w-[85%] text-center align-middle"
-            />
-            <div className="flex  md:grid-col-1 lg:grid-cols-3 gap-6 w-full  overflow-x-scroll lg:overflow-x-hidden">
-              {videoData.map((vdo, index) => (
-                <div
-                  className="h-[36.688rem] md:h-[44.688rem] max-w-[22.313rem] md:max-w-[28.313rem] relative overflow-hidden rounded-[1.25rem] w-full"
-                  key={index}
-                >
-                  <Image
-                    src={vdo.gif}
-                    fill
-                    alt="Major Project"
-                    className="absolute top-0 left-0 w-full h-full object-cover "
-                  />
-                  <button
-                    onClick={() => handleViewClick(vdo.video)}
-                    className="absolute bottom-4 left-8 rounded-[0.75rem] flex flex-col  "
-                  >
-                    <h1 className="text-xl leading-[2.7000] font-bold underline decoration-[1px] text-white mb-2 align-middle cursor-pointer">
-                      View Now
-                    </h1>
-                  </button>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </div> */}
       {/* Video Modal */}
       <ModalBox isOpen={isModalOpen} onClose={handleCloseModal}>
         <div className="w-full ">
           {/* <h2 className="text-2xl font-bold mb-4 text-black">Project Video</h2> */}
           {selectedVideo && (
             <video
-              className="w-full max-h-[30rem] rounded-lg"
+              className="w-full max-h-[30rem] rounded-lg py-6"
               controls
               autoPlay
               // src={selectedVideo}
