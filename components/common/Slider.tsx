@@ -92,8 +92,8 @@ export default function AutoPlay({
       {
         breakpoint: 768,
         settings: {
-          slidesToShow: slideToShow || 1,
-          autoplaySpeed: 0,
+          slidesToShow: 3,
+          autoplaySpeed: 2000,
           speed: 3000,
         },
       },

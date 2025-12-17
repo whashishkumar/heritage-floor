@@ -101,10 +101,10 @@ export default function Navbar() {
                       className="px-3 text-white flex items-center font-normal text-lg transition-all duration-300"
                     >
                       {data.key}
-                      {data.icon && <div className="text-white ml-3">{data.icon}</div>}
+                      {/* {data.icon && <div className="text-white ml-3">{data.icon}</div>} */}
                     </Link>
                   )}
-                  {data.key === 'About Us' && (
+                  {/* {data.key === 'About Us' && (
                     <div
                       className="absolute top-full left-0 mt-2 w-48 p-4 lg:bg-black/60 lg:backdrop-blur-xs bg-black/10 backdrop-blur-xl 
                       opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50"
@@ -119,7 +119,7 @@ export default function Navbar() {
                         </Link>
                       ))}
                     </div>
-                  )}
+                  )} */}
                 </div>
               ))}
             </div>

@@ -19,6 +19,7 @@ import ModalBox from '../ui/ModalBox';
 import QueryForm from '../common/QuearyForm';
 import { useDebounce } from '@/hook/debounce';
 import { usePathSegments } from '@/utils/segmentPath';
+import { useAuth } from '@/context/userAuthContext';
 
 const socialLinks = [
   {
@@ -95,6 +96,7 @@ const breakpoints = {
 };
 
 const ProductDetailPage = () => {
+  const { isAuthenticated } = useAuth();
   const router = useRouter();
   const { showToast } = useToast();
   const params = useParams();
@@ -133,7 +135,7 @@ const ProductDetailPage = () => {
   const { display_pricing } = tileCalculations?.data || {};
   const { boxes, product_price, required, total_price, discount_price } = display_pricing || {};
   const [reqMessage, setReqMessage] = useState<any | null>(null);
-
+  const baseUrlImage = process.env.NEXT_PUBLIC_IMAGE_PATH_WITHOUT_STORAGE;
   const RollCalculatorUI = () => {
     return (
       <div className="rounded-xl p-4 bg-white shadow-sm space-y-4 w-full my-4 poppins-font">
@@ -199,10 +201,11 @@ const ProductDetailPage = () => {
     const wishLitItem = await CartEndPoint.addRemoveListItems(productId);
     const { message } = wishLitItem;
     showToast(message);
-    // 🔥 notify all components
-    window.dispatchEvent(new Event('wishList-update'));
+
     const { data } = await ResidentailPageData.getProductDetail(childSlug);
     setProductDetail(data);
+    // 🔥 notify all components
+    window.dispatchEvent(new Event('wishList-update'));
   };
 
   const handleAddToCartProduct = async (id: number) => {
@@ -210,10 +213,14 @@ const ProductDetailPage = () => {
       product_id: id,
       required_sqft: tileInsqFeet,
     };
-    const resp = await CartEndPoint.addItemToCart(id, calculation);
-    showToast(resp?.message);
-    // 🔥 notify all components
-    window.dispatchEvent(new Event('cart-updated'));
+    if (isAuthenticated) {
+      const resp = await CartEndPoint.addItemToCart(id, calculation);
+      showToast(resp?.message);
+      // 🔥 notify all components
+      window.dispatchEvent(new Event('cart-updated'));
+    } else {
+      showToast('Please sign up or log in to continue.');
+    }
   };
 
   const handleOpenQueryModal = () => {
@@ -260,6 +267,8 @@ const ProductDetailPage = () => {
     );
   }
 
+  console.log(shipping_details, 'shipping_details');
+
   return (
     <div className="wrapper m-auto py-12">
       <div className="p-6 grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-15">
@@ -302,7 +311,14 @@ const ProductDetailPage = () => {
               <div key={benefit.id} className="flex gap-4 mb-6 poppins-font">
                 <div className="flex items-start justify-center h-10 w-10 ">
                   {benefit.icon && (
-                    <Image src={benefit.icon} alt={benefit.title} fill className="object-contain" />
+                    <Image
+                      // baseUrlImage
+                      // src={benefit.icon}
+                      src={`${baseUrlImage}${baseUrlImage}`}
+                      alt={benefit.title}
+                      fill
+                      className="object-contain"
+                    />
                   )}
                 </div>
                 <div>
