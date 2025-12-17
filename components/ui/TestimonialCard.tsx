@@ -35,7 +35,7 @@ export default function TestimonialCard({ data }: { data: any }) {
           </div>
         </div>
         {/* review */}
-        <div className="w-full h-auto mt-[1rem] md:mt-[0.5rem] ">
+        <div className="w-full h-auto mt-[1rem] md:mt-[1rem] ">
           <p className="text-white leading-[1.25] text-base font-normal line-clamp-4">
             {data.feedback ||
               'This widget has made our workflow incredibly efficient! The interface is user-friendly, and the performance is seamless. Customer support was quick to respond to our queries. Highly recommend!'}

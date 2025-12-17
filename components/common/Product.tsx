@@ -42,8 +42,8 @@ export default function ProductCard({ product, handleGetProductDetail }: Props |
         // 🔥 notify all components
         window.dispatchEvent(new Event('cart-updated'));
       } else {
-        addToGuestCart({ id: id });
-        showToast('Product added to cart!', 'success');
+        // addToGuestCart({ id: id });
+        showToast('Please sign up or log in to continue.');
       }
     } catch (error: any) {
       console.error('Error adding to cart:', error);

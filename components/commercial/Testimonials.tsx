@@ -18,19 +18,19 @@ const responsiveSettings = [
   },
   {
     breakpoint: 770,
-    settings: { slidesToShow: 3, slidesToScroll: 1, centerMode: false },
+    settings: { slidesToShow: 3, slidesToScroll: 3, centerMode: true },
   },
   {
     breakpoint: 650,
-    settings: { slidesToShow: 3, slidesToScroll: 1, centerMode: false },
+    settings: { slidesToShow: 3, slidesToScroll: 3, centerMode: false },
   },
   {
     breakpoint: 570,
-    settings: { slidesToShow: 2, slidesToScroll: 1, centerMode: false },
+    settings: { slidesToShow: 2, slidesToScroll: 3, centerMode: false },
   },
   {
     breakpoint: 525,
-    settings: { slidesToShow: 2, slidesToScroll: 1, centerMode: false },
+    settings: { slidesToShow: 2, slidesToScroll: 3, centerMode: false },
   },
   {
     breakpoint: 450,
