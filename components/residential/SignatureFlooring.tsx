@@ -279,7 +279,7 @@ export default function SignatureFlooring({ data }: SignatureFlooring) {
 
       {/* Auth Modal */}
       <ModalBox isOpen={isAuthModalOpen} onClose={handleCloseModal}>
-        <QueryForm onClose={handleCloseModal} />
+        <QueryForm onClose={handleCloseModal} title="Get a Quote" />
       </ModalBox>
     </div>
   );

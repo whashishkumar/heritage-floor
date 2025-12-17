@@ -179,7 +179,7 @@ type FormState = {
   message: string;
 };
 
-export default function QueryForm({ onClose }: any) {
+export default function QueryForm({ onClose, title }: any) {
   const [form, setForm] = useState<FormState>({
     full_name: '',
     email: '',
@@ -259,8 +259,8 @@ export default function QueryForm({ onClose }: any) {
     <div className="w-full mx-auto px-6">
       <form onSubmit={handleSubmit} className="rounded-[.75rem]  flex flex-col gap-5">
         <div className="flex items-center gap-4 mb-2 ">
-          <h2 className="font-semibold text-xl lg:text-3xl text-gray-800 md:text-center w-full md:py-3 capitalize">
-            Send us a query
+          <h2 className="font-semibold text-xl lg:text-2xl text-gray-800 md:text-center w-full md:py-3 capitalize">
+            {title ? title : 'Send us a query'}
           </h2>
         </div>
 
