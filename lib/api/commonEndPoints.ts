@@ -99,4 +99,11 @@ export const CommonComponentData = {
       cache: 'no-store',
     });
   },
+
+  getFeaturedProducts: () => {
+    return apiFetch({
+      endpoint: '/special-deals-products',
+      cache: 'no-store',
+    });
+  },
 };

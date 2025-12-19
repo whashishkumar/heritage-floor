@@ -405,7 +405,7 @@ const CartPageComponent = () => {
                   )} */}
                   <div className="flex justify-between text-sm md:text-base text-gray-700">
                     <span>Discount</span>
-                    <span className="font-semibold text-green-600">$ {discount_amount}</span>
+                    <span className="font-semibold text-green-600"> {discount_amount}</span>
                   </div>
                 </div>
 
