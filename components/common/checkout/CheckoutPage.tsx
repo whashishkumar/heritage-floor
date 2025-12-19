@@ -470,38 +470,38 @@ export default function CheckoutPage() {
           <Card>
             <Section
               title="Order Summary"
-              amountValue={`${totals?.currency || '$'} ${totals?.grand_total || '0.00'}`}
+              amountValue={`${totals?.currency} ${totals?.grand_total || '0.00'}`}
             >
               <div className="mt-4 border-t pt-4 space-y-3 text-sm poppins-font">
                 <div className="flex justify-between">
                   <span className="text-gray-600">Subtotal</span>
                   <span className="font-medium">
-                    {totals?.currency || '$'} {totals?.subtotal}
+                    {totals?.currency} {totals?.subtotal}
                   </span>
                 </div>
 
                 <div className="flex justify-between">
                   <span className="text-gray-600">Taxes</span>
                   <span className="font-medium">
-                    {totals?.currency || '$'} {totals?.tax || '0.00'}
+                    {totals?.currency} {totals?.tax || '0.00'}
                   </span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-gray-600">Shipping ({shipping?.title})</span>
                   <span className="font-medium">
-                    {totals?.currency || '$'} {totals?.shipping || '0.00'}
+                    {totals?.currency} {totals?.shipping || '0.00'}
                   </span>
                 </div>
                 <div className="flex justify-between text-green-600">
                   <span>Discount</span>
                   <span className="font-medium">
-                    -{totals?.currency || '$'} {totals?.discount || '0.00'}
+                    -{totals?.currency} {totals?.discount || '0.00'}
                   </span>
                 </div>
                 <div className="flex justify-between font-semibold text-lg pt-3 border-t">
                   <span>Order Total</span>
                   <span className="text-[#008c99]">
-                    {totals?.currency || '$'} {totals?.grand_total || '0.00'}
+                    {totals?.currency} {totals?.grand_total || '0.00'}
                   </span>
                 </div>
 

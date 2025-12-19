@@ -95,4 +95,11 @@ export const CommercialPageData = {
       cache: 'dynamic',
     });
   },
+
+  getContactUsDetails: () => {
+    return apiFetch({
+      endpoint: '/contact-addon-details',
+      cache: 'dynamic',
+    });
+  },
 };

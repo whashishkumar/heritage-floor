@@ -69,8 +69,8 @@ export default function Navbar() {
     // },
     {
       key: 'Contact Us',
-      dest: '/commercial',
-      onClick: () => setIsContactModalOpen(true),
+      dest: '/commercial/contact-us',
+      // onClick: () => setIsContactModalOpen(true),
     },
   ];
 

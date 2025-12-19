@@ -1,13 +1,21 @@
 'use client';
 import SectionHeader from '../common/SectionHeader';
-import ProductCard from './ProductCard';
+// import ProductCard from './ProductCard';
+import ProductCard from '@/components/common/Product';
 import SwipeSlider from '../ui/SwipeSlider';
 import { useEffect, useState } from 'react';
 import ModalBox from '../ui/ModalBox';
 import QueryForm from '../common/QuearyForm';
 import { CommonComponentData } from '@/lib/api/commonEndPoints';
+import { CartEndPoint } from '@/lib/api/cartEndPoints';
+import { usePathSegments } from '@/utils/segmentPath';
+import { useToast } from '../ui/Tooltip';
+import { useRouter } from 'next/navigation';
 
 export default function FeaturedProducts() {
+  const [wishlistStatus, setWishlistStatus] = useState<{ [key: number]: boolean }>({});
+  const { showToast } = useToast();
+  const { mainPath } = usePathSegments();
   const products = [
     {
       id: 1,
@@ -78,8 +86,9 @@ export default function FeaturedProducts() {
   };
   const [quearyModalOpen, setQuearyModalOpen] = useState(false);
   const [getFeatureproducts, setFeatureProducts] = useState<any | null>(null);
+  const { main } = usePathSegments();
   const { data } = getFeatureproducts || {};
-
+  const router = useRouter();
   const getFeaturesProducts = async () => {
     const resp = await CommonComponentData.getFeaturesProducts();
     setFeatureProducts(resp);
@@ -87,6 +96,25 @@ export default function FeaturedProducts() {
   const handleOpenModal = () => setQuearyModalOpen(true);
   const handleCloseModal = () => setQuearyModalOpen(false);
 
+  const handleGetProductDetail = (id: string) => {
+    router.push(`${mainPath}/products/get-product-detial/${id}`);
+  };
+
+  const handleWhshlistAdd = async (e: React.MouseEvent<HTMLButtonElement>, productId: number) => {
+    e.preventDefault();
+    // Optimistic update for just this product
+    setWishlistStatus((prev) => ({ ...prev, [productId]: !prev[productId] }));
+    try {
+      const wishLitItem = await CartEndPoint.addRemoveListItems(productId);
+      const { message } = wishLitItem;
+      showToast(message);
+      window.dispatchEvent(new Event('wishList-update'));
+    } catch (error) {
+      // Revert optimistic update on error
+      setWishlistStatus((prev) => ({ ...prev, [productId]: !prev[productId] }));
+      showToast('Failed to update wishlist', 'error');
+    }
+  };
   useEffect(() => {
     getFeaturesProducts();
   }, []);
@@ -111,12 +139,19 @@ export default function FeaturedProducts() {
               autoPlay={true}
               loop={false}
               delay={1000}
-              speed={1500}
+              speed={1000}
               breakpoints={breakpoints}
             >
               {data?.map((data: any, index: any) => (
                 <div className=" w-full" key={index}>
-                  <ProductCard data={data} handleOpenModal={handleOpenModal} />
+                  {/* <ProductCard data={data} handleOpenModal={handleOpenModal} /> */}
+                  <ProductCard
+                    key={index}
+                    product={data}
+                    handleGetProductDetail={handleGetProductDetail}
+                    handleWhshlistAdd={handleWhshlistAdd}
+                    isInWishlist={wishlistStatus[data.id]}
+                  />
                 </div>
               ))}
             </SwipeSlider>
