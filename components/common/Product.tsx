@@ -66,8 +66,6 @@ export default function ProductCard({
   const path = process.env.NEXT_PUBLIC_IMAGE_PATH_WITHOUT_STORAGE;
   const ProductImage = `${path}${product?.image}`;
 
-  console.log(isInWishlist, 'isInWishlist');
-
   return (
     <div className="flex flex-col">
       <div
@@ -107,35 +105,18 @@ export default function ProductCard({
           <p className="mt-2 text-black poppins-font font-extrabold leading-[1.875rem] text-[1.875rem] ">
             {product?.price ? `$${Number(product.price).toFixed(2)}` : '_'}
           </p>
-          {/* <div className="py-1" onClick={(e) => handleWhshlistAdd(e, product?.id)}>
-            {!is_wishlist ? (
-              <>
-                {!isInWishlist ? (
-                  <CiHeart size={26} />
-                ) : (
-                  <IoHeart size={26} className="text-[#018C99]" />
-                )}
-              </>
-            ) : (
-              <IoHeart size={26} className="text-[#018C99]" />
-            )}
-          </div> */}
-          <button
-            onClick={(e) => handleWhshlistAdd(e, product?.id)}
-            className={` hover:cursor-pointer py-2 px-2 rounded-2xl text-lg mb-4 border border-[#018C99] font-semibold transition-colors duration-200`}
-          >
-            {!is_wishlist ? (
-              <>
-                {!isInWishlist ? (
-                  <CiHeart size={26} />
-                ) : (
-                  <IoHeart size={26} className="text-[#018C99]" />
-                )}
-              </>
-            ) : (
-              <IoHeart size={26} className="text-[#018C99]" />
-            )}
-          </button>
+          {isAuthenticated && (
+            <button
+              onClick={(e) => handleWhshlistAdd(e, product?.id)}
+              className={` hover:cursor-pointer py-2 px-2 rounded-2xl text-lg mb-4  font-semibold transition-colors duration-200`}
+            >
+              {isInWishlist ? (
+                <IoHeart size={30} className="text-[#018C99]" />
+              ) : (
+                <CiHeart size={30} />
+              )}
+            </button>
+          )}
         </div>
         {/* Button */}
         <div className="mt-[1.5rem]">

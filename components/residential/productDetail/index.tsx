@@ -11,6 +11,7 @@ import Loader from '@/components/ui/Loader';
 import { ResidentailPageData } from '@/lib/api/residentialEndPoints';
 import { useToast } from '@/components/ui/Tooltip';
 import { CartEndPoint } from '@/lib/api/cartEndPoints';
+import { usePathSegments } from '@/utils/segmentPath';
 
 export interface Product {
   id: number;
@@ -37,6 +38,7 @@ export default function ProductDetailPage({ sortOptionsCategory }: any) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const { showToast } = useToast();
+  const { mainPath } = usePathSegments();
   const [isMobileFilterOpen, setIsMobileFilterOpen] = useState(false);
   const [categoryProducts, setCategoryProducts] = useState<any | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -54,7 +56,20 @@ export default function ProductDetailPage({ sortOptionsCategory }: any) {
   const [colorSort, setColorSort] = useState<any>(null);
   const [sizeSort, setSizeSort] = useState<any>(null);
   const [selectedCategory, setSelectedCategory] = useState<any>(null);
-  const [isInWishlist, setIsInWishlist] = useState(false);
+  const [wishlistStatus, setWishlistStatus] = useState<{ [key: number]: boolean }>({});
+
+  const updateProductsAndWishlist = (productResponse: any) => {
+    if (!productResponse?.data) {
+      setCategoryProducts(productResponse);
+      return;
+    }
+    setCategoryProducts(productResponse);
+    const initialStatus: { [key: number]: boolean } = {};
+    productResponse.data.forEach((p: any) => {
+      initialStatus[p.id] = p.is_wishlist;
+    });
+    setWishlistStatus(initialStatus);
+  };
 
   const handleSortChange = async (value: string | number) => {
     setOrder(value);
@@ -68,7 +83,7 @@ export default function ProductDetailPage({ sortOptionsCategory }: any) {
       limit: 12,
     });
 
-    setCategoryProducts(res);
+    updateProductsAndWishlist(res);
   };
 
   const handlePriceBaseFilter = async (value: any) => {
@@ -83,7 +98,7 @@ export default function ProductDetailPage({ sortOptionsCategory }: any) {
       page: currentPage,
       limit: 12,
     });
-    setCategoryProducts(res);
+    updateProductsAndWishlist(res);
   };
 
   const handleToggleMobileFilter = () => {
@@ -99,7 +114,7 @@ export default function ProductDetailPage({ sortOptionsCategory }: any) {
         page: currentPage,
         limit: 12,
       });
-      setCategoryProducts(resp);
+      updateProductsAndWishlist(resp);
     } catch (error: any) {
       console.error('Error fetching category products:', error);
     } finally {
@@ -114,9 +129,9 @@ export default function ProductDetailPage({ sortOptionsCategory }: any) {
 
   const handleGetProductDetail = (id: string) => {
     if (!slug) {
-      router.push(`/residential/products/${'get-product-detial'}/${id}`);
+      router.push(`${mainPath}/products/${'get-product-detial'}/${id}`);
     } else {
-      router.push(`/residential/products/${slug}/${id}`);
+      router.push(`${mainPath}/products/${slug}/${id}`);
     }
   };
 
@@ -127,7 +142,7 @@ export default function ProductDetailPage({ sortOptionsCategory }: any) {
       page: page,
       limit: 12,
     });
-    setCategoryProducts(resp);
+    updateProductsAndWishlist(resp);
   };
 
   const handleSelectionChange = async (filterBy: any) => {
@@ -145,7 +160,7 @@ export default function ProductDetailPage({ sortOptionsCategory }: any) {
       size: Size,
       limit: 12,
     });
-    setCategoryProducts(res);
+    updateProductsAndWishlist(res);
   };
 
   const handleAllClearFilter = async () => {
@@ -160,7 +175,7 @@ export default function ProductDetailPage({ sortOptionsCategory }: any) {
       page: currentPage,
       limit: 12,
     });
-    setCategoryProducts(res);
+    updateProductsAndWishlist(res);
   };
 
   const handleCategory = async (id: any) => {
@@ -170,19 +185,25 @@ export default function ProductDetailPage({ sortOptionsCategory }: any) {
       page: currentPage,
       limit: 12,
     });
-    setCategoryProducts(resp);
+    updateProductsAndWishlist(resp);
   };
 
   const handleWhshlistAdd = async (e: React.MouseEvent<HTMLButtonElement>, productId: number) => {
     e.preventDefault();
-    setIsInWishlist(!isInWishlist);
-    const wishLitItem = await CartEndPoint.addRemoveListItems(productId);
-    const { message } = wishLitItem;
-    showToast(message);
-    // const { data } = await ResidentailPageData.getProductDetail(childSlug);
-    // setProductDetail(data);
-    // 🔥 notify all components
-    window.dispatchEvent(new Event('wishList-update'));
+
+    // Optimistic update for just this product
+    setWishlistStatus((prev) => ({ ...prev, [productId]: !prev[productId] }));
+
+    try {
+      const wishLitItem = await CartEndPoint.addRemoveListItems(productId);
+      const { message } = wishLitItem;
+      showToast(message);
+      window.dispatchEvent(new Event('wishList-update'));
+    } catch (error) {
+      // Revert optimistic update on error
+      setWishlistStatus((prev) => ({ ...prev, [productId]: !prev[productId] }));
+      showToast('Failed to update wishlist', 'error');
+    }
   };
 
   useEffect(() => {
@@ -301,7 +322,7 @@ export default function ProductDetailPage({ sortOptionsCategory }: any) {
                             product={product}
                             handleGetProductDetail={handleGetProductDetail}
                             handleWhshlistAdd={handleWhshlistAdd}
-                            isInWishlist={isInWishlist}
+                            isInWishlist={wishlistStatus[product.id]}
                           />
                         ))
                       )}

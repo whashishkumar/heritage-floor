@@ -1,10 +1,13 @@
 'use client';
-import React from 'react';
+import React, { useState } from 'react';
 import SectionHeader from '../common/SectionHeader';
 import ProductCard from '../common/Product';
 import { useRouter } from 'next/navigation';
 import SwipeSlider from '../ui/SwipeSlider';
 import { usePathSegments } from '@/utils/segmentPath';
+import { CartEndPoint } from '@/lib/api/cartEndPoints';
+import { useToast } from '../ui/Tooltip';
+import { useAuth } from '@/context/userAuthContext';
 
 export interface Product {
   id: number;
@@ -91,12 +94,31 @@ export default function BestsellerProducts({ bestSellerProducts, productHeader }
   const router = useRouter();
   const { data } = bestSellerProducts || [];
   const { heading, subHeading } = productHeader || {};
+  const [wishlistStatus, setWishlistStatus] = useState<{ [key: number]: boolean }>({});
+  const { showToast } = useToast();
   const handleViewAllProducts = () => {
     router.push('/builder/products');
   };
+  const { isAuthenticated } = useAuth();
 
   const handleGetProductDetail = (id: string) => {
     router.push(`${mainPath}/products/get-product-detial/${id}`);
+  };
+
+  const handleWhshlistAdd = async (e: React.MouseEvent<HTMLButtonElement>, productId: number) => {
+    e.preventDefault();
+    // Optimistic update for just this product
+    setWishlistStatus((prev) => ({ ...prev, [productId]: !prev[productId] }));
+    try {
+      const wishLitItem = await CartEndPoint.addRemoveListItems(productId);
+      const { message } = wishLitItem;
+      showToast(message);
+      window.dispatchEvent(new Event('wishList-update'));
+    } catch (error) {
+      // Revert optimistic update on error
+      setWishlistStatus((prev) => ({ ...prev, [productId]: !prev[productId] }));
+      showToast('Failed to update wishlist', 'error');
+    }
   };
 
   return (
@@ -135,6 +157,8 @@ export default function BestsellerProducts({ bestSellerProducts, productHeader }
                   key={product.id}
                   product={product}
                   handleGetProductDetail={handleGetProductDetail}
+                  handleWhshlistAdd={handleWhshlistAdd}
+                  isInWishlist={wishlistStatus[product.id]}
                 />
               ))}
             </SwipeSlider>
