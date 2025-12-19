@@ -14,7 +14,7 @@ export default function AddressForm({ isEditId, closeModal, onSuccess, isCheckOu
     address: '',
     address2: '',
     city: '',
-    country: 'US',
+    country: 'CA',
     state: '',
     postcode: '',
     email: '',
@@ -24,6 +24,7 @@ export default function AddressForm({ isEditId, closeModal, onSuccess, isCheckOu
   const [errors, setErrors] = useState<any>({});
   const [countryList, setCountryList] = useState<Array<any>>([]);
   const [stateList, setStateList] = useState<Array<any>>([]);
+
   const handleChange = (e: any) => {
     const { name, value, type, checked } = e.target;
 
@@ -307,7 +308,7 @@ export default function AddressForm({ isEditId, closeModal, onSuccess, isCheckOu
             {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email[0]}</p>}
           </div>
 
-          <div>
+          {/* <div>
             <label className="text-sm font-medium text-gray-700 mb-1 block">VAT ID</label>
             <input
               value={formData.vat_id}
@@ -316,7 +317,7 @@ export default function AddressForm({ isEditId, closeModal, onSuccess, isCheckOu
               onChange={handleChange}
               className="w-full border border-gray-300 rounded-md px-3 py-2"
             />
-          </div>
+          </div> */}
 
           <div>
             <label className="text-sm font-medium text-gray-700 mb-1 block">
@@ -367,7 +368,7 @@ export default function AddressForm({ isEditId, closeModal, onSuccess, isCheckOu
             {errors.city && <p className="text-red-500 text-sm mt-1">{errors.city[0]}</p>}
           </div>
 
-          <div>
+          {/* <div>
             <label className="text-sm font-medium text-gray-700 mb-1 block">
               Country <span className="text-red-500">*</span>
             </label>
@@ -388,7 +389,7 @@ export default function AddressForm({ isEditId, closeModal, onSuccess, isCheckOu
                 ))}
             </select>
             {errors.country && <p className="text-red-500 text-sm mt-1">{errors.country[0]}</p>}
-          </div>
+          </div> */}
           <div>
             <label className="text-sm font-medium text-gray-700 mb-1 block">
               Province <span className="text-red-500">*</span>

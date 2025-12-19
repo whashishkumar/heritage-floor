@@ -76,7 +76,7 @@ export default function CheckoutAddressForm({
         company_name: '',
         city: '',
         state: '',
-        country: 'US',
+        country: 'CA',
         postcode: '',
         phone: '',
       },
