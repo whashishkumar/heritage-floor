@@ -40,12 +40,12 @@ export default function OrderCard({
       </td>
       <td className="p-4">
         <div className="flex flex-col gap-2">
-          <button
+          {/* <button
             onClick={() => handleTrackingOrder(order?.increment_id)}
             className="bg-[#008c99]/90 hover:bg-[#008c99] text-white py-1.5 px-3 rounded text-xs font-medium transition-colors cursor-pointer"
           >
             Track Order
-          </button>
+          </button> */}
           {order.status?.toLowerCase() === 'Canceled'.toLowerCase() ? (
             <button
               onClick={() => handleReOrder(order?.id)}
