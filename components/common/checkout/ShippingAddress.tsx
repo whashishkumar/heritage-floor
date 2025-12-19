@@ -146,6 +146,22 @@ export default function ShippingAddress({
           />
           {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email[0]}</p>}
         </div>
+        {/* City */}
+        <div>
+          <label className="text-sm font-medium text-gray-700 mb-1 block">
+            City <span className="text-red-500">*</span>
+          </label>
+          <input
+            value={data.city}
+            type="text"
+            onChange={(e) => onChange('city', e.target.value)}
+            required
+            className={`w-full border rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-teal-500 ${
+              errors.city ? 'border-red-500' : 'border-gray-300'
+            }`}
+          />
+          {errors.city && <p className="text-red-500 text-sm mt-1">{errors.city[0]}</p>}
+        </div>
 
         {/* Address */}
         <div className="md:col-span-2">
@@ -176,25 +192,8 @@ export default function ShippingAddress({
           )}
         </div>
 
-        {/* City */}
-        <div>
-          <label className="text-sm font-medium text-gray-700 mb-1 block">
-            City <span className="text-red-500">*</span>
-          </label>
-          <input
-            value={data.city}
-            type="text"
-            onChange={(e) => onChange('city', e.target.value)}
-            required
-            className={`w-full border rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-teal-500 ${
-              errors.city ? 'border-red-500' : 'border-gray-300'
-            }`}
-          />
-          {errors.city && <p className="text-red-500 text-sm mt-1">{errors.city[0]}</p>}
-        </div>
-
         {/* Country */}
-        <div>
+        {/* <div>
           <label className="text-sm font-medium text-gray-700 mb-1 block">
             Country <span className="text-red-500">*</span>
           </label>
@@ -210,7 +209,7 @@ export default function ShippingAddress({
             required
           />
           {errors.country && <p className="text-red-500 text-sm mt-1">{errors.country[0]}</p>}
-        </div>
+        </div> */}
 
         {/* State */}
         <div>
