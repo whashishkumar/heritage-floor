@@ -10,6 +10,7 @@ import { useParams, useRouter, useSearchParams } from 'next/navigation';
 import Loader from '@/components/ui/Loader';
 import { ResidentailPageData } from '@/lib/api/residentialEndPoints';
 import { useToast } from '@/components/ui/Tooltip';
+import { CartEndPoint } from '@/lib/api/cartEndPoints';
 
 export interface Product {
   id: number;
@@ -53,6 +54,7 @@ export default function ProductDetailPage({ sortOptionsCategory }: any) {
   const [colorSort, setColorSort] = useState<any>(null);
   const [sizeSort, setSizeSort] = useState<any>(null);
   const [selectedCategory, setSelectedCategory] = useState<any>(null);
+  const [isInWishlist, setIsInWishlist] = useState(false);
 
   const handleSortChange = async (value: string | number) => {
     setOrder(value);
@@ -171,6 +173,18 @@ export default function ProductDetailPage({ sortOptionsCategory }: any) {
     setCategoryProducts(resp);
   };
 
+  const handleWhshlistAdd = async (e: React.MouseEvent<HTMLButtonElement>, productId: number) => {
+    e.preventDefault();
+    setIsInWishlist(!isInWishlist);
+    const wishLitItem = await CartEndPoint.addRemoveListItems(productId);
+    const { message } = wishLitItem;
+    showToast(message);
+    // const { data } = await ResidentailPageData.getProductDetail(childSlug);
+    // setProductDetail(data);
+    // 🔥 notify all components
+    window.dispatchEvent(new Event('wishList-update'));
+  };
+
   useEffect(() => {
     if (isMobileFilterOpen) {
       document.body.style.overflow = 'hidden';
@@ -286,6 +300,8 @@ export default function ProductDetailPage({ sortOptionsCategory }: any) {
                             key={idx}
                             product={product}
                             handleGetProductDetail={handleGetProductDetail}
+                            handleWhshlistAdd={handleWhshlistAdd}
+                            isInWishlist={isInWishlist}
                           />
                         ))
                       )}

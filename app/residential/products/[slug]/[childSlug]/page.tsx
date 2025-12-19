@@ -1,5 +1,4 @@
 import GetInTouch from '@/components/commercial/GetInTouch';
-import FeaturedProducts from '@/components/residential/FeaturedProducts';
 import ProductDetailPage from '@/components/residential/ProductDetailPage';
 import React, { Suspense } from 'react';
 

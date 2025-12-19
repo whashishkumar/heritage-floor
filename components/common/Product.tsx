@@ -8,6 +8,8 @@ import { addToGuestCart } from '@/utils/addToGuestCart';
 import { useAuth } from '@/context/userAuthContext';
 import { useToast } from '../ui/Tooltip';
 import { useState } from 'react';
+import { IoHeart } from 'react-icons/io5';
+import { CiHeart } from 'react-icons/ci';
 
 export interface Product {
   id: number;
@@ -26,8 +28,14 @@ interface Props {
   handleGetProductDetail: (id: any) => void;
 }
 
-export default function ProductCard({ product, handleGetProductDetail }: Props | any) {
+export default function ProductCard({
+  product,
+  handleGetProductDetail,
+  handleWhshlistAdd,
+  isInWishlist,
+}: Props | any) {
   const router = useRouter();
+  const { is_wishlist } = product || {};
   const { isAuthenticated } = useAuth();
   const { showToast } = useToast();
   const [isAddingToCart, setIsAddingToCart] = useState(false);
@@ -58,6 +66,8 @@ export default function ProductCard({ product, handleGetProductDetail }: Props |
   const path = process.env.NEXT_PUBLIC_IMAGE_PATH_WITHOUT_STORAGE;
   const ProductImage = `${path}${product?.image}`;
 
+  console.log(isInWishlist, 'isInWishlist');
+
   return (
     <div className="flex flex-col">
       <div
@@ -69,6 +79,8 @@ export default function ProductCard({ product, handleGetProductDetail }: Props |
             {product?.discount_percent}% OFF
           </span>
         )}
+
+        <div className="absolute right-0 top-0 font-semibold px-2 py-1 flex  items-center "></div>
         <span className="absolute right-0 top-0 font-semibold px-2 py-1 flex  items-center ">
           {product?.rating && (
             <RatingStars rating={product.rating} className="absolute right-2 top-1" />
@@ -91,9 +103,40 @@ export default function ProductCard({ product, handleGetProductDetail }: Props |
         <h3 className="text-[#000000] poppins-font leading-[1.75rem] font-medium text-[1.375rem] h-14 line-clamp-2 ">
           {product.name}
         </h3>
-        <p className="mt-2 text-black poppins-font font-extrabold leading-[1.875rem] text-[1.875rem] ">
-          {product?.price ? `$${Number(product.price).toFixed(2)}` : '_'}
-        </p>
+        <div className="flex justify-between items-center">
+          <p className="mt-2 text-black poppins-font font-extrabold leading-[1.875rem] text-[1.875rem] ">
+            {product?.price ? `$${Number(product.price).toFixed(2)}` : '_'}
+          </p>
+          {/* <div className="py-1" onClick={(e) => handleWhshlistAdd(e, product?.id)}>
+            {!is_wishlist ? (
+              <>
+                {!isInWishlist ? (
+                  <CiHeart size={26} />
+                ) : (
+                  <IoHeart size={26} className="text-[#018C99]" />
+                )}
+              </>
+            ) : (
+              <IoHeart size={26} className="text-[#018C99]" />
+            )}
+          </div> */}
+          <button
+            onClick={(e) => handleWhshlistAdd(e, product?.id)}
+            className={` hover:cursor-pointer py-2 px-2 rounded-2xl text-lg mb-4 border border-[#018C99] font-semibold transition-colors duration-200`}
+          >
+            {!is_wishlist ? (
+              <>
+                {!isInWishlist ? (
+                  <CiHeart size={26} />
+                ) : (
+                  <IoHeart size={26} className="text-[#018C99]" />
+                )}
+              </>
+            ) : (
+              <IoHeart size={26} className="text-[#018C99]" />
+            )}
+          </button>
+        </div>
         {/* Button */}
         <div className="mt-[1.5rem]">
           <ButtonCommon
