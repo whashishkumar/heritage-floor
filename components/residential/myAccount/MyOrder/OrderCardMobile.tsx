@@ -54,13 +54,14 @@ export default function OrderCardMobile({
 
       {/* Action Buttons */}
       <div className="flex flex-col gap-2 pt-2">
-        <button
+        {/* <button
           onClick={() => handleTrackingOrder(order?.increment_id)}
           className="w-full bg-[#008c99]/90 hover:bg-[#008c99] text-white py-2 px-3 rounded text-xs font-medium transition-colors cursor-pointer"
         >
           Track Order
-        </button>
-        {order.status?.toLowerCase() === 'canceled' || order.status?.toLowerCase() === 'cancelled' ? (
+        </button> */}
+        {order.status?.toLowerCase() === 'canceled' ||
+        order.status?.toLowerCase() === 'cancelled' ? (
           <button
             onClick={() => handleReOrder(order?.id)}
             className="w-full bg-[#BA0202]/80 hover:bg-[#BA0202] text-white py-2 px-3 rounded text-xs font-medium transition-colors cursor-pointer"

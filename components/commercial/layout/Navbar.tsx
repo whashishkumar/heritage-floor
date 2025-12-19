@@ -58,11 +58,11 @@ export default function Navbar() {
       key: 'Home',
       dest: '/commercial',
     },
-    {
-      key: 'About Us',
-      dest: '/commercial/about-us',
-      icon: <RxCaretDown />,
-    },
+    // {
+    //   key: 'About Us',
+    //   dest: '/commercial/about-us',
+    //   icon: <RxCaretDown />,
+    // },
     // {
     //   key: "Products",
     //   dest: "/",
@@ -127,9 +127,9 @@ export default function Navbar() {
 
           {/* Right Social Icons */}
           <div className="flex items-center space-x-6 text-white text-sm">
-            <div className=" text-white">
+            {/* <div className=" text-white">
               <LuSearch size={26} />
-            </div>
+            </div> */}
             <div className="h-[2.688rem] bg-primaryTwo flex items-center justify-center px-6 rounded-lg gap-2">
               <div className="h-[1.5rem] w-[1.5rem] relative">
                 <Image src="/icon/call.png" fill alt="Call" className=" object-cover p-0.5" />

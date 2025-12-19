@@ -86,7 +86,7 @@ export default async function OurMajorProjectsCommercial({ majorProjects }: any)
                     className="object-center rounded-[1.25rem]"
                   />
                 )}
-                <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/50 mix-blend-multiply" />
+                <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/70 mix-blend-multiply" />
                 <div
                   className={`absolute bottom-5 flex items-center  w-full  ${
                     index % 2 !== 0 ? 'justify-between flex-row-reverse' : 'justify-between'
