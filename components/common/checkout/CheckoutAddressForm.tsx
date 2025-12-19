@@ -332,9 +332,7 @@ export default function CheckoutAddressForm({
       showToast('Please fill in all required fields correctly', 'error');
       return;
     }
-
     setErrors({});
-
     if (onSubmit) {
       onSubmit(formData);
     } else {
