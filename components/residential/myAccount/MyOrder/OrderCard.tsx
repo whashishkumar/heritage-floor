@@ -16,8 +16,6 @@ export default function OrderCard({
   handleTrackingOrder,
   handleReOrder,
 }: any) {
-  console.log(order, 'order');
-
   return (
     <tr className="border-b hover:bg-gray-50 transition-colors poppins-font">
       <td

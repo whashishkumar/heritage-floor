@@ -104,8 +104,6 @@ export default function SignatureFlooring({ data }: SignatureFlooring) {
     },
   };
 
-  console.log(data, 'data');
-
   return (
     <div className="w-full h-full flex items-center justify-center mb-[5rem]">
       <div className="wrapper w-full mx-auto">
