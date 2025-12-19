@@ -90,7 +90,7 @@ export default function ProductCard({
             alt={product?.sku || 'Product'}
             width={340}
             height={240}
-            className="h-full  object-cover rounded-tl-lg"
+            className="h-full  object-cover rounded-tl-lg w-full"
           />
         )}
       </div>
