@@ -31,22 +31,21 @@ export default function Section({
           <div className="flex gap-4 justify-center items-center">
             {action && (
               <button
-                className="flex justify-center items-center gap-0 "
+                className="bg-gradient-to-r from-primaryOne to-primaryTwo text-white px-3 md:px-4 py-2 rounded-full text-xs md:text-sm font-bold cursor-pointer"
+                // className="flex justify-center items-center gap-0 "
                 onClick={handleEditAddress || handleOpenDrawer}
               >
-                <p className="text-md text-red-500 cursor-pointer inter-font ">{action}</p>
-                <VscEdit size={14} className="text-red-500 cursor-pointer" />
+                <p>{action}</p>
+                {/* <VscEdit size={14} className="text-red-500 cursor-pointer" /> */}
               </button>
             )}
             {addAddress && (
               <button
-                className="flex justify-center items-center gap-0 "
+                className="  bg-gradient-to-r from-primaryOne to-primaryTwo text-white px-3 md:px-4 py-2 rounded-full text-xs md:text-sm font-bold cursor-pointer"
                 onClick={handleAddAddress}
               >
-                <p className="text-md text-red-500 cursor-pointer inter-font capitalize">
-                  {addAddress}
-                </p>
-                <VscEdit size={14} className="text-red-500 cursor-pointer" />
+                {/* <VscEdit size={14} className="text-red-500 cursor-pointer" /> */}
+                <p>{addAddress}</p>
               </button>
             )}
           </div>

@@ -128,7 +128,6 @@ const CartPageComponent = () => {
 
   const canclePromoCode = async () => {
     const resp = await CartEndPoint.removeAppliedCoupon(promoCode);
-    console.log(resp, 'respcancle code');
     setPromoCode('');
   };
 

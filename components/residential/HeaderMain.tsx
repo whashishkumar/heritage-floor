@@ -176,12 +176,12 @@ export default function HeaderMainBar({ megaMenuData }: any) {
                 >
                   Products
                 </Link>
-                <button
+                {/* <button
                   onClick={handleOpenQuoteModal}
                   className="text-textGray hover:text-primaryTwo font-normal text-base leading-[1.6] cursor-pointer"
                 >
                   Get a Quote
-                </button>
+                </button> */}
                 <ModalBox isOpen={isQuoteModel} onClose={handleCloseQuoteModal}>
                   <QueryForm onClose={handleCloseQuoteModal} />
                 </ModalBox>
@@ -333,12 +333,12 @@ export default function HeaderMainBar({ megaMenuData }: any) {
                 >
                   Products
                 </p>
-                <p
+                {/* <p
                   onClick={handleMobileGetQuate}
                   className="text-textGray hover:text-primaryTwo font-normal text-base leading-[1.6] cursor-pointer"
                 >
                   Get a Quote
-                </p>
+                </p> */}
                 <ModalBox isOpen={isQuoteModel} onClose={handleCloseQuoteModal}>
                   <QueryForm onClose={handleCloseQuoteModal} />
                 </ModalBox>
