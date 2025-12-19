@@ -76,7 +76,7 @@ export default function CheckoutAddressForm({
         company_name: '',
         city: '',
         state: '',
-        country: 'US',
+        country: 'CA',
         postcode: '',
         phone: '',
       },
@@ -332,9 +332,7 @@ export default function CheckoutAddressForm({
       showToast('Please fill in all required fields correctly', 'error');
       return;
     }
-
     setErrors({});
-
     if (onSubmit) {
       onSubmit(formData);
     } else {
