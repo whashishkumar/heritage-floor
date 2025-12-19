@@ -1,14 +1,20 @@
 'use client';
 import ButtonCommon from '@/components/ui/Button';
+import SwipeSlider from '@/components/ui/SwipeSlider';
 import { useToast } from '@/components/ui/Tooltip';
 import { useAuth } from '@/context/userAuthContext';
 import { CartEndPoint } from '@/lib/api/cartEndPoints';
+import { usePathSegments } from '@/utils/segmentPath';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { CiHeart } from 'react-icons/ci';
 import { IoHeart } from 'react-icons/io5';
 
 export default function SpecialProductCard({ specialProducts }: any) {
+  const router = useRouter();
+  const { mainPath, fullPath } = usePathSegments();
+  // const mainPath = process.env.NEXT_PUBLIC_MAIN_PATH;
   const { data } = specialProducts || {};
   const { showToast } = useToast();
   const baseImageUrl = process.env.NEXT_PUBLIC_IMAGE_PATH_WITHOUT_STORAGE;
@@ -16,6 +22,36 @@ export default function SpecialProductCard({ specialProducts }: any) {
   const [wishlistStatus, setWishlistStatus] = useState<{ [key: number]: boolean }>({});
   const [addingToCart, setAddingToCart] = useState<{ [key: number]: boolean }>({});
 
+  const breakpoints = {
+    340: {
+      slidesPerView: 1.2,
+      spaceBetween: 10,
+    },
+    440: {
+      slidesPerView: 1.4,
+      spaceBetween: 20,
+    },
+    500: {
+      slidesPerView: 1.6,
+      spaceBetween: 20,
+    },
+    640: {
+      slidesPerView: 1.8,
+      spaceBetween: 15,
+    },
+    768: {
+      slidesPerView: 2.7,
+      spaceBetween: 20,
+    },
+    1024: {
+      slidesPerView: 4.1,
+      spaceBetween: 20,
+    },
+    1280: {
+      slidesPerView: 4.1,
+      spaceBetween: 20,
+    },
+  };
   useEffect(() => {
     if (data) {
       const initialStatus = data.reduce((acc: any, product: any) => {
@@ -25,6 +61,10 @@ export default function SpecialProductCard({ specialProducts }: any) {
       setWishlistStatus(initialStatus);
     }
   }, [data]);
+
+  const handleGetProductDetail = (id: string) => {
+    router.push(`${mainPath}/products/get-product-detial/${id}`);
+  };
 
   const handleAddToCartProduct = async (id: any) => {
     if (addingToCart[id]) return;
@@ -63,13 +103,26 @@ export default function SpecialProductCard({ specialProducts }: any) {
 
   return (
     <section className="wrapper py-12 m-auto poppins-font">
-      <h2 className="text-center text-3xl font-semibold text-red-500 mb-12">
+      <h2 className="text-left text-3xl font-semibold text-red-500 mb-12">
         Last chance! Sale ending soon.
       </h2>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+      <SwipeSlider
+        slidesPerView={4.1}
+        bottomSwipeBtn={false}
+        swipebtn={false}
+        spaceBetween={10}
+        autoPlay={true}
+        loop={true}
+        delay={1000}
+        speed={1000}
+        breakpoints={breakpoints}
+      >
         {data?.map((product: any) => (
           <div key={product.id} className="bg-white overflow-hidden rounded-t-xl">
-            <div className="relative w-full h-[230px]  overflow-hidden">
+            <div
+              className="relative w-full h-[230px]  overflow-hidden"
+              onClick={() => handleGetProductDetail(product.id)}
+            >
               <Image
                 src={`${baseImageUrl}${product.image}`}
                 alt={product.name}
@@ -80,9 +133,11 @@ export default function SpecialProductCard({ specialProducts }: any) {
                 Limited Stock
               </span>
             </div>
-            <div className="space-y-2 p-4">
-              <h3 className="text-lg font-semibold text-[#0B3A53]">{product.name}</h3>
-              <div className="flex items-center gap-2 text-orange-400">
+            <div className="space-y-2 p-4 ">
+              <h3 className="text-lg font-semibold text-[#0B3A53] line-clamp-2 min-h-[3.5rem]">
+                {product.name}
+              </h3>
+              <div className="flex items-center gap-2 text-orange-400 min-h-[2.5rem]">
                 {'★'.repeat(product.rating)}
               </div>
               <div className="space-y-1 flex justify-between">
@@ -118,7 +173,7 @@ export default function SpecialProductCard({ specialProducts }: any) {
             </div>
           </div>
         ))}
-      </div>
+      </SwipeSlider>
     </section>
   );
 }
