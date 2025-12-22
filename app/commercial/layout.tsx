@@ -10,7 +10,7 @@ export default function RootLayout({
   return (
     <div>
       <Navbar />
-      <main>{children}</main>
+      <main className="pt-[calc(3.125rem+4.563rem)]">{children}</main>
     </div>
   );
 }

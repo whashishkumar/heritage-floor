@@ -57,12 +57,14 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${roboto.variable}  ${poppins.variable}  ${inter.variable} antialiased `}>
+      <body
+        className={`${roboto.variable}  ${poppins.variable}  ${inter.variable} antialiased min-h-screen flex flex-col`}
+      >
         <ToastProvider>
           <AuthProvider>
             <Providers>
               <Navbar />
-              <main>{children}</main>
+              <main className="flex-1">{children}</main>
               <Footer />
             </Providers>
           </AuthProvider>

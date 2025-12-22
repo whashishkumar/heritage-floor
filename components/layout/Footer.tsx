@@ -240,7 +240,7 @@ const Footer: React.FC = () => {
   return (
     <footer
       id="footer"
-      className="w-full bg-black  justify-center flex items-center rounded-tl-[1.688rem] rounded-tr-[1.688rem] flex-col text-white bottom-0 -mt-[1.5rem] !-z-20 "
+      className="w-full bg-black justify-center flex items-center rounded-tl-[1.688rem] rounded-tr-[1.688rem] flex-col text-white z-10"
     >
       <div className="flex-1">
         <div className="wrapper mx-auto py-16 lg:px-0 px-10">
