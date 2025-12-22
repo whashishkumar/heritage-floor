@@ -288,7 +288,7 @@
 import { usePathSegments } from '@/utils/segmentPath';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { BiChevronDown, BiChevronRight } from 'react-icons/bi';
 
 export function transformMegaMenuData(categories: any[]) {
@@ -308,7 +308,7 @@ export function transformMegaMenuData(categories: any[]) {
   }));
 }
 
-export default function MegaMenu({ isDealsOpen, megaMenu }: any) {
+export default function MegaMenu({ isDealsOpen, megaMenu, onOpenDeals, setIsDealsOpen }: any) {
   const { mainPath } = usePathSegments();
   const router = useRouter();
 
@@ -324,9 +324,17 @@ export default function MegaMenu({ isDealsOpen, megaMenu }: any) {
   const [mobileActiveSubMenu, setMobileActiveSubMenu] = useState<string | null>(null);
 
   const menuRef = useRef<HTMLDivElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
   const megaMenuDataList = transformMegaMenuData(megaMenu);
 
   /* ---------------- Handlers ---------------- */
+  const closeMenu = () => {
+    setDesktopMenuOpen(false);
+    setDesktopActiveMenu(null);
+    setDesktopActiveSubMenu(null);
+    setActiveMenuItem(null);
+    setActiveSubMenuItem(null);
+  };
 
   const handleDesktopMenuClick = (item: any) => {
     if (desktopActiveMenu === item.key) {
@@ -342,22 +350,15 @@ export default function MegaMenu({ isDealsOpen, megaMenu }: any) {
     setActiveSubMenuItem(firstSubMenu);
   };
 
-  const closeMenu = () => {
-    setDesktopMenuOpen(false);
-    setDesktopActiveMenu(null);
-    setDesktopActiveSubMenu(null);
-    setActiveMenuItem(null);
-    setActiveSubMenuItem(null);
-  };
-
   const handleSubMenuClick = (sub: any) => {
     setDesktopActiveSubMenu(sub.key);
     setActiveSubMenuItem(sub);
   };
 
   const navigateTo = (id: number) => {
-    closeMenu();
     router.push(`${mainPath}/products/${id}`);
+    setIsDealsOpen(false);
+    closeMenu();
   };
 
   const handleMobileMenuClick = (menuKey: string) => {
@@ -365,10 +366,31 @@ export default function MegaMenu({ isDealsOpen, megaMenu }: any) {
     setMobileActiveSubMenu(null);
   };
 
-  /* ---------------- JSX ---------------- */
+  // Close desktop menu when clicking outside or pressing Escape
+  useEffect(() => {
+    if (!desktopMenuOpen) return;
+
+    function handleClickOutside(e: MouseEvent) {
+      if (containerRef.current && !containerRef.current.contains(e.target as Node)) {
+        closeMenu();
+      }
+    }
+
+    function handleKeyDown(e: KeyboardEvent) {
+      if (e.key === 'Escape') closeMenu();
+    }
+
+    document.addEventListener('mousedown', handleClickOutside);
+    document.addEventListener('keydown', handleKeyDown);
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [desktopMenuOpen]);
 
   return (
-    <div className="relative w-full">
+    <div className="relative w-full" ref={containerRef}>
       {/* 🔹 Desktop Navigation Bar */}
       <div className="flex items-center justify-between wrapper mx-auto lg:h-[3.125rem] px-4">
         <div className="hidden lg:flex items-center justify-center gap-[3.5rem] w-full">
