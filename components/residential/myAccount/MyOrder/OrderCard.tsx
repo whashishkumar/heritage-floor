@@ -26,7 +26,7 @@ export default function OrderCard({
       </td>
       <td className="p-4 text-sm text-gray-700">{order.customer_name}</td>
       <td className="p-4 text-sm text-gray-600">{order.date}</td>
-      {order.price && <td className="p-4 text-sm font-semibold text-gray-900">€{order.price}</td>}
+      {order.price && <td className="p-4 text-sm font-semibold text-gray-900">${order.price}</td>}
       <td className="p-4 text-sm text-gray-600">{order.payment}</td>
       <td className="p-4">
         <span
