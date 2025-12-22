@@ -144,6 +144,7 @@ const CartPageComponent = () => {
     const resp = await CartEndPoint.removeAllCartItems();
     showToast(resp?.message);
     fetchCartItems();
+    window.dispatchEvent(new Event('cart-updated'));
   };
 
   const subtotal = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
