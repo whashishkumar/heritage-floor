@@ -419,9 +419,12 @@ export default function HeaderMainBar({ megaMenuData }: any) {
               <FiX className="w-6 h-6 text-gray-600 hover:text-black" />
             </button>
           </div>
-          <HeaderMegaMenu isDealsOpen={isDealsOpen} megaMenu={megaMenuData} />
+          <HeaderMegaMenu
+            isDealsOpen={isDealsOpen}
+            megaMenu={megaMenuData}
+            setIsDealsOpen={setIsDealsOpen}
+          />
         </div>
-
         {/* Overlay */}
         {isDealsOpen && (
           <div
@@ -432,12 +435,7 @@ export default function HeaderMainBar({ megaMenuData }: any) {
       </div>
 
       {/* Desktop Mega Menu - Rendered outside main header */}
-      <HeaderMegaMenu
-        isDealsOpen={false}
-        megaMenu={megaMenuData}
-        onOpenDeals={() => setIsDealsOpen(false)}
-        // onOpenDeals={() => setIsDealsOpen(true)}
-      />
+      <HeaderMegaMenu isDealsOpen={false} megaMenu={megaMenuData} setIsDealsOpen={setIsDealsOpen} />
     </>
   );
 }

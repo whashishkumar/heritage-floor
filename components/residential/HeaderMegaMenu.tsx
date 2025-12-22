@@ -308,7 +308,7 @@ export function transformMegaMenuData(categories: any[]) {
   }));
 }
 
-export default function MegaMenu({ isDealsOpen, megaMenu, onOpenDeals }: any) {
+export default function MegaMenu({ isDealsOpen, megaMenu, onOpenDeals, setIsDealsOpen }: any) {
   const { mainPath } = usePathSegments();
   const router = useRouter();
 
@@ -357,8 +357,8 @@ export default function MegaMenu({ isDealsOpen, megaMenu, onOpenDeals }: any) {
 
   const navigateTo = (id: number) => {
     router.push(`${mainPath}/products/${id}`);
-    onOpenDeals();
-    // closeMenu?.();
+    setIsDealsOpen(false);
+    closeMenu();
   };
 
   const handleMobileMenuClick = (menuKey: string) => {
