@@ -99,7 +99,7 @@ export const CommercialPageData = {
   getContactUsDetails: () => {
     return apiFetch({
       endpoint: '/contact-addon-details',
-      cache: 'dynamic',
+      cache: 'no-store',
     });
   },
 };
