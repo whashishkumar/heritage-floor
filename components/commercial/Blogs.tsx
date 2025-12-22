@@ -61,26 +61,24 @@ export default function FeaturedBlogs({ blogs, pagePath }: any) {
                   />
                 </div>
 
-                <div>
-                  <div className="flex mt-[1.688rem] gap-2">
-                    {/* <div className="bg-primaryTwo flex items-center justify-center text-[#FAFCFF] leading-[1.1538] align-middle font-normal tracking-[0.5px] h-[1.5rem]  rounded-[2.5rem] uppercase text-xs">
-                      <span>{mainBlog.category}</span>
-                    </div> */}
-                    <div className="bg-primaryTwo inline-flex items-center justify-center text-[#FAFCFF] leading-[1.1538] align-middle font-normal tracking-[0.5px] h-[1.5rem] rounded-[2.5rem] uppercase text-xs px-3">
-                      <span>{mainBlog.category}</span>
+                <div className="flex sm:grid sm:gap-4 sm:justify-items-end">
+                  <div>
+                    <div className="flex mt-[1.688rem] gap-2">
+                      <div className="bg-primaryTwo inline-flex items-center justify-center text-[#FAFCFF] leading-[1.1538] align-middle font-normal tracking-[0.5px] h-[1.5rem] rounded-[2.5rem] uppercase text-xs px-3">
+                        <span>{mainBlog.category}</span>
+                      </div>
+
+                      <span className="bg-white text-black text-xs font-normal align-middle tracking-[0.5px] px-3 py-1 rounded uppercase">
+                        {mainBlog.date}
+                      </span>
                     </div>
-
-                    <span className="bg-white text-black text-xs font-normal align-middle tracking-[0.5px] px-3 py-1 rounded uppercase">
-                      {mainBlog.date}
-                    </span>
+                    <h3 className="font-normal text-2xl text-black align-middle mt-[1.313rem] leading-[1.4167]">
+                      {mainBlog.title}
+                    </h3>
+                    <p className="hidden sm:block text-base font-normal leading-[1.6250] text-[#000000]/70 align-middle w-full sm:w-[85%] mt-[1.188rem]">
+                      {mainBlog.excerpt}
+                    </p>
                   </div>
-                  <h3 className="font-normal text-2xl text-black align-middle mt-[1.313rem] leading-[1.4167]">
-                    {mainBlog.title}
-                  </h3>
-                  <p className="text-base font-normal leading-[1.6250] text-[#000000]/70 align-middle w-full sm:w-[85%] mt-[1.188rem]">
-                    {mainBlog.excerpt}
-                  </p>
-
                   <button
                     onClick={() => handleReadBlogPost(mainBlog)}
                     className="bg-primaryTwo text-white flex items-center justify-center rounded-lg transition-colors h-[3.625rem] w-[3.625rem] cursor-pointer mt-[2.5rem]"
