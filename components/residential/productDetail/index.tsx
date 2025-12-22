@@ -30,8 +30,8 @@ const sortOptions = [
 ];
 
 const accOptions = [
-  { label: 'Acc', value: 'asc' },
-  { label: 'Dec', value: 'desc' },
+  { label: 'Asc', value: 'asc' },
+  { label: 'Dsc', value: 'desc' },
 ];
 
 export default function ProductDetailPage({ sortOptionsCategory }: any) {
@@ -283,7 +283,7 @@ export default function ProductDetailPage({ sortOptionsCategory }: any) {
                 <Selector
                   label="Order"
                   options={accOptions}
-                  placeholder="Acc"
+                  placeholder="Asc"
                   value={order}
                   onChange={handleSortChange}
                 />

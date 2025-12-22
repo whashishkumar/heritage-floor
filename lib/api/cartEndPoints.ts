@@ -33,6 +33,7 @@ export const CartEndPoint = {
   addRemoveListItems: (productId: any) => apiPost(`/customer/wishlist/${productId}`),
   moveWishListToCart: (productId: any) => apiPost(`/customer/wishlist/${productId}/move-to-cart`),
   removeAllWishList: () => apiDelete('/customer/wishlist/all'),
+  moveAllItemsToCart: (products: any) => apiPost('/customer/wishlist/move-to-cart', products),
 
   //Customer Address API EndPoints
   getUserAddressList: () => {

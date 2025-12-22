@@ -41,6 +41,26 @@ export default function WishLists() {
     router.push(`/residential/products/${'wish-list'}/${id}`);
   };
 
+  const result = {
+    wishlist_ids: wishListItems?.map((item: any) => item.id),
+    quantities: wishListItems?.reduce((acc: Record<number, number>, item: any) => {
+      acc[item.id] = 1;
+      return acc;
+    }, {}),
+  };
+
+  const handleMoveAllItemsToCart = async () => {
+    if (wishListItems.length === 0) {
+      showToast('Your wishlist is empty');
+      return;
+    }
+    const resp = await CartEndPoint.moveAllItemsToCart(result);
+    showToast(resp.message, 'success');
+    getAllListItems();
+    // 🔥 notify all components
+    window.dispatchEvent(new Event('cart-updated'));
+  };
+
   useEffect(() => {
     getAllListItems();
   }, []);
@@ -65,12 +85,20 @@ export default function WishLists() {
                       Here is a list of all your saved Items
                     </p>
                   </div>
-                  <button
-                    onClick={handleClearAllWishList}
-                    className="px-4 py-2 rounded-xl border border-gray-300 text-gray-700 hover:bg-gray-100 transition-all duration-200 cursor-pointer"
-                  >
-                    Clear All
-                  </button>
+                  <div>
+                    <button
+                      onClick={handleClearAllWishList}
+                      className="bg-gradient-to-r from-primaryOne to-primaryTwo text-white px-3 md:px-4 py-2 rounded-full text-xs md:text-sm font-bold cursor-pointer"
+                    >
+                      Clear All
+                    </button>
+                    <button
+                      className=" ml-4 bg-gradient-to-r from-primaryOne to-primaryTwo text-white px-3 md:px-4 py-2 rounded-full text-xs md:text-sm font-bold cursor-pointer"
+                      onClick={handleMoveAllItemsToCart}
+                    >
+                      Move All to Cart
+                    </button>
+                  </div>
                 </div>
                 <div className="flex flex-wrap gap-4 py-12">
                   {isLoading ? (

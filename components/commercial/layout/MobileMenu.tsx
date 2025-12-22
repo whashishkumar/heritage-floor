@@ -31,8 +31,8 @@ export default function PhoneMenuCommercial() {
 
   return (
     <>
-      <div className="  flex flex-col lg:hidden justify-between  items-center w-full h-full ">
-        <div className=" flex lg:hidden justify-between  items-center w-full px-[1.5rem] ">
+      <div className="flex flex-col lg:hidden justify-between  items-center w-full h-full ">
+        <div className="flex lg:hidden justify-between  items-center w-full px-[1.5rem] ">
           {/* Left Menu */}
           <div className=" flex flex-row items-center justify-center gap-4 sm:gap-6  ">
             <button className=" " onClick={toggleMenu}>
