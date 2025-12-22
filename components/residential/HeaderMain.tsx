@@ -432,7 +432,12 @@ export default function HeaderMainBar({ megaMenuData }: any) {
       </div>
 
       {/* Desktop Mega Menu - Rendered outside main header */}
-      <HeaderMegaMenu isDealsOpen={false} megaMenu={megaMenuData} />
+      <HeaderMegaMenu
+        isDealsOpen={false}
+        megaMenu={megaMenuData}
+        onOpenDeals={() => setIsDealsOpen(false)}
+        // onOpenDeals={() => setIsDealsOpen(true)}
+      />
     </>
   );
 }
