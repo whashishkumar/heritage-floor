@@ -1,6 +1,11 @@
 import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
+  reactStrictMode: true,
+  devIndicators: {
+    buildActivity: false,
+    buildActivityPosition: 'bottom-right',
+  },
   images: {
     unoptimized: true,
     remotePatterns: [
@@ -14,7 +19,6 @@ const nextConfig: NextConfig = {
     qualities: [75, 100],
   },
 
-  reactStrictMode: true,
   async rewrites() {
     return [
       {
