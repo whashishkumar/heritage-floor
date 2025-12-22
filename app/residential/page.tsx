@@ -22,12 +22,13 @@ export default async function Home() {
   const blogs = await CommonComponentData?.getOurBlogs(1);
   const featureData = await ResidentailPageData?.getOurMajorProjects();
   const { data } = await CommonComponentData?.getTestinomials();
+  const featureProduct = await CommonComponentData?.getFeaturedProducts();
 
   return (
     <>
       <HeroSection />
       <CategoriesResidential data={categories.data} />
-      <SignatureFlooring data={flooringSelections.data} />
+      <SignatureFlooring data={flooringSelections.data} featureProduct={featureProduct} />
       <FeaturedProducts />
       <LocationBanner />
       <OurCustomers coustumerData={customerData} />

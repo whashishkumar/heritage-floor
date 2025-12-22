@@ -333,7 +333,6 @@ export default function MegaMenu({ isDealsOpen, megaMenu }: any) {
       closeMenu();
       return;
     }
-
     const firstSubMenu = item.subMenu?.[0] || null;
 
     setDesktopMenuOpen(true);
