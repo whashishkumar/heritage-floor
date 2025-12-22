@@ -22,7 +22,7 @@ export default function HeaderMainBar({ megaMenuData }: any) {
   const [isDealsOpen, setIsDealsOpen] = useState(false);
   const [cartCount, setCartCount] = useState(0);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [itemsInCart, setItemsInCart] = useState(null);
+  const [itemsInCart, setItemsInCart] = useState<any | null>(null);
   const { isAuthenticated, logout } = useAuth();
   const pathname = usePathname();
   const router = useRouter();
@@ -237,12 +237,12 @@ export default function HeaderMainBar({ megaMenuData }: any) {
                       >
                         <Image src="/icon/BagCheck.png" alt="Cart" fill className="object-center" />
                         {isAuthenticated
-                          ? itemsInCart && (
+                          ? itemsInCart > 0 && (
                               <span className="absolute -top-2 -right-2 bg-teal-600 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
                                 {itemsInCart}
                               </span>
                             )
-                          : totalItem && (
+                          : totalItem.length > 0 && (
                               <p className="absolute -top-2 -right-2 bg-teal-600 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
                                 {totalItem}
                               </p>
@@ -298,14 +298,14 @@ export default function HeaderMainBar({ megaMenuData }: any) {
           {isMenuOpen && (
             <div className="lg:hidden py-4 border-t border-gray-200 pt-10 w-full">
               {/* Mobile Search */}
-              <div className="relative mb-4">
+              {/* <div className="relative mb-4">
                 <input
                   type="text"
                   placeholder="Search"
                   className="w-full pl-10 pr-4 py-2.5 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-teal-500"
                 />
                 <FiSearch className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
-              </div>
+              </div> */}
 
               {/* Mobile Navigation */}
               <nav className="flex flex-col gap-3">
