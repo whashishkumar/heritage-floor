@@ -3,34 +3,77 @@ import SectionHeader from '../common/SectionHeader';
 import AutoPlay from '../common/Slider';
 import TestimonialCard from '../ui/TestimonialCard';
 
+// const responsiveSettings = [
+//   {
+//     breakpoint: 1420,
+//     settings: { slidesToShow: 4, slidesToScroll: 1, centerMode: false },
+//   },
+//   {
+//     breakpoint: 1200,
+//     settings: { slidesToShow: 3.5, slidesToScroll: 1, centerMode: false },
+//   },
+//   {
+//     breakpoint: 1050,
+//     settings: { slidesToShow: 3.5, slidesToScroll: 1, centerMode: false },
+//   },
+//   {
+//     breakpoint: 770,
+//     settings: { slidesToShow: 3, slidesToScroll: 3, centerMode: true },
+//   },
+//   {
+//     breakpoint: 650,
+//     settings: { slidesToShow: 3, slidesToScroll: 3, centerMode: false },
+//   },
+//   {
+//     breakpoint: 570,
+//     settings: { slidesToShow: 2, slidesToScroll: 3, centerMode: false },
+//   },
+//   {
+//     breakpoint: 525,
+//     settings: { slidesToShow: 2, slidesToScroll: 3, centerMode: false },
+//   },
+//   {
+//     breakpoint: 450,
+//     settings: { slidesToShow: 1.75, slidesToScroll: 1, centerMode: false },
+//   },
+//   {
+//     breakpoint: 400,
+//     settings: { slidesToShow: 1.5, slidesToScroll: 1, centerMode: false },
+//   },
+//   {
+//     breakpoint: 350,
+//     settings: { slidesToShow: 1.25, slidesToScroll: 1, centerMode: false },
+//   },
+// ];
+
 const responsiveSettings = [
   {
     breakpoint: 1420,
-    settings: { slidesToShow: 4, slidesToScroll: 1, centerMode: false },
+    settings: { slidesToShow: 6, slidesToScroll: 1, centerMode: false },
   },
   {
     breakpoint: 1200,
-    settings: { slidesToShow: 3.5, slidesToScroll: 1, centerMode: false },
+    settings: { slidesToShow: 5, slidesToScroll: 1, centerMode: false },
   },
   {
     breakpoint: 1050,
-    settings: { slidesToShow: 3.5, slidesToScroll: 1, centerMode: false },
+    settings: { slidesToShow: 5, slidesToScroll: 1, centerMode: false },
   },
   {
     breakpoint: 770,
-    settings: { slidesToShow: 3, slidesToScroll: 3, centerMode: true },
+    settings: { slidesToShow: 4, slidesToScroll: 1, centerMode: false },
   },
   {
     breakpoint: 650,
-    settings: { slidesToShow: 3, slidesToScroll: 3, centerMode: false },
+    settings: { slidesToShow: 3, slidesToScroll: 1, centerMode: false },
   },
   {
     breakpoint: 570,
-    settings: { slidesToShow: 2, slidesToScroll: 3, centerMode: false },
+    settings: { slidesToShow: 2, slidesToScroll: 1, centerMode: false },
   },
   {
     breakpoint: 525,
-    settings: { slidesToShow: 2, slidesToScroll: 3, centerMode: false },
+    settings: { slidesToShow: 2, slidesToScroll: 1, centerMode: false },
   },
   {
     breakpoint: 450,
@@ -41,11 +84,10 @@ const responsiveSettings = [
     settings: { slidesToShow: 1.5, slidesToScroll: 1, centerMode: false },
   },
   {
-    breakpoint: 350,
+    breakpoint: 320,
     settings: { slidesToShow: 1.25, slidesToScroll: 1, centerMode: false },
   },
 ];
-
 export default function TestimonialsCommercial({ testinomialsData }: any) {
   return (
     <>

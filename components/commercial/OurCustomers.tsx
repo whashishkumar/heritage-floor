@@ -103,7 +103,7 @@ export default function OurCustomers({ coustumerData }: coustumerData) {
           />
           <ButtonCommon
             // link={`${pathname}/products`}
-            link="/residential/products"
+            link="/residential/brands"
             buttonName="Shop by Brands"
             image="/icon/arrowRightUp.png"
           />
