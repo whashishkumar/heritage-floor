@@ -5,9 +5,5 @@ import React from 'react';
 export default async function page() {
   const res = await CommercialPageData.getContactUsDetails();
 
-  return (
-    <div>
-      <ContactUs contactUsData={res} />
-    </div>
-  );
+  return <div>{/* <ContactUs contactUsData={res} /> */}</div>;
 }
