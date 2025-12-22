@@ -66,7 +66,9 @@ export default function WishListProductCard({
           {product?.name}
         </h3>
         <p className="mt-2 text-black poppins-font font-extrabold leading-[1.875rem] text-[1.875rem] ">
-          {product.price ? '$' + `${product.price}` : '_'}
+          {product.price_per_sqft !== null && product.price_per_sqft !== undefined
+            ? `$${Number(product.price_per_sqft).toFixed(2)}`
+            : '_'}
         </p>
         {/* Button */}
         <div className="mt-[1.5rem]">
