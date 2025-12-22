@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic';
+
 import ContactUs from '@/components/commercial/contactUs';
 import { CommercialPageData } from '@/lib/api/commercialEndPoints';
 import React from 'react';
