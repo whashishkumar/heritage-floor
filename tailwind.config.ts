@@ -23,6 +23,22 @@ export default {
       //   dangerRedInput: "#D5002060",
       //   successGreen: "#30a448",
       // },
+      keyframes: {
+        marquee: {
+          '0%': { transform: 'translateX(0%)' },
+          '100%': { transform: 'translateX(-50%)' },
+        },
+        marqueeReverse: {
+          '0%': { transform: 'translateX(-50%)' },
+          '100%': { transform: 'translateX(0%)' },
+        },
+      },
+      animation: {
+        marquee: 'marquee 20s linear infinite',
+        'marquee-slow': 'marquee 35s linear infinite',
+        'marquee-fast': 'marquee 10s linear infinite',
+        'marquee-reverse': 'marqueeReverse 20s linear infinite',
+      },
       colors: {
         primaryOne: '#0ABAB5',
         primaryTwo: '#018C99',
