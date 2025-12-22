@@ -50,7 +50,6 @@ export default function GetInTouch() {
           <div className="h-[1.813rem] w-[1.813rem] relative shrink-0">
             <Image src="/icon/Letter.png" alt="get in touch" fill />
           </div>
-
           <div className="ml-4 flex flex-col w-full md:w-[60%] relative">
             <input
               type="text"
