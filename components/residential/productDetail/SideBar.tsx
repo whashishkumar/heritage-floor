@@ -25,8 +25,8 @@ const sortOptions = [
 ];
 
 const accOptions = [
-  { label: 'Acc', value: 'acc' },
-  { label: 'Dec', value: 'dec' },
+  { label: 'Asc', value: 'acc' },
+  { label: 'Dsc', value: 'dec' },
 ];
 
 interface SideBarProps {
