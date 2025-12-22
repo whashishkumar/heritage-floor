@@ -142,7 +142,7 @@ export default function HeaderMainBar({ megaMenuData }: any) {
             {/* Desktop Navigation */}
             <div className="hidden lg:flex items-center gap-6 flex-1 justify-end">
               {/* Search Bar */}
-              <div className="relative max-w-[23.125rem] w-full">
+              {/* <div className="relative max-w-[23.125rem] w-full">
                 <input
                   type="text"
                   placeholder="Search"
@@ -153,7 +153,7 @@ export default function HeaderMainBar({ megaMenuData }: any) {
                     <Image src="/icon/serch.svg" alt="search" className="object-cover" fill />
                   </div>
                 </div>
-              </div>
+              </div> */}
               {/* Navigation Links */}
               <nav className="flex items-center gap-6">
                 <Link

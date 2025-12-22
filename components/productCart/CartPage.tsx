@@ -118,7 +118,7 @@ const CartPageComponent = () => {
 
   const applyPromoCode = async () => {
     const resp = await CartEndPoint.applyCustomeCode(promoCode);
-    console.log(resp, 'respCode');
+
     if (resp.status == 200) {
       setShowCoupenBtn(true);
     } else {
