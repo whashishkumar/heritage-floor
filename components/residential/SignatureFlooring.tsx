@@ -5,6 +5,10 @@ import { FaStar } from 'react-icons/fa6';
 import ModalBox from '../ui/ModalBox';
 import QueryForm from '../common/QuearyForm';
 import SwipeSlider from '../ui/SwipeSlider';
+import ButtonCommon from '../ui/Button';
+import { CartEndPoint } from '@/lib/api/cartEndPoints';
+import { useAuth } from '@/context/userAuthContext';
+import { useToast } from '../ui/Tooltip';
 
 interface SignatureFlooringProps {
   image: string;
@@ -18,9 +22,12 @@ interface SignatureFlooring {
   data: {
     services: SignatureFlooringProps[];
   };
+  featureProduct?: any;
 }
 
-export default function SignatureFlooring({ data }: SignatureFlooring) {
+export default function SignatureFlooring({ data, featureProduct }: SignatureFlooring) {
+  const { isAuthenticated } = useAuth();
+  const { showToast } = useToast();
   const [activeCard, setActiveCard] = useState<number>(6); // Default active card = 7th
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
   const handleOpenModal = () => setIsAuthModalOpen(true);
@@ -103,7 +110,25 @@ export default function SignatureFlooring({ data }: SignatureFlooring) {
       spaceBetween: 25,
     },
   };
+  const { data: featureData } = featureProduct || {};
+  const baseImageUrl = process.env.NEXT_PUBLIC_IMAGE_PATH_WITHOUT_STORAGE;
 
+  const handleAddToCartProduct = async (id: any) => {
+    try {
+      if (isAuthenticated) {
+        await CartEndPoint.addItemToCart(id);
+        showToast('Product added to cart successfully!', 'success');
+        window.dispatchEvent(new Event('cart-updated'));
+      } else {
+        showToast('Please sign up or log in to continue.');
+      }
+    } catch (error: any) {
+      console.error('Error adding to cart:', error);
+      const errorMessage =
+        error?.response?.data?.message || 'Failed to add product to cart. Please try again.';
+      showToast(errorMessage, 'error');
+    }
+  };
   return (
     <div className="w-full h-full flex items-center justify-center mb-[5rem]">
       <div className="wrapper w-full mx-auto">
@@ -222,13 +247,13 @@ export default function SignatureFlooring({ data }: SignatureFlooring) {
           bottomSwipeBtn={false}
           swipebtn={true}
           spaceBetween={10}
-          autoPlay={true}
-          loop={true}
-          delay={1000}
-          speed={3000}
+          // autoPlay={true}
+          // loop={true}
+          // delay={1000}
+          // speed={3000}
           breakpoints={breakpoints}
         >
-          {data?.services?.map((data: SignatureFlooringProps, index: number) => (
+          {featureData?.map((data: any, index: number) => (
             <div
               key={index}
               className={`flex-shrink-0 poppins-font h-[26.25rem] border border-gray-300 relative group max-w-[21.563rem] opacity-100 z-20 mx-2 mt-5 rounded-md`}
@@ -236,47 +261,45 @@ export default function SignatureFlooring({ data }: SignatureFlooring) {
               <div
                 className="absolute inset-0 bg-cover bg-no-repeat overflow-hidden transition-transform duration-500 group-hover:scale-[101%]"
                 style={{
-                  backgroundImage: `url(${data.image})`,
+                  backgroundImage: `url(${baseImageUrl}${data?.image})`,
                 }}
               >
                 <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/60 transition-colors duration-300" />
               </div>
-              <div className="absolute flex w-full h-full">
-                <div className="absolute bottom-10 left-8 flex flex-col items-start whitespace-nowrap text-white h-fit w-fit">
-                  <div className="flex flex-col -space-y-1.5  ">
-                    <div className="text-xl font-normal uppercase tracking-[-1%]">
-                      {data.category}
-                    </div>
-                    <div className="text-[1rem] md:text-[2rem] font-semibold tracking-[1%] align-middle">
-                      {data.title}
-                    </div>
-                    <div className="text-xl font-normal tracking-[-1%]">By {data.subtitle}</div>
+              <div className="absolute bottom-10 left-8 flex flex-col items-start text-white h-fit w-full pr-6">
+                <div className="flex flex-col">
+                  <div className="text-[1rem] md:text-[1.4rem] font-semibold leading-snug line-clamp-2 break-words">
+                    {data.name}
                   </div>
-
-                  <div className="flex my-[0.5rem] gap-1">
-                    {[...Array(data?.Rating || 5)].map((_, idx) => (
-                      <FaStar key={idx} size={16} className="text-rating" />
-                    ))}
-                  </div>
-
-                  {/* Quote Button */}
-                  <button
-                    onClick={handleOpenModal}
-                    className="h-[2.25rem] w-[8.563rem] border border-[#BDBDBD] rounded-[3.125rem] bg-white flex items-center justify-center hover:bg-gray-50 transition-colors cursor-pointer"
-                  >
-                    <div className="align-middle text-black leading-[1.5] text-base font-medium">
-                      Get a Quote
-                    </div>
-                  </button>
                 </div>
+
+                <div className="mt-2">
+                  <p className="text-gray-400 text-[1rem] font-bold line-through">
+                    $ {Number(data.price).toFixed(2)}
+                  </p>
+                  <p className="text-[1.5rem] font-extrabold">
+                    $ {Number(data.special_price).toFixed(2)}
+                  </p>
+                </div>
+
+                <div className="flex my-[0.5rem] gap-1">
+                  {[...Array(data?.rating || 5)].map((_, idx) => (
+                    <FaStar key={idx} size={16} className="text-rating" />
+                  ))}
+                </div>
+
+                <button
+                  onClick={() => handleAddToCartProduct(data?.id)}
+                  className="h-[2.25rem] w-[8.563rem] border border-[#BDBDBD] rounded-[3.125rem] bg-white flex items-center justify-center hover:bg-gray-50 transition-colors cursor-pointer mt-4"
+                >
+                  <span className="text-black text-base font-medium">Add to Cart</span>
+                </button>
               </div>
             </div>
           ))}
         </SwipeSlider>
-
         {/* <div className="flex w-full overflow-x-scroll mt-[2rem]"></div> */}
       </div>
-
       {/* Auth Modal */}
       <ModalBox isOpen={isAuthModalOpen} onClose={handleCloseModal}>
         <QueryForm onClose={handleCloseModal} title="Get a Quote" />

@@ -8,7 +8,13 @@ export default async function HeaderTopBar({ data }: any) {
         <div className="wrapper mx-auto w-full flex flex-col sm:flex-row items-center justify-between gap-2 sm:gap-0 px-4">
           {/* Left Section */}
           <div className="text-sm sm:text-base text-textGray font-normal leading-[1.6] text-center sm:text-left">
-            Get a consultation with us <span className="font-medium ml-1 text-black">{phone}</span>
+            Get a consultation with us
+            <a
+              href={`tel:${phone.replace(/[^+\d]/g, '')}`}
+              className="font-medium ml-1 text-black hover:underline cursor-pointer"
+            >
+              {phone}
+            </a>
           </div>
 
           {/* Right Section */}
@@ -38,9 +44,13 @@ export default async function HeaderTopBar({ data }: any) {
                   className="object-contain"
                 />
               </div>
-              <p className="text-xs sm:text-sm text-textGray font-normal leading-[1.6] text-center sm:text-left">
+              <a
+                href={`mailto:${email}`}
+                className="text-xs sm:text-sm text-textGray font-normal leading-[1.6] 
+             text-center sm:text-left hover:underline cursor-pointer"
+              >
                 {email}
-              </p>
+              </a>
             </div>
           </div>
         </div>

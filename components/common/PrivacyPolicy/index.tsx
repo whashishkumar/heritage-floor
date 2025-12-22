@@ -11,7 +11,12 @@ export default function PrivacyPolicyPage({ privacyPolicy }: any) {
   return (
     <div className="wrapper mx-auto px-4 py-12 ">
       <button
-        onClick={() => router.push(mainPath)}
+        // onClick={() => {
+        //   router.push(mainPath);
+        // }}
+        onClick={() => {
+          router.push(`${mainPath}#footer`);
+        }}
         className="flex items-center gap-2 text-gray-700 hover:text-gray-900 
                  border border-gray-200 
                  px-4 py-2 rounded-lg 

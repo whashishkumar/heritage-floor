@@ -238,7 +238,10 @@ const Footer: React.FC = () => {
   }
 
   return (
-    <footer className="w-full bg-black  justify-center flex items-center rounded-tl-[1.688rem] rounded-tr-[1.688rem] flex-col text-white bottom-0 -mt-[1.5rem] !-z-20 ">
+    <footer
+      id="footer"
+      className="w-full bg-black  justify-center flex items-center rounded-tl-[1.688rem] rounded-tr-[1.688rem] flex-col text-white bottom-0 -mt-[1.5rem] !-z-20 "
+    >
       <div className="flex-1">
         <div className="wrapper mx-auto py-16 lg:px-0 px-10">
           <div className="flex  flex-col lg:flex-row gap-[3%] ">
@@ -360,16 +363,32 @@ const Footer: React.FC = () => {
                   FOLLOW US
                 </h4>
                 <div className="flex gap-3">
-                  {companyInfo?.socialLinks.map((social: SocialLink) => (
-                    <a
-                      key={social?.platform}
-                      href={social?.url}
-                      className="w-[4rem] h-[4rem] border border-gray-700 flex items-center justify-center hover:border-teal-500 hover:text-teal-500 transition-colors"
-                      aria-label={social?.platform}
-                    >
-                      {getSocialIcon(social?.icon)}
-                    </a>
-                  ))}
+                  {companyInfo?.socialLinks.map((social: SocialLink) =>
+                    social?.url ? (
+                      <a
+                        key={social.platform}
+                        href={social.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="w-[4rem] h-[4rem] border border-gray-700 flex items-center justify-center
+                   hover:border-teal-500 hover:text-teal-500 transition-colors"
+                        aria-label={social.platform}
+                      >
+                        {getSocialIcon(social.icon)}
+                      </a>
+                    ) : (
+                      <button
+                        key={social.platform}
+                        type="button"
+                        disabled
+                        className="w-[4rem] h-[4rem] border border-gray-700 flex items-center justify-center
+                   text-gray-400 cursor-not-allowed"
+                        aria-label={`${social.platform} (not available)`}
+                      >
+                        {getSocialIcon(social.icon)}
+                      </button>
+                    )
+                  )}
                 </div>
               </div>
             </div>

@@ -44,24 +44,35 @@ const BlogCard: React.FC<BlogCardProps> = ({ post, index, handleReadMoreCard }: 
           </div>
         </div>
 
-        <h3 className="text-xl font-bold text-darkBlue mb-3 line-clamp-2 group-hover:text-primaryTwo transition-colors h-full">
+        <h3
+          className="text-xl font-bold text-darkBlue mb-3
+             line-clamp-2 leading-snug
+             h-[3.25rem]
+             group-hover:text-primaryTwo transition-colors overflow-hidden"
+        >
           {post.title}
         </h3>
 
-        <p className="text-primaryGray text-sm mb-4 line-clamp-2">{post.excerpt}</p>
+        <p
+          className="text-primaryGray text-sm mb-4
+             line-clamp-2 leading-relaxed
+             h-[2.75rem]
+             overflow-hidden"
+        >
+          {post.excerpt}
+        </p>
 
         <div
           onClick={() => handleReadMoreCard?.(post.slug)}
-          className="flex items-center justify-start group-hover:justify-between pt-4 border-t border-[#e8e8e8] transition-all  duration-[5000] ease-in-out cursor-pointer"
+          className="flex items-center justify-start group-hover:justify-between pt-4 border-t border-[#e8e8e8] transition-all  duration-[5000] ease-in-out "
         >
-          <button className="text-base text-gray-500 pr-4">Read More</button>
-
-          <button className="text-primaryOne hover:text-shadow-primaryGray transition-colors ">
+          <button className="text-base text-gray-500 pr-4 cursor-pointer">Read More</button>
+          {/* <button className="text-primaryOne hover:text-shadow-primaryGray transition-colors ">
             <FaArrowRightLong
               size={20}
               className=" group-hover:translate-x-1 transition-transform"
             />
-          </button>
+          </button> */}
         </div>
       </div>
     </div>
