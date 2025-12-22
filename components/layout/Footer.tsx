@@ -382,7 +382,7 @@ const Footer: React.FC = () => {
                         type="button"
                         disabled
                         className="w-[4rem] h-[4rem] border border-gray-700 flex items-center justify-center
-                   text-gray-400 cursor-not-allowed"
+                   text-gray-400 "
                         aria-label={`${social.platform} (not available)`}
                       >
                         {getSocialIcon(social.icon)}

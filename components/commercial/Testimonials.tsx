@@ -1,50 +1,7 @@
 'use client';
 import SectionHeader from '../common/SectionHeader';
-import AutoPlay from '../common/Slider';
+import Marquee from '../ui/Marquee';
 import TestimonialCard from '../ui/TestimonialCard';
-
-const responsiveSettings = [
-  {
-    breakpoint: 1420,
-    settings: { slidesToShow: 4, slidesToScroll: 1, centerMode: false },
-  },
-  {
-    breakpoint: 1200,
-    settings: { slidesToShow: 3.5, slidesToScroll: 1, centerMode: false },
-  },
-  {
-    breakpoint: 1050,
-    settings: { slidesToShow: 3.5, slidesToScroll: 1, centerMode: false },
-  },
-  {
-    breakpoint: 770,
-    settings: { slidesToShow: 3, slidesToScroll: 3, centerMode: true },
-  },
-  {
-    breakpoint: 650,
-    settings: { slidesToShow: 3, slidesToScroll: 3, centerMode: false },
-  },
-  {
-    breakpoint: 570,
-    settings: { slidesToShow: 2, slidesToScroll: 3, centerMode: false },
-  },
-  {
-    breakpoint: 525,
-    settings: { slidesToShow: 2, slidesToScroll: 3, centerMode: false },
-  },
-  {
-    breakpoint: 450,
-    settings: { slidesToShow: 1.75, slidesToScroll: 1, centerMode: false },
-  },
-  {
-    breakpoint: 400,
-    settings: { slidesToShow: 1.5, slidesToScroll: 1, centerMode: false },
-  },
-  {
-    breakpoint: 350,
-    settings: { slidesToShow: 1.25, slidesToScroll: 1, centerMode: false },
-  },
-];
 
 export default function TestimonialsCommercial({ testinomialsData }: any) {
   return (
@@ -61,22 +18,33 @@ export default function TestimonialsCommercial({ testinomialsData }: any) {
             />
           </div>
           <div className="mt-[2rem]  ">
-            <AutoPlay
+            {/* <AutoPlay
               data={testinomialsData}
               CardComponent={TestimonialCard}
               slideToShow={4}
               rtl={false}
               responsive={responsiveSettings}
-            />
+            /> */}
+            <Marquee direction="left" speed="normal" pauseOnHover={true}>
+              <div className="flex space-x-6">
+                {testinomialsData?.map((testimonial: any, index: number) => (
+                  <div key={index}>
+                    <TestimonialCard data={testimonial} />
+                  </div>
+                ))}
+              </div>
+            </Marquee>
           </div>
           <div className="mt-[2rem]">
-            <AutoPlay
-              data={testinomialsData}
-              CardComponent={TestimonialCard}
-              slideToShow={4}
-              rtl={true}
-              responsive={responsiveSettings}
-            />
+            <Marquee direction="right" speed="normal" pauseOnHover={true}>
+              <div className="flex space-x-6">
+                {testinomialsData?.map((testimonial: any, index: number) => (
+                  <div key={index}>
+                    <TestimonialCard data={testimonial} />
+                  </div>
+                ))}
+              </div>
+            </Marquee>
           </div>
         </div>
       </div>
