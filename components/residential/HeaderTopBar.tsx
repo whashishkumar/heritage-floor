@@ -5,8 +5,9 @@ import { CommonComponentData } from '@/lib/api/commonEndPoints';
 
 export default function HeaderTopBar({ data }: any) {
   const { email, phone } = data || {};
-  const [selectedAddress, setSelectedAddress] = useState<string>('');
+  // const [selectedAddress, setSelectedAddress] = useState<string>('');
   const [storeLocation, setStoreLocations] = useState<any>([]);
+  const [selectedAddress, setSelectedAddress] = useState(storeLocation?.[0]?.address || '');
 
   const addresses = [
     {
@@ -66,16 +67,12 @@ export default function HeaderTopBar({ data }: any) {
                   className="object-contain"
                 />
               </div>
-              {/* <p className="text-xs sm:text-sm text-textGray font-normal leading-[1.6] text-center sm:text-left">
-                {selectedAddress || address}
-              </p> */}
               <div className="max-w-md space-y-4">
                 <select
-                  className="w-full rounded-lg border border-slate-300 px-2 py-2 outline-none px-2"
+                  className="w-full rounded-lg border border-slate-300 px-2 py-2 outline-none"
                   value={selectedAddress}
                   onChange={(e) => setSelectedAddress(e.target.value)}
                 >
-                  <option value="">{selectedAddress}</option>
                   {storeLocation?.map((item: any) => (
                     <option key={item.id} value={item.address}>
                       {item.address}
@@ -97,8 +94,7 @@ export default function HeaderTopBar({ data }: any) {
               </div>
               <a
                 href={`mailto:${email}`}
-                className="text-xs sm:text-sm text-textGray font-normal leading-[1.6] 
-             text-center sm:text-left hover:underline cursor-pointer"
+                className="text-xs sm:text-sm text-textGray font-normal leading-[1.6]  text-center sm:text-left hover:underline cursor-pointer"
               >
                 {email}
               </a>
