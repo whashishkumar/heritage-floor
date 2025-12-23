@@ -17,7 +17,7 @@ export default function ReachUs({ map, socialNetworks }: any) {
     <section className="w-full ">
       <div className="w-full h-[350px] overflow-hidden rounded-xl">
         <iframe
-          src={`https://www.google.com/maps?q=${encodeURIComponent(map.address)}&output=embed`}
+          src={`https://www.google.com/maps?q=${encodeURIComponent(map?.address)}&output=embed`}
           className="w-full h-full border-0"
           loading="lazy"
           referrerPolicy="no-referrer-when-downgrade"

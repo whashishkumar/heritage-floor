@@ -59,6 +59,7 @@ export default function WishLists() {
     getAllListItems();
     // 🔥 notify all components
     window.dispatchEvent(new Event('cart-updated'));
+    window.dispatchEvent(new Event('wishList-update'));
   };
 
   useEffect(() => {

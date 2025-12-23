@@ -1,6 +1,43 @@
+'use client';
+import { useEffect, useState } from 'react';
 import Image from 'next/image';
-export default async function HeaderTopBar({ data }: any) {
-  const { address, email, phone } = data || {};
+import { CommonComponentData } from '@/lib/api/commonEndPoints';
+
+export default function HeaderTopBar({ data }: any) {
+  const { email, phone } = data || {};
+  const [selectedAddress, setSelectedAddress] = useState<string>('');
+  const [storeLocation, setStoreLocations] = useState<any>([]);
+
+  const addresses = [
+    {
+      id: 1,
+      label: 'Head Office',
+      address: 'Office 201, Tech Park, Bangalore, India',
+    },
+    {
+      id: 2,
+      label: 'Branch Office',
+      address: 'Sector 62, Noida, Uttar Pradesh, India',
+    },
+    {
+      id: 3,
+      label: 'USA Office',
+      address: 'San Jose, California, USA',
+    },
+  ];
+
+  const getNearestStore = async () => {
+    try {
+      const storeLocations = await CommonComponentData.getStoreLocations();
+      setStoreLocations(storeLocations?.data);
+    } catch (error) {
+      console.error('Error fetching store locations:', error);
+    }
+  };
+
+  useEffect(() => {
+    getNearestStore();
+  }, []);
 
   return (
     <>
@@ -29,9 +66,23 @@ export default async function HeaderTopBar({ data }: any) {
                   className="object-contain"
                 />
               </div>
-              <p className="text-xs sm:text-sm text-textGray font-normal leading-[1.6] text-center sm:text-left">
-                {address}
-              </p>
+              {/* <p className="text-xs sm:text-sm text-textGray font-normal leading-[1.6] text-center sm:text-left">
+                {selectedAddress || address}
+              </p> */}
+              <div className="max-w-md space-y-4">
+                <select
+                  className="w-full rounded-lg border border-slate-300 px-2 py-2 outline-none px-2"
+                  value={selectedAddress}
+                  onChange={(e) => setSelectedAddress(e.target.value)}
+                >
+                  <option value="">{selectedAddress}</option>
+                  {storeLocation?.map((item: any) => (
+                    <option key={item.id} value={item.address}>
+                      {item.address}
+                    </option>
+                  ))}
+                </select>
+              </div>
             </div>
 
             {/* Email */}
