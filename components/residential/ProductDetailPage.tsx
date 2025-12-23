@@ -270,7 +270,7 @@ const ProductDetailPage = () => {
   return (
     <div className="wrapper m-auto py-12">
       <div className="p-6 grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-15">
-        <div className="mb-4 lrft-col">
+        <div className="mb-4 lrft-col -z-999">
           <div className="overflow-hidden rounded-2xl ">
             <InnerImageZoom
               src={selectedImage?.src}
@@ -284,7 +284,7 @@ const ProductDetailPage = () => {
               }}
             />
           </div>
-          {/* Thumbnails */}
+
           <div className="flex gap-4 py-10">
             {images?.map((image: any) => (
               <div
@@ -310,8 +310,6 @@ const ProductDetailPage = () => {
                 <div className="flex items-start justify-center h-10 w-10 ">
                   {benefit.icon && (
                     <Image
-                      // baseUrlImage
-                      // src={benefit.icon}
                       src={`${baseUrlImage}${baseUrlImage}`}
                       alt={benefit.title}
                       fill
