@@ -61,7 +61,7 @@ export default function FeaturedBlogs({ blogs, pagePath }: any) {
                   />
                 </div>
 
-                <div className="flex sm:grid sm:gap-4 sm:justify-items-end">
+                <div className="flex justify-start sm:grid sm:gap-4 sm:justify-items-end">
                   <div>
                     <div className="flex mt-[1.688rem] gap-2">
                       <div className="bg-primaryTwo inline-flex items-center justify-center text-[#FAFCFF] leading-[1.1538] align-middle font-normal tracking-[0.5px] h-[1.5rem] rounded-[2.5rem] uppercase text-xs px-3">
