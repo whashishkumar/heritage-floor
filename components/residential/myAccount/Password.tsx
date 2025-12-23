@@ -75,6 +75,13 @@ export default function ChangePasswordForm() {
   // ✅ HANDLE SUBMIT
   const handleSetNewPassword = async () => {
     if (!validateForm()) return;
+    const payload = {
+      _method: 'PUT',
+      current_password: formData.current_password,
+      new_password: formData.new_password,
+      new_password_confirmation: formData.new_password_confirmation,
+    };
+
     try {
       setLoading(true);
       setErrors({
@@ -83,7 +90,7 @@ export default function ChangePasswordForm() {
         new_password_confirmation: '',
         general: '',
       });
-      const resp = await UserMyAccountEndpoints.updatePeofile(formData);
+      const resp = await UserMyAccountEndpoints.updatePeofile(payload);
       showToast(resp.message, 'success');
 
       setFormData({

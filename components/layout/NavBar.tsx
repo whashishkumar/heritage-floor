@@ -55,7 +55,7 @@ export default function Navbar() {
   };
 
   return (
-    <nav className="w-full bg-primaryTwo h-[3.125rem] justify-center flex items-center z-50 sticky top-0 transition-all duration-300 shadow-md">
+    <nav className="w-full bg-primaryTwo h-[3.125rem] justify-center flex items-center z-[9999] sticky top-0 transition-all duration-300 shadow-md">
       <div className="wrapper flex justify-between items-center w-full">
         {/* Left Menu */}
         <div className="flex items-center" role="navigation" aria-label="Main navigation">
