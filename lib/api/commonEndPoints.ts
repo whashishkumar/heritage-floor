@@ -106,4 +106,11 @@ export const CommonComponentData = {
       cache: 'no-store',
     });
   },
+
+  getStoreLocations: () => {
+    return apiFetch({
+      endpoint: '/stores',
+      cache: 'no-store',
+    });
+  },
 };
