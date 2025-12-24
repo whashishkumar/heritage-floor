@@ -19,8 +19,8 @@ export const CartEndPoint = {
   getTilesCalculations: (data?: any) => apiPost(`/products/calculate-cost`, data),
 
   //Apply Coupne API EndPoints
-  applyCustomeCode: (code: any) => apiPost(`/customer/cart/apply-coupon/${code}`),
-  removeAppliedCoupon: (code: any) => apiDelete(`/customer/cart/remove-coupon/${code}`),
+  removeAppliedCoupon: (code: any) => apiDelete(`/customer/cart/coupon`, code),
+  applyCustomeCode: (data: any) => apiPost(`/customer/cart/coupon`, data),
 
   //Wish List API EndPoints
   getWishListItems: () => {

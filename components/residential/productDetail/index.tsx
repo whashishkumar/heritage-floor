@@ -190,7 +190,6 @@ export default function ProductDetailPage({ sortOptionsCategory }: any) {
 
   const handleWhshlistAdd = async (e: React.MouseEvent<HTMLButtonElement>, productId: number) => {
     e.preventDefault();
-
     // Optimistic update for just this product
     setWishlistStatus((prev) => ({ ...prev, [productId]: !prev[productId] }));
 
