@@ -1,7 +1,93 @@
+// 'use client';
+// import React, { useState } from 'react';
+// import { FaMinus } from 'react-icons/fa6';
+// import { FaPlus } from 'react-icons/fa6';
+// interface Option {
+//   id: number | string;
+//   label: string;
+//   value: string;
+// }
+// interface FilterGroup {
+//   title: string;
+//   code: string;
+//   options: Option[];
+// }
+// interface FilterAccordionGroupProps {
+//   data: FilterGroup[];
+//   onChange?: (filters: Record<string, string[]>) => void;
+// }
+
+// const CheckboxGroup: React.FC<FilterAccordionGroupProps> = ({ data, onChange }) => {
+//   const [selectedFilters, setSelectedFilters] = useState<Record<string, string[]>>({});
+//   const [openAccordions, setOpenAccordions] = useState<Record<string, boolean>>({});
+
+//   const toggleAccordion = (title: string) => {
+//     setOpenAccordions((prev) => ({ ...prev, [title]: !prev[title] }));
+//   };
+
+//   const handleCheckboxChange = (section: string, value: string) => {
+//     setSelectedFilters((prev) => {
+//       const sectionValues = prev[section] || [];
+//       let updatedValues;
+//       if (sectionValues.includes(value)) {
+//         updatedValues = sectionValues.filter((v) => v !== value);
+//       } else {
+//         updatedValues = [...sectionValues, value];
+//       }
+//       const updated = { ...prev, [section]: updatedValues };
+//       onChange?.(updated);
+//       return updated;
+//     });
+//   };
+
+//   return (
+//     <div className="w-full overflow-hidden divide-y poppins-font text-[#5A5A5A]">
+//       {data?.map((group) => {
+//         const isOpen = openAccordions[group.title] ?? false;
+//         const selectedValues = selectedFilters[group.title] || [];
+
+//         return (
+//           <div key={group.title} className="border-b border-[#f1f1f1]">
+//             {/* Accordion Header */}
+//             <button
+//               onClick={() => toggleAccordion(group.title)}
+//               className="flex justify-between items-center w-full py-3 font-semibold text-lg cursor-pointer"
+//             >
+//               <span className="capitalize">{group.title}</span>
+//               {isOpen ? (
+//                 <FaMinus size={16} color="#018C99" />
+//               ) : (
+//                 <FaPlus size={16} color="#018C99" />
+//               )}
+//             </button>
+//             {/* Accordion Content */}
+//             {isOpen && (
+//               <div className="p-2 flex flex-col gap-3 bg-white pb-4">
+//                 {group.options.map((item) => (
+//                   <label key={item.id} className="flex items-center gap-2 cursor-pointer">
+//                     <input
+//                       type="checkbox"
+//                       checked={selectedValues.includes(item.value)}
+//                       onChange={() => handleCheckboxChange(group.title, item.value)}
+//                       className="w-4 h-4 accent-[#018C99]"
+//                     />
+//                     <span>{item.label}</span>
+//                   </label>
+//                 ))}
+//               </div>
+//             )}
+//           </div>
+//         );
+//       })}
+//     </div>
+//   );
+// };
+
+// export default CheckboxGroup;
+
 'use client';
 import React, { useState } from 'react';
-import { FaMinus } from 'react-icons/fa6';
-import { FaPlus } from 'react-icons/fa6';
+import { FaMinus, FaPlus } from 'react-icons/fa6';
 
 interface Option {
   id: number | string;
@@ -20,23 +106,28 @@ interface FilterAccordionGroupProps {
   onChange?: (filters: Record<string, string[]>) => void;
 }
 
+const ITEMS_VISIBLE = 4;
+
 const CheckboxGroup: React.FC<FilterAccordionGroupProps> = ({ data, onChange }) => {
   const [selectedFilters, setSelectedFilters] = useState<Record<string, string[]>>({});
   const [openAccordions, setOpenAccordions] = useState<Record<string, boolean>>({});
+  const [expandedGroups, setExpandedGroups] = useState<Record<string, boolean>>({});
 
   const toggleAccordion = (title: string) => {
     setOpenAccordions((prev) => ({ ...prev, [title]: !prev[title] }));
   };
 
+  const toggleSeeMore = (title: string) => {
+    setExpandedGroups((prev) => ({ ...prev, [title]: !prev[title] }));
+  };
+
   const handleCheckboxChange = (section: string, value: string) => {
     setSelectedFilters((prev) => {
       const sectionValues = prev[section] || [];
-      let updatedValues;
-      if (sectionValues.includes(value)) {
-        updatedValues = sectionValues.filter((v) => v !== value);
-      } else {
-        updatedValues = [...sectionValues, value];
-      }
+      const updatedValues = sectionValues.includes(value)
+        ? sectionValues.filter((v) => v !== value)
+        : [...sectionValues, value];
+
       const updated = { ...prev, [section]: updatedValues };
       onChange?.(updated);
       return updated;
@@ -48,7 +139,8 @@ const CheckboxGroup: React.FC<FilterAccordionGroupProps> = ({ data, onChange }) 
       {data?.map((group) => {
         const isOpen = openAccordions[group.title] ?? false;
         const selectedValues = selectedFilters[group.title] || [];
-
+        const isExpanded = expandedGroups[group.title] ?? false;
+        const visibleOptions = isExpanded ? group.options : group.options.slice(0, ITEMS_VISIBLE);
         return (
           <div key={group.title} className="border-b border-[#f1f1f1]">
             {/* Accordion Header */}
@@ -56,17 +148,18 @@ const CheckboxGroup: React.FC<FilterAccordionGroupProps> = ({ data, onChange }) 
               onClick={() => toggleAccordion(group.title)}
               className="flex justify-between items-center w-full py-3 font-semibold text-lg cursor-pointer"
             >
-              <span className="capitalize">{group.code}</span>
+              <span className="capitalize">{group.title}</span>
               {isOpen ? (
                 <FaMinus size={16} color="#018C99" />
               ) : (
                 <FaPlus size={16} color="#018C99" />
               )}
             </button>
+
             {/* Accordion Content */}
             {isOpen && (
               <div className="p-2 flex flex-col gap-3 bg-white pb-4">
-                {group.options.map((item) => (
+                {visibleOptions.map((item) => (
                   <label key={item.id} className="flex items-center gap-2 cursor-pointer">
                     <input
                       type="checkbox"
@@ -77,6 +170,17 @@ const CheckboxGroup: React.FC<FilterAccordionGroupProps> = ({ data, onChange }) 
                     <span>{item.label}</span>
                   </label>
                 ))}
+
+                {/* See More / See Less */}
+                {group.options.length > ITEMS_VISIBLE && (
+                  <button
+                    type="button"
+                    onClick={() => toggleSeeMore(group.title)}
+                    className="text-sm text-[#018C99] font-medium self-start hover:underline"
+                  >
+                    {isExpanded ? 'See less' : `See more (${group.options.length - ITEMS_VISIBLE})`}
+                  </button>
+                )}
               </div>
             )}
           </div>

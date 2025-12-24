@@ -74,6 +74,8 @@ const CartPageComponent = () => {
   const { is_wishlist } = cartAddedItems || {};
   const { showToast } = useToast();
   const [showCoupenBtn, setShowCoupenBtn] = useState(false);
+  const [couponStatus, setCouponStatus] = useState<any | null>(null);
+  const [couponError, setCouponError] = useState<string | null>(null);
 
   const fetchCartItems = async () => {
     setIsLoading(true);
@@ -117,11 +119,25 @@ const CartPageComponent = () => {
   };
 
   const applyPromoCode = async () => {
-    const resp = await CartEndPoint.applyCustomeCode(promoCode);
+    setCouponError(null);
+    if (!promoCode) {
+      // setCouponError('Please enter a promo code.');
+      return;
+    }
 
-    if (resp.status == 200) {
-      setShowCoupenBtn(true);
-    } else {
+    try {
+      const payload = { code: promoCode };
+      const resp = await CartEndPoint.applyCustomeCode(payload);
+      setCouponStatus(resp?.message);
+
+      if (resp?.status === 200) {
+        setShowCoupenBtn(true);
+      } else {
+        setShowCoupenBtn(false);
+      }
+    } catch (error: any) {
+      const message = error?.response?.data?.message || error?.message || 'Something went wrong';
+      setCouponError(message);
       setShowCoupenBtn(false);
     }
   };
@@ -129,6 +145,12 @@ const CartPageComponent = () => {
   const canclePromoCode = async () => {
     const resp = await CartEndPoint.removeAppliedCoupon(promoCode);
     setPromoCode('');
+    setShowCoupenBtn(false);
+    if (resp?.status === 200) {
+      setShowCoupenBtn(false);
+    } else {
+      setShowCoupenBtn(true);
+    }
   };
 
   const handleAddToWishList = async (id: number) => {
@@ -354,28 +376,33 @@ const CartPageComponent = () => {
                     Promo Code
                   </label>
                   <div className="flex flex-col sm:flex-row gap-2">
-                    <input
-                      type="text"
-                      value={promoCode}
-                      onChange={(e) => setPromoCode(e.target.value)}
-                      placeholder="Enter code"
-                      className="flex-grow px-3 md:px-4 py-2 md:py-3 text-sm md:text-base border-2 border-gray-200 rounded-xl focus:border-primaryOne/70 focus:outline-none transition-colors"
-                    />
-                    {!showCoupenBtn ? (
-                      <button
-                        onClick={applyPromoCode}
-                        className="bg-gradient-to-r from-primaryOne/90 hover:scale-105 to-primaryTwo/90 text-white px-4 md:px-6 py-2 md:py-3 rounded-xl font-semibold hover:from-primaryOne hover:to-primaryTwo transition-all duration-300 shadow-lg hover:shadow-xl whitespace-nowrap text-sm md:text-base"
-                      >
-                        Apply
-                      </button>
-                    ) : (
-                      <button
-                        onClick={canclePromoCode}
-                        className="bg-gradient-to-r from-primaryOne/90 hover:scale-105 to-primaryTwo/90 text-white px-4 md:px-6 py-2 md:py-3 rounded-xl font-semibold hover:from-primaryOne hover:to-primaryTwo transition-all duration-300 shadow-lg hover:shadow-xl whitespace-nowrap text-sm md:text-base"
-                      >
-                        Cancle
-                      </button>
-                    )}
+                    <div className="w-full">
+                      <input
+                        type="text"
+                        value={promoCode}
+                        onChange={(e) => setPromoCode(e.target.value)}
+                        placeholder="Enter code"
+                        className=" w-full flex-grow px-3 md:px-4 py-2 md:py-3 text-sm md:text-base border-2 border-gray-200 rounded-xl focus:border-primaryOne/70 focus:outline-none transition-colors"
+                      />
+                      {couponError && <p className="text-sm text-red-500 mt-2">{couponError}</p>}
+                    </div>
+                    <div>
+                      {!showCoupenBtn ? (
+                        <button
+                          onClick={applyPromoCode}
+                          className="bg-gradient-to-r from-primaryOne/90 hover:scale-105 to-primaryTwo/90 text-white px-4 md:px-6 py-2 md:py-3 rounded-xl font-semibold hover:from-primaryOne hover:to-primaryTwo transition-all duration-300 shadow-lg hover:shadow-xl whitespace-nowrap text-sm md:text-base"
+                        >
+                          Apply
+                        </button>
+                      ) : (
+                        <button
+                          onClick={canclePromoCode}
+                          className="bg-gradient-to-r from-primaryOne/90 hover:scale-105 to-primaryTwo/90 text-white px-4 md:px-6 py-2 md:py-3 rounded-xl font-semibold hover:from-primaryOne hover:to-primaryTwo transition-all duration-300 shadow-lg hover:shadow-xl whitespace-nowrap text-sm md:text-base"
+                        >
+                          Cancle
+                        </button>
+                      )}
+                    </div>
                   </div>
                   {appliedPromo && (
                     <div className="bg-green-50 border border-green-200 rounded-lg p-3 flex items-center justify-between">
