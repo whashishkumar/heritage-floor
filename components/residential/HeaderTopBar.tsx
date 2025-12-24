@@ -60,15 +60,15 @@ export default function HeaderTopBar({ data }: any) {
             {/* Address */}
             <div className="flex items-center gap-1.5">
               <div className="relative h-[1rem] w-[1rem] sm:h-[1.25rem] sm:w-[1.25rem]">
-                <Image
+                {/* <Image
                   src="/icon/MapPoint.png"
                   fill
                   alt="207 Colonnade Rd S. Nepean, ON K2E 7K3"
                   className="object-contain"
-                />
+                /> */}
               </div>
               <div className="max-w-md space-y-4">
-                <select
+                {/* <select
                   className="w-full rounded-lg border border-slate-300 px-2 py-2 outline-none"
                   value={selectedAddress}
                   onChange={(e) => setSelectedAddress(e.target.value)}
@@ -78,7 +78,7 @@ export default function HeaderTopBar({ data }: any) {
                       {item.address}
                     </option>
                   ))}
-                </select>
+                </select> */}
               </div>
             </div>
 
