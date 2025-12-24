@@ -607,3 +607,16 @@ input[type='number']::-webkit-outer-spin-button {
     font-size: 15px;
   }
 }
+
+/* Fix react-inner-image-zoom blocking header */
+.iiz,
+.iiz__zoom-img,
+.iiz__zoom-area,
+.iiz__img {
+  pointer-events: auto;
+}
+
+.iiz__zoom-img,
+.iiz__zoom-area {
+  z-index: 0 !important;
+}
