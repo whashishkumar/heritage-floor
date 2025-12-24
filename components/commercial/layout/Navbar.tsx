@@ -76,7 +76,7 @@ export default function Navbar() {
 
   return (
     <>
-      <div className="w-full min-h-[4.563rem] justify-center flex items-center lg:bg-black/60 lg:backdrop-blur-xs bg-black/10 backdrop-blur-xl fixed top-[3.125rem] left-0 right-0 z-[9999] transition-all duration-300">
+      <div className="w-full min-h-[4.563rem] justify-center flex items-center lg:bg-black/60 lg:backdrop-blur-xs bg-black/10 backdrop-blur-xl fixed top-[3.125rem] left-0 right-0 z-[50] transition-all duration-300">
         {/* deshtop  Menu */}
         <div className=" wrapper lg:flex hidden justify-between  items-center w-full   ">
           {/* Left Menu */}
