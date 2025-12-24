@@ -5,7 +5,6 @@ import { CommonComponentData } from '@/lib/api/commonEndPoints';
 
 export default function HeaderTopBar({ data }: any) {
   const { email, phone } = data || {};
-  // const [selectedAddress, setSelectedAddress] = useState<string>('');
   const [storeLocation, setStoreLocations] = useState<any>([]);
   const [selectedAddress, setSelectedAddress] = useState(storeLocation?.[0]?.address || '');
 
@@ -60,25 +59,30 @@ export default function HeaderTopBar({ data }: any) {
             {/* Address */}
             <div className="flex items-center gap-1.5">
               <div className="relative h-[1rem] w-[1rem] sm:h-[1.25rem] sm:w-[1.25rem]">
-                {/* <Image
+                <Image
                   src="/icon/MapPoint.png"
                   fill
                   alt="207 Colonnade Rd S. Nepean, ON K2E 7K3"
                   className="object-contain"
-                /> */}
+                />
               </div>
               <div className="max-w-md space-y-4">
-                {/* <select
-                  className="w-full rounded-lg border border-slate-300 px-2 py-2 outline-none"
+                <select
+                  className="w-full rounded-md border border-slate-300 px-4 py-1 text-sm  outline-none truncate whitespace-nowrap overflow-hidden appearance-none cursor-pointer"
                   value={selectedAddress}
                   onChange={(e) => setSelectedAddress(e.target.value)}
                 >
                   {storeLocation?.map((item: any) => (
-                    <option key={item.id} value={item.address}>
-                      {item.address}
+                    <option
+                      key={item.id}
+                      value={item.address}
+                      title={item.title}
+                      className="text-slate-700"
+                    >
+                      {item.title}
                     </option>
                   ))}
-                </select> */}
+                </select>
               </div>
             </div>
 

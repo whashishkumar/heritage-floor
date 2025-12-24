@@ -210,7 +210,7 @@ export default function HeaderMainBar({ megaMenuData }: any) {
                       <div className="h-[1.5rem] w-[1.5rem] relative overflow-hidden rounded-full">
                         {userDetail?.profile_image && (
                           <Image
-                            src={userDetail?.profile_image}
+                            src={userDetail?.profile_image || '/icon/user.png'}
                             alt="User"
                             fill
                             className="object-center"
@@ -316,9 +316,6 @@ export default function HeaderMainBar({ megaMenuData }: any) {
                 >
                   Brands
                 </Link>
-                {/* <p className="text-textGray hover:text-primaryTwo font-normal text-base leading-[1.6]">
-                  Special Deals
-                </p> */}
                 <Link
                   onClick={() => setIsMenuOpen(false)}
                   href={`${mainPath}/special-deals`}
@@ -327,7 +324,6 @@ export default function HeaderMainBar({ megaMenuData }: any) {
                   Special Deals
                 </Link>
                 <p
-                  // href={`${mainPath}/products`}
                   onClick={handleProductPageRedirection}
                   className="text-textGray hover:text-primaryTwo font-normal text-base leading-[1.6]"
                 >
@@ -366,7 +362,7 @@ export default function HeaderMainBar({ megaMenuData }: any) {
                     <div className="h-[1.5rem] w-[1.5rem] relative overflow-hidden rounded-full">
                       {userDetail?.profile_image && (
                         <Image
-                          src={userDetail?.profile_image}
+                          src={userDetail?.profile_image || '/icon/user.png'}
                           alt="User"
                           fill
                           className="object-center"
@@ -406,7 +402,7 @@ export default function HeaderMainBar({ megaMenuData }: any) {
 
         {/* Slide-in Special Deals Drawer */}
         <div
-          className={`fixed lg:hidden top-0 right-0 left-0 h-full bg-white shadow-lg transform transition-transform duration-300 z-[100] ${
+          className={`fixed lg:hidden top-10 right-0 left-0 h-full bg-white shadow-lg transform transition-transform duration-300 z-[100] ${
             isDealsOpen ? 'translate-x-0' : 'translate-x-full'
           }`}
         >

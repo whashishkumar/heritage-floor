@@ -141,7 +141,6 @@ export default function HeroSection({ bannerData }: any) {
           </div>
         </div>
       </div>
-      ;
     </>
   );
 }
