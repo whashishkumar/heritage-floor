@@ -69,7 +69,8 @@ const CartPageComponent = () => {
   const [isLoading, setIsLoading] = useState(false);
   const { mainPath } = usePathSegments();
   const router = useRouter();
-  const { items, cart_subtotal, discount_amount, cart_total_price }: any = cartAddedItems || {};
+  const { items, cart_subtotal, discount_amount, cart_total_price, coupon_discount }: any =
+    cartAddedItems || {};
   const { quantity } = items || {};
   const { is_wishlist } = cartAddedItems || {};
   const { showToast } = useToast();
@@ -132,6 +133,7 @@ const CartPageComponent = () => {
 
       if (resp?.status === 200) {
         setShowCoupenBtn(true);
+        fetchCartItems();
       } else {
         setShowCoupenBtn(false);
       }
@@ -425,12 +427,12 @@ const CartPageComponent = () => {
                     <span>Subtotal</span>
                     <span className="font-semibold">$ {cart_subtotal.toFixed(2)}</span>
                   </div>
-                  {/* {appliedPromo && (
+                  {showCoupenBtn && (
                     <div className="flex justify-between text-green-600">
-                      <span>Discount ({appliedPromo.discount * 100}%)</span>
-                      <span className="font-semibold">-$ {discount.toFixed(2)}</span>
+                      <span>Coupon Discount </span>
+                      <span className="font-semibold">-$ {coupon_discount.toFixed(2)}</span>
                     </div>
-                  )} */}
+                  )}
                   <div className="flex justify-between text-sm md:text-base text-gray-700">
                     <span>Discount</span>
                     <span className="font-semibold text-green-600"> {discount_amount}</span>

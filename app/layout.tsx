@@ -6,6 +6,7 @@ import localFont from 'next/font/local';
 import { Providers } from '@/store/providers';
 import { AuthProvider } from '@/context/userAuthContext';
 import { ToastProvider } from '@/components/ui/Tooltip';
+import { GlobalProviders } from '@/context/globalContextProvider';
 
 const poppins = localFont({
   src: [
@@ -61,13 +62,13 @@ export default function RootLayout({
         className={`${roboto.variable}  ${poppins.variable}  ${inter.variable} antialiased min-h-screen flex flex-col`}
       >
         <ToastProvider>
-          <AuthProvider>
+          <GlobalProviders>
             <Providers>
               <Navbar />
               <main className="flex-1">{children}</main>
               <Footer />
             </Providers>
-          </AuthProvider>
+          </GlobalProviders>
         </ToastProvider>
       </body>
     </html>

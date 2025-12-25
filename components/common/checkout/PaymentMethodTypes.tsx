@@ -4,6 +4,7 @@ import Section from './Section';
 import { CartEndPoint } from '@/lib/api/cartEndPoints';
 import { useRouter } from 'next/navigation';
 import { usePathSegments } from '@/utils/segmentPath';
+import { useUserLocation } from '@/context/userLocationContext';
 
 interface PaymentType {
   code: string;
@@ -13,6 +14,7 @@ interface PaymentType {
 }
 
 export default function PaymentMethodTypes() {
+  const { location, setLocation } = useUserLocation();
   const router = useRouter();
   const [selectedMethod, setSelectedMethod] = useState<string | null>(null);
   const [paymentTypes, setPaymentTypes] = useState<PaymentType[]>([]);
@@ -38,8 +40,10 @@ export default function PaymentMethodTypes() {
   };
 
   const handleSaveOrder = async () => {
-    const orderSaved = await CartEndPoint.saveOrder();
-
+    const paylod = {
+      store_id: location,
+    };
+    const orderSaved = await CartEndPoint.saveOrder(paylod);
     if (orderSaved.status === 200) {
       router.push(`${mainPath}/my-account/orders`);
     }
@@ -53,11 +57,9 @@ export default function PaymentMethodTypes() {
     <div className="pt-10">
       <Section title="4. Payment Method">
         <p className="text-gray-700 mb-4">Select your preferred payment method:</p>
-
         <div className="space-y-3">
           {paymentTypes?.map((item: PaymentType) => {
             const isSelected = selectedMethod === item.method;
-
             return (
               <label
                 key={item.code}
@@ -74,13 +76,11 @@ export default function PaymentMethodTypes() {
                   onChange={() => handleSelectMethod(item.method)}
                   className="w-5 h-5 accent-blue-600 cursor-pointer flex-shrink-0"
                 />
-
                 {/* Payment Details */}
                 <div className="flex-1 ml-4">
                   <span className="text-lg font-semibold text-gray-800 block">{item.label}</span>
                   <span className="text-sm text-gray-500 uppercase tracking-wide">{item.code}</span>
                 </div>
-
                 {/* Status Badge */}
                 {item.status && (
                   <span

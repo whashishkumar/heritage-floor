@@ -69,8 +69,8 @@ export const CartEndPoint = {
     return apiPost('/customer/checkout/save-payment', payment);
   },
 
-  saveOrder: () => {
-    return apiPost('/customer/checkout/save-order');
+  saveOrder: (locationId: any) => {
+    return apiPost('/customer/checkout/save-order', locationId);
   },
 
   //CheckOut API End Points
