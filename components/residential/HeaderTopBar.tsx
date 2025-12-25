@@ -1,12 +1,13 @@
 'use client';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import { CommonComponentData } from '@/lib/api/commonEndPoints';
+import { useUserLocation } from '@/context/userLocationContext';
 
 export default function HeaderTopBar({ data }: any) {
+  const { location, setLocation } = useUserLocation();
   const { email, phone } = data || {};
   const [storeLocation, setStoreLocations] = useState<any>([]);
-  const [selectedAddress, setSelectedAddress] = useState(storeLocation?.[0]?.address || '');
 
   const addresses = [
     {
@@ -30,6 +31,7 @@ export default function HeaderTopBar({ data }: any) {
     try {
       const storeLocations = await CommonComponentData.getStoreLocations();
       setStoreLocations(storeLocations?.data);
+      setLocation(storeLocations?.data?.[0]?.store_id);
     } catch (error) {
       console.error('Error fetching store locations:', error);
     }
@@ -69,13 +71,13 @@ export default function HeaderTopBar({ data }: any) {
               <div className="max-w-md space-y-4">
                 <select
                   className="w-full rounded-md border border-slate-300 px-4 py-1 text-sm  outline-none truncate whitespace-nowrap overflow-hidden appearance-none cursor-pointer"
-                  value={selectedAddress}
-                  onChange={(e) => setSelectedAddress(e.target.value)}
+                  value={location || ''}
+                  onChange={(e) => setLocation(e.target.value)}
                 >
                   {storeLocation?.map((item: any) => (
                     <option
-                      key={item.id}
-                      value={item.address}
+                      key={item.store_id}
+                      value={item.store_id}
                       title={item.title}
                       className="text-slate-700"
                     >
