@@ -116,6 +116,7 @@ export default function OrderList({
     const respOrder = await OrderEndPoints.reOrderItem(id);
     if (respOrder.status === 200) {
       showToast('ReOrder Item sucess');
+      window.dispatchEvent(new Event('cart-updated'));
     }
     const resp = await OrderEndPoints.getAllOrderItems();
     setMyOrderList(resp);

@@ -15,7 +15,6 @@ export const api = axios.create({
 api.interceptors.request.use(
   (config) => {
     const token = Cookies.get('customer_token');
-
     // Only add Authorization header if token exists
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
