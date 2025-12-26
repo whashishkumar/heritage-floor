@@ -46,6 +46,7 @@ export default function PaymentMethodTypes() {
     const orderSaved = await CartEndPoint.saveOrder(paylod);
     if (orderSaved.status === 200) {
       router.push(`${mainPath}/my-account/orders`);
+      window.dispatchEvent(new Event('cart-updated'));
     }
   };
 

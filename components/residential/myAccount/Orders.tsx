@@ -27,7 +27,6 @@ export default function Orders() {
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     setSearchKey(value);
-
     // If search is cleared, reset filtered orders
     if (value === '') {
       setFilteredOrders(null);
