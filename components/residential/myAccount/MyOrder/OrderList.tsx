@@ -34,37 +34,37 @@ export default function OrderList({
   const [orderTabs, setOrderTabs] = useState<any | null>(null);
 
   // Calculate counts and filter orders based on status
-  const { tabFilteredOrders, processingCount, shippedCount, canceledCount } = useMemo(() => {
-    const processingStatuses = ['Pending', 'In Process', 'Processing'];
-    const shippedStatuses = ['Deliverde', 'Delivered', 'Shipped'];
-    const canceledStatuses = ['Canceled', 'Cancelled'];
+  // const { tabFilteredOrders, processingCount, shippedCount, canceledCount } = useMemo(() => {
+  //   const processingStatuses = ['Pending', 'In Process', 'Processing'];
+  //   const shippedStatuses = ['Deliverde', 'Delivered', 'Shipped'];
+  //   const canceledStatuses = ['Canceled', 'Cancelled'];
 
-    const processing = orders.filter((order) =>
-      processingStatuses.some((status) => status.toLowerCase() === order.status.toLowerCase())
-    );
-    const shipped = orders.filter((order) =>
-      shippedStatuses.some((status) => status.toLowerCase() === order.status.toLowerCase())
-    );
-    const canceled = orders.filter((order) =>
-      canceledStatuses.some((status) => status.toLowerCase() === order.status.toLowerCase())
-    );
+  //   const processing = orders.filter((order) =>
+  //     processingStatuses.some((status) => status.toLowerCase() === order.status.toLowerCase())
+  //   );
+  //   const shipped = orders.filter((order) =>
+  //     shippedStatuses.some((status) => status.toLowerCase() === order.status.toLowerCase())
+  //   );
+  //   const canceled = orders.filter((order) =>
+  //     canceledStatuses.some((status) => status.toLowerCase() === order.status.toLowerCase())
+  //   );
 
-    let filtered = orders;
-    if (activeTab === 'processing') {
-      filtered = processing;
-    } else if (activeTab === 'shipped') {
-      filtered = shipped;
-    } else if (activeTab === 'canceled') {
-      filtered = canceled;
-    }
+  //   let filtered = orders;
+  //   if (activeTab === 'processing') {
+  //     filtered = processing;
+  //   } else if (activeTab === 'shipped') {
+  //     filtered = shipped;
+  //   } else if (activeTab === 'canceled') {
+  //     filtered = canceled;
+  //   }
 
-    return {
-      tabFilteredOrders: filtered,
-      processingCount: processing.length,
-      shippedCount: shipped.length,
-      canceledCount: canceled.length,
-    };
-  }, [activeTab]);
+  //   return {
+  //     tabFilteredOrders: filtered,
+  //     processingCount: processing.length,
+  //     shippedCount: shipped.length,
+  //     canceledCount: canceled.length,
+  //   };
+  // }, [activeTab]);
 
   const fetchMyOrdersList = async () => {
     setIsLoading(true);

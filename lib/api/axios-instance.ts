@@ -24,7 +24,6 @@ api.interceptors.request.use(
         delete config.headers.Authorization;
       }
     }
-
     return config;
   },
   (error) => Promise.reject(error)
@@ -38,10 +37,9 @@ api.interceptors.response.use(
     // If token expired / invalid → logout logic
     if (status === 401 || status === 403) {
       console.warn('🔐 Auth error. Token expired or invalid.');
-      // Cookies.remove('customer_token');
-      // window.location.href = '/';
+      Cookies.remove('customer_token');
+      window.location.href = '/';
     }
-
     return Promise.reject(error);
   }
 );

@@ -208,13 +208,15 @@ export default function HeaderMainBar({ megaMenuData }: any) {
                       className="text-gray-700 hover:text-primaryTwo cursor-pointer flex gap-2"
                     >
                       <div className="h-[1.5rem] w-[1.5rem] relative overflow-hidden rounded-full">
-                        {userDetail?.profile_image && (
+                        {userDetail?.profile_image ? (
                           <Image
                             src={userDetail?.profile_image || '/icon/user.png'}
                             alt="User"
                             fill
                             className="object-center"
                           />
+                        ) : (
+                          <Image src={'/icon/user.png'} alt="User" fill className="object-center" />
                         )}
                       </div>
                       <span className="text-textGray text-base leading-[1.6] cursor-pointer">
@@ -223,11 +225,9 @@ export default function HeaderMainBar({ megaMenuData }: any) {
                     </Link>
                   )}
                 </div>
-
                 <ModalBox isOpen={isModalOpen} onClose={handleCloseModal}>
                   <LoginPage onClose={handleCloseModal} />
                 </ModalBox>
-
                 <>
                   {isAuthenticated && (
                     <>
@@ -360,13 +360,15 @@ export default function HeaderMainBar({ megaMenuData }: any) {
                     onClick={() => setIsMenuOpen(false)}
                   >
                     <div className="h-[1.5rem] w-[1.5rem] relative overflow-hidden rounded-full">
-                      {userDetail?.profile_image && (
+                      {userDetail?.profile_image ? (
                         <Image
                           src={userDetail?.profile_image || '/icon/user.png'}
                           alt="User"
                           fill
                           className="object-center"
                         />
+                      ) : (
+                        <Image src={'/icon/user.png'} alt="User" fill className="object-center" />
                       )}
                     </div>
                     <span className="text-textGray text-base leading-[1.6] cursor-pointer">
