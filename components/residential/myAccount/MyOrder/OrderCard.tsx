@@ -31,7 +31,7 @@ export default function OrderCard({
       <td className="p-4">
         <span
           className={`inline-block text-xs font-medium px-3 py-1 rounded-full capitalize font-medium
-  ${statusStyles[order.status.toLowerCase()] || 'bg-orange-100 text-gray-600'}`}
+          ${statusStyles[order.status.toLowerCase()] || 'bg-orange-100 text-gray-600'}`}
         >
           {order.status}
         </span>
@@ -47,14 +47,14 @@ export default function OrderCard({
           {order.status?.toLowerCase() === 'Canceled'.toLowerCase() ? (
             <button
               onClick={() => handleReOrder(order?.id)}
-              className="bg-[#BA0202]/80 hover:bg-[#BA0202] text-white py-1.5 px-3 rounded text-xs font-medium transition-colors cursor-pointer"
+              className="bg-[#008c99]/80 hover:bg-[#008c99] text-white py-1.5 px-3 rounded text-xs font-medium transition-colors cursor-pointer"
             >
               ReOrder
             </button>
           ) : (
             <button
               onClick={() => handleCancleOrder(order?.id)}
-              className="bg-red-500 hover:bg-red-600 text-white py-1.5 px-3 rounded text-xs font-medium transition-colors"
+              className="bg-[#008c99]/75 hover:bg-[#008c99] text-white py-1.5 px-3 rounded text-xs font-medium transition-colors cursor-pointer"
             >
               Cancel
             </button>
