@@ -56,7 +56,10 @@ export default function OrderDetailsPage({ orderId, onBack }: OrderDetailsPagePr
     );
   }
 
-  const { increment_id, date, customer_name, price, status, payment, items } = order?.data;
+  const { increment_id, date, customer_name, price, status, payment, items, store_address } =
+    order?.data;
+  const { address } = store_address || {};
+
   return (
     <div className="max-w-5xl mx-auto p-5 poppins-font">
       {/* Back Button */}
@@ -68,19 +71,15 @@ export default function OrderDetailsPage({ orderId, onBack }: OrderDetailsPagePr
           <FiArrowLeft className="w-5 h-5" />
           <span>Back to Orders</span>
         </button>
-        {/* <button
-          onClick={onBack}
-          className="ml-auto flex items-center justify-center w-10 h-10 bg-gray-100 hover:bg-gray-200 rounded-full transition-colors"
-          aria-label="Close"
-        >
-          <FiX className="w-6 h-6 text-gray-700" />
-        </button> */}
       </div>
 
       {/* Order Header */}
       <div className="bg-white shadow-sm rounded-xl p-6 mb-6 border border-gray-200">
         <h1 className="text-2xl font-semibold text-gray-900 mb-2">Order #{increment_id}</h1>
-
+        <div className="mb-6">
+          <p className="font-medium text-gray-500">Store Address</p>
+          <p>{address?.complete_address || '_'}</p>
+        </div>
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 text-sm ">
           <div>
             <p className="font-medium text-gray-500">Date</p>
