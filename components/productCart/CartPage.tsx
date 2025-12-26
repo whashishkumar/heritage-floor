@@ -93,7 +93,6 @@ const CartPageComponent = () => {
   const updateQuantity = async (product: any, action: 'increase' | 'decrease') => {
     const { quantity, id } = product;
     const newQuantity = action === 'increase' ? quantity + 1 : quantity - 1;
-
     // Prevent quantity from going below 1
     if (newQuantity < 1) {
       return;

@@ -101,6 +101,15 @@ export default function MyProfileForm({ isCheckOutPage, handleOpenDrawer }: any)
     if (!formData.date_of_birth) {
       newErrors.date_of_birth = 'Date of birth is required';
       isValid = false;
+    } else {
+      const dob = new Date(formData.date_of_birth);
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+
+      if (dob >= today) {
+        newErrors.date_of_birth = 'The date of birth field must be a date before today.';
+        isValid = false;
+      }
     }
 
     if (!formData.phone.trim()) {
@@ -144,6 +153,7 @@ export default function MyProfileForm({ isCheckOutPage, handleOpenDrawer }: any)
   // Tailwind common input style
   const inputClass =
     'border border-gray-300 rounded-md px-4 py-2 text-gray-800 bg-white focus:ring-2 focus:ring-teal-500 focus:outline-none';
+  const today = new Date().toISOString().split('T')[0];
 
   return (
     <div className="w-full">
@@ -222,6 +232,7 @@ export default function MyProfileForm({ isCheckOutPage, handleOpenDrawer }: any)
             <input
               name="date_of_birth"
               type="date"
+              max={today}
               value={formData.date_of_birth}
               onChange={handleChange}
               className={`${inputClass} ${
