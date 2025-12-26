@@ -35,6 +35,7 @@ api.interceptors.response.use(
   (response) => response,
   (error: AxiosError) => {
     const status = error.response?.status;
+
     // If token expired / invalid → logout logic
     if (status === 401 || status === 403) {
       console.warn('🔐 Auth error. Token expired or invalid.');
