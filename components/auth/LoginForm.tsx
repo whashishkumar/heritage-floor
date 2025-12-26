@@ -107,6 +107,7 @@ export default function LoginPage({ onClose }: any) {
               </label> */}
               <span></span>
               <button
+                type="button"
                 onClick={() => setForgetScreen(true)}
                 // href={"/forgotPassword"}
                 className="text-sm text-[#018C99] hover:underline font-medium cursor-pointer"

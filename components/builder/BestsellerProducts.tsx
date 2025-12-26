@@ -134,6 +134,7 @@ export default function BestsellerProducts({ bestSellerProducts, productHeader }
               mainCss="flex flex-row items-center gap-3"
             />
             <button
+              type="button"
               className="cursor-pointer poppins-font text-sm md:text-base lg:text-lg capitalize font-medium text-[#000]"
               onClick={handleViewAllProducts}
             >
