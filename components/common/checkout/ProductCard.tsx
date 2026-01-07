@@ -2,7 +2,6 @@ import Image from 'next/image';
 
 export default function ProductCard({ item }: any) {
   const baseUrl = process.env.NEXT_PUBLIC_IMAGE_PATH;
-  // console.log(baseUrl, 'baseUrl');
 
   return (
     <div className="flex gap-3 border-b pb-4 inter-font">

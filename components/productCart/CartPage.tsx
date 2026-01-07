@@ -211,8 +211,6 @@ const CartPageComponent = () => {
     );
   }
 
-  console.log(coupon_discount, 'coupon_discount');
-
   return (
     <>
       <div className="min-h-screen bg-white my-[4rem]">

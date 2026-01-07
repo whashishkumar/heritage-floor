@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import Section from './Section';
 import { CartEndPoint } from '@/lib/api/cartEndPoints';
+import { OrderEndPoints } from '@/lib/api/orderEndPoints';
 import { useRouter } from 'next/navigation';
 import { usePathSegments } from '@/utils/segmentPath';
 import { useUserLocation } from '@/context/userLocationContext';
@@ -13,7 +14,7 @@ interface PaymentType {
   method: string;
 }
 
-export default function PaymentMethodTypes() {
+export default function PaymentMethodTypes({ orderSummary }: any) {
   const { location, setLocation } = useUserLocation();
   const router = useRouter();
   const [selectedMethod, setSelectedMethod] = useState<string | null>(null);
