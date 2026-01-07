@@ -129,6 +129,7 @@ export default function SignatureFlooring({ data, featureProduct }: SignatureFlo
       showToast(errorMessage, 'error');
     }
   };
+
   return (
     <div className="w-full h-full flex items-center justify-center mb-[5rem]">
       <div className="wrapper w-full mx-auto">

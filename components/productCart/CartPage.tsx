@@ -211,6 +211,8 @@ const CartPageComponent = () => {
     );
   }
 
+  console.log(coupon_discount, 'coupon_discount');
+
   return (
     <>
       <div className="min-h-screen bg-white my-[4rem]">
@@ -426,7 +428,7 @@ const CartPageComponent = () => {
                     <span>Subtotal</span>
                     <span className="font-semibold">$ {cart_subtotal.toFixed(2)}</span>
                   </div>
-                  {showCoupenBtn && (
+                  {coupon_discount && (
                     <div className="flex justify-between text-green-600">
                       <span>Coupon Discount </span>
                       <span className="font-semibold">-$ {coupon_discount.toFixed(2)}</span>

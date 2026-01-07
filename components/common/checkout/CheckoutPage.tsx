@@ -46,6 +46,8 @@ export default function CheckoutPage() {
   const { billing_address, customer, items, payment, shipping, totals } =
     orderSummaryList?.data || {};
 
+  console.log(orderSummaryList?.data, 'orderSummaryList');
+
   // Memoize shippingAddress to prevent infinite loop
   const shippingAddress = useMemo(() => {
     return purchaserAddress?.filter((address: any) => address.is_default);
