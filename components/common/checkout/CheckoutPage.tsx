@@ -399,7 +399,11 @@ export default function CheckoutPage() {
           </Card>
           {showBillingScreen && (
             <Card>
-              <PaymentMethod onPaymentMethodSelect={() => setPaymentMethodSelected(true)} />
+              <PaymentMethod
+                onPaymentMethodSelect={() => setPaymentMethodSelected(true)}
+                orderSummary={orderSummaryList}
+                onOrderSummaryUpdate={seOrderSummarylist}
+              />
             </Card>
           )}
         </div>

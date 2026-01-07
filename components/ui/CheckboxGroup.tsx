@@ -148,7 +148,7 @@ const CheckboxGroup: React.FC<FilterAccordionGroupProps> = ({ data, onChange }) 
               onClick={() => toggleAccordion(group.title)}
               className="flex justify-between items-center w-full py-3 font-semibold text-lg cursor-pointer"
             >
-              <span className="capitalize">{group.title}</span>
+              <span className="capitalize text-left">{group.title}</span>
               {isOpen ? (
                 <FaMinus size={16} color="#018C99" />
               ) : (

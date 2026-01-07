@@ -38,8 +38,6 @@ export default function MajorProjectsResidential({ majorProjects }: any) {
     setSelectedVideo(null);
   };
 
-  // console.log(data, "majorProjects");
-
   return (
     <>
       <div className="w-full h-full  flex items-center justify-center mb-[5rem] ">
