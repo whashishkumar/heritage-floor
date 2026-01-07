@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import Section from './Section';
 import { CartEndPoint } from '@/lib/api/cartEndPoints';
 import PaymentMethodTypes from './PaymentMethodTypes';
+import { OrderEndPoints } from '@/lib/api/orderEndPoints';
 
 interface PaymentMethodType {
   method: string;
@@ -13,12 +14,17 @@ interface PaymentMethodType {
 
 export default function PaymentMethod({
   onPaymentMethodSelect,
+  onOrderSummaryUpdate,
+  orderSummary,
 }: {
   onPaymentMethodSelect?: () => void;
+  onOrderSummaryUpdate?: (summary: any) => void;
+  orderSummary?: any;
 }) {
   const [paymentMethods, setPaymentMethods] = useState<PaymentMethodType[]>([]);
   const [selectedMethod, setSelectedMethod] = useState<PaymentMethodType | null>(null);
   const [showPaymentMethodsTypes, setPaymentMethodTypes] = useState(false);
+  const [orderSummaryList, setOrderSummaryList] = useState<any | null>(null);
 
   const getShippingMethods = async () => {
     const resp = await CartEndPoint.getShippingMethods();
@@ -34,6 +40,9 @@ export default function PaymentMethod({
       setPaymentMethodTypes(true);
       // Call the callback to notify parent that payment method is selected
       onPaymentMethodSelect?.();
+      const orderSummary = await OrderEndPoints.getPlaceOrderSummary();
+      setOrderSummaryList(orderSummary);
+      onOrderSummaryUpdate?.(orderSummary);
     }
   };
 
@@ -78,7 +87,9 @@ export default function PaymentMethod({
           ))}
         </div>
       </Section>
-      {showPaymentMethodsTypes && <PaymentMethodTypes />}
+      {showPaymentMethodsTypes && (
+        <PaymentMethodTypes orderSummary={orderSummaryList || orderSummary} />
+      )}
     </>
   );
 }

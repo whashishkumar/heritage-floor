@@ -426,7 +426,7 @@ const CartPageComponent = () => {
                     <span>Subtotal</span>
                     <span className="font-semibold">$ {cart_subtotal.toFixed(2)}</span>
                   </div>
-                  {showCoupenBtn && (
+                  {coupon_discount && (
                     <div className="flex justify-between text-green-600">
                       <span>Coupon Discount </span>
                       <span className="font-semibold">-$ {coupon_discount.toFixed(2)}</span>
@@ -457,7 +457,7 @@ const CartPageComponent = () => {
                       <ArrowRight className="w-4 md:w-5 h-4 md:h-5" />
                     </span>
                   </button>
-                  {cart_total_price && (
+                  {cart_total_price !== undefined && (
                     <button
                       onClick={() => router.push(`${mainPath}/products`)}
                       className="w-full mt-3 border-2 border-gray-300 text-gray-700 py-2 md:py-3 rounded-xl font-semibold text-sm md:text-base hover:bg-gray-50 transition-all duration-300 cursor-pointer"
