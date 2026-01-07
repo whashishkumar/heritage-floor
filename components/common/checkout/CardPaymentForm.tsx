@@ -138,7 +138,6 @@ export default function CardPaymentForm() {
         {/* Messages */}
         {error && <p className="text-sm text-red-600 text-center">{error}</p>}
         {success && <p className="text-sm text-green-600 text-center">{success}</p>}
-
         <p className="text-xs text-gray-400 text-center">🔒 Your payment is securely processed</p>
       </form>
     </div>

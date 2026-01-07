@@ -24,6 +24,7 @@ export default function PaymentMethodTypes({ orderSummary }: any) {
   const [placeOrderButton, setPlaceOrderButton] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { mainPath } = usePathSegments();
+  const [orderDetails, setOrderDetails] = useState<any | null>(null);
 
   const getPaymentTypes = async () => {
     const resp = await CartEndPoint.getPaymentMethods();
@@ -32,18 +33,32 @@ export default function PaymentMethodTypes({ orderSummary }: any) {
 
   const handleSelectMethod = async (code: string) => {
     setSelectedMethod(code);
-    if (code === 'moneris') {
-      setIsModalOpen(true);
-    }
-
     const payLoad = {
       payment: {
         method: code,
       },
     };
-    const resp = await CartEndPoint.savePayment(payLoad);
-    if (resp.status === 200) {
-      setPlaceOrderButton(true);
+
+    try {
+      const resp = await CartEndPoint.savePayment(payLoad);
+      if (resp?.status === 200 || resp?.success || resp) {
+        setPlaceOrderButton(true);
+      }
+      // For moneris, open modal after payment save and then save order.
+      if (code === 'moneris') {
+        setIsModalOpen(true);
+        try {
+          const orderPayload = {
+            store_id: location,
+          };
+          const orderSaved = await CartEndPoint.saveOrder(orderPayload);
+          console.log(orderSaved, 'orderSaved');
+        } catch (err: any) {
+          console.error('saveOrder failed in handleSelectMethod', err);
+        }
+      }
+    } catch (err: any) {
+      console.error('savePayment failed in handleSelectMethod', err);
     }
   };
 
