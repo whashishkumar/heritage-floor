@@ -6,6 +6,8 @@ import { OrderEndPoints } from '@/lib/api/orderEndPoints';
 import { useRouter } from 'next/navigation';
 import { usePathSegments } from '@/utils/segmentPath';
 import { useUserLocation } from '@/context/userLocationContext';
+import CardPaymentForm from './CardPaymentForm';
+import ModalBox from '@/components/ui/ModalBox';
 
 interface PaymentType {
   code: string;
@@ -20,6 +22,7 @@ export default function PaymentMethodTypes({ orderSummary }: any) {
   const [selectedMethod, setSelectedMethod] = useState<string | null>(null);
   const [paymentTypes, setPaymentTypes] = useState<PaymentType[]>([]);
   const [placeOrderButton, setPlaceOrderButton] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const { mainPath } = usePathSegments();
 
   const getPaymentTypes = async () => {
@@ -29,6 +32,10 @@ export default function PaymentMethodTypes({ orderSummary }: any) {
 
   const handleSelectMethod = async (code: string) => {
     setSelectedMethod(code);
+    if (code === 'moneris') {
+      setIsModalOpen(true);
+    }
+
     const payLoad = {
       payment: {
         method: code,
@@ -49,6 +56,10 @@ export default function PaymentMethodTypes({ orderSummary }: any) {
       router.push(`${mainPath}/my-account/orders`);
       window.dispatchEvent(new Event('cart-updated'));
     }
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
   };
 
   useEffect(() => {
@@ -122,6 +133,9 @@ export default function PaymentMethodTypes({ orderSummary }: any) {
           </button>
         </div>
       )}
+      <ModalBox isOpen={isModalOpen} onClose={handleCloseModal}>
+        <CardPaymentForm />
+      </ModalBox>
     </div>
   );
 }
