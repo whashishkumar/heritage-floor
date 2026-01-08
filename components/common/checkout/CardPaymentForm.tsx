@@ -1,5 +1,4 @@
 'use client';
-
 import { useState } from 'react';
 
 type CardFormState = {
@@ -9,7 +8,15 @@ type CardFormState = {
   amount: string;
 };
 
-export default function CardPaymentForm() {
+export default function CardPaymentForm({
+  customerId,
+  orderId,
+  storeId,
+}: {
+  customerId: any;
+  orderId: any;
+  storeId: any;
+}) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
@@ -23,42 +30,56 @@ export default function CardPaymentForm() {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-
     setFormData((prev) => ({
       ...prev,
       [name]: value,
     }));
   };
 
+  const xmlPayload = `<?xml version="1.0" encoding="UTF-8"?>
+              <request>
+                <store_id>store5</store_id>
+                <api_token>yesguy</api_token>
+                <purchase>
+                  <order_id>${orderId}</order_id>
+                  <cust_id>${customerId}</cust_id>
+                  <amount>${formData?.amount}</amount>
+                  <pan>${formData?.pan}</pan>
+                  <expdate>${formData?.expdate}</expdate>
+                  <crypt_type>${formData?.cvv}</crypt_type>
+                </purchase>
+              </request>`;
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
     setError('');
     setSuccess('');
-    console.log('Form Values', formData);
 
-    // try {
-    //   const res = await fetch('/api/moneris-payment', {
-    //     method: 'POST',
-    //     body: JSON.stringify({
-    //       pan: formData.pan,
-    //       expdate: formData.expdate,
-    //       amount: formData.amount,
-    //     }),
-    //   });
+    try {
+      const response = await fetch('https://esqa.moneris.com/gateway2/servlet/MpgRequest', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/xml',
+          Accept: 'application/xml',
+        },
+        body: xmlPayload,
+      });
 
-    //   const data = await res.json();
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
 
-    //   if (!res.ok) {
-    //     throw new Error(data.message || 'Payment failed');
-    //   }
+      const textResponse = await response.text();
+      console.log('Response:', textResponse);
 
-    //   setSuccess('Payment successful');
-    // } catch (err: any) {
-    //   setError(err.message || 'Something went wrong');
-    // } finally {
-    //   setLoading(false);
-    // }
+      setSuccess('Payment processed successfully');
+    } catch (error: any) {
+      console.error('Payment error:', error);
+      setError(error.message || 'Payment failed');
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -124,15 +145,13 @@ export default function CardPaymentForm() {
             className="w-full rounded-lg bg-gray-100 border border-gray-300 px-4 py-2.5 text-sm text-gray-700 cursor-not-allowed"
           />
         </div>
-
         {/* Submit */}
         <button
           type="submit"
           disabled={loading}
           className="w-full rounded-xl bg-[#008c99]/90 py-3 text-white font-semibold hover:bg-[#007a86] active:scale-[0.99] transition-all duration-200"
         >
-          {/* {loading ? 'Processing...' : 'Pay Securely'} */}
-          Pay Securely
+          {loading ? 'Processing...' : 'Pay Securely'}
         </button>
 
         {/* Messages */}

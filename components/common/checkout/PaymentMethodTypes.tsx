@@ -26,6 +26,12 @@ export default function PaymentMethodTypes({ orderSummary }: any) {
   const { mainPath } = usePathSegments();
   const [orderDetails, setOrderDetails] = useState<any | null>(null);
 
+  const { id, customer, items } = orderDetails?.order || {};
+  const { id: customerId } = customer || {};
+  const {} = items || [];
+
+  console.log('orderDetails in PaymentMethodTypes', orderDetails);
+
   const getPaymentTypes = async () => {
     const resp = await CartEndPoint.getPaymentMethods();
     setPaymentTypes(resp?.data || []);
@@ -41,7 +47,7 @@ export default function PaymentMethodTypes({ orderSummary }: any) {
 
     try {
       const resp = await CartEndPoint.savePayment(payLoad);
-      if (resp?.status === 200 || resp?.success || resp) {
+      if (resp?.status === 200 || resp?.success === true) {
         setPlaceOrderButton(true);
       }
       // For moneris, open modal after payment save and then save order.
@@ -52,9 +58,10 @@ export default function PaymentMethodTypes({ orderSummary }: any) {
             store_id: location,
           };
           const orderSaved = await CartEndPoint.saveOrder(orderPayload);
-          console.log(orderSaved, 'orderSaved');
+
+          setOrderDetails(orderSaved?.data ?? orderSaved);
         } catch (err: any) {
-          console.error('saveOrder failed in handleSelectMethod', err);
+          console.error('saveOrder failed in handleSelectMethod', err?.response?.data || err);
         }
       }
     } catch (err: any) {
@@ -67,7 +74,7 @@ export default function PaymentMethodTypes({ orderSummary }: any) {
       store_id: location,
     };
     const orderSaved = await CartEndPoint.saveOrder(paylod);
-    if (orderSaved.status === 200) {
+    if (orderSaved?.status === 200) {
       router.push(`${mainPath}/my-account/orders`);
       window.dispatchEvent(new Event('cart-updated'));
     }
@@ -149,7 +156,7 @@ export default function PaymentMethodTypes({ orderSummary }: any) {
         </div>
       )}
       <ModalBox isOpen={isModalOpen} onClose={handleCloseModal}>
-        <CardPaymentForm />
+        <CardPaymentForm customerId={customerId} orderId={id} storeId={location} />
       </ModalBox>
     </div>
   );
