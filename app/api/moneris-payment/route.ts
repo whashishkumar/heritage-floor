@@ -13,6 +13,16 @@ export async function POST(request: Request) {
       );
     }
 
+    // Validate and format the amount
+    const numericAmount = parseFloat(amount);
+    if (isNaN(numericAmount) || numericAmount <= 0) {
+      return new NextResponse(
+        JSON.stringify({ message: 'Invalid amount.' }),
+        { status: 400, headers: { 'Content-Type': 'application/json' } }
+      );
+    }
+    const formattedAmount = numericAmount.toFixed(2);
+
     // These should be stored as environment variables, not hardcoded.
     const storeId = process.env.MONERIS_STORE_ID || 'store5';
     const apiToken = process.env.MONERIS_API_TOKEN || 'yesguy';
@@ -24,7 +34,7 @@ export async function POST(request: Request) {
   <purchase>
     <order_id>${orderId}</order_id>
     <cust_id>${customerId}</cust_id>
-    <amount>${amount}</amount>
+    <amount>${formattedAmount}</amount>
     <pan>${pan}</pan>
     <expdate>${expdate}</expdate>
     <crypt_type>7</crypt_type>

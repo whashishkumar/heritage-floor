@@ -1,6 +1,9 @@
 'use client';
 import { useState } from 'react';
 import { XMLParser } from 'fast-xml-parser';
+import { useRouter } from 'next/navigation';
+import { OrderEndPoints } from '@/lib/api/orderEndPoints';
+import { usePathSegments } from '@/utils/segmentPath';
 
 type CardFormState = {
   pan: string;
@@ -20,12 +23,13 @@ export default function CardPaymentForm({
   storeId: any;
   grandTotal: any;
 }) {
+  const { mainPath } = usePathSegments();
+  const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   const [monerisResponse, setMonrisResponse] = useState<any | null>(null);
-
-  console.log('Moneris success response', monerisResponse);
+  const [isProcedding, setIsProcedding] = useState(false);
 
   const [formData, setFormData] = useState<CardFormState>({
     pan: '',
@@ -48,6 +52,7 @@ export default function CardPaymentForm({
     setError('');
     setSuccess('');
     try {
+      setIsProcedding(false);
       const res = await fetch('/api/moneris-payment', {
         method: 'POST',
         headers: {
@@ -75,10 +80,30 @@ export default function CardPaymentForm({
       const jsonResponse = parser.parse(responseText);
       setMonrisResponse(jsonResponse?.response);
       setSuccess('Payment successful!');
+      setIsProcedding(true);
     } catch (err: any) {
       setError(err.message || 'Something went wrong');
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleProceed = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const payLoad = {
+      order_id: String(orderId),
+      transaction_id: monerisResponse?.receipt?.TransID,
+      receipt_id: String(monerisResponse?.receipt?.ReceiptId),
+      amount: monerisResponse?.receipt?.TransAmount,
+      response_code: String(monerisResponse?.receipt?.ResponseCode),
+      payment_data: monerisResponse?.receipt?.payment_data,
+    };
+
+    const resp = await OrderEndPoints.paymentUpdate(payLoad);
+    console.log(resp, 'resp');
+    if (resp.status === 200) {
+      router.push(`${mainPath}/my-account/orders`);
+      window.dispatchEvent(new Event('cart-updated'));
     }
   };
 
@@ -146,13 +171,23 @@ export default function CardPaymentForm({
           />
         </div>
         {/* Submit */}
-        <button
-          type="submit"
-          disabled={loading}
-          className="w-full rounded-xl bg-[#008c99]/90 py-3 text-white font-semibold hover:bg-[#007a86] active:scale-[0.99] transition-all duration-200"
-        >
-          {loading ? 'Processing...' : 'Pay Securely'}
-        </button>
+        {isProcedding ? (
+          <button
+            type="submit"
+            onClick={(e) => handleProceed(e as unknown as React.FormEvent<HTMLFormElement>)}
+            className="w-full rounded-xl bg-[#008c99]/90 py-3 text-white font-semibold hover:bg-[#007a86] active:scale-[0.99] transition-all duration-200"
+          >
+            Done
+          </button>
+        ) : (
+          <button
+            type="submit"
+            disabled={loading}
+            className="w-full rounded-xl bg-[#008c99]/90 py-3 text-white font-semibold hover:bg-[#007a86] active:scale-[0.99] transition-all duration-200"
+          >
+            {loading ? 'Processing...' : 'Pay Securely'}
+          </button>
+        )}
 
         {/* Messages */}
         {error && <p className="text-sm text-red-600 text-center">{error}</p>}
