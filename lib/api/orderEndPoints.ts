@@ -50,4 +50,8 @@ export const OrderEndPoints = {
       cache: 'no-store',
     });
   },
+
+  paymentUpdate: (payload: any) => {
+    return apiPost('/moneris/payment/update', payload);
+  },
 };

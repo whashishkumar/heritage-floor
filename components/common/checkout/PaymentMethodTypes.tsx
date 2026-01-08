@@ -8,6 +8,7 @@ import { usePathSegments } from '@/utils/segmentPath';
 import { useUserLocation } from '@/context/userLocationContext';
 import CardPaymentForm from './CardPaymentForm';
 import ModalBox from '@/components/ui/ModalBox';
+import ConfirmationPopup from '@/components/ui/ConfirmationPopUp';
 
 interface PaymentType {
   code: string;
@@ -25,18 +26,29 @@ export default function PaymentMethodTypes({ orderSummary }: any) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { mainPath } = usePathSegments();
   const [orderDetails, setOrderDetails] = useState<any | null>(null);
-
-  const { id, customer, items } = orderDetails?.order || {};
+  const [open, setOpen] = useState(false);
+  const { id, customer, items, grand_total } = orderDetails?.order || {};
   const { id: customerId } = customer || {};
-  const {} = items || [];
-
-  console.log('orderDetails in PaymentMethodTypes', orderDetails);
 
   const getPaymentTypes = async () => {
     const resp = await CartEndPoint.getPaymentMethods();
     setPaymentTypes(resp?.data || []);
   };
 
+  const handleConfirm = async () => {
+    setOpen(false);
+    setIsModalOpen(true);
+    try {
+      const orderPayload = {
+        store_id: location,
+      };
+      const orderSaved = await CartEndPoint.saveOrder(orderPayload);
+
+      setOrderDetails(orderSaved?.data ?? orderSaved);
+    } catch (err: any) {
+      console.error('saveOrder failed in handleSelectMethod', err?.response?.data || err);
+    }
+  };
   const handleSelectMethod = async (code: string) => {
     setSelectedMethod(code);
     const payLoad = {
@@ -52,17 +64,18 @@ export default function PaymentMethodTypes({ orderSummary }: any) {
       }
       // For moneris, open modal after payment save and then save order.
       if (code === 'moneris') {
-        setIsModalOpen(true);
-        try {
-          const orderPayload = {
-            store_id: location,
-          };
-          const orderSaved = await CartEndPoint.saveOrder(orderPayload);
+        setOpen(true);
 
-          setOrderDetails(orderSaved?.data ?? orderSaved);
-        } catch (err: any) {
-          console.error('saveOrder failed in handleSelectMethod', err?.response?.data || err);
-        }
+        // try {
+        //   const orderPayload = {
+        //     store_id: location,
+        //   };
+        //   const orderSaved = await CartEndPoint.saveOrder(orderPayload);
+
+        //   setOrderDetails(orderSaved?.data ?? orderSaved);
+        // } catch (err: any) {
+        //   console.error('saveOrder failed in handleSelectMethod', err?.response?.data || err);
+        // }
       }
     } catch (err: any) {
       console.error('savePayment failed in handleSelectMethod', err);
@@ -155,8 +168,24 @@ export default function PaymentMethodTypes({ orderSummary }: any) {
           </button>
         </div>
       )}
+      <ConfirmationPopup
+        isOpen={open}
+        title="Payment confirmation"
+        message="Are you sure you want to proceed with the payment?"
+        confirmText="Yes"
+        cancelText="Cancel"
+        onConfirm={handleConfirm}
+        onCancel={() => {
+          setOpen(false);
+        }}
+      />
       <ModalBox isOpen={isModalOpen} onClose={handleCloseModal}>
-        <CardPaymentForm customerId={customerId} orderId={id} storeId={location} />
+        <CardPaymentForm
+          customerId={customerId}
+          orderId={id}
+          storeId={location}
+          grandTotal={grand_total}
+        />
       </ModalBox>
     </div>
   );

@@ -1,5 +1,6 @@
 'use client';
 import { useState } from 'react';
+import { XMLParser } from 'fast-xml-parser';
 
 type CardFormState = {
   pan: string;
@@ -12,20 +13,25 @@ export default function CardPaymentForm({
   customerId,
   orderId,
   storeId,
+  grandTotal,
 }: {
   customerId: any;
   orderId: any;
   storeId: any;
+  grandTotal: any;
 }) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
+  const [monerisResponse, setMonrisResponse] = useState<any | null>(null);
+
+  console.log('Moneris success response', monerisResponse);
 
   const [formData, setFormData] = useState<CardFormState>({
     pan: '',
     expdate: '',
     cvv: '',
-    amount: '20.00',
+    amount: grandTotal,
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -36,47 +42,43 @@ export default function CardPaymentForm({
     }));
   };
 
-  const xmlPayload = `<?xml version="1.0" encoding="UTF-8"?>
-              <request>
-                <store_id>store5</store_id>
-                <api_token>yesguy</api_token>
-                <purchase>
-                  <order_id>${orderId}</order_id>
-                  <cust_id>${customerId}</cust_id>
-                  <amount>${formData?.amount}</amount>
-                  <pan>${formData?.pan}</pan>
-                  <expdate>${formData?.expdate}</expdate>
-                  <crypt_type>${formData?.cvv}</crypt_type>
-                </purchase>
-              </request>`;
+  console.log(formData.amount, 'amount', grandTotal);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
     setError('');
     setSuccess('');
-
     try {
-      const response = await fetch('https://esqa.moneris.com/gateway2/servlet/MpgRequest', {
+      const res = await fetch('/api/moneris-payment', {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/xml',
-          Accept: 'application/xml',
+          'Content-Type': 'application/json',
         },
-        body: xmlPayload,
+        body: JSON.stringify({
+          pan: formData.pan,
+          expdate: formData.expdate,
+          amount: grandTotal,
+          orderId,
+          customerId,
+          cvv: formData.cvv,
+          storeId,
+        }),
       });
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
+      const responseText = await res.text();
+      if (!res.ok) {
+        console.error('Moneris error response:', responseText);
+        throw new Error('Payment failed. Please check your card details.');
       }
-
-      const textResponse = await response.text();
-      console.log('Response:', textResponse);
-
-      setSuccess('Payment processed successfully');
-    } catch (error: any) {
-      console.error('Payment error:', error);
-      setError(error.message || 'Payment failed');
+      const parser = new XMLParser({
+        ignoreAttributes: false,
+        parseTagValue: true,
+      });
+      const jsonResponse = parser.parse(responseText);
+      setMonrisResponse(jsonResponse?.response);
+      setSuccess('Payment successful!');
+    } catch (err: any) {
+      setError(err.message || 'Something went wrong');
     } finally {
       setLoading(false);
     }
