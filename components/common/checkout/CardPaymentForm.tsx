@@ -42,8 +42,6 @@ export default function CardPaymentForm({
     }));
   };
 
-  console.log(formData.amount, 'amount', grandTotal);
-
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
@@ -142,7 +140,7 @@ export default function CardPaymentForm({
           <label className="text-sm font-medium text-gray-700">Amount</label>
           <input
             name="amount"
-            value={formData.amount}
+            value={grandTotal}
             readOnly
             className="w-full rounded-lg bg-gray-100 border border-gray-300 px-4 py-2.5 text-sm text-gray-700 cursor-not-allowed"
           />
