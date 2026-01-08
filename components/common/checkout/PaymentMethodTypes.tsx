@@ -8,6 +8,7 @@ import { usePathSegments } from '@/utils/segmentPath';
 import { useUserLocation } from '@/context/userLocationContext';
 import CardPaymentForm from './CardPaymentForm';
 import ModalBox from '@/components/ui/ModalBox';
+import ConfirmationPopup from '@/components/ui/ConfirmationPopUp';
 
 interface PaymentType {
   code: string;
@@ -24,26 +25,60 @@ export default function PaymentMethodTypes({ orderSummary }: any) {
   const [placeOrderButton, setPlaceOrderButton] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { mainPath } = usePathSegments();
+  const [orderDetails, setOrderDetails] = useState<any | null>(null);
+  const [open, setOpen] = useState(false);
+  const { id, customer, items, grand_total } = orderDetails?.order || {};
+  const { id: customerId } = customer || {};
 
   const getPaymentTypes = async () => {
     const resp = await CartEndPoint.getPaymentMethods();
     setPaymentTypes(resp?.data || []);
   };
 
+  const handleConfirm = async () => {
+    setOpen(false);
+    setIsModalOpen(true);
+    try {
+      const orderPayload = {
+        store_id: location,
+      };
+      const orderSaved = await CartEndPoint.saveOrder(orderPayload);
+
+      setOrderDetails(orderSaved?.data ?? orderSaved);
+    } catch (err: any) {
+      console.error('saveOrder failed in handleSelectMethod', err?.response?.data || err);
+    }
+  };
   const handleSelectMethod = async (code: string) => {
     setSelectedMethod(code);
-    if (code === 'moneris') {
-      setIsModalOpen(true);
-    }
-
     const payLoad = {
       payment: {
         method: code,
       },
     };
-    const resp = await CartEndPoint.savePayment(payLoad);
-    if (resp.status === 200) {
-      setPlaceOrderButton(true);
+
+    try {
+      const resp = await CartEndPoint.savePayment(payLoad);
+      if (resp?.status === 200 || resp?.success === true) {
+        setPlaceOrderButton(true);
+      }
+      // For moneris, open modal after payment save and then save order.
+      if (code === 'moneris') {
+        setOpen(true);
+
+        // try {
+        //   const orderPayload = {
+        //     store_id: location,
+        //   };
+        //   const orderSaved = await CartEndPoint.saveOrder(orderPayload);
+
+        //   setOrderDetails(orderSaved?.data ?? orderSaved);
+        // } catch (err: any) {
+        //   console.error('saveOrder failed in handleSelectMethod', err?.response?.data || err);
+        // }
+      }
+    } catch (err: any) {
+      console.error('savePayment failed in handleSelectMethod', err);
     }
   };
 
@@ -52,7 +87,7 @@ export default function PaymentMethodTypes({ orderSummary }: any) {
       store_id: location,
     };
     const orderSaved = await CartEndPoint.saveOrder(paylod);
-    if (orderSaved.status === 200) {
+    if (orderSaved?.status === 200) {
       router.push(`${mainPath}/my-account/orders`);
       window.dispatchEvent(new Event('cart-updated'));
     }
@@ -133,8 +168,24 @@ export default function PaymentMethodTypes({ orderSummary }: any) {
           </button>
         </div>
       )}
+      <ConfirmationPopup
+        isOpen={open}
+        title="Payment confirmation"
+        message="Are you sure you want to proceed with the payment?"
+        confirmText="Yes"
+        cancelText="Cancel"
+        onConfirm={handleConfirm}
+        onCancel={() => {
+          setOpen(false);
+        }}
+      />
       <ModalBox isOpen={isModalOpen} onClose={handleCloseModal}>
-        <CardPaymentForm />
+        <CardPaymentForm
+          customerId={customerId}
+          orderId={id}
+          storeId={location}
+          grandTotal={grand_total}
+        />
       </ModalBox>
     </div>
   );
