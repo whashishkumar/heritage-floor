@@ -267,6 +267,8 @@ const ProductDetailPage = () => {
     );
   }
 
+  console.log(shipping_details, 'shipping_details');
+
   return (
     <div className="wrapper m-auto py-12">
       <div className="p-6 grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-15">
@@ -307,10 +309,10 @@ const ProductDetailPage = () => {
           <div className="border  border-[#DDDDDD] p-6 rounded-2xl bg-[#F6F6F6]">
             {shipping_details?.map((benefit: any) => (
               <div key={benefit.id} className="flex gap-4 mb-6 poppins-font">
-                <div className="flex items-start justify-center h-10 w-10 ">
+                <div className="absolute flex items-center justify-center h-10 w-10 relative">
                   {benefit.icon && (
                     <Image
-                      src={`${baseUrlImage}${baseUrlImage}`}
+                      src={`${baseUrlImage}${benefit.icon}`}
                       alt={benefit.title}
                       fill
                       className="object-contain"

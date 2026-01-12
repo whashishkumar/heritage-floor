@@ -134,7 +134,9 @@ export default function Navbar() {
               <div className="h-[1.5rem] w-[1.5rem] relative">
                 <Image src="/icon/call.png" fill alt="Call" className=" object-cover p-0.5" />
               </div>
-              <div className=" font-[800] text-base text-nowrap">613-224-0300</div>
+              <a href="tel:6132240300" className="font-[800] text-base whitespace-nowrap">
+                613-224-0300
+              </a>
             </div>
           </div>
         </div>
