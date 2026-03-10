@@ -58,14 +58,14 @@ export default function Navbar() {
       key: 'Home',
       dest: '/commercial',
     },
+    {
+      key: 'About Us',
+      dest: '/commercial/about-us',
+      icon: <RxCaretDown />,
+    },
     // {
-    //   key: 'About Us',
-    //   dest: '/commercial/about-us',
-    //   icon: <RxCaretDown />,
-    // },
-    // {
-    //   key: "Products",
-    //   dest: "/",
+    //   key: 'Products',
+    //   dest: '/',
     // },
     {
       key: 'Contact Us',
@@ -104,7 +104,7 @@ export default function Navbar() {
                       {/* {data.icon && <div className="text-white ml-3">{data.icon}</div>} */}
                     </Link>
                   )}
-                  {/* {data.key === 'About Us' && (
+                  {data.key === 'About Us' && (
                     <div
                       className="absolute top-full left-0 mt-2 w-48 p-4 lg:bg-black/60 lg:backdrop-blur-xs bg-black/10 backdrop-blur-xl 
                       opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50"
@@ -119,7 +119,7 @@ export default function Navbar() {
                         </Link>
                       ))}
                     </div>
-                  )} */}
+                  )}
                 </div>
               ))}
             </div>

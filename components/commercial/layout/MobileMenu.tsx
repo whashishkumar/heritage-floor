@@ -14,10 +14,10 @@ const productsSubMenuItems = [
     dest: '/commercial/about-us',
   },
 
-  // {
-  //   key: 'Our History',
-  //   dest: '/commercial/our-history',
-  // },
+  {
+    key: 'Our History',
+    dest: '/commercial/our-history',
+  },
 ];
 export default function PhoneMenuCommercial() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -125,18 +125,18 @@ export default function PhoneMenuCommercial() {
                   </a>
 
                   {/* About us Mobile Dropdown */}
-                  {/* <div>
+                  <div>
                     <button
                       onClick={() => toggleDropdown('about')}
-                      className="w-full flex items-center justify-between px-3 py-2 rounded-md hover:bg-gray-700 transition"
+                      className="w-full flex items-center justify-between px-3 py-2 rounded-md hover:bg-gray-700 transition flex-col"
                     >
                       {productsSubMenuItems?.map((menuList, idx) => (
                         <Link key={idx} href={menuList.dest} onClick={toggleMenu}>
                           {menuList.key}
                         </Link>
-                      ))} */}
-                  {/* <Link href={data.dest}>About us</Link> */}
-                  {/* <div
+                      ))}
+                      {/* <Link href={data?.dest}>About us</Link> */}
+                      <div
                         className={`w-4 h-4 transition-transform   ${
                           activeDropdown === 'about'
                             ? '-rotate-180 duration-500 ease-in-out pr-2'
@@ -144,14 +144,14 @@ export default function PhoneMenuCommercial() {
                         }`}
                       >
                         <FiChevronDown size={16} />
-                      </div> */}
-                  {/* </button> */}
-                  {/* <div
+                      </div>
+                    </button>
+                    <div
                       className={`overflow-hidden transition-all duration-300 mr-2 ${
                         activeDropdown === 'about' ? 'max-h-48' : 'max-h-0'
                       }`}
-                    > */}
-                  {/* {productsSubMenuItems?.map((menuList, idx) => {
+                    >
+                      {productsSubMenuItems?.map((menuList, idx) => {
                         return (
                           <Link href={menuList.dest} key={idx}>
                             <p onClick={toggleMenu} className="pl-6 space-y-1 py-1">
@@ -159,9 +159,9 @@ export default function PhoneMenuCommercial() {
                             </p>
                           </Link>
                         );
-                      })} */}
-                  {/* </div> */}
-                  {/* </div> */}
+                      })}
+                    </div>
+                  </div>
 
                   {/* Products Mobile Dropdown */}
                   <div>
