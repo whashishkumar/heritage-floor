@@ -128,16 +128,11 @@ export default function PhoneMenuCommercial() {
                   <div>
                     <button
                       onClick={() => toggleDropdown('about')}
-                      className="w-full flex items-center justify-between px-3 py-2 rounded-md hover:bg-gray-700 transition flex-col"
+                      className="w-full flex items-center justify-between px-3 py-2 rounded-md hover:bg-gray-700 transition"
                     >
-                      {productsSubMenuItems?.map((menuList, idx) => (
-                        <Link key={idx} href={menuList.dest} onClick={toggleMenu}>
-                          {menuList.key}
-                        </Link>
-                      ))}
-                      {/* <Link href={data?.dest}>About us</Link> */}
+                      <span>About Us</span>
                       <div
-                        className={`w-4 h-4 transition-transform   ${
+                        className={`w-4 h-4 transition-transform ${
                           activeDropdown === 'about'
                             ? '-rotate-180 duration-500 ease-in-out pr-2'
                             : ''
@@ -151,15 +146,11 @@ export default function PhoneMenuCommercial() {
                         activeDropdown === 'about' ? 'max-h-48' : 'max-h-0'
                       }`}
                     >
-                      {productsSubMenuItems?.map((menuList, idx) => {
-                        return (
-                          <Link href={menuList.dest} key={idx}>
-                            <p onClick={toggleMenu} className="pl-6 space-y-1 py-1">
-                              {menuList.key}
-                            </p>
-                          </Link>
-                        );
-                      })}
+                      {productsSubMenuItems?.map((menuList, idx) => (
+                        <Link href={menuList.dest} key={idx} onClick={toggleMenu}>
+                          <p className="pl-6 space-y-1 py-1">{menuList.key}</p>
+                        </Link>
+                      ))}
                     </div>
                   </div>
 
